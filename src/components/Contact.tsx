@@ -10,17 +10,17 @@ const Contact = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-light text-white mb-6">
-            Ready to <span className="font-semibold">Grow</span>?
+            Ready to <span className="font-semibold">Transform Your Marketing</span>?
           </h2>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Let's discuss how VEridian can transform your social media presence and drive real business results for your brand.
+            Let our experts design a custom marketing automation campaign that drives real results for your business. Tell us about your goals and we'll create a strategy tailored to your needs.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Contact Form */}
           <div className="glass-card rounded-2xl p-8">
-            <h3 className="text-2xl font-semibold text-white mb-8">Start Your Growth Journey</h3>
+            <h3 className="text-2xl font-semibold text-white mb-8">Request Campaign Planning</h3>
             <form className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -55,17 +55,25 @@ const Contact = () => {
                   placeholder="Your Company"
                 />
               </div>
+
+              <div>
+                <label className="block text-white/80 text-sm mb-2">Industry</label>
+                <Input 
+                  className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                  placeholder="e.g., Healthcare, Real Estate, E-commerce"
+                />
+              </div>
               
               <div>
-                <label className="block text-white/80 text-sm mb-2">Tell us about your goals</label>
+                <label className="block text-white/80 text-sm mb-2">Describe your marketing goals and challenges</label>
                 <Textarea 
                   className="bg-white/10 border-white/20 text-white placeholder:text-white/50 min-h-[120px]"
-                  placeholder="What are your social media marketing objectives?"
+                  placeholder="Tell us about your current marketing efforts, target audience, and what you'd like to achieve..."
                 />
               </div>
               
               <Button className="w-full bg-white text-black rounded-full py-3 font-medium hover:bg-white/90 transition-all duration-300">
-                Schedule Free Consultation
+                Submit Campaign Request
               </Button>
             </form>
           </div>
@@ -78,7 +86,7 @@ const Contact = () => {
                 <h4 className="text-xl font-semibold text-white">Email</h4>
               </div>
               <p className="text-white/70">hello@veridian.com</p>
-              <p className="text-white/70">partnerships@veridian.com</p>
+              <p className="text-white/70">campaigns@veridian.com</p>
             </div>
 
             <div className="glass-card rounded-2xl p-8">
@@ -87,7 +95,7 @@ const Contact = () => {
                 <h4 className="text-xl font-semibold text-white">Phone</h4>
               </div>
               <p className="text-white/70">+1 (555) 123-GROW</p>
-              <p className="text-white/70">+1 (555) 987-SOCIAL</p>
+              <p className="text-white/70">+1 (555) 987-MARKET</p>
             </div>
 
             <div className="glass-card rounded-2xl p-8">
@@ -100,6 +108,16 @@ const Contact = () => {
                 Los Angeles, CA 90210<br />
                 United States
               </p>
+            </div>
+
+            <div className="glass-card rounded-2xl p-8">
+              <h4 className="text-xl font-semibold text-white mb-4">What to Expect</h4>
+              <ul className="space-y-3 text-white/70">
+                <li>• Detailed analysis of your current marketing</li>
+                <li>• Custom strategy recommendations</li>
+                <li>• Platform setup and automation design</li>
+                <li>• Ongoing support and optimization</li>
+              </ul>
             </div>
           </div>
         </div>
