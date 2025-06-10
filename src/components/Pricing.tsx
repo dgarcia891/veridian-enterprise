@@ -61,7 +61,7 @@ const Pricing = () => {
             Simple <span className="font-semibold">Pricing</span>
           </h2>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Choose the perfect plan to grow your business. All plans include the complete GoHighLevel platform with our expert setup and support.
+            Choose the perfect plan to grow your business. All plans include our complete marketing automation platform with expert setup and support.
           </p>
         </div>
 

@@ -58,7 +58,7 @@ const Features = () => {
             Complete <span className="font-semibold">Marketing Suite</span>
           </h2>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Everything you need to attract, convert, and retain customers - powered by GoHighLevel's industry-leading platform.
+            Everything you need to attract, convert, and retain customers - powered by our cutting-edge marketing automation platform.
           </p>
         </div>
 

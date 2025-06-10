@@ -27,7 +27,7 @@ const Hero = () => {
           </h1>
           
           <p className="text-white/70 mt-8 text-lg md:text-xl max-w-2xl animate-fade-in [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards]">
-            VEridian leverages GoHighLevel's powerful platform to deliver complete marketing solutions - from lead generation and CRM to automated follow-ups and social media management, all in one place.
+            VEridian delivers complete marketing solutions - from lead generation and CRM to automated follow-ups and social media management, all powered by our advanced platform technology.
           </p>
           
           <div className="mt-12 flex flex-wrap gap-4 animate-fade-in [animation-delay:400ms] opacity-0 [animation-fill-mode:forwards]">
