@@ -8,7 +8,7 @@ const Navigation = () => {
 
   const navItems = [
     { href: "#home", label: "Home" },
-    { href: "#features", label: "Features" },
+    { href: "#features", label: "Services" },
     { href: "#testimonials", label: "Testimonials" },
     { href: "#pricing", label: "Pricing" },
     { href: "#contact", label: "Contact" },
@@ -17,7 +17,7 @@ const Navigation = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-8">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
-        <div className="text-white font-semibold text-xl">Lumina</div>
+        <div className="text-white font-semibold text-xl">VEridian</div>
         
         {/* Desktop Navigation */}
         <div className="hidden md:flex space-x-8 text-white/80 text-sm">
@@ -35,7 +35,7 @@ const Navigation = () => {
 
         {/* Desktop Connect Button */}
         <Button className="hidden md:block bg-transparent border border-white/20 text-white rounded-full px-6 py-2 text-sm hover:bg-white/10 transition-all duration-300">
-          Connect
+          Get Started
         </Button>
 
         {/* Mobile Menu Button */}
@@ -62,7 +62,7 @@ const Navigation = () => {
               </a>
             ))}
             <Button className="mt-4 bg-transparent border border-white/20 text-white rounded-full py-2 hover:bg-white/10 transition-all duration-300">
-              Connect
+              Get Started
             </Button>
           </div>
         </div>

@@ -5,24 +5,24 @@ const Testimonials = () => {
   const testimonials = [
     {
       name: "Sarah Chen",
-      role: "Product Designer",
+      role: "Marketing Director",
       company: "TechFlow",
       image: "https://images.unsplash.com/photo-1494790108755-2616b612b5-9?w=400&h=400&fit=crop&crop=face",
-      content: "Lumina has completely transformed how we approach digital design. The intuitive interface and powerful features make complex tasks feel effortless."
+      content: "VEridian transformed our social media presence completely. Our engagement rates increased by 400% and we saw a direct impact on sales within the first month."
     },
     {
       name: "Marcus Rodriguez",
-      role: "Engineering Lead",
+      role: "CEO",
       company: "InnovateLab",
       image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
-      content: "The performance improvements we've seen since implementing Lumina are remarkable. Our team productivity has increased by 40%."
+      content: "The strategic approach VEridian brought to our social campaigns was game-changing. Their data-driven insights helped us reach our target audience more effectively."
     },
     {
       name: "Emily Watson",
-      role: "Creative Director",
+      role: "Brand Manager",
       company: "PixelStudio",
       image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
-      content: "The collaboration features are game-changing. Our distributed team now works together seamlessly, regardless of location."
+      content: "Working with VEridian has been incredible. They don't just manage our social media - they've become true partners in our brand's growth story."
     }
   ];
 
@@ -31,10 +31,10 @@ const Testimonials = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-light text-white mb-6">
-            What Our <span className="font-semibold">Users Say</span>
+            Client <span className="font-semibold">Success Stories</span>
           </h2>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Join thousands of satisfied users who have transformed their workflow with Lumina.
+            See how we've helped brands across industries achieve remarkable growth through strategic social media marketing.
           </p>
         </div>
 

@@ -6,44 +6,44 @@ const Pricing = () => {
   const plans = [
     {
       name: "Starter",
-      price: "19",
-      description: "Perfect for individuals and small teams",
+      price: "2,500",
+      description: "Perfect for small businesses starting their social journey",
       features: [
-        "Up to 5 projects",
-        "Basic collaboration tools",
-        "Community support",
-        "1GB storage",
-        "Standard templates"
+        "2 social platforms",
+        "15 posts per month",
+        "Basic analytics",
+        "Community management",
+        "Monthly strategy session"
       ],
       popular: false
     },
     {
-      name: "Professional",
-      price: "49",
-      description: "Ideal for growing businesses",
+      name: "Growth",
+      price: "5,000",
+      description: "Ideal for businesses ready to scale their presence",
       features: [
-        "Unlimited projects",
-        "Advanced collaboration",
-        "Priority support",
-        "10GB storage",
-        "Premium templates",
-        "Analytics dashboard",
-        "API access"
+        "4 social platforms",
+        "30 posts per month",
+        "Advanced analytics",
+        "Paid ad management",
+        "Bi-weekly strategy calls",
+        "Content calendar",
+        "Influencer outreach"
       ],
       popular: true
     },
     {
       name: "Enterprise",
-      price: "99",
-      description: "For large organizations",
+      price: "10,000",
+      description: "For brands demanding exceptional results",
       features: [
-        "Everything in Professional",
-        "Custom integrations",
-        "Dedicated support",
-        "Unlimited storage",
-        "White-label options",
-        "Advanced security",
-        "SLA guarantee"
+        "All social platforms",
+        "Unlimited content",
+        "Custom reporting",
+        "Dedicated account team",
+        "Weekly strategy sessions",
+        "Crisis management",
+        "Brand reputation monitoring"
       ],
       popular: false
     }
@@ -54,10 +54,10 @@ const Pricing = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-light text-white mb-6">
-            Choose Your <span className="font-semibold">Plan</span>
+            Investment <span className="font-semibold">Plans</span>
           </h2>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Start free and scale as you grow. All plans include our core features with varying limits and support levels.
+            Choose the perfect plan to accelerate your social media growth. All plans include strategy development and performance optimization.
           </p>
         </div>
 

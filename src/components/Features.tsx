@@ -1,37 +1,37 @@
 
-import { Zap, Shield, Globe, Cpu, Palette, Users } from "lucide-react";
+import { Zap, Target, TrendingUp, Users, BarChart3, MessageSquare } from "lucide-react";
 
 const Features = () => {
   const features = [
     {
-      icon: <Zap className="w-8 h-8" />,
-      title: "Lightning Fast",
-      description: "Experience blazing-fast performance with our optimized architecture and cutting-edge technology."
+      icon: <Target className="w-8 h-8" />,
+      title: "Strategic Planning",
+      description: "Data-driven social media strategies tailored to your brand's goals and target audience."
     },
     {
-      icon: <Shield className="w-8 h-8" />,
-      title: "Secure by Design",
-      description: "Enterprise-grade security with end-to-end encryption and advanced threat protection."
+      icon: <TrendingUp className="w-8 h-8" />,
+      title: "Growth Marketing",
+      description: "Accelerate your follower growth and engagement with proven tactics that convert."
     },
     {
-      icon: <Globe className="w-8 h-8" />,
-      title: "Global Scale",
-      description: "Deploy worldwide with our distributed infrastructure and edge computing capabilities."
+      icon: <BarChart3 className="w-8 h-8" />,
+      title: "Analytics & Insights",
+      description: "Comprehensive reporting and performance tracking to optimize your social media ROI."
     },
     {
-      icon: <Cpu className="w-8 h-8" />,
-      title: "AI-Powered",
-      description: "Leverage artificial intelligence to automate workflows and enhance user experiences."
-    },
-    {
-      icon: <Palette className="w-8 h-8" />,
-      title: "Customizable",
-      description: "Tailor every aspect to your needs with our flexible and extensible platform."
+      icon: <MessageSquare className="w-8 h-8" />,
+      title: "Content Creation",
+      description: "Compelling, platform-optimized content that resonates with your audience and drives action."
     },
     {
       icon: <Users className="w-8 h-8" />,
-      title: "Team Collaboration",
-      description: "Work seamlessly with your team using real-time collaboration and sharing features."
+      title: "Community Management",
+      description: "Build and nurture engaged communities around your brand with expert social listening."
+    },
+    {
+      icon: <Zap className="w-8 h-8" />,
+      title: "Paid Advertising",
+      description: "Maximize your ad spend with targeted campaigns across all major social platforms."
     }
   ];
 
@@ -40,10 +40,10 @@ const Features = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-light text-white mb-6">
-            Powerful <span className="font-semibold">Features</span>
+            Our <span className="font-semibold">Services</span>
           </h2>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Discover the tools and capabilities that make Lumina the perfect choice for modern digital experiences.
+            Comprehensive social media marketing solutions designed to elevate your brand and drive measurable results.
           </p>
         </div>
 

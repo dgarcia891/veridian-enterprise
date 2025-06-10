@@ -3,17 +3,17 @@ import { Twitter, Github, Linkedin, Instagram } from "lucide-react";
 
 const Footer = () => {
   const footerLinks = {
-    Product: ["Features", "Pricing", "API", "Documentation"],
-    Company: ["About", "Blog", "Careers", "Press"],
+    Services: ["Strategy", "Content Creation", "Paid Advertising", "Analytics"],
+    Company: ["About", "Careers", "Case Studies", "Blog"],
     Resources: ["Help Center", "Contact", "Privacy", "Terms"],
-    Community: ["Discord", "Twitter", "GitHub", "LinkedIn"]
+    Social: ["Instagram", "Twitter", "LinkedIn", "Facebook"]
   };
 
   const socialLinks = [
     { icon: <Twitter className="w-5 h-5" />, href: "#" },
-    { icon: <Github className="w-5 h-5" />, href: "#" },
+    { icon: <Instagram className="w-5 h-5" />, href: "#" },
     { icon: <Linkedin className="w-5 h-5" />, href: "#" },
-    { icon: <Instagram className="w-5 h-5" />, href: "#" }
+    { icon: <Github className="w-5 h-5" />, href: "#" }
   ];
 
   return (
@@ -22,9 +22,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-12">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <div className="text-white font-semibold text-xl mb-4">Lumina</div>
+            <div className="text-white font-semibold text-xl mb-4">VEridian</div>
             <p className="text-white/70 mb-6 max-w-sm">
-              Experience the future of digital interaction with our innovative platform where creativity meets technology.
+              Transform your social media presence into a powerful revenue driver with our data-driven marketing strategies.
             </p>
             <div className="flex space-x-4">
               {socialLinks.map((social, index) => (
@@ -62,7 +62,7 @@ const Footer = () => {
         {/* Bottom */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10">
           <p className="text-white/40 text-sm mb-4 md:mb-0">
-            © 2024 Lumina. All rights reserved.
+            © 2024 VEridian. All rights reserved.
           </p>
           <div className="flex space-x-6 text-sm">
             <a href="#" className="text-white/40 hover:text-white transition-colors duration-300">
