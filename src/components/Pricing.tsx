@@ -6,44 +6,48 @@ const Pricing = () => {
   const plans = [
     {
       name: "Starter",
-      price: "2,500",
-      description: "Perfect for small businesses starting their social journey",
+      price: "297",
+      description: "Perfect for small businesses getting started with automation",
       features: [
-        "2 social platforms",
-        "15 posts per month",
-        "Basic analytics",
-        "Community management",
-        "Monthly strategy session"
+        "Complete CRM system",
+        "Landing page builder",
+        "Email & SMS marketing",
+        "Basic automation workflows",
+        "Appointment scheduling",
+        "5,000 contacts included",
+        "Phone & email support"
       ],
       popular: false
     },
     {
-      name: "Growth",
-      price: "5,000",
-      description: "Ideal for businesses ready to scale their presence",
+      name: "Professional", 
+      price: "497",
+      description: "Everything you need to scale your marketing operations",
       features: [
-        "4 social platforms",
-        "30 posts per month",
-        "Advanced analytics",
-        "Paid ad management",
-        "Bi-weekly strategy calls",
-        "Content calendar",
-        "Influencer outreach"
+        "Everything in Starter",
+        "Advanced automation workflows",
+        "A/B testing capabilities",
+        "Call tracking & recording",
+        "Custom integrations",
+        "25,000 contacts included",
+        "Priority support",
+        "Advanced reporting"
       ],
       popular: true
     },
     {
-      name: "Enterprise",
-      price: "10,000",
-      description: "For brands demanding exceptional results",
+      name: "Agency",
+      price: "797",
+      description: "Full-service management with dedicated support",
       features: [
-        "All social platforms",
-        "Unlimited content",
-        "Custom reporting",
-        "Dedicated account team",
-        "Weekly strategy sessions",
-        "Crisis management",
-        "Brand reputation monitoring"
+        "Everything in Professional",
+        "Unlimited contacts",
+        "White-label platform",
+        "Dedicated account manager",
+        "Custom development",
+        "Advanced analytics dashboard",
+        "24/7 priority support",
+        "Done-for-you setup"
       ],
       popular: false
     }
@@ -54,10 +58,10 @@ const Pricing = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-light text-white mb-6">
-            Investment <span className="font-semibold">Plans</span>
+            Simple <span className="font-semibold">Pricing</span>
           </h2>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Choose the perfect plan to accelerate your social media growth. All plans include strategy development and performance optimization.
+            Choose the perfect plan to grow your business. All plans include the complete GoHighLevel platform with our expert setup and support.
           </p>
         </div>
 
@@ -102,10 +106,16 @@ const Pricing = () => {
                     : 'glass-button text-white hover:bg-white/20'
                 }`}
               >
-                Get Started
+                Start Free Trial
               </Button>
             </div>
           ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <p className="text-white/60 text-sm">
+            All plans include 14-day free trial • No setup fees • Cancel anytime
+          </p>
         </div>
       </div>
     </section>

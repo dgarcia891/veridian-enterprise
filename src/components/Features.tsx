@@ -1,37 +1,52 @@
 
-import { Zap, Target, TrendingUp, Users, BarChart3, MessageSquare } from "lucide-react";
+import { Zap, Target, TrendingUp, Users, BarChart3, MessageSquare, Phone, Mail, Calendar, Workflow } from "lucide-react";
 
 const Features = () => {
   const features = [
     {
       icon: <Target className="w-8 h-8" />,
-      title: "Strategic Planning",
-      description: "Data-driven social media strategies tailored to your brand's goals and target audience."
-    },
-    {
-      icon: <TrendingUp className="w-8 h-8" />,
-      title: "Growth Marketing",
-      description: "Accelerate your follower growth and engagement with proven tactics that convert."
-    },
-    {
-      icon: <BarChart3 className="w-8 h-8" />,
-      title: "Analytics & Insights",
-      description: "Comprehensive reporting and performance tracking to optimize your social media ROI."
-    },
-    {
-      icon: <MessageSquare className="w-8 h-8" />,
-      title: "Content Creation",
-      description: "Compelling, platform-optimized content that resonates with your audience and drives action."
+      title: "Lead Generation Funnels",
+      description: "Convert visitors into customers with high-converting landing pages, forms, and automated follow-up sequences."
     },
     {
       icon: <Users className="w-8 h-8" />,
-      title: "Community Management",
-      description: "Build and nurture engaged communities around your brand with expert social listening."
+      title: "CRM & Pipeline Management",
+      description: "Track every lead from first contact to closed deal with our comprehensive customer relationship management system."
+    },
+    {
+      icon: <MessageSquare className="w-8 h-8" />,
+      title: "Multi-Channel Messaging",
+      description: "Reach customers via SMS, email, voice calls, and social media - all from one unified platform."
+    },
+    {
+      icon: <Calendar className="w-8 h-8" />,
+      title: "Appointment Scheduling",
+      description: "Automated booking system with calendar integration, reminders, and no-show reduction features."
+    },
+    {
+      icon: <Workflow className="w-8 h-8" />,
+      title: "Marketing Automation",
+      description: "Set up complex workflows that nurture leads and customers automatically based on their behavior."
+    },
+    {
+      icon: <BarChart3 className="w-8 h-8" />,
+      title: "Analytics & Reporting",
+      description: "Track ROI, conversion rates, and campaign performance with detailed analytics and custom reports."
+    },
+    {
+      icon: <Phone className="w-8 h-8" />,
+      title: "Voice & Call Tracking",
+      description: "Local phone numbers, call recording, and call tracking to monitor and improve your phone conversions."
+    },
+    {
+      icon: <Mail className="w-8 h-8" />,
+      title: "Email Marketing",
+      description: "Professional email campaigns with advanced segmentation, A/B testing, and delivery optimization."
     },
     {
       icon: <Zap className="w-8 h-8" />,
-      title: "Paid Advertising",
-      description: "Maximize your ad spend with targeted campaigns across all major social platforms."
+      title: "Website & Funnel Builder",
+      description: "Create stunning websites and sales funnels with our drag-and-drop builder - no coding required."
     }
   ];
 
@@ -40,10 +55,10 @@ const Features = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-light text-white mb-6">
-            Our <span className="font-semibold">Services</span>
+            Complete <span className="font-semibold">Marketing Suite</span>
           </h2>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Comprehensive social media marketing solutions designed to elevate your brand and drive measurable results.
+            Everything you need to attract, convert, and retain customers - powered by GoHighLevel's industry-leading platform.
           </p>
         </div>
 
