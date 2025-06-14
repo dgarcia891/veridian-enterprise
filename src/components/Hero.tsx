@@ -1,23 +1,15 @@
-
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MessageSquare } from "lucide-react";
-
 const Hero = () => {
   const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('contact')?.scrollIntoView({
+      behavior: 'smooth'
+    });
   };
-
-  return (
-    <section id="home" className="relative min-h-screen flex items-center">
+  return <section id="home" className="relative min-h-screen flex items-center">
       {/* Background Iframe */}
       <div className="fixed inset-0 z-[-1]">
-        <iframe 
-          src="https://my.spline.design/glassmorphlandingpage-nyOS3MRrg0GCft1x8mCtqPwk/" 
-          width="100%" 
-          height="100%" 
-          frameBorder="0" 
-          className="w-full h-full" 
-        />
+        <iframe src="https://my.spline.design/glassmorphlandingpage-nyOS3MRrg0GCft1x8mCtqPwk/" width="100%" height="100%" frameBorder="0" className="w-full h-full" />
       </div>
 
       <div className="px-6 max-w-6xl mx-auto w-full">
@@ -30,22 +22,14 @@ const Hero = () => {
             for your business
           </h1>
           
-          <p className="text-white/70 mt-8 text-lg md:text-xl max-w-2xl animate-fade-in [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards]">
-            VEridian delivers complete marketing solutions - from lead generation and CRM to automated follow-ups and social media management, all powered by our advanced platform technology.
-          </p>
+          <p className="text-white/70 mt-8 text-lg md:text-xl max-w-2xl animate-fade-in [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards]">Veridian delivers complete marketing solutions - from lead generation and CRM to automated follow-ups and social media management, all powered by our advanced platform technology.</p>
           
           <div className="mt-12 flex flex-wrap gap-4 animate-fade-in [animation-delay:400ms] opacity-0 [animation-fill-mode:forwards]">
-            <Button 
-              onClick={scrollToContact}
-              className="bg-white text-black rounded-full px-8 py-3 text-sm font-medium hover:bg-white/90 transition-all duration-300 flex items-center gap-2 group"
-            >
+            <Button onClick={scrollToContact} className="bg-white text-black rounded-full px-8 py-3 text-sm font-medium hover:bg-white/90 transition-all duration-300 flex items-center gap-2 group">
               Request Campaign Planning
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
             </Button>
-            <Button 
-              onClick={scrollToContact}
-              className="glass-button text-white rounded-full px-8 py-3 text-sm font-medium flex items-center gap-2"
-            >
+            <Button onClick={scrollToContact} className="glass-button text-white rounded-full px-8 py-3 text-sm font-medium flex items-center gap-2">
               <MessageSquare size={16} />
               Learn More
             </Button>
@@ -68,8 +52,6 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
