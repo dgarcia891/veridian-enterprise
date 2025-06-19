@@ -22,7 +22,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-12">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <div className="text-white font-semibold text-xl mb-4">VEridian</div>
+            <div className="text-white font-semibold text-xl mb-4">Veridian</div>
             <p className="text-white/70 mb-6 max-w-sm">
               Transform your social media presence into a powerful revenue driver with our data-driven marketing strategies.
             </p>
@@ -62,7 +62,7 @@ const Footer = () => {
         {/* Bottom */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10">
           <p className="text-white/40 text-sm mb-4 md:mb-0">
-            © 2024 VEridian. All rights reserved.
+            © 2024 Veridian. All rights reserved.
           </p>
           <div className="flex space-x-6 text-sm">
             <a href="#" className="text-white/40 hover:text-white transition-colors duration-300">
