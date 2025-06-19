@@ -76,6 +76,18 @@ const Footer = () => {
             </a>
           </div>
         </div>
+
+        {/* DAG Networks Credit */}
+        <div className="text-center pt-6 border-t border-white/5 mt-6">
+          <a 
+            href="https://www.dagnetworks.com" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-white/30 hover:text-white/50 transition-colors duration-300 text-sm"
+          >
+            Created by DAG Networks
+          </a>
+        </div>
       </div>
     </footer>
   );
