@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -26,8 +25,7 @@ const Contact = () => {
     };
 
     try {
-      // Replace this URL with your Google Apps Script Web App URL
-      const response = await fetch('https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbzsgl8VEQl7YlPk4Rf4xI_u6rgWL9DcMC5R3SQ9i4gTdI6ScUv_09-iVjOuBOfL_sTzaw/exec', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
