@@ -1,5 +1,6 @@
 
 import { Twitter, Github, Linkedin, Instagram } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const footerLinks = {
@@ -65,9 +66,9 @@ const Footer = () => {
             © 2024 Veridian. All rights reserved.
           </p>
           <div className="flex space-x-6 text-sm">
-            <a href="#" className="text-white/40 hover:text-white transition-colors duration-300">
+            <Link to="/privacy-policy" className="text-white/40 hover:text-white transition-colors duration-300">
               Privacy Policy
-            </a>
+            </Link>
             <a href="#" className="text-white/40 hover:text-white transition-colors duration-300">
               Terms of Service
             </a>
