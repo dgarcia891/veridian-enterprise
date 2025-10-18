@@ -1,8 +1,17 @@
-
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MessageSquare } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const Hero = () => {
+  const [showIframe, setShowIframe] = useState(false);
+  
+  useEffect(() => {
+    // Delay iframe loading to improve initial page load
+    const timer = setTimeout(() => {
+      setShowIframe(true);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
   const scrollToContact = () => {
     document.getElementById('contact')?.scrollIntoView({
       behavior: 'smooth'
@@ -11,15 +20,18 @@ const Hero = () => {
 
   return (
     <section id="home" className="relative min-h-screen flex items-center">
-      {/* Background Iframe */}
-      <div className="fixed inset-0 z-[-1]">
-        <iframe 
-          src="https://my.spline.design/glassmorphlandingpage-nyOS3MRrg0GCft1x8mCtqPwk/" 
-          width="100%" 
-          height="100%" 
-          frameBorder="0" 
-          className="w-full h-full" 
-        />
+      {/* Background Iframe - Lazy loaded for performance */}
+      <div className="fixed inset-0 z-[-1] bg-gradient-to-br from-black via-zinc-900 to-black">
+        {showIframe && (
+          <iframe 
+            src="https://my.spline.design/glassmorphlandingpage-nyOS3MRrg0GCft1x8mCtqPwk/" 
+            width="100%" 
+            height="100%" 
+            frameBorder="0" 
+            loading="lazy"
+            className="w-full h-full" 
+          />
+        )}
       </div>
 
       <div className="px-6 max-w-6xl mx-auto w-full">
