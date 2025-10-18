@@ -18,7 +18,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="border-t border-white/10 px-6 py-16">
+    <footer className="border-t border-white/10 px-6 py-16" role="contentinfo" aria-label="Footer">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-12">
           {/* Brand */}
@@ -27,36 +27,37 @@ const Footer = () => {
             <p className="text-white/70 mb-6 max-w-sm">
               Transform your social media presence into a powerful revenue driver with our data-driven marketing strategies.
             </p>
-            <div className="flex space-x-4">
+            <nav className="flex space-x-4" aria-label="Social media links">
               {socialLinks.map((social, index) => (
                 <a
                   key={index}
                   href={social.href}
-                  className="text-white/40 hover:text-white transition-colors duration-300"
+                  className="text-white/40 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm"
+                  aria-label={`Follow us on ${['Twitter', 'Instagram', 'LinkedIn', 'GitHub'][index]}`}
                 >
                   {social.icon}
                 </a>
               ))}
-            </div>
+            </nav>
           </div>
 
           {/* Links */}
           {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category}>
-              <h3 className="text-white font-semibold mb-4">{category}</h3>
+            <nav key={category} aria-labelledby={`footer-${category.toLowerCase()}-heading`}>
+              <h3 id={`footer-${category.toLowerCase()}-heading`} className="text-white font-semibold mb-4">{category}</h3>
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link}>
                     <a
                       href="#"
-                      className="text-white/70 hover:text-white transition-colors duration-300 text-sm"
+                      className="text-white/70 hover:text-white transition-colors duration-300 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm"
                     >
                       {link}
                     </a>
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
           ))}
         </div>
 
@@ -65,17 +66,17 @@ const Footer = () => {
           <p className="text-white/40 text-sm mb-4 md:mb-0">
             © 2024 Veridian. All rights reserved.
           </p>
-          <div className="flex space-x-6 text-sm">
-            <Link to="/privacy-policy" className="text-white/40 hover:text-white transition-colors duration-300">
+          <nav className="flex space-x-6 text-sm" aria-label="Legal links">
+            <Link to="/privacy-policy" className="text-white/40 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm">
               Privacy Policy
             </Link>
-            <a href="#" className="text-white/40 hover:text-white transition-colors duration-300">
+            <a href="#" className="text-white/40 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm">
               Terms of Service
             </a>
-            <a href="#" className="text-white/40 hover:text-white transition-colors duration-300">
+            <a href="#" className="text-white/40 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm">
               Cookie Policy
             </a>
-          </div>
+          </nav>
         </div>
 
         {/* DAG Networks Credit */}
@@ -84,7 +85,8 @@ const Footer = () => {
             href="https://www.dagnetworks.com" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="text-white/30 hover:text-white/50 transition-colors duration-300 text-sm"
+            className="text-white/30 hover:text-white/50 transition-colors duration-300 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm"
+            aria-label="Visit DAG Networks website - opens in new tab"
           >
             Created by DAG Networks
           </a>

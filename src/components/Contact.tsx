@@ -54,10 +54,10 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-32 px-6">
+    <section id="contact" className="py-32 px-6" aria-labelledby="contact-heading">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-light text-white mb-6">
+          <h2 id="contact-heading" className="text-4xl md:text-5xl font-light text-white mb-6">
             Ready to <span className="font-semibold">Transform Your Marketing</span>?
           </h2>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
@@ -69,7 +69,7 @@ const Contact = () => {
           {/* Contact Form */}
           <div className="glass-card rounded-2xl p-8">
             <h3 className="text-2xl font-semibold text-white mb-8">Request Campaign Planning</h3>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6" aria-label="Campaign planning request form">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-white/80 text-sm mb-2">First Name</label>
@@ -135,7 +135,8 @@ const Contact = () => {
               <Button 
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-white text-black rounded-full py-3 font-medium hover:bg-white/90 transition-all duration-300 disabled:opacity-50"
+                className="w-full bg-white text-black rounded-full py-3 font-medium hover:bg-white/90 transition-all duration-300 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
+                aria-label={isSubmitting ? "Submitting form..." : "Submit campaign request"}
               >
                 {isSubmitting ? "Submitting..." : "Submit Campaign Request"}
               </Button>
@@ -143,35 +144,35 @@ const Contact = () => {
           </div>
 
           {/* Contact Information */}
-          <div className="space-y-8">
+          <div className="space-y-8" role="complementary" aria-label="Contact information">
             <div className="glass-card rounded-2xl p-8">
               <div className="flex items-center mb-4">
-                <Mail className="w-6 h-6 text-white mr-4" />
+                <Mail className="w-6 h-6 text-white mr-4" aria-hidden="true" />
                 <h4 className="text-xl font-semibold text-white">Email</h4>
               </div>
-              <p className="text-white/70">hello@veridian.com</p>
-              <p className="text-white/70">campaigns@veridian.com</p>
+              <p className="text-white/70"><a href="mailto:hello@veridian.com" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm">hello@veridian.com</a></p>
+              <p className="text-white/70"><a href="mailto:campaigns@veridian.com" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm">campaigns@veridian.com</a></p>
             </div>
 
             <div className="glass-card rounded-2xl p-8">
               <div className="flex items-center mb-4">
-                <Phone className="w-6 h-6 text-white mr-4" />
+                <Phone className="w-6 h-6 text-white mr-4" aria-hidden="true" />
                 <h4 className="text-xl font-semibold text-white">Phone</h4>
               </div>
-              <p className="text-white/70">+1 (555) 123-GROW</p>
-              <p className="text-white/70">+1 (555) 987-MARKET</p>
+              <p className="text-white/70"><a href="tel:+15551234769" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm">+1 (555) 123-GROW</a></p>
+              <p className="text-white/70"><a href="tel:+15559876275" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm">+1 (555) 987-MARKET</a></p>
             </div>
 
             <div className="glass-card rounded-2xl p-8">
               <div className="flex items-center mb-4">
-                <MapPin className="w-6 h-6 text-white mr-4" />
+                <MapPin className="w-6 h-6 text-white mr-4" aria-hidden="true" />
                 <h4 className="text-xl font-semibold text-white">Office</h4>
               </div>
-              <p className="text-white/70">
+              <address className="text-white/70 not-italic">
                 456 Marketing Boulevard<br />
                 Los Angeles, CA 90210<br />
                 United States
-              </p>
+              </address>
             </div>
 
             <div className="glass-card rounded-2xl p-8">

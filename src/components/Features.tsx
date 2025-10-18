@@ -70,10 +70,10 @@ const Features = () => {
   ];
 
   return (
-    <section id="features" className="py-32 px-6">
+    <section id="features" className="py-32 px-6" aria-labelledby="features-heading">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-light text-white mb-6">
+          <h2 id="features-heading" className="text-4xl md:text-5xl font-light text-white mb-6">
             Complete <span className="font-semibold">Marketing Suite</span>
           </h2>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
@@ -81,14 +81,23 @@ const Features = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list" aria-label="Marketing features">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="glass-card rounded-2xl p-8 hover:bg-white/10 transition-all duration-500 group cursor-pointer"
+              role="listitem"
+              tabIndex={0}
+              className="glass-card rounded-2xl p-8 hover:bg-white/10 transition-all duration-500 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
               onClick={() => setSelectedFeature(index)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setSelectedFeature(index);
+                }
+              }}
+              aria-label={`${feature.title} - Click to learn more`}
             >
-              <div className="text-white mb-6 group-hover:scale-110 transition-transform duration-300">
+              <div className="text-white mb-6 group-hover:scale-110 transition-transform duration-300" aria-hidden="true">
                 {feature.icon}
               </div>
               <h3 className="text-xl font-semibold text-white mb-4 group-hover:text-white transition-colors duration-300">
