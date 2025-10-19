@@ -4,17 +4,37 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   const footerLinks = {
-    Services: ["Strategy", "Content Creation", "Paid Advertising", "Analytics"],
-    Company: ["About", "Careers", "Case Studies", "Blog"],
-    Resources: ["Help Center", "Contact", "Privacy", "Terms"],
-    Social: ["Instagram", "Twitter", "LinkedIn", "Facebook"]
+    Services: [
+      { label: "Lead Generation", href: "#features" },
+      { label: "CRM & Pipeline", href: "#features" },
+      { label: "Marketing Automation", href: "#features" },
+      { label: "Analytics", href: "#features" }
+    ],
+    Company: [
+      { label: "About", href: "#home" },
+      { label: "Services", href: "#features" },
+      { label: "Testimonials", href: "#testimonials" },
+      { label: "Pricing", href: "#pricing" }
+    ],
+    Resources: [
+      { label: "Help Center", href: "#contact" },
+      { label: "Contact", href: "#contact" },
+      { label: "Privacy", href: "/privacy-policy" },
+      { label: "Terms", href: "#" }
+    ],
+    Social: [
+      { label: "Instagram", href: "https://instagram.com" },
+      { label: "Twitter", href: "https://twitter.com" },
+      { label: "LinkedIn", href: "https://linkedin.com" },
+      { label: "Facebook", href: "https://facebook.com" }
+    ]
   };
 
   const socialLinks = [
-    { icon: <Twitter className="w-5 h-5" />, href: "#" },
-    { icon: <Instagram className="w-5 h-5" />, href: "#" },
-    { icon: <Linkedin className="w-5 h-5" />, href: "#" },
-    { icon: <Github className="w-5 h-5" />, href: "#" }
+    { icon: <Twitter className="w-5 h-5" />, href: "https://twitter.com", label: "Twitter" },
+    { icon: <Instagram className="w-5 h-5" />, href: "https://instagram.com", label: "Instagram" },
+    { icon: <Linkedin className="w-5 h-5" />, href: "https://linkedin.com", label: "LinkedIn" },
+    { icon: <Github className="w-5 h-5" />, href: "https://github.com", label: "GitHub" }
   ];
 
   return (
@@ -28,12 +48,14 @@ const Footer = () => {
               Transform your social media presence into a powerful revenue driver with our data-driven marketing strategies.
             </p>
             <nav className="flex space-x-4" aria-label="Social media links">
-              {socialLinks.map((social, index) => (
+              {socialLinks.map((social) => (
                 <a
-                  key={index}
+                  key={social.label}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-white/40 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm"
-                  aria-label={`Follow us on ${['Twitter', 'Instagram', 'LinkedIn', 'GitHub'][index]}`}
+                  aria-label={`Follow us on ${social.label} - opens in new tab`}
                 >
                   {social.icon}
                 </a>
@@ -47,13 +69,31 @@ const Footer = () => {
               <h3 id={`footer-${category.toLowerCase()}-heading`} className="text-white font-semibold mb-4">{category}</h3>
               <ul className="space-y-3">
                 {links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href="#"
-                      className="text-white/70 hover:text-white transition-colors duration-300 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm"
-                    >
-                      {link}
-                    </a>
+                  <li key={link.label}>
+                    {link.href.startsWith('http') ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-white/70 hover:text-white transition-colors duration-300 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm"
+                      >
+                        {link.label}
+                      </a>
+                    ) : link.href.startsWith('/') ? (
+                      <Link
+                        to={link.href}
+                        className="text-white/70 hover:text-white transition-colors duration-300 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm"
+                      >
+                        {link.label}
+                      </Link>
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="text-white/70 hover:text-white transition-colors duration-300 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm"
+                      >
+                        {link.label}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
