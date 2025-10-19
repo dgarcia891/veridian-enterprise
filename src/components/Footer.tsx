@@ -11,16 +11,16 @@ const Footer = () => {
       { label: "Analytics", href: "#features" }
     ],
     Company: [
-      { label: "About", href: "#home" },
-      { label: "Services", href: "#features" },
-      { label: "Testimonials", href: "#testimonials" },
-      { label: "Pricing", href: "#pricing" }
+      { label: "About", href: "/about" },
+      { label: "Services", href: "/services" },
+      { label: "Testimonials", href: "/#testimonials" },
+      { label: "Pricing", href: "/#pricing" }
     ],
     Resources: [
-      { label: "Help Center", href: "#contact" },
-      { label: "Contact", href: "#contact" },
+      { label: "Help Center", href: "/#contact" },
+      { label: "Contact", href: "/#contact" },
       { label: "Privacy", href: "/privacy-policy" },
-      { label: "Terms", href: "#" }
+      { label: "Terms", href: "/terms-of-service" }
     ],
     Social: [
       { label: "Instagram", href: "https://instagram.com" },
@@ -110,12 +110,12 @@ const Footer = () => {
             <Link to="/privacy-policy" className="text-white/40 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm">
               Privacy Policy
             </Link>
-            <a href="#" className="text-white/40 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm">
+            <Link to="/terms-of-service" className="text-white/40 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm">
               Terms of Service
-            </a>
-            <a href="#" className="text-white/40 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm">
+            </Link>
+            <Link to="/cookie-policy" className="text-white/40 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm">
               Cookie Policy
-            </a>
+            </Link>
           </nav>
         </div>
 
