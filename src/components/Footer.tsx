@@ -5,10 +5,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   const footerLinks = {
     Services: [
-      { label: "Lead Generation", href: "#features" },
-      { label: "CRM & Pipeline", href: "#features" },
-      { label: "Marketing Automation", href: "#features" },
-      { label: "Analytics", href: "#features" }
+      { label: "Voice AI Receptionist", href: "/voice-ai-receptionist" }
     ],
     Company: [
       { label: "About", href: "/about" },
@@ -45,7 +42,7 @@ const Footer = () => {
           <div className="lg:col-span-2">
             <div className="text-white font-semibold text-xl mb-4">Veridian</div>
             <p className="text-white/70 mb-6 max-w-sm">
-              Transform your social media presence into a powerful revenue driver with our data-driven marketing strategies.
+              Never miss another customer call with our intelligent 24/7 Voice AI receptionist service.
             </p>
             <nav className="flex space-x-4" aria-label="Social media links">
               {socialLinks.map((social) => (
