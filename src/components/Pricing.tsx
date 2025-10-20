@@ -32,7 +32,7 @@ const Pricing = () => {
         "Option for second agent",
         "Advanced customization",
         "Quarterly strategy reviews",
-        "Total: £2,500/year"
+        "Total: $2,500/year"
       ],
       popular: true
     }
@@ -46,7 +46,7 @@ const Pricing = () => {
             Simple <span className="font-semibold">Pricing</span>
           </h2>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Transparent pricing with no hidden fees. If you miss just 10 calls per day at £60 average order value, you're losing £4,200/week. Our service is a fraction of what we help you recover.
+            Transparent pricing with no hidden fees. If you miss just 10 calls per day at $75 average order value, you're losing $5,250/week. Our service is a fraction of what we help you recover.
           </p>
         </div>
 

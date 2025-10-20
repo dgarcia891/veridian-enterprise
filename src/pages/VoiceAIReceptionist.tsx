@@ -143,7 +143,7 @@ const VoiceAIReceptionist = () => {
               <tbody>
                 <tr className="border-b border-white/10">
                   <td className="p-4 text-white/80 font-medium">Monthly Service Fee</td>
-                  <td className="p-4 text-primary font-semibold">£399 (approx. $500)</td>
+                  <td className="p-4 text-primary font-semibold">$500</td>
                   <td className="p-4 text-white/70">Standard rate for a fully operational AI Agent</td>
                 </tr>
                 <tr className="border-b border-white/10">
@@ -158,7 +158,7 @@ const VoiceAIReceptionist = () => {
                 </tr>
                 <tr>
                   <td className="p-4 text-white/80 font-medium">Annual Savings Plan</td>
-                  <td className="p-4 text-primary font-semibold">£2,500</td>
+                  <td className="p-4 text-primary font-semibold">$2,500</td>
                   <td className="p-4 text-white/70">Prepay for one year with significant discount (often includes free setup or second agent)</td>
                 </tr>
               </tbody>
@@ -166,8 +166,8 @@ const VoiceAIReceptionist = () => {
           </div>
           <div className="mt-8 p-6 bg-primary/10 rounded-lg border border-primary/20">
             <p className="text-white/90 text-center">
-              <span className="font-semibold">Example ROI:</span> Missing just 10 calls per day at £60 average order value = 
-              <span className="text-primary font-bold"> £4,200/week lost revenue</span>. Our service fee is a fraction of what we help you recover.
+              <span className="font-semibold">Example ROI:</span> Missing just 10 calls per day at $75 average order value = 
+              <span className="text-primary font-bold"> $5,250/week lost revenue</span>. Our service fee is a fraction of what we help you recover.
             </p>
           </div>
         </section>
