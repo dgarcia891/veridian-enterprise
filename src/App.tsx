@@ -13,6 +13,7 @@ const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
 const About = lazy(() => import("./pages/About"));
 const ServiceDetail = lazy(() => import("./pages/ServiceDetail"));
 const Contact = lazy(() => import("./pages/Contact"));
+const LostRevenueCalculator = lazy(() => import("./pages/LostRevenueCalculator"));
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/lost-revenue-calculator" element={<LostRevenueCalculator />} />
             <Route path="/services/:slug" element={<ServiceDetail />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />

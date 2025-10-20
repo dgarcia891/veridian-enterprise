@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MessageSquare } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useRetellWidget } from "@/hooks/useRetellWidget";
 
 interface ServiceHeroProps {
@@ -44,17 +45,17 @@ const ServiceHero = ({
             <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
           </Button>
           
-          <Button 
-            onClick={openChat}
-            disabled={!isWidgetReady}
-            size="lg"
-            variant="outline"
-            className="glass-button rounded-full px-8 py-6 text-base font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-            aria-label={`${secondaryCtaText} - open chat`}
-          >
-            <MessageSquare size={18} aria-hidden="true" />
-            {secondaryCtaText}
-          </Button>
+          <Link to="/lost-revenue-calculator">
+            <Button 
+              size="lg"
+              variant="outline"
+              className="glass-button rounded-full px-8 py-6 text-base font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2"
+              aria-label={secondaryCtaText}
+            >
+              <MessageSquare size={18} aria-hidden="true" />
+              {secondaryCtaText}
+            </Button>
+          </Link>
         </div>
 
         {showStats && (
