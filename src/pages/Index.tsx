@@ -1,7 +1,7 @@
 
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
-import Features from "@/components/Features";
+import VoiceAIFeatures from "@/components/VoiceAIFeatures";
 import Testimonials from "@/components/Testimonials";
 import Pricing from "@/components/Pricing";
 import Contact from "@/components/Contact";
@@ -20,7 +20,7 @@ const Index = () => {
       <Navigation />
       <main id="main-content">
         <Hero />
-        <Features />
+        <VoiceAIFeatures />
         <Testimonials />
         <Pricing />
         <Contact />

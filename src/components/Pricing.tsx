@@ -5,51 +5,36 @@ import { Check } from "lucide-react";
 const Pricing = () => {
   const plans = [
     {
-      name: "Starter",
-      price: "297",
-      description: "Perfect for small businesses getting started with automation",
+      name: "Monthly Plan",
+      price: "500",
+      description: "Standard month-to-month service with no long-term commitment",
       features: [
-        "Complete CRM system",
-        "Landing page builder",
-        "Email & SMS marketing",
-        "Basic automation workflows",
-        "Appointment scheduling",
-        "5,000 contacts included",
-        "Phone & email support"
+        "Fully operational AI receptionist",
+        "24/7 call answering",
+        "Complex order handling",
+        "Lead qualification",
+        "Appointment booking",
+        "API integration support",
+        "Real-time status updates",
+        "Setup fee: $450"
       ],
       popular: false
     },
     {
-      name: "Professional", 
-      price: "497",
-      description: "Everything you need to scale your marketing operations",
+      name: "Annual Plan", 
+      price: "208",
+      description: "Best value - prepay for the year and save significantly",
       features: [
-        "Everything in Starter",
-        "Advanced automation workflows",
-        "A/B testing capabilities",
-        "Call tracking & recording",
-        "Custom integrations",
-        "25,000 contacts included",
+        "Everything in Monthly Plan",
+        "Save over 50% per month",
+        "FREE setup (worth $450)",
         "Priority support",
-        "Advanced reporting"
+        "Option for second agent",
+        "Advanced customization",
+        "Quarterly strategy reviews",
+        "Total: £2,500/year"
       ],
       popular: true
-    },
-    {
-      name: "Agency",
-      price: "797",
-      description: "Full-service management with dedicated support",
-      features: [
-        "Everything in Professional",
-        "Unlimited contacts",
-        "White-label platform",
-        "Dedicated account manager",
-        "Custom development",
-        "Advanced analytics dashboard",
-        "24/7 priority support",
-        "Done-for-you setup"
-      ],
-      popular: false
     }
   ];
 
@@ -61,11 +46,11 @@ const Pricing = () => {
             Simple <span className="font-semibold">Pricing</span>
           </h2>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Choose the perfect plan to grow your business. All plans include our complete marketing automation platform with expert setup and support.
+            Transparent pricing with no hidden fees. If you miss just 10 calls per day at £60 average order value, you're losing £4,200/week. Our service is a fraction of what we help you recover.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8" role="list" aria-label="Pricing plans">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto" role="list" aria-label="Pricing plans">
           {plans.map((plan, index) => (
             <article
               key={index}
@@ -107,9 +92,9 @@ const Pricing = () => {
                     ? 'bg-white text-black hover:bg-white/90'
                     : 'glass-button text-white hover:bg-white/20'
                 }`}
-                aria-label={`Start free trial for ${plan.name} plan`}
+                aria-label={`Get started with ${plan.name}`}
               >
-                Start Free Trial
+                Get Started
               </Button>
             </article>
           ))}
@@ -117,7 +102,7 @@ const Pricing = () => {
 
         <div className="text-center mt-12">
           <p className="text-white/60 text-sm">
-            All plans include 14-day free trial • No setup fees • Cancel anytime
+            Month-to-month commitment • Cancel anytime • Live demo included
           </p>
         </div>
       </div>

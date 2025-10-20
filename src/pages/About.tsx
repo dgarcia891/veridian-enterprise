@@ -8,7 +8,7 @@ const About = () => {
       <main className="max-w-6xl mx-auto px-6 py-20">
         <h1 className="text-4xl md:text-6xl font-bold mb-8 text-center">About Veridian</h1>
         <p className="text-xl text-white/70 mb-16 text-center max-w-3xl mx-auto">
-          Transforming social media presence into powerful revenue drivers through data-driven marketing strategies.
+          Helping local businesses capture every customer call with intelligent Voice AI receptionist technology.
         </p>
 
         <section className="space-y-16">
@@ -16,7 +16,7 @@ const About = () => {
             <div>
               <h2 className="text-3xl font-bold mb-6">Our Mission</h2>
               <p className="text-white/80 leading-relaxed">
-                At Veridian, we believe that every business deserves to harness the full potential of social media marketing. Our mission is to empower companies with cutting-edge tools and strategies that convert social engagement into measurable business growth.
+                At Veridian, we believe that every phone call represents an opportunity. Our mission is to ensure local businesses never miss another customer call by providing cutting-edge Voice AI receptionist technology that captures revenue 24/7.
               </p>
             </div>
             <div className="bg-gradient-to-br from-primary/20 to-primary/5 p-8 rounded-lg border border-white/10">
@@ -33,7 +33,7 @@ const About = () => {
             <div className="md:order-1">
               <h2 className="text-3xl font-bold mb-6">Our Vision</h2>
               <p className="text-white/80 leading-relaxed">
-                We envision a world where businesses of all sizes can compete on equal footing in the digital marketplace. By democratizing access to sophisticated marketing automation and analytics, we're leveling the playing field.
+                We envision a world where no business loses money from unanswered calls. By making intelligent Voice AI accessible and affordable, we're helping local businesses compete with larger competitors and maximize every revenue opportunity.
               </p>
             </div>
           </div>
@@ -44,19 +44,19 @@ const About = () => {
               <div className="bg-white/5 p-8 rounded-lg border border-white/10 hover:border-primary/50 transition-colors">
                 <h3 className="text-xl font-semibold mb-4 text-primary">Innovation</h3>
                 <p className="text-white/70">
-                  We constantly push the boundaries of what's possible in marketing technology, staying ahead of industry trends.
+                  We leverage cutting-edge AI technology to solve real business problems, making advanced voice AI accessible to businesses of all sizes.
                 </p>
               </div>
               <div className="bg-white/5 p-8 rounded-lg border border-white/10 hover:border-primary/50 transition-colors">
-                <h3 className="text-xl font-semibold mb-4 text-primary">Integrity</h3>
+                <h3 className="text-xl font-semibold mb-4 text-primary">Simplicity</h3>
                 <p className="text-white/70">
-                  We believe in transparent practices, honest communication, and delivering on our promises to every client.
+                  We believe powerful technology should be easy to use. Our 10-minute setup and month-to-month commitment prove it.
                 </p>
               </div>
               <div className="bg-white/5 p-8 rounded-lg border border-white/10 hover:border-primary/50 transition-colors">
                 <h3 className="text-xl font-semibold mb-4 text-primary">Results</h3>
                 <p className="text-white/70">
-                  We're obsessed with measurable outcomes and ROI, ensuring every campaign drives real business value.
+                  We start every conversation by calculating your lost revenue, proving ROI before you ever spend a penny with us.
                 </p>
               </div>
             </div>
@@ -65,13 +65,13 @@ const About = () => {
           <div className="bg-gradient-to-r from-primary/10 to-primary/5 p-12 rounded-lg border border-white/10">
             <h2 className="text-3xl font-bold mb-6">Our Story</h2>
             <p className="text-white/80 leading-relaxed mb-4">
-              Founded in 2020, Veridian emerged from a simple observation: businesses were struggling to connect their social media efforts to actual revenue. Traditional marketing agencies offered creative services, but lacked the data-driven approach needed in the modern digital landscape.
+              Founded in 2020, Veridian emerged from a simple observation: local businesses were losing thousands in revenue every week from unanswered phone calls. The technology existed to solve this, but it was expensive, complex, and inaccessible to most small businesses.
             </p>
             <p className="text-white/80 leading-relaxed mb-4">
-              Our founders, veterans of both Silicon Valley tech companies and traditional marketing firms, saw an opportunity to bridge this gap. By combining cutting-edge automation technology with proven marketing strategies, Veridian was born.
+              Our founders, experts in both AI technology and local business operations, saw an opportunity to democratize this technology. By creating templated solutions that could be deployed in minutes instead of months, we made enterprise-level Voice AI affordable for every business.
             </p>
             <p className="text-white/80 leading-relaxed">
-              Today, we serve hundreds of businesses across industries, from startups to Fortune 500 companies, helping them transform their social media presence into a predictable revenue engine.
+              Today, we serve local businesses across industries - from restaurants and florists to construction companies and car dealerships - helping them capture every customer call and maximize their revenue potential 24/7.
             </p>
           </div>
 
@@ -83,8 +83,8 @@ const About = () => {
                   <div className="w-6 h-6 bg-primary rounded"></div>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Data-Driven Approach</h3>
-                  <p className="text-white/70">Every decision backed by analytics and real-time performance metrics.</p>
+                  <h3 className="text-lg font-semibold mb-2">Rapid Deployment</h3>
+                  <p className="text-white/70">10-minute setup using proven templates customized for your industry.</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
@@ -92,8 +92,8 @@ const About = () => {
                   <div className="w-6 h-6 bg-primary rounded"></div>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Proven Track Record</h3>
-                  <p className="text-white/70">Consistently delivering 3x ROI for our clients across all industries.</p>
+                  <h3 className="text-lg font-semibold mb-2">Proven ROI</h3>
+                  <p className="text-white/70">One salvaged high-ticket call can cover the entire annual cost.</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
@@ -101,8 +101,8 @@ const About = () => {
                   <div className="w-6 h-6 bg-primary rounded"></div>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Expert Team</h3>
-                  <p className="text-white/70">Our specialists bring decades of combined experience in marketing and technology.</p>
+                  <h3 className="text-lg font-semibold mb-2">No Long-Term Commitment</h3>
+                  <p className="text-white/70">Month-to-month service with the freedom to cancel anytime.</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
@@ -110,8 +110,8 @@ const About = () => {
                   <div className="w-6 h-6 bg-primary rounded"></div>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Ongoing Support</h3>
-                  <p className="text-white/70">Dedicated account managers and 24/7 customer support for all clients.</p>
+                  <h3 className="text-lg font-semibold mb-2">Future-Proof Technology</h3>
+                  <p className="text-white/70">Your AI agent gets smarter and more capable with every update.</p>
                 </div>
               </div>
             </div>
