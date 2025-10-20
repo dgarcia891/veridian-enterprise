@@ -10,9 +10,6 @@ const Navigation = () => {
     href: "#features",
     label: "Services"
   }, {
-    href: "#testimonials",
-    label: "Testimonials"
-  }, {
     href: "#pricing",
     label: "Pricing"
   }, {

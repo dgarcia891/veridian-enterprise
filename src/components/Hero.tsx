@@ -1,18 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MessageSquare } from "lucide-react";
-import { useEffect, useState } from "react";
 
 const Hero = () => {
-  const [showIframe, setShowIframe] = useState(false);
-  
-  useEffect(() => {
-    // Delay iframe loading to improve initial page load
-    const timer = setTimeout(() => {
-      setShowIframe(true);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, []);
-
   const openRetellChat = () => {
     if (window.RetellWebClient) {
       window.RetellWebClient.open();
@@ -21,20 +10,17 @@ const Hero = () => {
 
   return (
     <section id="home" className="relative min-h-screen flex items-center" aria-label="Hero section">
-      {/* Background Iframe - Lazy loaded for performance */}
-      <div className="fixed inset-0 z-[-1] bg-gradient-to-br from-black via-zinc-900 to-black" aria-hidden="true">
-        {showIframe && (
-          <iframe 
-            src="https://my.spline.design/glassmorphlandingpage-nyOS3MRrg0GCft1x8mCtqPwk/" 
-            width="100%" 
-            height="100%" 
-            frameBorder="0" 
-            loading="lazy"
-            className="w-full h-full"
-            title="Decorative 3D background animation"
-            aria-hidden="true"
+      {/* Animated Gradient Background */}
+      <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
+        <div className="absolute inset-0 animate-gradient">
+          <div 
+            className="absolute inset-0 opacity-30" 
+            style={{
+              backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)',
+              backgroundSize: '40px 40px'
+            }}
           />
-        )}
+        </div>
       </div>
 
       <div className="px-6 max-w-6xl mx-auto w-full">

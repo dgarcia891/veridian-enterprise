@@ -66,4 +66,19 @@
   .glass-button {
     @apply bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300;
   }
+
+  .animate-gradient {
+    background: linear-gradient(-45deg, #000000, #1a1a1a, #0a0a0a, #262626);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+
+  @keyframes gradient {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
 }
