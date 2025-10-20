@@ -2,33 +2,47 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
-import { Calculator, DollarSign, Phone, TrendingUp } from "lucide-react";
+import { Calculator, DollarSign, Phone, TrendingUp, Mail, Video, Calendar, CheckCircle } from "lucide-react";
+import { industries } from "@/data/industries";
 
-const leadFormSchema = z.object({
-  name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
-  email: z.string().trim().email("Invalid email address").max(255, "Email must be less than 255 characters"),
-  phone: z.string().trim().min(10, "Phone number must be at least 10 digits").max(20, "Phone number must be less than 20 digits"),
-  businessName: z.string().trim().min(1, "Business name is required").max(100, "Business name must be less than 100 characters"),
+const step1Schema = z.object({
   averageCallValue: z.coerce.number().min(1, "Average call value must be at least $1").max(100000, "Please enter a realistic value"),
   missedCallsPerDay: z.coerce.number().min(0, "Cannot be negative").max(1000, "Please enter a realistic number"),
+  businessType: z.string().min(1, "Please select a business type"),
 });
 
-type LeadFormData = z.infer<typeof leadFormSchema>;
+const step2Schema = step1Schema.extend({
+  name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
+  email: z.string().trim().email("Invalid email address").max(255, "Email must be less than 255 characters"),
+});
+
+type FormData = z.infer<typeof step2Schema>;
 
 const LostRevenueCalculator = () => {
+  const [step, setStep] = useState(1);
   const [showResults, setShowResults] = useState(false);
   const [calculatedResults, setCalculatedResults] = useState<{
     daily: number;
     monthly: number;
     yearly: number;
   } | null>(null);
+  const [selectedOptions, setSelectedOptions] = useState({
+    callBack: false,
+    scheduleCall: false,
+    emailDetails: false,
+    liveDemo: false,
+  });
+  const [showSuccess, setShowSuccess] = useState(false);
   const { toast } = useToast();
 
   const {
@@ -36,13 +50,20 @@ const LostRevenueCalculator = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
-  } = useForm<LeadFormData>({
-    resolver: zodResolver(leadFormSchema),
+    setValue,
+  } = useForm<FormData>({
+    resolver: zodResolver(step === 1 ? step1Schema : step2Schema),
   });
 
-  const onSubmit = async (data: LeadFormData) => {
+  const onSubmit = async (data: FormData) => {
     try {
-      // Calculate lost revenue
+      if (step === 1) {
+        // Move to step 2 - expand form
+        setStep(2);
+        return;
+      }
+
+      // Step 2 - Calculate and show results
       const daily = data.averageCallValue * data.missedCallsPerDay;
       const monthly = daily * 30;
       const yearly = monthly * 12;
@@ -64,6 +85,50 @@ const LostRevenueCalculator = () => {
         variant: "destructive",
       });
     }
+  };
+
+  const handleFollowUpSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    
+    // Collect selected options and their data
+    const followUpData: any = {
+      originalLead: watch(),
+      selectedOptions,
+    };
+
+    if (selectedOptions.callBack) {
+      followUpData.callBack = {
+        phone: formData.get("phone"),
+        businessName: formData.get("businessName-callBack"),
+      };
+    }
+    if (selectedOptions.scheduleCall) {
+      followUpData.scheduleCall = {
+        businessName: formData.get("businessName-scheduleCall"),
+        preferredDate: formData.get("preferredDate"),
+        preferredTime: formData.get("preferredTime"),
+      };
+    }
+    if (selectedOptions.emailDetails) {
+      followUpData.emailDetails = {
+        businessName: formData.get("businessName-emailDetails"),
+      };
+    }
+    if (selectedOptions.liveDemo) {
+      followUpData.liveDemo = {
+        businessName: formData.get("businessName-liveDemo"),
+      };
+    }
+
+    // Here you would send to Trello/CRM
+    console.log("Follow-up submitted:", followUpData);
+
+    setShowSuccess(true);
+    toast({
+      title: "Request Submitted!",
+      description: "We'll be in touch soon.",
+    });
   };
 
   const averageCallValue = watch("averageCallValue");
@@ -92,66 +157,12 @@ const LostRevenueCalculator = () => {
               <CardHeader>
                 <CardTitle>Calculate Your Lost Revenue</CardTitle>
                 <CardDescription>
-                  Enter your information below to see your potential revenue recovery
+                  Enter your business information to see your potential revenue recovery
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Full Name *</Label>
-                      <Input
-                        id="name"
-                        {...register("name")}
-                        placeholder="John Smith"
-                        className="bg-background"
-                      />
-                      {errors.name && (
-                        <p className="text-sm text-destructive">{errors.name.message}</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email Address *</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        {...register("email")}
-                        placeholder="john@business.com"
-                        className="bg-background"
-                      />
-                      {errors.email && (
-                        <p className="text-sm text-destructive">{errors.email.message}</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number *</Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        {...register("phone")}
-                        placeholder="(555) 123-4567"
-                        className="bg-background"
-                      />
-                      {errors.phone && (
-                        <p className="text-sm text-destructive">{errors.phone.message}</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="businessName">Business Name *</Label>
-                      <Input
-                        id="businessName"
-                        {...register("businessName")}
-                        placeholder="Your Business Name"
-                        className="bg-background"
-                      />
-                      {errors.businessName && (
-                        <p className="text-sm text-destructive">{errors.businessName.message}</p>
-                      )}
-                    </div>
-
                     <div className="space-y-2">
                       <Label htmlFor="averageCallValue">Average Value per Call ($) *</Label>
                       <Input
@@ -183,6 +194,56 @@ const LostRevenueCalculator = () => {
                         <p className="text-sm text-destructive">{errors.missedCallsPerDay.message}</p>
                       )}
                     </div>
+
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="businessType">Type of Business *</Label>
+                      <Select onValueChange={(value) => setValue("businessType", value)}>
+                        <SelectTrigger className="bg-background">
+                          <SelectValue placeholder="Select your business type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {industries.map((industry) => (
+                            <SelectItem key={industry.id} value={industry.id}>
+                              {industry.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      {errors.businessType && (
+                        <p className="text-sm text-destructive">{errors.businessType.message}</p>
+                      )}
+                    </div>
+
+                    {step >= 2 && (
+                      <>
+                        <div className="space-y-2 animate-fade-in">
+                          <Label htmlFor="name">Full Name *</Label>
+                          <Input
+                            id="name"
+                            {...register("name")}
+                            placeholder="John Smith"
+                            className="bg-background"
+                          />
+                          {errors.name && (
+                            <p className="text-sm text-destructive">{errors.name.message}</p>
+                          )}
+                        </div>
+
+                        <div className="space-y-2 animate-fade-in">
+                          <Label htmlFor="email">Email Address *</Label>
+                          <Input
+                            id="email"
+                            type="email"
+                            {...register("email")}
+                            placeholder="john@business.com"
+                            className="bg-background"
+                          />
+                          {errors.email && (
+                            <p className="text-sm text-destructive">{errors.email.message}</p>
+                          )}
+                        </div>
+                      </>
+                    )}
                   </div>
 
                   <Button
@@ -194,6 +255,42 @@ const LostRevenueCalculator = () => {
                     {isSubmitting ? "Calculating..." : "Calculate My Lost Revenue"}
                   </Button>
                 </form>
+              </CardContent>
+            </Card>
+          ) : showSuccess ? (
+            <Card className="border-primary bg-card">
+              <CardContent className="pt-8 text-center space-y-6">
+                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-4">
+                  <CheckCircle className="w-10 h-10 text-primary" />
+                </div>
+                <h2 className="text-3xl font-bold">Request Submitted!</h2>
+                <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                  Thank you for your interest. We'll process your request and get back to you soon.
+                </p>
+                <div className="pt-4">
+                  <Link to="/features">
+                    <Button size="lg">
+                      Learn How Our Automation Works
+                    </Button>
+                  </Link>
+                </div>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setShowResults(false);
+                    setShowSuccess(false);
+                    setStep(1);
+                    setSelectedOptions({
+                      callBack: false,
+                      scheduleCall: false,
+                      emailDetails: false,
+                      liveDemo: false,
+                    });
+                  }}
+                  className="mt-4"
+                >
+                  Calculate Again
+                </Button>
               </CardContent>
             </Card>
           ) : (
@@ -236,38 +333,205 @@ const LostRevenueCalculator = () => {
                   </div>
 
                   <div className="bg-primary/10 border border-primary/20 rounded-lg p-6">
-                    <div className="flex items-start gap-4">
-                      <Phone className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
-                      <div>
-                        <h3 className="font-semibold text-lg mb-2">
-                          Stop Losing Revenue Today
-                        </h3>
-                        <p className="text-muted-foreground mb-4">
-                          With Veridian's Voice AI, you can capture every call 24/7 and turn missed opportunities into revenue. Our AI receptionist answers calls instantly, qualifies leads, and books appointments automatically.
-                        </p>
-                        <Button size="lg" className="w-full md:w-auto">
-                          Schedule Free Demo
-                        </Button>
+                    <h3 className="font-semibold text-lg mb-4 text-center">
+                      What would you like to do next?
+                    </h3>
+                    <p className="text-muted-foreground text-center mb-6">
+                      Select one or more options below (you can choose multiple)
+                    </p>
+
+                    <form onSubmit={handleFollowUpSubmit} className="space-y-6">
+                      {/* Request Call Back */}
+                      <div className="border border-border rounded-lg p-4 bg-background">
+                        <div className="flex items-start gap-3 mb-3">
+                          <Checkbox
+                            id="callBack"
+                            checked={selectedOptions.callBack}
+                            onCheckedChange={(checked) =>
+                              setSelectedOptions((prev) => ({ ...prev, callBack: checked as boolean }))
+                            }
+                          />
+                          <div className="flex-1">
+                            <Label htmlFor="callBack" className="cursor-pointer font-semibold flex items-center gap-2">
+                              <Phone className="w-4 h-4" />
+                              Request a Call Back
+                            </Label>
+                            <p className="text-sm text-muted-foreground mt-1">
+                              We'll call you to discuss your needs
+                            </p>
+                          </div>
+                        </div>
+                        {selectedOptions.callBack && (
+                          <div className="grid md:grid-cols-2 gap-4 mt-4 animate-fade-in">
+                            <div className="space-y-2">
+                              <Label htmlFor="phone">Phone Number *</Label>
+                              <Input
+                                id="phone"
+                                name="phone"
+                                type="tel"
+                                placeholder="(555) 123-4567"
+                                className="bg-card"
+                                required
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="businessName-callBack">Business Name *</Label>
+                              <Input
+                                id="businessName-callBack"
+                                name="businessName-callBack"
+                                placeholder="Your Business"
+                                className="bg-card"
+                                required
+                              />
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    </div>
+
+                      {/* Schedule a Call */}
+                      <div className="border border-border rounded-lg p-4 bg-background">
+                        <div className="flex items-start gap-3 mb-3">
+                          <Checkbox
+                            id="scheduleCall"
+                            checked={selectedOptions.scheduleCall}
+                            onCheckedChange={(checked) =>
+                              setSelectedOptions((prev) => ({ ...prev, scheduleCall: checked as boolean }))
+                            }
+                          />
+                          <div className="flex-1">
+                            <Label htmlFor="scheduleCall" className="cursor-pointer font-semibold flex items-center gap-2">
+                              <Calendar className="w-4 h-4" />
+                              Schedule a Call
+                            </Label>
+                            <p className="text-sm text-muted-foreground mt-1">
+                              Pick a time that works for you
+                            </p>
+                          </div>
+                        </div>
+                        {selectedOptions.scheduleCall && (
+                          <div className="grid md:grid-cols-3 gap-4 mt-4 animate-fade-in">
+                            <div className="space-y-2">
+                              <Label htmlFor="businessName-scheduleCall">Business Name *</Label>
+                              <Input
+                                id="businessName-scheduleCall"
+                                name="businessName-scheduleCall"
+                                placeholder="Your Business"
+                                className="bg-card"
+                                required
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="preferredDate">Preferred Date *</Label>
+                              <Input
+                                id="preferredDate"
+                                name="preferredDate"
+                                type="date"
+                                className="bg-card"
+                                required
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="preferredTime">Preferred Time *</Label>
+                              <Input
+                                id="preferredTime"
+                                name="preferredTime"
+                                type="time"
+                                className="bg-card"
+                                required
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Request Email with Details */}
+                      <div className="border border-border rounded-lg p-4 bg-background">
+                        <div className="flex items-start gap-3 mb-3">
+                          <Checkbox
+                            id="emailDetails"
+                            checked={selectedOptions.emailDetails}
+                            onCheckedChange={(checked) =>
+                              setSelectedOptions((prev) => ({ ...prev, emailDetails: checked as boolean }))
+                            }
+                          />
+                          <div className="flex-1">
+                            <Label htmlFor="emailDetails" className="cursor-pointer font-semibold flex items-center gap-2">
+                              <Mail className="w-4 h-4" />
+                              Request Email with More Details
+                            </Label>
+                            <p className="text-sm text-muted-foreground mt-1">
+                              Get detailed information sent to your inbox
+                            </p>
+                          </div>
+                        </div>
+                        {selectedOptions.emailDetails && (
+                          <div className="mt-4 animate-fade-in">
+                            <div className="space-y-2">
+                              <Label htmlFor="businessName-emailDetails">Business Name *</Label>
+                              <Input
+                                id="businessName-emailDetails"
+                                name="businessName-emailDetails"
+                                placeholder="Your Business"
+                                className="bg-card"
+                                required
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* View Live Demo */}
+                      <div className="border border-border rounded-lg p-4 bg-background">
+                        <div className="flex items-start gap-3 mb-3">
+                          <Checkbox
+                            id="liveDemo"
+                            checked={selectedOptions.liveDemo}
+                            onCheckedChange={(checked) =>
+                              setSelectedOptions((prev) => ({ ...prev, liveDemo: checked as boolean }))
+                            }
+                          />
+                          <div className="flex-1">
+                            <Label htmlFor="liveDemo" className="cursor-pointer font-semibold flex items-center gap-2">
+                              <Video className="w-4 h-4" />
+                              View a Live Demo
+                            </Label>
+                            <p className="text-sm text-muted-foreground mt-1">
+                              See our Voice AI in action
+                            </p>
+                          </div>
+                        </div>
+                        {selectedOptions.liveDemo && (
+                          <div className="mt-4 animate-fade-in">
+                            <div className="space-y-2">
+                              <Label htmlFor="businessName-liveDemo">Business Name *</Label>
+                              <Input
+                                id="businessName-liveDemo"
+                                name="businessName-liveDemo"
+                                placeholder="Your Business"
+                                className="bg-card"
+                                required
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      <Button
+                        type="submit"
+                        size="lg"
+                        className="w-full"
+                        disabled={!Object.values(selectedOptions).some(Boolean)}
+                      >
+                        Submit Request
+                      </Button>
+                    </form>
                   </div>
                 </CardContent>
               </Card>
-
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setShowResults(false);
-                  setCalculatedResults(null);
-                }}
-                className="mx-auto block"
-              >
-                Calculate Again
-              </Button>
             </div>
           )}
 
-          {!showResults && averageCallValue && missedCallsPerDay && (
+          {!showResults && step === 1 && averageCallValue && missedCallsPerDay && (
             <Card className="mt-8 border-primary/50 bg-primary/5">
               <CardContent className="pt-6">
                 <p className="text-center text-muted-foreground mb-2">
