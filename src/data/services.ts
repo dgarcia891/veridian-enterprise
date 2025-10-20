@@ -95,7 +95,7 @@ export const services: Service[] = [
     pricing: [
       {
         name: "Monthly",
-        price: "$299",
+        price: "$600",
         period: "/month",
         description: "Perfect for trying out the service with no long-term commitment",
         features: [
@@ -111,12 +111,12 @@ export const services: Service[] = [
       },
       {
         name: "Annual",
-        price: "$249",
+        price: "$300",
         period: "/month",
-        description: "Save $600/year with annual billing - our most popular plan",
+        description: "Save $3,600/year with annual billing - our most popular plan",
         features: [
           "Everything in Monthly, plus:",
-          "2 months free (billed $2,988/year)",
+          "50% off (billed $3,600/year)",
           "Priority support",
           "Advanced customization",
           "Dedicated account manager",
