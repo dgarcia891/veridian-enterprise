@@ -40,7 +40,6 @@ const LostRevenueCalculator = () => {
     callBack: false,
     scheduleCall: false,
     emailDetails: false,
-    liveDemo: false,
   });
   const [showSuccess, setShowSuccess] = useState(false);
   const { toast } = useToast();
@@ -113,11 +112,6 @@ const LostRevenueCalculator = () => {
     if (selectedOptions.emailDetails) {
       followUpData.emailDetails = {
         businessName: formData.get("businessName-emailDetails"),
-      };
-    }
-    if (selectedOptions.liveDemo) {
-      followUpData.liveDemo = {
-        businessName: formData.get("businessName-liveDemo"),
       };
     }
 
@@ -284,7 +278,6 @@ const LostRevenueCalculator = () => {
                       callBack: false,
                       scheduleCall: false,
                       emailDetails: false,
-                      liveDemo: false,
                     });
                   }}
                   className="mt-4"
