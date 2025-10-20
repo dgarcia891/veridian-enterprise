@@ -1,10 +1,52 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MessageSquare } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useState, useEffect } from "react";
 
 const Hero = () => {
+  const { toast } = useToast();
+  const [isWidgetReady, setIsWidgetReady] = useState(false);
+
+  useEffect(() => {
+    // Check if widget is ready
+    const checkWidget = setInterval(() => {
+      if (window.RetellWebClient) {
+        setIsWidgetReady(true);
+        clearInterval(checkWidget);
+      }
+    }, 100);
+
+    // Timeout after 10 seconds
+    const timeout = setTimeout(() => {
+      clearInterval(checkWidget);
+      if (!window.RetellWebClient) {
+        console.error("Retell widget failed to load");
+      }
+    }, 10000);
+
+    return () => {
+      clearInterval(checkWidget);
+      clearTimeout(timeout);
+    };
+  }, []);
+
   const openRetellChat = () => {
     if (window.RetellWebClient) {
-      window.RetellWebClient.open();
+      try {
+        window.RetellWebClient.open();
+      } catch (error) {
+        console.error("Error opening Retell chat:", error);
+        toast({
+          title: "Connection Error",
+          description: "Unable to start chat. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } else {
+      toast({
+        title: "Loading Chat",
+        description: "Please wait a moment while we connect...",
+      });
     }
   };
 
@@ -40,15 +82,17 @@ const Hero = () => {
           <div className="mt-12 flex flex-wrap gap-4 animate-fade-in [animation-delay:400ms] opacity-0 [animation-fill-mode:forwards]">
             <Button 
               onClick={openRetellChat} 
-              className="bg-white text-black rounded-full px-8 py-3 text-sm font-medium hover:bg-white/90 transition-all duration-300 flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
+              disabled={!isWidgetReady}
+              className="bg-white text-black rounded-full px-8 py-3 text-sm font-medium hover:bg-white/90 hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               aria-label="Schedule free demo - open Retell chat"
             >
               Schedule Free Demo
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" aria-hidden="true" />
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
             </Button>
             <Button 
-              onClick={openRetellChat} 
-              className="bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full px-8 py-3 text-sm font-medium hover:bg-white/30 hover:border-white/40 transition-all duration-300 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
+              onClick={openRetellChat}
+              disabled={!isWidgetReady}
+              className="bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full px-8 py-3 text-sm font-medium hover:bg-white/30 hover:border-white/40 hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               aria-label="Calculate your lost revenue - open Retell chat"
             >
               <MessageSquare size={16} aria-hidden="true" />
