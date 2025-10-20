@@ -25,7 +25,7 @@ const ServiceDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground"
+    <div className="min-h-screen bg-background text-foreground">
 
       <a 
         href="#main-content" 
