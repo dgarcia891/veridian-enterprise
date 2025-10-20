@@ -1,5 +1,6 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
 import { Target, Users, TrendingUp, BarChart3, Zap, Shield } from "lucide-react";
 
 const Services = () => {
@@ -61,12 +62,13 @@ const Services = () => {
           <p className="text-white/70 mb-8 max-w-2xl mx-auto">
             Let's calculate how much revenue you're losing from missed calls and show you how our Voice AI Agent can help.
           </p>
-          <a
-            href="#contact"
-            className="inline-block bg-primary text-white px-8 py-4 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+          <Button
+            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            className="px-8 py-6 text-base rounded-lg"
+            size="lg"
           >
             Schedule Your Free Demo
-          </a>
+          </Button>
         </section>
       </main>
       <Footer />
