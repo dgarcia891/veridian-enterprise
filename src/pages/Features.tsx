@@ -94,7 +94,7 @@ const Features = () => {
               How Our Voice AI Automation Works
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Discover how Veridian's Voice AI captures every call, qualifies leads, and books appointments automatically—so you can focus on growing your business.
+              Discover how Veridian Enterprises LLC's Voice AI captures every call, qualifies leads, and books appointments automatically—so you can focus on growing your business.
             </p>
           </div>
 

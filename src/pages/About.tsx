@@ -6,7 +6,7 @@ const About = () => {
     <div className="min-h-screen bg-black text-white">
       <Navigation />
       <main className="max-w-6xl mx-auto px-6 py-20">
-        <h1 className="text-4xl md:text-6xl font-bold mb-8 text-center">About Veridian</h1>
+        <h1 className="text-4xl md:text-6xl font-bold mb-8 text-center">About Veridian Enterprises LLC</h1>
         <p className="text-xl text-white/70 mb-16 text-center max-w-3xl mx-auto">
           Helping local businesses capture every customer call with intelligent Voice AI receptionist technology.
         </p>
@@ -15,7 +15,7 @@ const About = () => {
           <div>
             <h2 className="text-3xl font-bold mb-6">Our Mission</h2>
             <p className="text-white/80 leading-relaxed max-w-4xl">
-              At Veridian, we believe that every phone call represents an opportunity. Our mission is to ensure local businesses never miss another customer call by providing cutting-edge Voice AI receptionist technology that captures revenue 24/7.
+              At Veridian Enterprises LLC, we believe that every phone call represents an opportunity. Our mission is to ensure local businesses never miss another customer call by providing cutting-edge Voice AI receptionist technology that captures revenue 24/7.
             </p>
           </div>
 
@@ -53,7 +53,7 @@ const About = () => {
           <div className="bg-gradient-to-r from-primary/10 to-primary/5 p-12 rounded-lg border border-white/10">
             <h2 className="text-3xl font-bold mb-6">Our Story</h2>
             <p className="text-white/80 leading-relaxed mb-4">
-              Founded in 2020, Veridian emerged from a simple observation: local businesses were losing thousands in revenue every week from unanswered phone calls. The technology existed to solve this, but it was expensive, complex, and inaccessible to most small businesses.
+              Founded in 2020, Veridian Enterprises LLC emerged from a simple observation: local businesses were losing thousands in revenue every week from unanswered phone calls. The technology existed to solve this, but it was expensive, complex, and inaccessible to most small businesses.
             </p>
             <p className="text-white/80 leading-relaxed mb-4">
               Our founders, experts in both AI technology and local business operations, saw an opportunity to democratize this technology. By creating templated solutions that could be deployed in minutes instead of months, we made enterprise-level Voice AI affordable for every business.
@@ -64,7 +64,7 @@ const About = () => {
           </div>
 
           <div>
-            <h2 className="text-3xl font-bold mb-8 text-center">Why Choose Veridian</h2>
+            <h2 className="text-3xl font-bold mb-8 text-center">Why Choose Veridian Enterprises LLC</h2>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="flex items-start space-x-4">
                 <div className="bg-primary/20 p-2 rounded">

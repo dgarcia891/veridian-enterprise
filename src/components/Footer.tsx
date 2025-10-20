@@ -43,7 +43,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-12">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <div className="text-foreground font-bold text-xl mb-4">Veridian</div>
+            <div className="text-foreground font-bold text-xl mb-4">Veridian Enterprises LLC</div>
             <p className="text-muted-foreground mb-6 max-w-sm">
               Never miss another customer call with our intelligent 24/7 Voice AI receptionist service.
             </p>
@@ -104,7 +104,7 @@ const Footer = () => {
         {/* Bottom */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-border">
           <p className="text-muted-foreground text-sm mb-4 md:mb-0">
-            © 2024 Veridian. All rights reserved.
+            © 2024 Veridian Enterprises LLC. All rights reserved.
           </p>
           <nav className="flex space-x-6 text-sm" aria-label="Legal links">
             <Link to="/privacy-policy" className="text-muted-foreground hover:text-foreground transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded-sm">

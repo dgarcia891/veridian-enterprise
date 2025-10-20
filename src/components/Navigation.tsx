@@ -23,9 +23,9 @@ const Navigation = () => {
         <Link 
           to="/" 
           className="text-foreground font-bold text-xl hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded-sm" 
-          aria-label="Veridian home"
+          aria-label="Veridian Enterprises LLC home"
         >
-          Veridian
+          Veridian Enterprises LLC
         </Link>
         
         {/* Desktop Navigation */}
@@ -100,7 +100,7 @@ const Navigation = () => {
           className="hidden md:block glass-button rounded-full px-6 py-2 text-sm hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary"
           onClick={openChat}
           disabled={!isWidgetReady}
-          aria-label="Get started with Veridian"
+          aria-label="Get started with Veridian Enterprises LLC"
         >
           Get Started
         </Button>
@@ -179,7 +179,7 @@ const Navigation = () => {
                 openChat();
               }}
               disabled={!isWidgetReady}
-              aria-label="Get started with Veridian"
+              aria-label="Get started with Veridian Enterprises LLC"
             >
               Get Started
             </Button>
