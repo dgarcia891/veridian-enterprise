@@ -531,18 +531,6 @@ const LostRevenueCalculator = () => {
             </div>
           )}
 
-          {!showResults && step === 1 && averageCallValue && missedCallsPerDay && (
-            <Card className="mt-8 border-primary/50 bg-primary/5">
-              <CardContent className="pt-6">
-                <p className="text-center text-muted-foreground mb-2">
-                  Preview: With these numbers, you could be losing approximately
-                </p>
-                <p className="text-center text-2xl font-bold text-primary">
-                  ${((averageCallValue || 0) * (missedCallsPerDay || 0) * 365).toLocaleString()} per year
-                </p>
-              </CardContent>
-            </Card>
-          )}
         </div>
       </main>
 
