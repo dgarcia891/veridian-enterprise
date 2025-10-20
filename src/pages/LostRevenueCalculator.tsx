@@ -481,40 +481,22 @@ const LostRevenueCalculator = () => {
                       </div>
 
                       {/* View Live Demo */}
-                      <div className="border border-border rounded-lg p-4 bg-background">
-                        <div className="flex items-start gap-3 mb-3">
-                          <Checkbox
-                            id="liveDemo"
-                            checked={selectedOptions.liveDemo}
-                            onCheckedChange={(checked) =>
-                              setSelectedOptions((prev) => ({ ...prev, liveDemo: checked as boolean }))
-                            }
-                          />
+                      <a 
+                        href="tel:+16612634388"
+                        className="block border border-border rounded-lg p-4 bg-background hover:bg-accent/50 transition-colors"
+                      >
+                        <div className="flex items-start gap-3">
                           <div className="flex-1">
-                            <Label htmlFor="liveDemo" className="cursor-pointer font-semibold flex items-center gap-2">
+                            <div className="font-semibold flex items-center gap-2">
                               <Video className="w-4 h-4" />
                               View a Live Demo
-                            </Label>
+                            </div>
                             <p className="text-sm text-muted-foreground mt-1">
-                              See our Voice AI in action
+                              Call +1 (661) 263-4388 to see our Voice AI in action
                             </p>
                           </div>
                         </div>
-                        {selectedOptions.liveDemo && (
-                          <div className="mt-4 animate-fade-in">
-                            <div className="space-y-2">
-                              <Label htmlFor="businessName-liveDemo">Business Name *</Label>
-                              <Input
-                                id="businessName-liveDemo"
-                                name="businessName-liveDemo"
-                                placeholder="Your Business"
-                                className="bg-card"
-                                required
-                              />
-                            </div>
-                          </div>
-                        )}
-                      </div>
+                      </a>
 
                       <Button
                         type="submit"
