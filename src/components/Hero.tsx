@@ -12,10 +12,11 @@ const Hero = () => {
     }, 500);
     return () => clearTimeout(timer);
   }, []);
-  const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({
-      behavior: 'smooth'
-    });
+
+  const openRetellChat = () => {
+    if (window.RetellWebClient) {
+      window.RetellWebClient.open();
+    }
   };
 
   return (
@@ -52,17 +53,17 @@ const Hero = () => {
           
           <div className="mt-12 flex flex-wrap gap-4 animate-fade-in [animation-delay:400ms] opacity-0 [animation-fill-mode:forwards]">
             <Button 
-              onClick={scrollToContact} 
+              onClick={openRetellChat} 
               className="bg-white text-black rounded-full px-8 py-3 text-sm font-medium hover:bg-white/90 transition-all duration-300 flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
-              aria-label="Schedule free demo - scroll to contact form"
+              aria-label="Schedule free demo - open Retell chat"
             >
               Schedule Free Demo
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" aria-hidden="true" />
             </Button>
             <Button 
-              onClick={scrollToContact} 
+              onClick={openRetellChat} 
               className="bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full px-8 py-3 text-sm font-medium hover:bg-white/30 hover:border-white/40 transition-all duration-300 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
-              aria-label="Calculate your lost revenue - scroll to contact form"
+              aria-label="Calculate your lost revenue - open Retell chat"
             >
               <MessageSquare size={16} aria-hidden="true" />
               Calculate Lost Revenue

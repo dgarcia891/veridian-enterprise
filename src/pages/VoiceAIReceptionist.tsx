@@ -4,10 +4,10 @@ import { Phone, Clock, CheckCircle, DollarSign, Calendar, Shield } from "lucide-
 import { Button } from "@/components/ui/button";
 
 const VoiceAIReceptionist = () => {
-  const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({
-      behavior: 'smooth'
-    });
+  const openRetellChat = () => {
+    if (window.RetellWebClient) {
+      window.RetellWebClient.open();
+    }
   };
 
   const features = [
@@ -221,7 +221,7 @@ const VoiceAIReceptionist = () => {
             Let's calculate exactly how much revenue you're losing and show you how our Voice AI Agent can transform your business.
           </p>
           <Button
-            onClick={scrollToContact}
+            onClick={openRetellChat}
             className="bg-white text-black px-8 py-4 rounded-lg font-semibold hover:bg-white/90 transition-colors text-lg"
           >
             Schedule Your Live Demo
