@@ -56,7 +56,7 @@ const ServiceDetail = () => {
 
         <ServiceCTA 
           headline="Ready to Stop Losing Revenue?"
-          description="Join 500+ businesses that never miss a call. Setup takes just 10 minutes, and one recovered call pays for months of service."
+          description="Never miss a call again. Setup takes just 10 minutes, and one recovered call pays for months of service."
           buttonText="Schedule Free Demo"
         />
       </main>

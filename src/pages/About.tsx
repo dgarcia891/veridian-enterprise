@@ -12,30 +12,18 @@ const About = () => {
         </p>
 
         <section className="space-y-16">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl font-bold mb-6">Our Mission</h2>
-              <p className="text-white/80 leading-relaxed">
-                At Veridian, we believe that every phone call represents an opportunity. Our mission is to ensure local businesses never miss another customer call by providing cutting-edge Voice AI receptionist technology that captures revenue 24/7.
-              </p>
-            </div>
-            <div className="bg-gradient-to-br from-primary/20 to-primary/5 p-8 rounded-lg border border-white/10">
-              <div className="text-5xl font-bold text-primary mb-2">500+</div>
-              <p className="text-white/70">Businesses Transformed</p>
-            </div>
+          <div>
+            <h2 className="text-3xl font-bold mb-6">Our Mission</h2>
+            <p className="text-white/80 leading-relaxed max-w-4xl">
+              At Veridian, we believe that every phone call represents an opportunity. Our mission is to ensure local businesses never miss another customer call by providing cutting-edge Voice AI receptionist technology that captures revenue 24/7.
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="bg-gradient-to-br from-primary/20 to-primary/5 p-8 rounded-lg border border-white/10 md:order-2">
-              <div className="text-5xl font-bold text-primary mb-2">$50M+</div>
-              <p className="text-white/70">Revenue Generated for Clients</p>
-            </div>
-            <div className="md:order-1">
-              <h2 className="text-3xl font-bold mb-6">Our Vision</h2>
-              <p className="text-white/80 leading-relaxed">
-                We envision a world where no business loses money from unanswered calls. By making intelligent Voice AI accessible and affordable, we're helping local businesses compete with larger competitors and maximize every revenue opportunity.
-              </p>
-            </div>
+          <div>
+            <h2 className="text-3xl font-bold mb-6">Our Vision</h2>
+            <p className="text-white/80 leading-relaxed max-w-4xl">
+              We envision a world where no business loses money from unanswered calls. By making intelligent Voice AI accessible and affordable, we're helping local businesses compete with larger competitors and maximize every revenue opportunity.
+            </p>
           </div>
 
           <div>

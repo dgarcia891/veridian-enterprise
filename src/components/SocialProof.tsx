@@ -60,7 +60,7 @@ const SocialProof = ({
 
         <div className="text-center mt-12">
           <p className="text-2xl font-semibold text-muted-foreground">
-            Join 500+ businesses capturing every call
+            Start capturing every call with Voice AI
           </p>
         </div>
       </div>

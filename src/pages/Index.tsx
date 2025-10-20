@@ -47,7 +47,7 @@ const Index = () => {
 
         <ServiceCTA 
           headline="Ready to Stop Losing Revenue?"
-          description="Join 500+ businesses that capture every call, 24/7. Setup takes 10 minutes, and one recovered call pays for months of service."
+          description="Capture every call, 24/7. Setup takes 10 minutes, and one recovered call pays for months of service."
           buttonText="Get Started Today"
         />
       </main>
