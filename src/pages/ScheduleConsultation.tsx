@@ -7,8 +7,8 @@ import { Helmet } from "react-helmet";
 const ScheduleConsultation = () => {
   useEffect(() => {
     (async function () {
-      const cal = await getCalApi({ namespace: "veridian" });
-      cal("ui", { theme: "dark", hideEventTypeDetails: false, layout: "month_view" });
+      const cal = await getCalApi({"namespace":"veridian"});
+      cal("ui", {"theme":"dark","hideEventTypeDetails":false,"layout":"month_view"});
     })();
   }, []);
 
@@ -37,8 +37,8 @@ const ScheduleConsultation = () => {
               <Cal 
                 namespace="veridian"
                 calLink="david-garcia-89/veridian"
-                style={{ width: "100%", height: "100%", overflow: "scroll" }}
-                config={{ layout: "month_view", theme: "dark" }}
+                style={{width:"100%",height:"100%",overflow:"scroll"}}
+                config={{"layout":"month_view","theme":"dark"}}
               />
             </div>
           </div>
