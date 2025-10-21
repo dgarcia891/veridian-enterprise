@@ -7,8 +7,12 @@ import { Helmet } from "react-helmet";
 const ScheduleConsultation = () => {
   useEffect(() => {
     (async function () {
-      const cal = await getCalApi({"namespace":"veridian"});
-      cal("ui", {"theme":"dark","hideEventTypeDetails":false,"layout":"month_view"});
+      const cal = await getCalApi();
+      cal("ui", {
+        theme: "dark",
+        hideEventTypeDetails: false,
+        layout: "month_view"
+      });
     })();
   }, []);
 
@@ -35,10 +39,9 @@ const ScheduleConsultation = () => {
             
             <div className="bg-card rounded-2xl shadow-lg p-6 min-h-[700px]">
               <Cal 
-                namespace="veridian"
                 calLink="david-garcia-89/veridian"
                 style={{width:"100%",height:"100%",overflow:"scroll"}}
-                config={{"layout":"month_view","theme":"dark"}}
+                config={{layout:"month_view"}}
               />
             </div>
           </div>
