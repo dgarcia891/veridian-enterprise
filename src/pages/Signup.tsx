@@ -99,15 +99,12 @@ const Signup = () => {
       if (signupError) throw signupError;
 
       if (values.wantsCallFirst) {
-        // Redirect to Cal.com for scheduling
-        const calUrl = `https://cal.com/your-calendar?name=${encodeURIComponent(values.contactName)}&email=${encodeURIComponent(values.email)}`;
-        window.open(calUrl, "_blank");
-        
+        // Navigate to embedded calendar for scheduling
         toast({
           title: "Registration Successful!",
-          description: "Opening calendar to schedule your consultation call.",
+          description: "Redirecting to schedule your consultation call.",
         });
-        navigate("/");
+        navigate("/schedule-consultation");
       } else {
         // Process payment
         setIsProcessingPayment(true);
