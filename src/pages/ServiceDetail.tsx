@@ -16,7 +16,7 @@ const ServiceDetail = () => {
 
   useEffect(() => {
     if (service) {
-      document.title = `${service.name} | Veridian Enterprises LLC`;
+      document.title = `${service.name} | AI Agents 3000`;
     }
   }, [service]);
 

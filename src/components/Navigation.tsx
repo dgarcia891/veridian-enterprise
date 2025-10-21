@@ -22,9 +22,9 @@ const Navigation = () => {
         <Link 
           to="/" 
           className="text-foreground font-bold text-xl hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded-sm" 
-          aria-label="Veridian Enterprises LLC home"
+          aria-label="AI Agents 3000 home"
         >
-          Veridian Enterprises LLC
+          AI Agents 3000
         </Link>
         
         {/* Desktop Navigation */}
@@ -98,7 +98,7 @@ const Navigation = () => {
         <Button 
           className="hidden md:block glass-button rounded-full px-6 py-2 text-sm hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary"
           onClick={() => navigate("/signup")}
-          aria-label="Get started with Veridian Enterprises LLC"
+          aria-label="Get started with AI Agents 3000"
         >
           Get Started
         </Button>
@@ -176,7 +176,7 @@ const Navigation = () => {
                 setIsOpen(false);
                 navigate("/signup");
               }}
-              aria-label="Get started with Veridian Enterprises LLC"
+              aria-label="Get started with AI Agents 3000"
             >
               Get Started
             </Button>

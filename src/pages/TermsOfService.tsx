@@ -13,7 +13,7 @@ const TermsOfService = () => {
           <div>
             <h2 className="text-2xl font-semibold text-white mb-4">1. Acceptance of Terms</h2>
             <p>
-              By accessing and using Veridian Enterprises LLC's services, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to these terms, please do not use our services.
+              By accessing and using AI Agents 3000's services, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to these terms, please do not use our services.
             </p>
           </div>
 
@@ -31,7 +31,7 @@ const TermsOfService = () => {
           <div>
             <h2 className="text-2xl font-semibold text-white mb-4">3. Intellectual Property</h2>
             <p>
-              All content, features, and functionality of our services are owned by Veridian Enterprises LLC and are protected by international copyright, trademark, and other intellectual property laws.
+              All content, features, and functionality of our services are owned by AI Agents 3000 and are protected by international copyright, trademark, and other intellectual property laws.
             </p>
           </div>
 
@@ -56,7 +56,7 @@ const TermsOfService = () => {
           <div>
             <h2 className="text-2xl font-semibold text-white mb-4">6. Limitation of Liability</h2>
             <p>
-              Veridian Enterprises LLC shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use our services.
+              AI Agents 3000 shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use our services.
             </p>
           </div>
 
@@ -77,7 +77,7 @@ const TermsOfService = () => {
           <div>
             <h2 className="text-2xl font-semibold text-white mb-4">9. Governing Law</h2>
             <p>
-              These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which Veridian Enterprises LLC operates, without regard to its conflict of law provisions.
+              These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which AI Agents 3000 operates, without regard to its conflict of law provisions.
             </p>
           </div>
 

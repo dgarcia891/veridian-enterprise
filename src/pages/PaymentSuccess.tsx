@@ -12,7 +12,7 @@ const PaymentSuccess = () => {
   const sessionId = searchParams.get("session_id");
 
   useEffect(() => {
-    document.title = "Payment Successful - Veridian Enterprise";
+    document.title = "Payment Successful - AI Agents 3000";
   }, []);
 
   const handleScheduleAppointment = () => {
@@ -35,7 +35,7 @@ const PaymentSuccess = () => {
             Payment Successful!
           </h1>
           <p className="text-xl text-muted-foreground mb-8">
-            Thank you for choosing Veridian Enterprise's Voice AI Receptionist
+            Thank you for choosing AI Agents 3000's Voice AI Receptionist
           </p>
 
           <Card className="mb-8 text-left">

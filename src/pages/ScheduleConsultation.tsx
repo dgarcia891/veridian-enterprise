@@ -7,8 +7,8 @@ const ScheduleConsultation = () => {
   return (
     <>
       <Helmet>
-        <title>Schedule Consultation - Veridian Voice AI</title>
-        <meta name="description" content="Schedule a consultation with Veridian Voice AI to discuss how our AI receptionist can transform your business communication." />
+        <title>Schedule Consultation - AI Agents 3000</title>
+        <meta name="description" content="Schedule a consultation with AI Agents 3000 to discuss how our AI receptionist can transform your business communication." />
       </Helmet>
       
       <div className="min-h-screen bg-background flex flex-col">
@@ -21,7 +21,7 @@ const ScheduleConsultation = () => {
                 Schedule Your Consultation
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Book a time to discuss how Veridian Voice AI can help your business never miss another call.
+                Book a time to discuss how AI Agents 3000 can help your business never miss another call.
               </p>
             </div>
             
