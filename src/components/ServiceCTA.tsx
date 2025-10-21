@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { useRetellWidget } from "@/hooks/useRetellWidget";
+import { useNavigate } from "react-router-dom";
 
 interface ServiceCTAProps {
   headline: string;
@@ -13,7 +13,7 @@ const ServiceCTA = ({
   description, 
   buttonText = "Get Started Now" 
 }: ServiceCTAProps) => {
-  const { isWidgetReady, openChat } = useRetellWidget();
+  const navigate = useNavigate();
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-background to-card">
@@ -25,10 +25,9 @@ const ServiceCTA = ({
           {description}
         </p>
         <Button 
-          onClick={openChat}
-          disabled={!isWidgetReady}
+          onClick={() => navigate("/signup")}
           size="lg"
-          className="bg-primary text-primary-foreground rounded-full px-10 py-6 text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+          className="bg-primary text-primary-foreground rounded-full px-10 py-6 text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group"
         >
           {buttonText}
           <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />

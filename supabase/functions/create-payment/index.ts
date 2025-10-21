@@ -1,0 +1,96 @@
+import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import Stripe from "https://esm.sh/stripe@18.5.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
+
+serve(async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  try {
+    const supabaseClient = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+    );
+
+    const { signupId, planType, email } = await req.json();
+    
+    if (!signupId || !planType || !email) {
+      throw new Error("Missing required parameters");
+    }
+
+    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
+      apiVersion: "2025-08-27.basil",
+    });
+
+    // Check for existing customer
+    const customers = await stripe.customers.list({ email, limit: 1 });
+    let customerId = customers.data.length > 0 ? customers.data[0].id : undefined;
+
+    // Create customer if doesn't exist
+    if (!customerId) {
+      const customer = await stripe.customers.create({ email });
+      customerId = customer.id;
+    }
+
+    // Determine pricing
+    const isAnnual = planType === "annual";
+    const amount = isAnnual ? 360000 : 105000; // $3,600 or $1,050 ($600 + $450 setup)
+    const description = isAnnual 
+      ? "Voice AI Receptionist - Annual Plan"
+      : "Voice AI Receptionist - Monthly Plan (includes $450 setup fee)";
+
+    // Create payment session
+    const session = await stripe.checkout.sessions.create({
+      customer: customerId,
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: description,
+              description: isAnnual ? "Billed annually at $300/month" : "First month + setup fee",
+            },
+            unit_amount: amount,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      success_url: `${req.headers.get("origin")}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${req.headers.get("origin")}/signup`,
+      metadata: {
+        signup_id: signupId,
+        plan_type: planType,
+      },
+    });
+
+    // Update signup record
+    await supabaseClient
+      .from("customer_signups")
+      .update({
+        stripe_customer_id: customerId,
+        payment_status: "pending",
+      })
+      .eq("id", signupId);
+
+    return new Response(JSON.stringify({ url: session.url }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 200,
+    });
+  } catch (error) {
+    console.error("Payment error:", error);
+    return new Response(
+      JSON.stringify({ error: error.message }),
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 500,
+      }
+    );
+  }
+});

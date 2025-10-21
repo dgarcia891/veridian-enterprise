@@ -14,7 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      customer_signups: {
+        Row: {
+          appointment_date: string | null
+          appointment_notes: string | null
+          appointment_scheduled: boolean | null
+          average_calls_per_day: number | null
+          company_name: string
+          contact_name: string
+          created_at: string
+          current_phone_system: string | null
+          email: string
+          id: string
+          industry: string | null
+          payment_status: string
+          phone: string
+          plan_type: string
+          stripe_customer_id: string | null
+          stripe_payment_intent_id: string | null
+          stripe_subscription_id: string | null
+          updated_at: string
+          wants_call_first: boolean | null
+        }
+        Insert: {
+          appointment_date?: string | null
+          appointment_notes?: string | null
+          appointment_scheduled?: boolean | null
+          average_calls_per_day?: number | null
+          company_name: string
+          contact_name: string
+          created_at?: string
+          current_phone_system?: string | null
+          email: string
+          id?: string
+          industry?: string | null
+          payment_status?: string
+          phone: string
+          plan_type: string
+          stripe_customer_id?: string | null
+          stripe_payment_intent_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          wants_call_first?: boolean | null
+        }
+        Update: {
+          appointment_date?: string | null
+          appointment_notes?: string | null
+          appointment_scheduled?: boolean | null
+          average_calls_per_day?: number | null
+          company_name?: string
+          contact_name?: string
+          created_at?: string
+          current_phone_system?: string | null
+          email?: string
+          id?: string
+          industry?: string | null
+          payment_status?: string
+          phone?: string
+          plan_type?: string
+          stripe_customer_id?: string | null
+          stripe_payment_intent_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          wants_call_first?: boolean | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

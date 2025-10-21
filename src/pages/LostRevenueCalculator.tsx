@@ -15,18 +15,15 @@ import { useToast } from "@/hooks/use-toast";
 import { Calculator, DollarSign, Phone, TrendingUp, Mail, Video, Calendar, CheckCircle } from "lucide-react";
 import { industries } from "@/data/industries";
 
-const step1Schema = z.object({
-  averageCallValue: z.coerce.number().min(1, "Average call value must be at least $1").max(100000, "Please enter a realistic value"),
-  missedCallsPerDay: z.coerce.number().min(0, "Cannot be negative").max(1000, "Please enter a realistic number"),
+const formSchema = z.object({
+  averageCallValue: z.number().min(1, "Average call value must be at least $1").max(100000, "Please enter a realistic value"),
+  missedCallsPerDay: z.number().min(0, "Cannot be negative").max(1000, "Please enter a realistic number"),
   businessType: z.string().min(1, "Please select a business type"),
-});
-
-const step2Schema = step1Schema.extend({
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
   email: z.string().trim().email("Invalid email address").max(255, "Email must be less than 255 characters"),
 });
 
-type FormData = z.infer<typeof step2Schema>;
+type FormData = z.infer<typeof formSchema>;
 
 const LostRevenueCalculator = () => {
   const [step, setStep] = useState(1);
@@ -51,7 +48,14 @@ const LostRevenueCalculator = () => {
     watch,
     setValue,
   } = useForm<FormData>({
-    resolver: zodResolver(step === 1 ? step1Schema : step2Schema),
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      averageCallValue: 0,
+      missedCallsPerDay: 0,
+      businessType: "",
+      name: "",
+      email: "",
+    },
   });
 
   const onSubmit = async (data: FormData) => {
