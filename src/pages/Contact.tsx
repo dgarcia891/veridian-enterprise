@@ -85,14 +85,6 @@ const Contact = () => {
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Ready to never miss another call? Contact us for a free demo and see how our Voice AI Receptionist can transform your business.
             </p>
-            <Button 
-              onClick={openChat}
-              size="lg"
-              className="mt-6"
-            >
-              <MessageSquare className="w-5 h-5 mr-2" />
-              Chat with AI Agent
-            </Button>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -131,6 +123,15 @@ const Contact = () => {
             </div>
 
             <div className="space-y-8">
+              <div 
+                onClick={openChat}
+                className="glass-card p-6 rounded-2xl cursor-pointer hover:bg-accent/50 transition-colors"
+              >
+                <MessageSquare className="w-8 h-8 text-primary mb-4" />
+                <h3 className="font-semibold mb-2">AI Agent Chat</h3>
+                <p className="text-muted-foreground">Chat with Rosie instantly</p>
+              </div>
+
               <div className="glass-card p-6 rounded-2xl">
                 <Mail className="w-8 h-8 text-primary mb-4" />
                 <h3 className="font-semibold mb-2">Email</h3>
