@@ -15,7 +15,7 @@ const PrivacyPolicy = () => {
               <p className="text-sm text-white/50 mb-8">Last Updated: October 18, 2025</p>
               
               <p className="mb-6">
-                At AI Agents 3000, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services.
+                At AI Agents 3000 (a subsidiary of Veridian Enterprises LLC), we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services.
               </p>
             </section>
 

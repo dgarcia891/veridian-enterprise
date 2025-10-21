@@ -7,8 +7,11 @@ const About = () => {
       <Navigation />
       <main className="max-w-6xl mx-auto px-6 py-20">
         <h1 className="text-4xl md:text-6xl font-bold mb-8 text-center">About AI Agents 3000</h1>
-        <p className="text-xl text-white/70 mb-16 text-center max-w-3xl mx-auto">
+        <p className="text-xl text-white/70 mb-4 text-center max-w-3xl mx-auto">
           Helping local businesses capture every customer call with intelligent Voice AI receptionist technology.
+        </p>
+        <p className="text-sm text-white/50 mb-16 text-center">
+          A subsidiary of Veridian Enterprises LLC
         </p>
 
         <section className="space-y-16">

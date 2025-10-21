@@ -13,7 +13,7 @@ const TermsOfService = () => {
           <div>
             <h2 className="text-2xl font-semibold text-white mb-4">1. Acceptance of Terms</h2>
             <p>
-              By accessing and using AI Agents 3000's services, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to these terms, please do not use our services.
+              By accessing and using AI Agents 3000's services (a subsidiary of Veridian Enterprises LLC), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to these terms, please do not use our services.
             </p>
           </div>
 
