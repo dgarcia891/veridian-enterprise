@@ -1,21 +1,9 @@
-import { useEffect } from "react";
-import Cal, { getCalApi } from "@calcom/embed-react";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
-import { Helmet } from "react-helmet";
+import Cal from '@calcom/embed-react';
+import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
+import { Helmet } from 'react-helmet';
 
 const ScheduleConsultation = () => {
-  useEffect(() => {
-    (async function () {
-      const cal = await getCalApi();
-      cal("ui", {
-        theme: "dark",
-        hideEventTypeDetails: false,
-        layout: "month_view"
-      });
-    })();
-  }, []);
-
   return (
     <>
       <Helmet>
@@ -41,7 +29,7 @@ const ScheduleConsultation = () => {
               <Cal 
                 calLink="david-garcia-89/veridian"
                 style={{width:"100%",height:"100%",overflow:"scroll"}}
-                config={{layout:"month_view"}}
+                config={{theme:"dark"}}
               />
             </div>
           </div>
