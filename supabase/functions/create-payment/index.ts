@@ -21,7 +21,36 @@ serve(async (req) => {
     const { signupId, planType, email } = await req.json();
     
     if (!signupId || !planType || !email) {
-      throw new Error("Missing required parameters");
+      console.error("[create-payment] Missing required parameters");
+      throw new Error("Invalid request parameters");
+    }
+
+    // Validate that the signup exists and matches the provided email
+    const { data: signup, error: signupError } = await supabaseClient
+      .from("customer_signups")
+      .select("email, payment_status")
+      .eq("id", signupId)
+      .maybeSingle();
+
+    if (signupError) {
+      console.error("[create-payment] Database error:", signupError);
+      throw new Error("Unable to process payment request");
+    }
+
+    if (!signup) {
+      console.error("[create-payment] Signup not found:", signupId);
+      throw new Error("Invalid signup reference");
+    }
+
+    if (signup.email !== email) {
+      console.error("[create-payment] Email mismatch for signup:", signupId);
+      throw new Error("Invalid signup reference");
+    }
+
+    // Check if payment already initiated
+    if (signup.payment_status !== "pending") {
+      console.error("[create-payment] Payment already processed:", signupId);
+      throw new Error("Payment already initiated for this signup");
     }
 
     // Determine which Stripe key to use based on mode
@@ -96,9 +125,16 @@ serve(async (req) => {
       status: 200,
     });
   } catch (error) {
-    console.error("Payment error:", error);
+    // Log detailed error server-side
+    console.error("[create-payment] Error:", error);
+    
+    // Return generic error message to client
+    const userMessage = error instanceof Error && error.message.includes("Invalid")
+      ? error.message
+      : "Payment processing failed. Please try again or contact support.";
+    
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: userMessage }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 500,

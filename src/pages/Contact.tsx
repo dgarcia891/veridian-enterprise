@@ -6,6 +6,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { z } from "zod";
+
+const contactSchema = z.object({
+  name: z.string().trim().min(2, "Name must be at least 2 characters").max(100, "Name too long"),
+  email: z.string().trim().email("Invalid email address").max(255, "Email too long"),
+  company: z.string().trim().max(200, "Company name too long").optional(),
+  phone: z.string().trim().max(20, "Phone number too long").optional(),
+  message: z.string().trim().min(10, "Message must be at least 10 characters").max(2000, "Message too long"),
+});
 
 const Contact = () => {
   const { toast } = useToast();
@@ -16,13 +25,28 @@ const Contact = () => {
     setIsSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
-    const data = {
+    const rawData = {
       name: formData.get('name'),
       email: formData.get('email'),
-      company: formData.get('company'),
-      phone: formData.get('phone'),
+      company: formData.get('company') || undefined,
+      phone: formData.get('phone') || undefined,
       message: formData.get('message')
     };
+
+    // Validate input data
+    const validation = contactSchema.safeParse(rawData);
+    if (!validation.success) {
+      const firstError = validation.error.issues[0];
+      toast({
+        variant: "destructive",
+        title: "Validation Error",
+        description: firstError.message,
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    const data = validation.data;
 
     try {
       const response = await fetch('https://script.google.com/macros/s/AKfycbxD8tEPF_wJtD2k9MXHqZuLEYNF5d2OTg5u06KCjfqfnPrDSlYwKRswWEVi82ORdoEm/exec', {
