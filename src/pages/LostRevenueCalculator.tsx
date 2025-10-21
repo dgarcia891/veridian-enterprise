@@ -362,7 +362,7 @@ const LostRevenueCalculator = () => {
                                 id="phone"
                                 name="phone"
                                 type="tel"
-                                placeholder="(555) 123-4567"
+                                placeholder="+1 661 263 4388"
                                 className="bg-card"
                                 required
                               />
