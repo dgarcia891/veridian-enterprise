@@ -77,7 +77,10 @@ const Pricing = ({
           ))}
         </div>
 
-        <div className="mt-12 text-center">
+        <div className="mt-12 text-center space-y-2">
+          <p className="text-sm text-muted-foreground">
+            *Medical practices are double the listed price
+          </p>
           <p className="text-muted-foreground">
             All plans include unlimited call handling, 24/7 availability, and no setup fees
           </p>
