@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
 import { z } from "zod";
+import { useRetellWidget } from "@/hooks/useRetellWidget";
 
 const contactSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100, "Name too long"),
@@ -19,6 +20,7 @@ const contactSchema = z.object({
 const Contact = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { openChat } = useRetellWidget();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -83,6 +85,14 @@ const Contact = () => {
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Ready to never miss another call? Contact us for a free demo and see how our Voice AI Receptionist can transform your business.
             </p>
+            <Button 
+              onClick={openChat}
+              size="lg"
+              className="mt-6"
+            >
+              <MessageSquare className="w-5 h-5 mr-2" />
+              Chat with AI Agent
+            </Button>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
