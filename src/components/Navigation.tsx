@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getActiveServices } from "@/data/services";
-import { useRetellWidget } from "@/hooks/useRetellWidget";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
-  const { isWidgetReady, openChat } = useRetellWidget();
+  const navigate = useNavigate();
   const activeServices = getActiveServices();
 
   const navItems = [
@@ -98,8 +97,7 @@ const Navigation = () => {
         {/* Desktop CTA Button */}
         <Button 
           className="hidden md:block glass-button rounded-full px-6 py-2 text-sm hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary"
-          onClick={openChat}
-          disabled={!isWidgetReady}
+          onClick={() => navigate("/signup")}
           aria-label="Get started with Veridian Enterprises LLC"
         >
           Get Started
@@ -176,9 +174,8 @@ const Navigation = () => {
               className="mt-4 glass-button rounded-full py-3 transition-all duration-200"
               onClick={() => {
                 setIsOpen(false);
-                openChat();
+                navigate("/signup");
               }}
-              disabled={!isWidgetReady}
               aria-label="Get started with Veridian Enterprises LLC"
             >
               Get Started
