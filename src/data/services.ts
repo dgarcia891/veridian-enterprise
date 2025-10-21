@@ -1,4 +1,4 @@
-import { LucideIcon, Clock, Phone, Zap, Target, CheckCircle, DollarSign } from "lucide-react";
+import { LucideIcon, Clock, Phone, Zap, Target, CheckCircle, DollarSign, Globe } from "lucide-react";
 
 export interface Feature {
   icon: LucideIcon;
@@ -73,6 +73,11 @@ export const services: Service[] = [
         icon: DollarSign,
         title: "Seamless Integration",
         description: "Connects with your existing POS, CRM, and calendar systems via API. Works with your current tools."
+      },
+      {
+        icon: Globe,
+        title: "Multi-Lingual Support",
+        description: "Communicates fluently in English, Spanish, French, German, Hindi, Russian, Portuguese, Japanese, Italian, and Dutch to serve your diverse customer base."
       }
     ],
     benefits: [
