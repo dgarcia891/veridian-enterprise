@@ -24,7 +24,19 @@ serve(async (req) => {
       throw new Error("Missing required parameters");
     }
 
-    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
+    // Determine which Stripe key to use based on mode
+    const stripeMode = Deno.env.get("STRIPE_MODE") || "test"; // defaults to test
+    const stripeKey = stripeMode === "live" 
+      ? Deno.env.get("STRIPE_SECRET_KEY_LIVE")
+      : Deno.env.get("STRIPE_SECRET_KEY_TEST");
+    
+    if (!stripeKey) {
+      throw new Error(`Stripe key not found for mode: ${stripeMode}`);
+    }
+
+    console.log(`Using Stripe in ${stripeMode} mode`);
+
+    const stripe = new Stripe(stripeKey, {
       apiVersion: "2025-08-27.basil",
     });
 
