@@ -20,7 +20,29 @@ const contactSchema = z.object({
 const Contact = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [emailRevealed, setEmailRevealed] = useState(false);
+  const [revealEmail, setRevealEmail] = useState("");
   const { openChat } = useRetellWidget();
+
+  const handleRevealEmail = () => {
+    const emailValidation = z.string().trim().email();
+    const validation = emailValidation.safeParse(revealEmail);
+    
+    if (!validation.success) {
+      toast({
+        variant: "destructive",
+        title: "Invalid Email",
+        description: "Please enter a valid email address to view our contact email.",
+      });
+      return;
+    }
+    
+    setEmailRevealed(true);
+    toast({
+      title: "Email Revealed",
+      description: "Thank you! Our email address is now visible.",
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -135,7 +157,37 @@ const Contact = () => {
               <div className="glass-card p-6 rounded-2xl">
                 <Mail className="w-8 h-8 text-primary mb-4" />
                 <h3 className="font-semibold mb-2">Email</h3>
-                <p className="text-muted-foreground">contact@veridian.com</p>
+                {emailRevealed ? (
+                  <a 
+                    href="mailto:sales@aiagents3000.com" 
+                    className="text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    sales@aiagents3000.com
+                  </a>
+                ) : (
+                  <div className="space-y-3">
+                    <p className="text-muted-foreground text-sm">
+                      Enter your email to view our contact address
+                    </p>
+                    <div className="flex gap-2">
+                      <Input
+                        type="email"
+                        placeholder="your@email.com"
+                        value={revealEmail}
+                        onChange={(e) => setRevealEmail(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleRevealEmail()}
+                        className="flex-1"
+                      />
+                      <Button 
+                        onClick={handleRevealEmail}
+                        size="sm"
+                        className="shrink-0"
+                      >
+                        Reveal
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </div>
               
               <div className="glass-card p-6 rounded-2xl">
