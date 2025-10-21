@@ -17,6 +17,7 @@ const LostRevenueCalculator = lazy(() => import("./pages/LostRevenueCalculator")
 const Features = lazy(() => import("./pages/Features"));
 const Signup = lazy(() => import("./pages/Signup"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
+const ScheduleConsultation = lazy(() => import("./pages/ScheduleConsultation"));
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/services/:slug" element={<ServiceDetail />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/schedule-consultation" element={<ScheduleConsultation />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/cookie-policy" element={<CookiePolicy />} />
