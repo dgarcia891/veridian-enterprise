@@ -109,7 +109,6 @@ export const services: Service[] = [
           "Lead qualification",
           "Appointment booking",
           "Calendar integration",
-          "Real-time analytics",
           "Email support"
         ],
         ctaText: "Start Monthly"

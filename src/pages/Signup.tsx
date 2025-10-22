@@ -196,10 +196,6 @@ const Signup = () => {
                   <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span className="text-sm">Calendar integration</span>
                 </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                  <span className="text-sm">Real-time analytics</span>
-                </div>
               </CardContent>
             </Card>
           </div>
