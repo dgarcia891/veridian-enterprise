@@ -3,10 +3,14 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { getActiveServices } from "@/data/services";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
   const navigate = useNavigate();
   const activeServices = getActiveServices();
 
@@ -32,37 +36,31 @@ const Navigation = () => {
           {navItems.map((item, idx) => {
             if (item.type === "dropdown") {
               return (
-                <div 
-                  key={idx}
-                  className="relative group"
-                  onMouseEnter={() => setServicesOpen(true)}
-                  onMouseLeave={() => setServicesOpen(false)}
-                >
-                  <button 
-                    className="text-muted-foreground hover:text-foreground transition-colors duration-200 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-primary rounded-sm px-2 py-1"
-                    aria-haspopup="true"
-                    aria-expanded={servicesOpen}
-                  >
-                    {item.label}
-                    <ChevronDown size={16} className={`transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
-                  </button>
-                  
-                  {servicesOpen && (
-                    <div className="absolute top-full left-0 mt-2 w-64 glass-card rounded-xl shadow-lg overflow-hidden animate-fade-in">
+                <Popover key={idx}>
+                  <PopoverTrigger asChild>
+                    <button 
+                      className="text-muted-foreground hover:text-foreground transition-colors duration-200 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-primary rounded-sm px-2 py-1"
+                      aria-haspopup="true"
+                    >
+                      {item.label}
+                      <ChevronDown size={16} className="transition-transform duration-200" aria-hidden="true" />
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-64 p-0 bg-card border-border" align="start">
+                    <div className="overflow-hidden">
                       {item.items?.map((service) => (
                         <Link
                           key={service.id}
                           to={`/services/${service.slug}`}
                           className="block px-4 py-3 text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
-                          onClick={() => setServicesOpen(false)}
                         >
                           <div className="font-semibold">{service.name}</div>
                           <div className="text-xs text-muted-foreground mt-1">{service.tagline}</div>
                         </Link>
                       ))}
                     </div>
-                  )}
-                </div>
+                  </PopoverContent>
+                </Popover>
               );
             }
             
