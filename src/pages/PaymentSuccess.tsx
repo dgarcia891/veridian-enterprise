@@ -16,8 +16,7 @@ const PaymentSuccess = () => {
   }, []);
 
   const handleScheduleAppointment = () => {
-    // Open Cal.com in new tab
-    window.open("https://cal.com/your-calendar", "_blank");
+    navigate("/schedule-consultation");
   };
 
   return (
