@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useRetellWidget } from "@/hooks/useRetellWidget";
 
 interface ServiceHeroProps {
   title: string;
@@ -18,14 +17,11 @@ const ServiceHero = ({
   secondaryCtaText = "Calculate Lost Revenue",
   showStats = true
 }: ServiceHeroProps) => {
-  const { isWidgetReady, openChat } = useRetellWidget();
-
   const handlePrimaryCTAClick = () => {
     console.log('[Analytics] CTA Click: Schedule Free Demo', { 
       location: 'hero', 
       timestamp: new Date().toISOString() 
     });
-    openChat();
   };
 
   const handleSecondaryCTAClick = () => {
@@ -49,16 +45,16 @@ const ServiceHero = ({
         </p>
 
         <div className="mt-12 flex flex-col sm:flex-row flex-wrap gap-4 justify-center animate-fade-in [animation-delay:400ms] opacity-0 [animation-fill-mode:forwards]">
-          <Button 
-            onClick={handlePrimaryCTAClick} 
-            disabled={!isWidgetReady}
-            size="lg"
-            className="bg-primary text-primary-foreground rounded-full px-8 py-6 text-base font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-            aria-label={`${primaryCtaText} - open chat`}
-          >
-            {primaryCtaText}
-            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
-          </Button>
+          <Link to="/signup" onClick={handlePrimaryCTAClick}>
+            <Button 
+              size="lg"
+              className="bg-primary text-primary-foreground rounded-full px-8 py-6 text-base font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 group"
+              aria-label={primaryCtaText}
+            >
+              {primaryCtaText}
+              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
+            </Button>
+          </Link>
           
           <Link to="/lost-revenue-calculator" onClick={handleSecondaryCTAClick}>
             <Button 
