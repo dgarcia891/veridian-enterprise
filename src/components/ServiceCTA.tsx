@@ -15,6 +15,15 @@ const ServiceCTA = ({
 }: ServiceCTAProps) => {
   const navigate = useNavigate();
 
+  const handleCTAClick = () => {
+    console.log('[Analytics] CTA Click: Get Started', { 
+      location: 'service-cta', 
+      buttonText,
+      timestamp: new Date().toISOString() 
+    });
+    navigate("/signup");
+  };
+
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-background to-card">
       <div className="max-w-4xl mx-auto text-center glass-card p-12 rounded-3xl">
@@ -25,7 +34,7 @@ const ServiceCTA = ({
           {description}
         </p>
         <Button 
-          onClick={() => navigate("/signup")}
+          onClick={handleCTAClick}
           size="lg"
           className="bg-primary text-primary-foreground rounded-full px-10 py-6 text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group"
         >

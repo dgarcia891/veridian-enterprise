@@ -20,9 +20,24 @@ const ServiceHero = ({
 }: ServiceHeroProps) => {
   const { isWidgetReady, openChat } = useRetellWidget();
 
+  const handlePrimaryCTAClick = () => {
+    console.log('[Analytics] CTA Click: Schedule Free Demo', { 
+      location: 'hero', 
+      timestamp: new Date().toISOString() 
+    });
+    openChat();
+  };
+
+  const handleSecondaryCTAClick = () => {
+    console.log('[Analytics] CTA Click: Calculate Lost Revenue', { 
+      location: 'hero', 
+      timestamp: new Date().toISOString() 
+    });
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 animate-gradient overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/80" />
       
       <div className="relative z-10 max-w-5xl mx-auto text-center">
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 animate-fade-in leading-tight">
@@ -35,7 +50,7 @@ const ServiceHero = ({
 
         <div className="mt-12 flex flex-col sm:flex-row flex-wrap gap-4 justify-center animate-fade-in [animation-delay:400ms] opacity-0 [animation-fill-mode:forwards]">
           <Button 
-            onClick={openChat} 
+            onClick={handlePrimaryCTAClick} 
             disabled={!isWidgetReady}
             size="lg"
             className="bg-primary text-primary-foreground rounded-full px-8 py-6 text-base font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
@@ -45,7 +60,7 @@ const ServiceHero = ({
             <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
           </Button>
           
-          <Link to="/lost-revenue-calculator">
+          <Link to="/lost-revenue-calculator" onClick={handleSecondaryCTAClick}>
             <Button 
               size="lg"
               variant="outline"

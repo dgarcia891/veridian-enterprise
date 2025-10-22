@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { getActiveServices } from "@/data/services";
@@ -93,14 +93,25 @@ const Navigation = () => {
           })}
         </div>
 
-        {/* Desktop CTA Button */}
-        <Button 
-          className="hidden md:block glass-button rounded-full px-6 py-2 text-sm hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary"
-          onClick={() => navigate("/signup")}
-          aria-label="Get started with AI Agents 3000"
-        >
-          Get Started
-        </Button>
+        {/* Phone Number & Desktop CTA */}
+        <div className="hidden md:flex items-center gap-4">
+          <a 
+            href="tel:661-263-4388"
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary rounded-sm px-2 py-1"
+            aria-label="Call us at 661-263-4388"
+          >
+            <Phone size={16} aria-hidden="true" />
+            <span className="text-sm font-medium">661-263-4388</span>
+          </a>
+          
+          <Button 
+            className="glass-button rounded-full px-6 py-2 text-sm hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary"
+            onClick={() => navigate("/signup")}
+            aria-label="Get started with AI Agents 3000"
+          >
+            Get Started
+          </Button>
+        </div>
 
         {/* Mobile Menu Button */}
         <button 
@@ -168,6 +179,15 @@ const Navigation = () => {
                 </Link>
               );
             })}
+            
+            <a 
+              href="tel:661-263-4388"
+              className="flex items-center gap-2 text-foreground/80 hover:text-foreground transition-colors py-2"
+              onClick={() => setIsOpen(false)}
+            >
+              <Phone size={16} aria-hidden="true" />
+              <span>661-263-4388</span>
+            </a>
             
             <Button 
               className="mt-4 glass-button rounded-full py-3 transition-all duration-200"

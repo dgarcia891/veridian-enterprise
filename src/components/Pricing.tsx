@@ -16,6 +16,15 @@ const Pricing = ({
 }: PricingProps) => {
   const { isWidgetReady, openChat } = useRetellWidget();
 
+  const handlePlanClick = (planName: string) => {
+    console.log('[Analytics] Plan Select:', { 
+      plan: planName, 
+      location: 'pricing', 
+      timestamp: new Date().toISOString() 
+    });
+    openChat();
+  };
+
   return (
     <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8 bg-background">
       <div className="max-w-7xl mx-auto">
@@ -62,7 +71,7 @@ const Pricing = ({
               </ul>
 
               <Button 
-                onClick={openChat}
+                onClick={() => handlePlanClick(plan.name)}
                 disabled={!isWidgetReady}
                 className={`w-full rounded-full py-6 text-base font-semibold transition-all duration-200 ${
                   plan.popular 

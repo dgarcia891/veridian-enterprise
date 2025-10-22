@@ -7,8 +7,8 @@ interface SocialProofProps {
 }
 
 const SocialProof = ({ 
-  title = "Trusted by Growing Businesses",
-  subtitle = "See what our customers are saying"
+  title = "Built for Real Businesses",
+  subtitle = "Join growing companies capturing every revenue opportunity"
 }: SocialProofProps) => {
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-card">
@@ -58,11 +58,27 @@ const SocialProof = ({
           ))}
         </div>
 
-        <div className="text-center mt-12">
-          <p className="text-2xl font-semibold text-muted-foreground">
-            Start capturing every call with Voice AI
-          </p>
-        </div>
+        {testimonials.length > 0 && testimonials[0].id !== "1" && (
+          <div className="text-center mt-12">
+            <p className="text-2xl font-semibold text-muted-foreground">
+              Start capturing every call with Voice AI
+            </p>
+          </div>
+        )}
+        
+        {testimonials.length === 1 && testimonials[0].id === "1" && (
+          <div className="text-center mt-8">
+            <div className="glass-card p-12 rounded-3xl max-w-3xl mx-auto">
+              <h3 className="text-2xl font-bold mb-4">Real Customer Testimonials Coming Soon</h3>
+              <p className="text-lg text-muted-foreground mb-6">
+                We're launching our Voice AI Receptionist service and will be adding real customer success stories as they roll in.
+              </p>
+              <p className="text-muted-foreground">
+                Want to be one of our first customers? Get started today and help shape the future of AI phone answering.
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

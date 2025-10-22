@@ -40,8 +40,8 @@ export const services: Service[] = [
     id: "voice-ai-receptionist",
     slug: "voice-ai-receptionist",
     name: "Voice AI Receptionist",
-    tagline: "Never Miss Another Customer Call",
-    description: "24/7 AI-powered phone answering system that handles customer calls, takes orders, qualifies leads, and books appointments—so you never lose revenue.",
+    tagline: "Never Miss a Call Again",
+    description: "Meet your 24/7 Voice AI Receptionist — natural, reliable, multilingual. Handles scheduling, FAQs, and lead capture so you don't have to.",
     heroSubtitle: "Our AI receptionist answers every call instantly, qualifies leads, takes complex orders, and books appointments directly into your calendar. Setup takes 10 minutes, not months.",
     features: [
       {
