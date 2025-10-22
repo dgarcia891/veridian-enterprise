@@ -8,6 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import logo from "@/assets/logo.png";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,10 +26,10 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <Link 
           to="/" 
-          className="text-foreground font-bold text-xl hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded-sm" 
+          className="flex items-center hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-primary rounded-sm" 
           aria-label="AI Agents 3000 home"
         >
-          AI Agents 3000
+          <img src={logo} alt="AI Agents 3000 Logo" className="h-12 w-auto" />
         </Link>
         
         {/* Desktop Navigation */}

@@ -2,6 +2,7 @@
 import { Twitter, Github, Linkedin, Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getActiveServices } from "@/data/services";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const activeServices = getActiveServices();
@@ -43,7 +44,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-12">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <div className="text-foreground font-bold text-xl mb-4">AI Agents 3000</div>
+            <img src={logo} alt="AI Agents 3000 Logo" className="h-16 w-auto mb-4" />
             <p className="text-muted-foreground mb-2 max-w-sm">
               Never miss another customer call with our intelligent 24/7 Voice AI receptionist service.
             </p>
