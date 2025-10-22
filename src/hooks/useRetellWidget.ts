@@ -12,7 +12,7 @@ export const useRetellWidget = () => {
     script.async = true;
     script.setAttribute('data-public-key', 'public_key_2dfbee8cc6fc84d1f88bf');
     script.setAttribute('data-agent-id', 'agent_2df66bc30b17e2cbf174bf2f3b');
-    script.setAttribute('data-title', 'Veridian Chat Agent');
+    script.setAttribute('data-title', 'AI Agents 3000 Chat Agent');
     script.setAttribute('data-bot-name', 'Rosie');
     script.setAttribute('data-show-ai-popup', 'true');
     script.setAttribute('data-show-ai-popup-time', '5');

@@ -45,11 +45,8 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-2">
             <img src={logo} alt="AI Agents 3000 Logo" className="h-16 w-auto mb-4" />
-            <p className="text-muted-foreground mb-2 max-w-sm">
+            <p className="text-muted-foreground mb-4 max-w-sm">
               Never miss another customer call with our intelligent 24/7 Voice AI receptionist service.
-            </p>
-            <p className="text-muted-foreground/70 text-xs mb-6 max-w-sm">
-              A subsidiary of Veridian Enterprises LLC
             </p>
             <nav className="flex space-x-4" aria-label="Social media links">
               {socialLinks.map((social) => (
@@ -109,7 +106,6 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-border">
           <div className="text-muted-foreground text-sm mb-4 md:mb-0">
             <p>© 2024 AI Agents 3000. All rights reserved.</p>
-            <p className="text-muted-foreground/70 text-xs mt-1">A subsidiary of Veridian Enterprises LLC</p>
           </div>
           <nav className="flex space-x-6 text-sm" aria-label="Legal links">
             <Link to="/privacy-policy" className="text-muted-foreground hover:text-foreground transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded-sm">
