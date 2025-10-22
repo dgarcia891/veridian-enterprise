@@ -7,44 +7,44 @@
 
 @layer base {
   :root {
-    --background: 200 30% 96%;
-    --foreground: 215 25% 20%;
+    --background: 210 20% 94%;
+    --foreground: 215 30% 25%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 20%;
+    --card-foreground: 215 30% 25%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 20%;
+    --popover-foreground: 215 30% 25%;
 
-    --primary: 180 60% 55%;
+    --primary: 183 65% 65%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 200 25% 90%;
-    --secondary-foreground: 215 25% 20%;
+    --secondary: 210 25% 88%;
+    --secondary-foreground: 215 30% 25%;
 
-    --muted: 200 20% 92%;
-    --muted-foreground: 215 15% 45%;
+    --muted: 210 18% 90%;
+    --muted-foreground: 215 15% 50%;
 
-    --accent: 180 60% 55%;
+    --accent: 183 65% 65%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 200 20% 85%;
-    --input: 200 20% 92%;
-    --ring: 180 60% 55%;
+    --border: 210 20% 88%;
+    --input: 210 18% 96%;
+    --ring: 183 65% 65%;
 
-    --radius: 1rem;
+    --radius: 1.25rem;
 
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 215 25% 20%;
-    --sidebar-primary: 180 60% 55%;
+    --sidebar-foreground: 215 30% 25%;
+    --sidebar-primary: 183 65% 65%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 200 25% 90%;
-    --sidebar-accent-foreground: 215 25% 20%;
-    --sidebar-border: 200 20% 85%;
-    --sidebar-ring: 180 60% 55%;
+    --sidebar-accent: 210 25% 88%;
+    --sidebar-accent-foreground: 215 30% 25%;
+    --sidebar-border: 210 20% 88%;
+    --sidebar-ring: 183 65% 65%;
   }
 }
 
@@ -64,15 +64,15 @@
 
 @layer components {
   .glass-card {
-    @apply bg-white/80 backdrop-blur-xl border border-primary/10 shadow-lg shadow-primary/5;
+    @apply bg-white/95 backdrop-blur-lg border border-primary/10 shadow-xl;
   }
   
   .glass-button {
-    @apply bg-white/90 backdrop-blur-md border border-primary/20 hover:bg-primary/10 hover:border-primary/30 transition-all duration-300;
+    @apply bg-white/95 backdrop-blur-sm border border-primary/20 hover:bg-primary/10 hover:border-primary/40 transition-all duration-300;
   }
 
   .animate-gradient {
-    background: linear-gradient(-45deg, hsl(200, 30%, 96%), hsl(190, 40%, 92%), hsl(180, 30%, 94%), hsl(200, 35%, 90%));
+    background: linear-gradient(-45deg, hsl(210, 20%, 94%), hsl(205, 25%, 92%), hsl(200, 20%, 93%), hsl(210, 22%, 91%));
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
   }
@@ -87,6 +87,6 @@
   }
   
   .card-shadow {
-    box-shadow: 0 8px 32px -8px hsl(180 60% 55% / 0.15);
+    box-shadow: 0 10px 40px -10px hsl(210 20% 70% / 0.25), 0 4px 12px -4px hsl(210 20% 60% / 0.15);
   }
 }
