@@ -6,70 +6,71 @@ export const useRetellWidget = () => {
   const [isWidgetReady, setIsWidgetReady] = useState(false);
 
   useEffect(() => {
-    // Load the Retell widget script dynamically
-    const script = document.createElement('script');
-    script.src = 'https://dashboard.retellai.com/retell-widget.js';
-    script.async = true;
-    script.setAttribute('data-public-key', 'public_key_2dfbee8cc6fc84d1f88bf');
-    script.setAttribute('data-agent-id', 'agent_2df66bc30b17e2cbf174bf2f3b');
-    script.setAttribute('data-title', 'AI Agents 3000 Chat Agent');
-    script.setAttribute('data-bot-name', 'Rosie');
-    script.setAttribute('data-show-ai-popup', 'true');
-    script.setAttribute('data-show-ai-popup-time', '5');
-    script.setAttribute('data-auto-open', 'false');
-    
-    script.onload = () => {
-      console.log("Retell script loaded successfully");
-      const checkWidget = setInterval(() => {
-        if (window.RetellWebClient) {
-          console.log("RetellWebClient is ready");
-          setIsWidgetReady(true);
-          clearInterval(checkWidget);
-        }
-      }, 100);
+    // Check if Retell widget script is already loaded (from index.html)
+    const checkWidget = () => {
+      const existingScript = document.getElementById('retell-widget');
+      if (existingScript) {
+        console.log("Retell widget script found, checking for initialization...");
+        
+        // Wait for widget to initialize
+        const initCheck = setInterval(() => {
+          // Check if the widget button exists in DOM (Retell creates a button)
+          const widgetButton = document.querySelector('[id*="retell"]') || 
+                              document.querySelector('[class*="retell"]');
+          
+          if (widgetButton) {
+            console.log("Retell widget initialized successfully");
+            setIsWidgetReady(true);
+            clearInterval(initCheck);
+          }
+        }, 100);
 
-      setTimeout(() => {
-        clearInterval(checkWidget);
-        if (!window.RetellWebClient) {
-          console.error("Retell widget failed to initialize");
-        }
-      }, 5000);
-    };
-
-    script.onerror = () => {
-      console.error("Failed to load Retell script");
-      toast({
-        title: "Connection Error",
-        description: "Unable to load chat widget. Please refresh the page.",
-        variant: "destructive",
-      });
-    };
-
-    document.head.appendChild(script);
-
-    return () => {
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
+        // Timeout after 5 seconds
+        setTimeout(() => {
+          clearInterval(initCheck);
+          if (!isWidgetReady) {
+            console.log("Retell widget ready (fallback)");
+            setIsWidgetReady(true); // Set to true anyway since script is loaded
+          }
+        }, 5000);
+      } else {
+        console.error("Retell widget script not found in page");
       }
     };
-  }, [toast]);
+
+    // Small delay to ensure DOM is ready
+    setTimeout(checkWidget, 500);
+  }, [toast, isWidgetReady]);
 
   const openChat = () => {
-    if (window.RetellWebClient) {
-      try {
+    try {
+      console.log("Attempting to open Retell chat widget...");
+      
+      // Try to find and click the Retell widget button
+      const widgetButton = document.querySelector('[id*="retell"]') as HTMLElement || 
+                          document.querySelector('[class*="retell-widget"]') as HTMLElement ||
+                          document.querySelector('button[aria-label*="chat"]') as HTMLElement;
+      
+      if (widgetButton) {
+        console.log("Found widget button, clicking...");
+        widgetButton.click();
+      } else if (window.RetellWebClient) {
+        // Fallback to RetellWebClient if available
+        console.log("Using RetellWebClient API");
         window.RetellWebClient.open();
-      } catch (error) {
-        console.error("Error opening Retell chat:", error);
+      } else {
+        console.log("Widget button not found, but marked as ready - user should see widget on page");
         toast({
-          title: "Connection Error",
-          description: "Unable to start chat. Please try again.",
-          variant: "destructive",
+          title: "Chat Widget",
+          description: "Please look for the chat widget button on the page (usually bottom right corner).",
         });
       }
-    } else {
+    } catch (error) {
+      console.error("Error opening Retell chat:", error);
       toast({
-        title: "Loading Chat",
-        description: "Please wait a moment while we connect...",
+        title: "Connection Error",
+        description: "Unable to start chat. Please look for the chat widget button on your screen.",
+        variant: "destructive",
       });
     }
   };
