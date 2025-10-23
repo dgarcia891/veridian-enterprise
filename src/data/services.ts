@@ -60,6 +60,11 @@ export const services: Service[] = [
         description: "Asks budget, timeline, and scope questions to qualify leads before they reach you, saving hours of wasted calls."
       },
       {
+        icon: Globe,
+        title: "Multi-Lingual Support",
+        description: "Communicates fluently in English, Spanish, French, German, Hindi, Russian, Portuguese, Japanese, Italian, and Dutch to serve your diverse customer base."
+      },
+      {
         icon: Target,
         title: "Appointment Booking",
         description: "Schedules directly into your calendar with real-time availability, sends confirmations, and handles rescheduling."
@@ -73,11 +78,6 @@ export const services: Service[] = [
         icon: DollarSign,
         title: "Seamless Integration",
         description: "Connects with your existing POS, CRM, and calendar systems via API. Works with your current tools."
-      },
-      {
-        icon: Globe,
-        title: "Multi-Lingual Support",
-        description: "Communicates fluently in English, Spanish, French, German, Hindi, Russian, Portuguese, Japanese, Italian, and Dutch to serve your diverse customer base."
       }
     ],
     benefits: [
