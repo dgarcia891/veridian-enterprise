@@ -72,16 +72,16 @@ const ServiceHero = ({
         {showStats && (
           <div className="mt-24 grid grid-cols-1 sm:grid-cols-3 gap-8 animate-fade-in [animation-delay:600ms] opacity-0 [animation-fill-mode:forwards]">
             <div className="glass-card p-6 rounded-2xl">
-              <div className="text-3xl sm:text-4xl font-bold mb-2">37%</div>
-              <div className="text-sm sm:text-base text-foreground/80">Average Missed Calls</div>
+              <div className="text-3xl sm:text-4xl font-bold mb-2">100%</div>
+              <div className="text-sm sm:text-base text-foreground/80">Call Answer Rate</div>
+            </div>
+            <div className="glass-card p-6 rounded-2xl">
+              <div className="text-3xl sm:text-4xl font-bold mb-2">&lt;1 sec</div>
+              <div className="text-sm sm:text-base text-foreground/80">Response Time</div>
             </div>
             <div className="glass-card p-6 rounded-2xl">
               <div className="text-3xl sm:text-4xl font-bold mb-2">24/7</div>
               <div className="text-sm sm:text-base text-foreground/80">Availability</div>
-            </div>
-            <div className="glass-card p-6 rounded-2xl">
-              <div className="text-3xl sm:text-4xl font-bold mb-2">10 min</div>
-              <div className="text-sm sm:text-base text-foreground/80">Setup Time</div>
             </div>
           </div>
         )}
