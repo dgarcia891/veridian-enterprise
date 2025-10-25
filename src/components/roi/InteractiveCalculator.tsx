@@ -5,7 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 
 import { DollarSign } from "lucide-react";
 
 const costComparisonData = [
-  { name: "Human Receptionist", cost: 55000, color: "hsl(25 95% 53%)" }, // Warm orange
+  { name: "Human Receptionist", cost: 55000, color: "hsl(0 84% 60%)" }, // Red
   { name: "AI Agent", cost: 3000, color: "hsl(221 83% 53%)" }, // Trust blue
 ];
 
@@ -77,12 +77,12 @@ const InteractiveCalculator = () => {
             </div>
             
             {/* Result Display */}
-            <div className="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-950/20 dark:to-amber-950/20 rounded-lg p-8 text-center border-2 border-orange-400/60">
-              <DollarSign className="w-12 h-12 text-orange-600 mx-auto mb-3" />
+            <div className="bg-gradient-to-br from-red-50 to-rose-50 dark:from-red-950/20 dark:to-rose-950/20 rounded-lg p-8 text-center border-2 border-red-400/60">
+              <DollarSign className="w-12 h-12 text-red-600 mx-auto mb-3" />
               <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
                 Potential Annual Revenue Lost
               </div>
-              <div className="text-6xl font-extrabold text-orange-600 mb-3">
+              <div className="text-6xl font-extrabold text-red-600 mb-3">
                 {formatCurrency(annualLoss)}
               </div>
               <p className="text-sm text-muted-foreground">

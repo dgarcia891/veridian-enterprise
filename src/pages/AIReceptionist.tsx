@@ -31,10 +31,6 @@ const AIReceptionist = () => {
           subtitle={primaryService.description}
         />
 
-        <ProblemStatement />
-
-        <ServiceBenefits benefits={primaryService.benefits} />
-
         <HowItWorks />
 
         <ServiceFeatures features={primaryService.features} />
@@ -44,6 +40,8 @@ const AIReceptionist = () => {
         <Pricing plans={primaryService.pricing} />
 
         <SocialProof />
+
+        <ServiceBenefits benefits={primaryService.benefits} />
 
         <ServiceCTA 
           headline="Ready to Stop Losing Revenue?"
