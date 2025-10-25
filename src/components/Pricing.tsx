@@ -88,9 +88,6 @@ const Pricing = ({
 
         <div className="mt-12 text-center space-y-2">
           <p className="text-sm text-muted-foreground">
-            *Medical practices are double the listed price
-          </p>
-          <p className="text-sm text-muted-foreground">
             **HIPAA compliance available with Medical/Healthcare plan - includes Business Associate Agreement (BAA) and enhanced security protocols
           </p>
           <p className="text-muted-foreground">
