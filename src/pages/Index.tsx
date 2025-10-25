@@ -1,8 +1,6 @@
 import Navigation from "@/components/Navigation";
 import ServiceHero from "@/components/ServiceHero";
-import ProblemStatement from "@/components/ProblemStatement";
 import ServiceBenefits from "@/components/ServiceBenefits";
-import HowItWorks from "@/components/HowItWorks";
 import ServiceFeatures from "@/components/ServiceFeatures";
 import IndustriesServed from "@/components/IndustriesServed";
 import Pricing from "@/components/Pricing";
@@ -31,11 +29,7 @@ const Index = () => {
           subtitle={primaryService.description}
         />
 
-        <ProblemStatement />
-
         <ServiceBenefits benefits={primaryService.benefits} />
-
-        <HowItWorks />
 
         <ServiceFeatures features={primaryService.features} />
 
