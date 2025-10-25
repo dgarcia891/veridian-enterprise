@@ -1,4 +1,4 @@
-import { LucideIcon, Clock, Phone, Zap, Target, CheckCircle, DollarSign, Globe } from "lucide-react";
+import { LucideIcon, Clock, Phone, Zap, Target, CheckCircle, DollarSign, Globe, Shield } from "lucide-react";
 
 export interface Feature {
   icon: LucideIcon;
@@ -78,6 +78,11 @@ export const services: Service[] = [
         icon: DollarSign,
         title: "Seamless Integration",
         description: "Connects with your existing POS, CRM, and calendar systems via API. Works with your current tools."
+      },
+      {
+        icon: Shield,
+        title: "HIPAA Compliance Available",
+        description: "Medical/Healthcare plan includes HIPAA-compliant infrastructure with no PII storage, BAA agreements, and enhanced security protocols for protected health information."
       }
     ],
     benefits: [
