@@ -3,7 +3,6 @@ import ServiceHero from "@/components/ServiceHero";
 import ProblemStatement from "@/components/ProblemStatement";
 import ServiceBenefits from "@/components/ServiceBenefits";
 import HowItWorks from "@/components/HowItWorks";
-import ServiceFeatures from "@/components/ServiceFeatures";
 import IndustriesServed from "@/components/IndustriesServed";
 import Pricing from "@/components/Pricing";
 import SocialProof from "@/components/SocialProof";
@@ -33,15 +32,13 @@ const AIReceptionist = () => {
 
         <HowItWorks />
 
-        <ServiceFeatures features={primaryService.features} />
+        <ServiceBenefits benefits={primaryService.benefits} />
 
         <IndustriesServed />
 
         <Pricing plans={primaryService.pricing} />
 
         <SocialProof />
-
-        <ServiceBenefits benefits={primaryService.benefits} />
 
         <ServiceCTA 
           headline="Ready to Stop Losing Revenue?"
