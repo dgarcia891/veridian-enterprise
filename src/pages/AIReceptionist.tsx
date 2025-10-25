@@ -1,6 +1,6 @@
 import Navigation from "@/components/Navigation";
 import ServiceHero from "@/components/ServiceHero";
-import ServiceBenefits from "@/components/ServiceBenefits";
+import SolutionSection from "@/components/roi/SolutionSection";
 import IndustriesServed from "@/components/IndustriesServed";
 import Pricing from "@/components/Pricing";
 import SocialProof from "@/components/SocialProof";
@@ -28,7 +28,7 @@ const AIReceptionist = () => {
           subtitle={primaryService.description}
         />
 
-        <ServiceBenefits benefits={primaryService.benefits} />
+        <SolutionSection />
 
         <IndustriesServed />
 
