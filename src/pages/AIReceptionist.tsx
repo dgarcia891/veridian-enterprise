@@ -1,8 +1,6 @@
 import Navigation from "@/components/Navigation";
 import ServiceHero from "@/components/ServiceHero";
-import ProblemStatement from "@/components/ProblemStatement";
 import ServiceBenefits from "@/components/ServiceBenefits";
-import HowItWorks from "@/components/HowItWorks";
 import IndustriesServed from "@/components/IndustriesServed";
 import Pricing from "@/components/Pricing";
 import SocialProof from "@/components/SocialProof";
@@ -29,8 +27,6 @@ const AIReceptionist = () => {
           title={primaryService.tagline}
           subtitle={primaryService.description}
         />
-
-        <HowItWorks />
 
         <ServiceBenefits benefits={primaryService.benefits} />
 
