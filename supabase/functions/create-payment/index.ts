@@ -81,10 +81,21 @@ serve(async (req) => {
 
     // Determine pricing
     const isAnnual = planType === "annual";
-    const amount = isAnnual ? 360000 : 105000; // $3,600 or $1,050 ($600 + $450 setup)
-    const description = isAnnual 
-      ? "Voice AI Receptionist - Annual Plan"
-      : "Voice AI Receptionist - Monthly Plan (includes $450 setup fee)";
+    const isMedical = planType === "medical";
+    
+    let amount: number;
+    let description: string;
+    
+    if (isMedical) {
+      amount = 1020000; // $10,200 annually ($850/month)
+      description = "Voice AI Receptionist - Medical/Healthcare Plan (HIPAA-compliant)";
+    } else if (isAnnual) {
+      amount = 360000; // $3,600 annually ($300/month)
+      description = "Voice AI Receptionist - Annual Plan";
+    } else {
+      amount = 105000; // $1,050 ($600 + $450 setup)
+      description = "Voice AI Receptionist - Monthly Plan (includes $450 setup fee)";
+    }
 
     // Create payment session
     const session = await stripe.checkout.sessions.create({
@@ -95,7 +106,11 @@ serve(async (req) => {
             currency: "usd",
             product_data: {
               name: description,
-              description: isAnnual ? "Billed annually at $300/month" : "First month + setup fee",
+              description: isMedical 
+                ? "Billed annually at $850/month with HIPAA compliance" 
+                : isAnnual 
+                  ? "Billed annually at $300/month" 
+                  : "First month + setup fee",
             },
             unit_amount: amount,
           },

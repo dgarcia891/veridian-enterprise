@@ -39,7 +39,7 @@ const formSchema = z.object({
   industry: z.string().optional(),
   averageCallsPerDay: z.string().optional(),
   currentPhoneSystem: z.string().optional(),
-  planType: z.enum(["monthly", "annual"]),
+  planType: z.enum(["monthly", "annual", "medical"]),
   wantsCallFirst: z.boolean(),
 });
 
@@ -72,6 +72,9 @@ const Signup = () => {
   const getPlanPrice = () => {
     if (watchPlanType === "annual") {
       return { monthly: "$300", total: "$3,600/year", setupFee: "$0" };
+    }
+    if (watchPlanType === "medical") {
+      return { monthly: "$850", total: "$10,200/year", setupFee: "$0" };
     }
     return { monthly: "$600", total: "$600/month", setupFee: "$450" };
   };
@@ -164,7 +167,13 @@ const Signup = () => {
                   {planDetails.monthly}
                   <span className="text-base font-normal text-muted-foreground">/month</span>
                 </div>
-                <p className="text-sm text-muted-foreground">{watchPlanType === "annual" ? "Billed annually" : "Billed monthly"}</p>
+                <p className="text-sm text-muted-foreground">
+                  {watchPlanType === "annual" 
+                    ? "Billed annually" 
+                    : watchPlanType === "medical"
+                    ? "Billed annually (HIPAA-compliant)"
+                    : "Billed monthly"}
+                </p>
                 {watchPlanType === "monthly" && (
                   <p className="text-sm font-semibold text-primary mt-2">+ {planDetails.setupFee} setup fee</p>
                 )}
@@ -346,7 +355,7 @@ const Signup = () => {
                           <RadioGroup
                             onValueChange={field.onChange}
                             defaultValue={field.value}
-                            className="grid md:grid-cols-2 gap-4"
+                            className="grid md:grid-cols-3 gap-4"
                           >
                             <label
                               htmlFor="annual"
@@ -381,8 +390,28 @@ const Signup = () => {
                                 <div className="text-sm text-destructive font-semibold mt-2">+ $450 setup fee</div>
                               </div>
                             </label>
+
+                            <label
+                              htmlFor="medical"
+                              className={`flex items-center space-x-2 border-2 rounded-lg p-4 cursor-pointer transition-all ${
+                                field.value === "medical"
+                                  ? "border-primary bg-primary/5"
+                                  : "border-border hover:border-primary/50"
+                              }`}
+                            >
+                              <RadioGroupItem value="medical" id="medical" />
+                              <div className="flex-1">
+                                <div className="font-semibold">Medical/Healthcare Plan</div>
+                                <div className="text-2xl font-bold mt-1">$850<span className="text-base font-normal">/month</span></div>
+                                <div className="text-sm text-muted-foreground">Billed $10,200/year</div>
+                                <div className="text-sm text-primary font-semibold mt-2">HIPAA-compliant**</div>
+                              </div>
+                            </label>
                           </RadioGroup>
                         </FormControl>
+                        <FormDescription className="text-xs">
+                          **HIPAA compliance available with Medical/Healthcare plan - includes Business Associate Agreement (BAA) and enhanced security protocols
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
