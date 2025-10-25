@@ -89,13 +89,13 @@ const GrowthSection = () => {
               return (
                 <div
                   key={index}
-                  className="glass-card p-6 rounded-lg border-t-4 border-green-500 text-center"
+                  className="glass-card p-6 rounded-lg border-t-4 border-primary text-center"
                 >
-                  <Icon className="w-8 h-8 text-green-600 mx-auto mb-3" />
+                  <Icon className="w-8 h-8 text-primary mx-auto mb-3" />
                   <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
                     {stat.title}
                   </div>
-                  <div className="text-5xl font-extrabold text-green-600 mb-2">
+                  <div className="text-5xl font-extrabold text-primary mb-2">
                     {stat.value}
                   </div>
                   <p className="text-sm text-muted-foreground">

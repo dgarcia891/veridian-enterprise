@@ -5,8 +5,8 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 
 import { DollarSign } from "lucide-react";
 
 const costComparisonData = [
-  { name: "Human Receptionist", cost: 55000, color: "hsl(0 84% 60%)" }, // Red
-  { name: "AI Agent", cost: 3000, color: "hsl(221 83% 53%)" }, // Trust blue
+  { name: "Human Receptionist", cost: 55000, color: "hsl(var(--destructive))" },
+  { name: "AI Agent", cost: 3000, color: "hsl(var(--primary))" },
 ];
 
 const InteractiveCalculator = () => {
@@ -77,12 +77,12 @@ const InteractiveCalculator = () => {
             </div>
             
             {/* Result Display */}
-            <div className="bg-gradient-to-br from-red-50 to-rose-50 dark:from-red-950/20 dark:to-rose-950/20 rounded-lg p-8 text-center border-2 border-red-400/60">
-              <DollarSign className="w-12 h-12 text-red-600 mx-auto mb-3" />
+            <div className="bg-gradient-to-br from-destructive/10 to-destructive/20 rounded-lg p-8 text-center border-2 border-destructive/40">
+              <DollarSign className="w-12 h-12 text-destructive mx-auto mb-3" />
               <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
                 Potential Annual Revenue Lost
               </div>
-              <div className="text-6xl font-extrabold text-red-600 mb-3">
+              <div className="text-6xl font-extrabold text-destructive mb-3">
                 {formatCurrency(annualLoss)}
               </div>
               <p className="text-sm text-muted-foreground">
@@ -132,11 +132,11 @@ const InteractiveCalculator = () => {
           </div>
           
           {/* ROI Card */}
-          <div className="glass-card p-8 rounded-lg flex flex-col justify-center text-center border-t-4 border-blue-500">
+          <div className="glass-card p-8 rounded-lg flex flex-col justify-center text-center border-t-4 border-primary">
             <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
               Average 1st Year ROI
             </div>
-            <div className="text-6xl font-extrabold text-blue-600 mb-4">
+            <div className="text-6xl font-extrabold text-primary mb-4">
               300%+
             </div>
             <p className="text-lg text-muted-foreground">

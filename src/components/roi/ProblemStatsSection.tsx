@@ -23,8 +23,8 @@ const kpiData = [
 ];
 
 const missedCallsData = [
-  { name: "Missed Calls", value: 62, color: "hsl(0 84% 60%)" }, // Red for urgency
-  { name: "Answered Calls", value: 38, color: "hsl(0 0% 20%)" }, // Black/dark gray
+  { name: "Missed Calls", value: 62, color: "hsl(var(--destructive))" },
+  { name: "Answered Calls", value: 38, color: "hsl(var(--muted))" },
 ];
 
 const ProblemStatsSection = () => {
@@ -45,13 +45,13 @@ const ProblemStatsSection = () => {
             return (
               <div
                 key={index}
-                className="glass-card p-6 rounded-lg border-t-4 border-red-500 text-center"
+                className="glass-card p-6 rounded-lg border-t-4 border-destructive text-center"
               >
-                <Icon className="w-8 h-8 text-red-600 mx-auto mb-3" />
+                <Icon className="w-8 h-8 text-destructive mx-auto mb-3" />
                 <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
                   {kpi.title}
                 </div>
-                <div className="text-5xl font-extrabold text-red-600 mb-2">
+                <div className="text-5xl font-extrabold text-destructive mb-2">
                   {kpi.value}
                 </div>
                 <p className="text-sm text-muted-foreground">
