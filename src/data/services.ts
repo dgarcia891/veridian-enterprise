@@ -129,6 +129,23 @@ export const services: Service[] = [
         ],
         popular: true,
         ctaText: "Start Annual"
+      },
+      {
+        name: "Medical/Healthcare**",
+        price: "$850*",
+        period: "/month",
+        description: "HIPAA-compliant solution for dentists, doctors, veterinarians, and medical practices",
+        features: [
+          "Everything in Annual, plus:",
+          "HIPAA compliance available**",
+          "Secure patient data handling",
+          "PHI protection protocols",
+          "BAA (Business Associate Agreement)",
+          "Enhanced security measures",
+          "Healthcare-specific workflows",
+          "24/7 priority support"
+        ],
+        ctaText: "Contact for Medical Plan"
       }
     ],
     active: true

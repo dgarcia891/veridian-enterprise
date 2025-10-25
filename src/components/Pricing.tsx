@@ -37,7 +37,7 @@ const Pricing = ({
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {plans.map((plan, index) => (
             <div
               key={plan.name}
@@ -89,6 +89,9 @@ const Pricing = ({
         <div className="mt-12 text-center space-y-2">
           <p className="text-sm text-muted-foreground">
             *Medical practices are double the listed price
+          </p>
+          <p className="text-sm text-muted-foreground">
+            **HIPAA compliance available with Medical/Healthcare plan - includes Business Associate Agreement (BAA) and enhanced security protocols
           </p>
           <p className="text-muted-foreground">
             All plans include unlimited call handling, 24/7 availability, and no setup fees
