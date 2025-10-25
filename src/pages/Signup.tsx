@@ -410,7 +410,7 @@ const Signup = () => {
                           </RadioGroup>
                         </FormControl>
                         <FormDescription className="text-xs">
-                          **HIPAA compliance available with Medical/Healthcare plan - includes Business Associate Agreement (BAA) and enhanced security protocols
+                          HIPAA compliance available with Medical/Healthcare plan - includes Business Associate Agreement (BAA) and enhanced security protocols
                         </FormDescription>
                         <FormMessage />
                       </FormItem>

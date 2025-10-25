@@ -105,7 +105,7 @@ export const services: Service[] = [
     pricing: [
       {
         name: "Monthly",
-        price: "$600*",
+        price: "$600",
         period: "/month",
         description: "Perfect for trying out the service with no long-term commitment",
         features: [
@@ -120,7 +120,7 @@ export const services: Service[] = [
       },
       {
         name: "Annual",
-        price: "$300*",
+        price: "$300",
         period: "/month",
         description: "Save $3,600/year with annual billing - our most popular plan",
         features: [
@@ -136,13 +136,13 @@ export const services: Service[] = [
         ctaText: "Start Annual"
       },
       {
-        name: "Medical/Healthcare**",
-        price: "$850*",
+        name: "Medical/Healthcare",
+        price: "$850",
         period: "/month",
         description: "HIPAA-compliant solution for dentists, doctors, veterinarians, and medical practices",
         features: [
           "Everything in Annual, plus:",
-          "HIPAA compliance available**",
+          "HIPAA compliance available",
           "Secure patient data handling",
           "PHI protection protocols",
           "BAA (Business Associate Agreement)",
