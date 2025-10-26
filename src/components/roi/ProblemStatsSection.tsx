@@ -61,48 +61,6 @@ const ProblemStatsSection = () => {
             );
           })}
         </div>
-        
-        {/* Donut Chart */}
-        <div className="glass-card p-8 rounded-lg">
-          <h3 className="text-2xl font-bold text-foreground mb-4 text-center">
-            The Scale of the Problem
-          </h3>
-          <p className="text-center text-muted-foreground mb-6">
-            Studies show that many SMBs miss the majority of their inbound calls.
-          </p>
-          <div className="w-full max-w-md mx-auto" style={{ height: "350px" }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={missedCallsData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={80}
-                  outerRadius={120}
-                  paddingAngle={2}
-                  dataKey="value"
-                >
-                  {missedCallsData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip 
-                  formatter={(value: number) => `${value}%`}
-                  contentStyle={{ 
-                    backgroundColor: 'hsl(var(--card))', 
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px'
-                  }}
-                />
-                <Legend 
-                  verticalAlign="bottom" 
-                  height={36}
-                  iconType="circle"
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
       </div>
     </section>
   );
