@@ -29,7 +29,10 @@ const ScheduleConsultation = () => {
               <Cal 
                 calLink="david-garcia-89/ai-agents-customer-onboarding"
                 style={{width:"100%",height:"100%",overflow:"scroll"}}
-                config={{theme:"dark"}}
+                config={{
+                  theme:"dark",
+                  successRedirectUrl: `${window.location.origin}/consultation-booked`
+                }}
               />
             </div>
           </div>
