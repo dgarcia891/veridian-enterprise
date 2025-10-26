@@ -11,7 +11,7 @@ const costComparisonData = [
 
 const InteractiveCalculator = () => {
   const [missedCalls, setMissedCalls] = useState([10]);
-  const [customerValue, setCustomerValue] = useState([300]);
+  const [customerValue, setCustomerValue] = useState([60]);
   
   const { annualLoss } = useROICalculation(missedCalls[0], customerValue[0]);
 
