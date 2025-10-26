@@ -79,45 +79,34 @@ serve(async (req) => {
       customerId = customer.id;
     }
 
-    // Determine pricing
+    // Determine price ID based on plan type
     const isAnnual = planType === "annual";
     const isMedical = planType === "medical";
     
-    let amount: number;
-    let description: string;
+    let priceId: string;
+    let mode: "payment" | "subscription";
     
     if (isMedical) {
-      amount = 1020000; // $10,200 annually ($850/month)
-      description = "Voice AI Receptionist - Medical/Healthcare Plan (HIPAA-compliant)";
+      priceId = "price_1SMI1kBAEKQ21Bqovt7fVaiE"; // Medical/Healthcare - $10,200/year
+      mode = "subscription";
     } else if (isAnnual) {
-      amount = 360000; // $3,600 annually ($300/month)
-      description = "Voice AI Receptionist - Annual Plan";
+      priceId = "price_1SMI1BBAEKQ21BqoFmlpkF41"; // Annual - $3,600/year
+      mode = "subscription";
     } else {
-      amount = 105000; // $1,050 ($600 + $450 setup)
-      description = "Voice AI Receptionist - Monthly Plan (includes $450 setup fee)";
+      priceId = "price_1SMHz0BAEKQ21Bqow3FGFyWS"; // Monthly - $1,050 one-time
+      mode = "payment";
     }
 
-    // Create payment session
+    // Create checkout session
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       line_items: [
         {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: description,
-              description: isMedical 
-                ? "Billed annually at $850/month with HIPAA compliance" 
-                : isAnnual 
-                  ? "Billed annually at $300/month" 
-                  : "First month + setup fee",
-            },
-            unit_amount: amount,
-          },
+          price: priceId,
           quantity: 1,
         },
       ],
-      mode: "payment",
+      mode: mode,
       success_url: `${req.headers.get("origin")}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.get("origin")}/signup`,
       metadata: {
