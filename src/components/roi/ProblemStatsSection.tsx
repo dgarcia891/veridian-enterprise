@@ -3,7 +3,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recha
 
 const kpiData = [
   {
-    title: "Annual Loss for SMBs",
+    title: "Annual Loss for Small & Medium Businesses",
     value: "$126,000",
     description: "Average annual revenue lost from unanswered calls.",
     icon: TrendingDown,
