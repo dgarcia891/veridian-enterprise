@@ -27,7 +27,7 @@ const ScheduleConsultation = () => {
             
             <div className="bg-card rounded-2xl shadow-lg p-6 min-h-[700px]">
               <Cal 
-                calLink="david-garcia-89/veridian"
+                calLink="david-garcia-89/ai-agents-customer-onboarding"
                 style={{width:"100%",height:"100%",overflow:"scroll"}}
                 config={{theme:"dark"}}
               />
