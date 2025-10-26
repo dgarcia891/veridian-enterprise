@@ -31,7 +31,7 @@ const ROINavigation = () => {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <button 
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() => navigate("/")}
             className="flex-shrink-0 text-xl font-bold text-primary hover:opacity-80 transition-opacity"
           >
             The AI Agent ROI

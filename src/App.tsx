@@ -36,8 +36,7 @@ const App = () => (
           </div>
         }>
           <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/roi-calculator" element={<ROICalculator />} />
+            <Route path="/" element={<ROICalculator />} />
             <Route path="/ai-receptionist" element={<AIReceptionist />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
