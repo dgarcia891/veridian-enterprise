@@ -12,6 +12,7 @@ const blogPosts = [
     readTime: "5 min read",
     category: "AI Technology",
     image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&auto=format&fit=crop",
+    slug: "transforming-customer-service",
   },
   {
     id: 2,
@@ -21,6 +22,7 @@ const blogPosts = [
     readTime: "7 min read",
     category: "Business Growth",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop",
+    slug: "roi-of-voice-ai",
   },
   {
     id: 3,
@@ -30,6 +32,7 @@ const blogPosts = [
     readTime: "4 min read",
     category: "Best Practices",
     image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&auto=format&fit=crop",
+    slug: "signs-you-need-ai",
   },
   {
     id: 4,
@@ -80,7 +83,7 @@ const Blog = () => {
           {/* Featured Post */}
           <div className="mb-16">
             <Link 
-              to="#" 
+              to={`/blog/${blogPosts[0].slug}`}
               className="group glass-card rounded-3xl overflow-hidden block hover:shadow-lg transition-all duration-300"
             >
               <div className="grid md:grid-cols-2 gap-6">
@@ -129,7 +132,7 @@ const Blog = () => {
             {blogPosts.slice(1).map((post) => (
               <Link
                 key={post.id}
-                to="#"
+                to={`/blog/${post.slug}`}
                 className="group glass-card rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300"
               >
                 <div className="relative h-48 overflow-hidden">

@@ -23,6 +23,9 @@ const ScheduleConsultation = lazy(() => import("./pages/ScheduleConsultation"));
 const ConsultationBooked = lazy(() => import("./pages/ConsultationBooked"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const Blog = lazy(() => import("./pages/Blog"));
+const TransformingCustomerService = lazy(() => import("./pages/blog/TransformingCustomerService"));
+const ROIOfVoiceAI = lazy(() => import("./pages/blog/ROIOfVoiceAI"));
+const SignsYouNeedAI = lazy(() => import("./pages/blog/SignsYouNeedAI"));
 
 const queryClient = new QueryClient();
 
@@ -42,6 +45,9 @@ const App = () => (
             <Route path="/ai-receptionist" element={<AIReceptionist />} />
             <Route path="/about" element={<About />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/transforming-customer-service" element={<TransformingCustomerService />} />
+            <Route path="/blog/roi-of-voice-ai" element={<ROIOfVoiceAI />} />
+            <Route path="/blog/signs-you-need-ai" element={<SignsYouNeedAI />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/lost-revenue-calculator" element={<LostRevenueCalculator />} />
