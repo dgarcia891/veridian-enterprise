@@ -12,15 +12,20 @@ const About = () => {
   const buttonRef = useRef<HTMLDivElement>(null);
 
   const handleChatClick = () => {
+    console.log('[About] Chat button clicked', { isWidgetReady, isAnimating, isMorphing });
+    
     // First, morph the button
     setIsMorphing(true);
+    console.log('[About] Starting morph animation');
     
     // After morph, start flying animation
     setTimeout(() => {
       setIsAnimating(true);
+      console.log('[About] Starting flying animation');
       
       // After fly animation, open chat
       setTimeout(() => {
+        console.log('[About] Opening chat');
         openChat();
         setIsAnimating(false);
         setIsMorphing(false);
@@ -147,10 +152,13 @@ const About = () => {
                 }`}
               >
                 <MessageSquare className={`w-4 h-4 sm:w-5 sm:h-5 transition-all duration-300 ${isMorphing ? 'w-8 h-8' : ''}`} />
-                <span className={`transition-all duration-300 ${isMorphing ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'}`}>
+                <span className={`transition-all duration-300 whitespace-nowrap ${isMorphing ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'}`}>
                   Chat with Rosie Now
                 </span>
               </Button>
+              {!isWidgetReady && (
+                <p className="text-xs text-muted-foreground mt-2">Loading widget...</p>
+              )}
             </div>
             
             {/* Flying widget animation */}
