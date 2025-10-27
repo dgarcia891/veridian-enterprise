@@ -22,7 +22,20 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [emailRevealed, setEmailRevealed] = useState(false);
   const [revealEmail, setRevealEmail] = useState("");
-  const { openChat } = useRetellWidget();
+  const { isWidgetReady, openChat } = useRetellWidget();
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [showChatCard, setShowChatCard] = useState(true);
+
+  const handleChatClick = () => {
+    setIsAnimating(true);
+    
+    // Hide card and open chat after animation
+    setTimeout(() => {
+      setShowChatCard(false);
+      openChat();
+      setIsAnimating(false);
+    }, 600);
+  };
 
   const handleRevealEmail = () => {
     const emailValidation = z.string().trim().email();
@@ -144,15 +157,26 @@ const Contact = () => {
               </form>
             </div>
 
-            <div className="space-y-8">
-              <div 
-                onClick={openChat}
-                className="glass-card p-6 rounded-2xl cursor-pointer hover:bg-accent/50 transition-colors"
-              >
-                <MessageSquare className="w-8 h-8 text-primary mb-4" />
-                <h3 className="font-semibold mb-2">AI Agent Chat</h3>
-                <p className="text-muted-foreground">Chat with Rosie instantly</p>
-              </div>
+            <div className="space-y-8 relative">
+              {showChatCard && (
+                <div 
+                  onClick={handleChatClick}
+                  className="glass-card p-6 rounded-2xl cursor-pointer hover:bg-accent/50 transition-colors"
+                >
+                  <MessageSquare className="w-8 h-8 text-primary mb-4" />
+                  <h3 className="font-semibold mb-2">AI Agent Chat</h3>
+                  <p className="text-muted-foreground">Chat with Rosie instantly</p>
+                </div>
+              )}
+              
+              {/* Flying widget animation */}
+              {isAnimating && (
+                <div className="fixed bottom-6 right-6 z-50 animate-[fly-to-center_0.6s_ease-in-out_forwards]">
+                  <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-lg">
+                    <MessageSquare className="w-8 h-8 text-primary-foreground" />
+                  </div>
+                </div>
+              )}
 
               <div className="glass-card p-6 rounded-2xl">
                 <Mail className="w-8 h-8 text-primary mb-4" />
