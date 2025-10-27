@@ -232,20 +232,29 @@ const FAQ = () => {
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">
               Still Have Questions?
             </h2>
-            <p className="text-xl opacity-90 mb-8">
+            <p className="text-xl opacity-90 mb-6">
               Talk to our team to learn how AI voice agents can work for your specific business needs
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            
+            {/* Phone Number */}
+            <a 
+              href="tel:6612634388"
+              className="inline-flex items-center gap-2 text-2xl font-bold mb-8 hover:opacity-80 transition-opacity"
+            >
+              <Phone className="w-6 h-6" />
+              661-263-4388
+            </a>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
               <a 
-                href="tel:6612634388"
+                href="/signup"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-background text-foreground rounded-lg font-semibold hover:opacity-90 transition-opacity"
               >
-                <Phone className="w-5 h-5" />
-                Call Now
+                Get Started
               </a>
               <a 
                 href="/"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-background/10 backdrop-blur text-primary-foreground border border-primary-foreground/20 rounded-lg font-semibold hover:bg-background/20 transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent text-accent-foreground rounded-lg font-semibold hover:opacity-90 transition-opacity"
               >
                 Calculate Your ROI
               </a>
