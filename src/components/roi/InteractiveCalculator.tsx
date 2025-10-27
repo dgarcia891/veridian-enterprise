@@ -50,7 +50,7 @@ const InteractiveCalculator = () => {
                   value={missedCalls}
                   onValueChange={setMissedCalls}
                   min={1}
-                  max={50}
+                  max={25}
                   step={1}
                   className="w-full"
                 />
@@ -69,7 +69,7 @@ const InteractiveCalculator = () => {
                   value={customerValue}
                   onValueChange={setCustomerValue}
                   min={50}
-                  max={2000}
+                  max={1000}
                   step={50}
                   className="w-full"
                 />
