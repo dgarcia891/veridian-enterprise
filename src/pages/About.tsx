@@ -81,7 +81,7 @@ const About = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Proven ROI</h3>
-                  <p className="text-white/70">One salvaged high-ticket call can cover the entire annual cost.</p>
+                  <p className="text-white/70">One salvaged high-ticket call can cover the entire annual cost.*</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
@@ -103,6 +103,12 @@ const About = () => {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="mt-12 pt-8 border-t border-white/10">
+            <p className="text-sm text-white/50 max-w-4xl">
+              * Based on annual subscription cost of $3,600 and assuming 85% of missed callers never call back, recovering just one call valued at approximately $4,235 or higher would cover the entire year. Alternatively, recovering 5 missed calls at $850 each, or 10 missed calls at $425 each would achieve the same result.
+            </p>
           </div>
         </section>
       </main>
