@@ -36,7 +36,7 @@ const ServiceCTA = ({
         <Button 
           onClick={handleCTAClick}
           size="lg"
-          className="bg-primary text-primary-foreground rounded-full px-10 py-6 text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group"
+          className="bg-primary text-primary-foreground rounded-full px-6 py-4 sm:px-10 sm:py-6 text-base sm:text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group"
         >
           {buttonText}
           <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
