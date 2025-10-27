@@ -1,4 +1,4 @@
-import Navigation from "@/components/Navigation";
+import ROINavigation from "@/components/roi/ROINavigation";
 import ServiceHero from "@/components/ServiceHero";
 import ServiceBenefits from "@/components/ServiceBenefits";
 import ServiceFeatures from "@/components/ServiceFeatures";
@@ -21,7 +21,7 @@ const Index = () => {
         Skip to main content
       </a>
       
-      <Navigation />
+      <ROINavigation />
       
       <main id="main-content">
         <ServiceHero 
