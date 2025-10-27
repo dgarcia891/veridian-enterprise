@@ -6,6 +6,7 @@ import GrowthSection from "@/components/roi/GrowthSection";
 import ServiceCTA from "@/components/ServiceCTA";
 import Footer from "@/components/Footer";
 import { Helmet } from "react-helmet";
+import { ArrowRight } from "lucide-react";
 
 const ROICalculator = () => {
   return (
@@ -38,6 +39,21 @@ const ROICalculator = () => {
           description="Stop losing $126,000 a year. Start converting 100% of your calls."
           buttonText="Get Started Today"
         />
+        
+        <section className="py-12 px-4 sm:px-6 lg:px-8 bg-card border-t border-border">
+          <div className="max-w-4xl mx-auto text-center">
+            <a 
+              href="/faq"
+              className="inline-flex items-center gap-2 text-lg font-semibold text-primary hover:underline transition-all group"
+            >
+              Want to Know More About AI Agents?
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </a>
+            <p className="text-sm text-muted-foreground mt-2">
+              Explore our comprehensive FAQ covering capabilities, integrations, and more
+            </p>
+          </div>
+        </section>
       </main>
       
       <Footer />
