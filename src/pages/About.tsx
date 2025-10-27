@@ -3,29 +3,65 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { MessageSquare } from "lucide-react";
 import { useRetellWidget } from "@/hooks/useRetellWidget";
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const About = () => {
   const { isWidgetReady, openChat } = useRetellWidget();
   const [isAnimating, setIsAnimating] = useState(false);
   const [isMorphing, setIsMorphing] = useState(false);
+  const [hasTriggered, setHasTriggered] = useState(false);
   const buttonRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!buttonRef.current || hasTriggered || !isWidgetReady) return;
+      
+      const buttonRect = buttonRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      // Trigger when button is in center of viewport
+      const isInCenter = buttonRect.top < windowHeight * 0.6 && buttonRect.bottom > windowHeight * 0.4;
+      
+      if (isInCenter) {
+        console.log('[About] Scroll triggered animation');
+        setHasTriggered(true);
+        
+        // Start morph
+        setIsMorphing(true);
+        console.log('[About] Starting morph animation');
+        
+        // After morph, start flying
+        setTimeout(() => {
+          setIsAnimating(true);
+          console.log('[About] Starting flying animation');
+          
+          // After fly, open chat
+          setTimeout(() => {
+            console.log('[About] Opening chat');
+            openChat();
+            setIsAnimating(false);
+            setIsMorphing(false);
+          }, 700);
+        }, 500);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check initial position
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [hasTriggered, isWidgetReady, openChat]);
+
   const handleChatClick = () => {
-    console.log('[About] Chat button clicked', { isWidgetReady, isAnimating, isMorphing });
+    if (hasTriggered) return; // Don't trigger if already triggered by scroll
     
-    // First, morph the button
+    console.log('[About] Manual click triggered');
+    setHasTriggered(true);
     setIsMorphing(true);
-    console.log('[About] Starting morph animation');
     
-    // After morph, start flying animation
     setTimeout(() => {
       setIsAnimating(true);
-      console.log('[About] Starting flying animation');
-      
-      // After fly animation, open chat
       setTimeout(() => {
-        console.log('[About] Opening chat');
         openChat();
         setIsAnimating(false);
         setIsMorphing(false);
