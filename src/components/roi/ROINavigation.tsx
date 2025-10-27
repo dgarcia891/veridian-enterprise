@@ -10,6 +10,7 @@ const sections = [
   { id: "calculator", label: "Calculator" },
   { id: "growth", label: "Growth" },
   { id: "about", label: "About", route: "/about" },
+  { id: "faq", label: "FAQ", route: "/faq" },
 ];
 
 const ROINavigation = () => {

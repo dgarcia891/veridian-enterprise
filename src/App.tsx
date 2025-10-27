@@ -21,6 +21,7 @@ const Signup = lazy(() => import("./pages/Signup"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 const ScheduleConsultation = lazy(() => import("./pages/ScheduleConsultation"));
 const ConsultationBooked = lazy(() => import("./pages/ConsultationBooked"));
+const FAQ = lazy(() => import("./pages/FAQ"));
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
             <Route path="/" element={<ROICalculator />} />
             <Route path="/ai-receptionist" element={<AIReceptionist />} />
             <Route path="/about" element={<About />} />
+            <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/lost-revenue-calculator" element={<LostRevenueCalculator />} />
             <Route path="/features" element={<Features />} />
