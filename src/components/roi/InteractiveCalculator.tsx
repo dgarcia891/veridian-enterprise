@@ -69,7 +69,7 @@ const InteractiveCalculator = () => {
                   value={customerValue}
                   onValueChange={setCustomerValue}
                   min={50}
-                  max={1000}
+                  max={800}
                   step={50}
                   className="w-full"
                 />
