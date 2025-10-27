@@ -10,34 +10,46 @@ const About = () => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isMorphing, setIsMorphing] = useState(false);
   const [hasTriggered, setHasTriggered] = useState(false);
+  const [widgetPosition, setWidgetPosition] = useState({ x: 0, y: 0 });
+  const [showTrackingWidget, setShowTrackingWidget] = useState(false);
   const buttonRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!buttonRef.current || hasTriggered || !isWidgetReady) return;
+      if (!buttonRef.current || !isWidgetReady) return;
       
       const buttonRect = buttonRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       
-      // Trigger when button is in center of viewport
+      // Calculate button center position
+      const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+      const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+      
+      // Update widget position to track button
+      setWidgetPosition({ x: buttonCenterX, y: buttonCenterY });
+      
+      // Show tracking widget when button is visible
+      if (buttonRect.top < windowHeight && buttonRect.bottom > 0) {
+        setShowTrackingWidget(true);
+      }
+      
+      // Trigger animation when button is in center of viewport
       const isInCenter = buttonRect.top < windowHeight * 0.6 && buttonRect.bottom > windowHeight * 0.4;
       
-      if (isInCenter) {
+      if (isInCenter && !hasTriggered) {
         console.log('[About] Scroll triggered animation');
         setHasTriggered(true);
         
         // Start morph
         setIsMorphing(true);
-        console.log('[About] Starting morph animation');
         
         // After morph, start flying
         setTimeout(() => {
           setIsAnimating(true);
-          console.log('[About] Starting flying animation');
+          setShowTrackingWidget(false);
           
           // After fly, open chat
           setTimeout(() => {
-            console.log('[About] Opening chat');
             openChat();
             setIsAnimating(false);
             setIsMorphing(false);
@@ -53,11 +65,12 @@ const About = () => {
   }, [hasTriggered, isWidgetReady, openChat]);
 
   const handleChatClick = () => {
-    if (hasTriggered) return; // Don't trigger if already triggered by scroll
+    if (hasTriggered) return;
     
     console.log('[About] Manual click triggered');
     setHasTriggered(true);
     setIsMorphing(true);
+    setShowTrackingWidget(false);
     
     setTimeout(() => {
       setIsAnimating(true);
@@ -203,6 +216,20 @@ const About = () => {
                 <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-lg">
                   <MessageSquare className="w-8 h-8 text-primary-foreground" />
                 </div>
+              </div>
+            )}
+            
+            {/* Tracking widget that follows button */}
+            {showTrackingWidget && !isAnimating && !hasTriggered && (
+              <div 
+                className="fixed w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-lg z-50 transition-all duration-300 ease-out pointer-events-none"
+                style={{
+                  left: `${widgetPosition.x}px`,
+                  top: `${widgetPosition.y}px`,
+                  transform: 'translate(-50%, -50%)'
+                }}
+              >
+                <MessageSquare className="w-8 h-8 text-primary-foreground" />
               </div>
             )}
           </div>
