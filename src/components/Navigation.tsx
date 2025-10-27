@@ -20,6 +20,7 @@ const Navigation = () => {
     { href: "/about", label: "About", type: "link" },
     { label: "Services", type: "dropdown", items: activeServices },
     { href: "/#pricing", label: "Pricing", type: "hash" },
+    { href: "/blog", label: "Blog", type: "link" },
     { href: "/contact", label: "Contact", type: "link" }
   ];
   return <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 glass-card" role="navigation" aria-label="Main navigation">
