@@ -1,100 +1,7 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
-import { MessageSquare } from "lucide-react";
-import { useRetellWidget } from "@/hooks/useRetellWidget";
-import { useState, useEffect, useRef } from "react";
 
 const About = () => {
-  const { isWidgetReady, openChat } = useRetellWidget();
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [isMorphing, setIsMorphing] = useState(false);
-  const [hasTriggered, setHasTriggered] = useState(false);
-  const [widgetPosition, setWidgetPosition] = useState({ x: 0, y: 0 });
-  const [showTrackingWidget, setShowTrackingWidget] = useState(false);
-  const buttonRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!buttonRef.current || !isWidgetReady) return;
-      
-      const buttonRect = buttonRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const windowWidth = window.innerWidth;
-      
-      // Calculate button center position
-      const buttonCenterX = buttonRect.left + buttonRect.width / 2;
-      const buttonCenterY = buttonRect.top + buttonRect.height / 2;
-      
-      // Calculate bottom-right corner position (where Retell widget is)
-      const cornerX = windowWidth - 48; // 3rem = 48px
-      const cornerY = windowHeight - 48;
-      
-      // Calculate the transform needed to move from corner to button
-      const deltaX = buttonCenterX - cornerX;
-      const deltaY = buttonCenterY - cornerY;
-      
-      setWidgetPosition({ x: deltaX, y: deltaY });
-      
-      // Show tracking widget when button is visible and not yet triggered
-      if (buttonRect.top < windowHeight && buttonRect.bottom > 0 && !hasTriggered) {
-        setShowTrackingWidget(true);
-      } else if (hasTriggered) {
-        setShowTrackingWidget(false);
-      }
-      
-      // Trigger animation when button is in center of viewport
-      const isInCenter = buttonRect.top < windowHeight * 0.6 && buttonRect.bottom > windowHeight * 0.4;
-      
-      if (isInCenter && !hasTriggered) {
-        console.log('[About] Scroll triggered animation', { deltaX, deltaY, buttonCenterX, buttonCenterY, cornerX, cornerY });
-        setHasTriggered(true);
-        setShowTrackingWidget(false);
-        
-        // Start morph
-        setIsMorphing(true);
-        
-        // After morph, start flying with the button's position
-        setTimeout(() => {
-          setIsAnimating(true);
-          
-          // After fly, open chat
-          setTimeout(() => {
-            openChat();
-            setIsAnimating(false);
-            setIsMorphing(false);
-          }, 800);
-        }, 500);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleScroll);
-    handleScroll(); // Check initial position
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
-    };
-  }, [hasTriggered, isWidgetReady, openChat]);
-
-  const handleChatClick = () => {
-    if (hasTriggered) return;
-    
-    console.log('[About] Manual click triggered');
-    setHasTriggered(true);
-    setIsMorphing(true);
-    setShowTrackingWidget(false);
-    
-    setTimeout(() => {
-      setIsAnimating(true);
-      setTimeout(() => {
-        openChat();
-        setIsAnimating(false);
-        setIsMorphing(false);
-      }, 700);
-    }, 500);
-  };
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navigation />
@@ -199,44 +106,11 @@ const About = () => {
           </div>
 
           {/* Chat with Rosie CTA */}
-          <div ref={buttonRef} className="glass-card p-6 sm:p-8 rounded-lg border border-primary/50 text-center bg-gradient-to-br from-primary/5 to-primary/10 relative overflow-hidden">
+          <div className="glass-card p-6 sm:p-8 rounded-lg border border-primary/50 text-center bg-gradient-to-br from-primary/5 to-primary/10">
             <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Have Questions? Chat with Rosie</h2>
-            <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 max-w-2xl mx-auto">
-              Our AI assistant Rosie is here to answer your questions about our services, pricing, and how AI voice agents can help your business.
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
+              Our AI assistant Rosie is here to answer your questions about our services, pricing, and how AI voice agents can help your business. Click the chat widget in the bottom right corner to get started.
             </p>
-            
-            <div className="relative flex justify-center">
-              <Button
-                onClick={handleChatClick}
-                disabled={!isWidgetReady || hasTriggered}
-                size="lg"
-                className={`bg-primary text-primary-foreground rounded-full px-6 py-4 sm:px-8 sm:py-6 text-base sm:text-lg font-semibold transition-all duration-500 ease-in-out flex items-center gap-2 ${
-                  isMorphing ? 'w-16 h-16 !p-0 scale-90 opacity-50' : 'hover:scale-105'
-                } ${hasTriggered ? 'invisible' : 'visible'}`}
-              >
-                <MessageSquare className={`transition-all duration-300 ${isMorphing ? 'w-8 h-8' : 'w-4 h-4 sm:w-5 sm:h-5'}`} />
-                <span className={`transition-all duration-300 whitespace-nowrap ${isMorphing ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'}`}>
-                  Chat with Rosie Now
-                </span>
-              </Button>
-              {!isWidgetReady && (
-                <p className="text-xs text-muted-foreground mt-2">Loading widget...</p>
-              )}
-            </div>
-            
-            {/* Flying widget animation - flies from bottom right to button position */}
-            {isAnimating && (
-              <div 
-                className="fixed bottom-12 right-12 w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-lg z-[70]"
-                style={{
-                  animation: `fly-to-button 0.8s ease-in-out forwards`,
-                  '--target-x': `${widgetPosition.x}px`,
-                  '--target-y': `${widgetPosition.y}px`
-                } as React.CSSProperties}
-              >
-                <MessageSquare className="w-8 h-8 text-primary-foreground" />
-              </div>
-            )}
           </div>
 
           <div className="mt-12 pt-8 border-t border-border">
