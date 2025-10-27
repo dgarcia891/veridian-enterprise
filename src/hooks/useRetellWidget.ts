@@ -46,31 +46,55 @@ export const useRetellWidget = () => {
     try {
       console.log("Attempting to open Retell chat widget...");
       
-      // Try to find and click the Retell widget button
-      const widgetButton = document.querySelector('[id*="retell"]') as HTMLElement || 
-                          document.querySelector('[class*="retell-widget"]') as HTMLElement ||
-                          document.querySelector('button[aria-label*="chat"]') as HTMLElement;
+      // Try multiple methods to trigger the widget
+      const selectors = [
+        '[id*="retell"]',
+        '[class*="retell"]',
+        'iframe[src*="retell"]',
+        'button[aria-label*="chat"]',
+        'div[class*="widget"]'
+      ];
       
-      if (widgetButton) {
-        console.log("Found widget button, clicking...");
-        widgetButton.click();
+      let widgetElement: HTMLElement | null = null;
+      
+      for (const selector of selectors) {
+        widgetElement = document.querySelector(selector) as HTMLElement;
+        if (widgetElement) {
+          console.log(`Found widget with selector: ${selector}`);
+          break;
+        }
+      }
+      
+      if (widgetElement) {
+        // Try dispatching proper mouse events instead of just .click()
+        const clickEvent = new MouseEvent('click', {
+          view: window,
+          bubbles: true,
+          cancelable: true
+        });
+        widgetElement.dispatchEvent(clickEvent);
+        
+        // Also try regular click as backup
+        setTimeout(() => {
+          if (widgetElement) widgetElement.click();
+        }, 100);
+        
+        console.log("Widget triggered successfully");
       } else if (window.RetellWebClient) {
-        // Fallback to RetellWebClient if available
         console.log("Using RetellWebClient API");
         window.RetellWebClient.open();
       } else {
-        console.log("Widget button not found, but marked as ready - user should see widget on page");
+        console.log("Please click the chat widget directly in the bottom right corner");
         toast({
-          title: "Chat Widget",
-          description: "Please look for the chat widget button on the page (usually bottom right corner).",
+          title: "Chat Available",
+          description: "Click the chat widget in the bottom right corner to start talking with Rosie.",
         });
       }
     } catch (error) {
       console.error("Error opening Retell chat:", error);
       toast({
-        title: "Connection Error",
-        description: "Unable to start chat. Please look for the chat widget button on your screen.",
-        variant: "destructive",
+        title: "Chat Available",
+        description: "Click the chat widget in the bottom right corner to connect with Rosie.",
       });
     }
   };
