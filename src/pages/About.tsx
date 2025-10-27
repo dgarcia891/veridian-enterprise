@@ -3,9 +3,23 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { MessageSquare } from "lucide-react";
 import { useRetellWidget } from "@/hooks/useRetellWidget";
+import { useState } from "react";
 
 const About = () => {
   const { isWidgetReady, openChat } = useRetellWidget();
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [showButton, setShowButton] = useState(true);
+
+  const handleChatClick = () => {
+    setIsAnimating(true);
+    
+    // Hide button and open chat after animation
+    setTimeout(() => {
+      setShowButton(false);
+      openChat();
+      setIsAnimating(false);
+    }, 600);
+  };
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navigation />
@@ -110,20 +124,32 @@ const About = () => {
           </div>
 
           {/* Chat with Rosie CTA */}
-          <div className="glass-card p-8 rounded-lg border border-primary/50 text-center bg-gradient-to-br from-primary/5 to-primary/10">
+          <div className="glass-card p-8 rounded-lg border border-primary/50 text-center bg-gradient-to-br from-primary/5 to-primary/10 relative">
             <h2 className="text-2xl font-bold mb-4">Have Questions? Chat with Rosie</h2>
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
               Our AI assistant Rosie is here to answer your questions about our services, pricing, and how AI voice agents can help your business.
             </p>
-            <Button
-              onClick={openChat}
-              disabled={!isWidgetReady}
-              size="lg"
-              className="bg-primary text-primary-foreground rounded-full px-8 py-6 text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto"
-            >
-              <MessageSquare className="w-5 h-5" />
-              Chat with Rosie Now
-            </Button>
+            
+            {showButton && (
+              <Button
+                onClick={handleChatClick}
+                disabled={!isWidgetReady || isAnimating}
+                size="lg"
+                className="bg-primary text-primary-foreground rounded-full px-8 py-6 text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto"
+              >
+                <MessageSquare className="w-5 h-5" />
+                Chat with Rosie Now
+              </Button>
+            )}
+            
+            {/* Flying widget animation */}
+            {isAnimating && (
+              <div className="fixed bottom-6 right-6 z-50 animate-[fly-to-center_0.6s_ease-in-out_forwards]">
+                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-lg">
+                  <MessageSquare className="w-8 h-8 text-primary-foreground" />
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="mt-12 pt-8 border-t border-border">
