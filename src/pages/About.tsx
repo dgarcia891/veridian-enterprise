@@ -3,64 +3,29 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { MessageSquare } from "lucide-react";
 import { useRetellWidget } from "@/hooks/useRetellWidget";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 
 const About = () => {
   const { isWidgetReady, openChat } = useRetellWidget();
   const [isAnimating, setIsAnimating] = useState(false);
-  const [showButton, setShowButton] = useState(true);
   const [isMorphing, setIsMorphing] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const buttonRef = useRef<HTMLDivElement>(null);
-  const lastScrollY = useRef(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!buttonRef.current) return;
-      
-      const buttonRect = buttonRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const currentScrollY = window.scrollY;
-      const scrollingDown = currentScrollY > lastScrollY.current;
-      
-      // Calculate when button is in middle third of viewport
-      const isInTriggerZone = buttonRect.top < windowHeight * 0.6 && buttonRect.bottom > windowHeight * 0.4;
-      
-      if (isInTriggerZone && scrollingDown && showButton && !isAnimating) {
-        // Start morph animation
-        setIsMorphing(true);
-        
-        // After morph completes, fly widget
-        setTimeout(() => {
-          setIsAnimating(true);
-          setTimeout(() => {
-            setShowButton(false);
-            setIsMorphing(false);
-            openChat();
-            setIsAnimating(false);
-          }, 600);
-        }, 400);
-      }
-      
-      lastScrollY.current = currentScrollY;
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [showButton, isAnimating, openChat]);
 
   const handleChatClick = () => {
+    // First, morph the button
     setIsMorphing(true);
     
+    // After morph, start flying animation
     setTimeout(() => {
       setIsAnimating(true);
+      
+      // After fly animation, open chat
       setTimeout(() => {
-        setShowButton(false);
-        setIsMorphing(false);
         openChat();
         setIsAnimating(false);
-      }, 600);
-    }, 400);
+        setIsMorphing(false);
+      }, 700);
+    }, 500);
   };
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -166,27 +131,27 @@ const About = () => {
           </div>
 
           {/* Chat with Rosie CTA */}
-          <div ref={buttonRef} className="glass-card p-6 sm:p-8 rounded-lg border border-primary/50 text-center bg-gradient-to-br from-primary/5 to-primary/10 relative">
+          <div ref={buttonRef} className="glass-card p-6 sm:p-8 rounded-lg border border-primary/50 text-center bg-gradient-to-br from-primary/5 to-primary/10 relative overflow-hidden">
             <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Have Questions? Chat with Rosie</h2>
             <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 max-w-2xl mx-auto">
               Our AI assistant Rosie is here to answer your questions about our services, pricing, and how AI voice agents can help your business.
             </p>
             
-            {showButton && (
+            <div className="relative flex justify-center">
               <Button
                 onClick={handleChatClick}
                 disabled={!isWidgetReady || isAnimating}
                 size="lg"
-                className={`bg-primary text-primary-foreground rounded-full px-6 py-4 sm:px-8 sm:py-6 text-base sm:text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto ${
-                  isMorphing ? 'animate-[morph-to-circle_0.4s_ease-in-out_forwards]' : ''
+                className={`bg-primary text-primary-foreground rounded-full px-6 py-4 sm:px-8 sm:py-6 text-base sm:text-lg font-semibold transition-all duration-500 ease-in-out flex items-center gap-2 ${
+                  isMorphing ? 'w-16 h-16 !p-0 scale-90' : 'hover:scale-105'
                 }`}
               >
-                <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5" />
-                <span className={isMorphing ? 'opacity-0' : 'opacity-100 transition-opacity'}>
+                <MessageSquare className={`w-4 h-4 sm:w-5 sm:h-5 transition-all duration-300 ${isMorphing ? 'w-8 h-8' : ''}`} />
+                <span className={`transition-all duration-300 ${isMorphing ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'}`}>
                   Chat with Rosie Now
                 </span>
               </Button>
-            )}
+            </div>
             
             {/* Flying widget animation */}
             {isAnimating && (
