@@ -86,15 +86,17 @@
     }
   }
   
-  @keyframes fly-from-corner {
+  @keyframes fly-to-button {
     0% {
-      left: calc(100vw - 3rem);
-      top: calc(100vh - 3rem);
-      transform: translate(-50%, -50%) scale(1);
+      transform: translate(0, 0) scale(1);
       opacity: 1;
     }
+    50% {
+      transform: translate(calc(var(--target-x) * 0.5), calc(var(--target-y) * 0.5)) scale(1.1);
+      opacity: 0.9;
+    }
     100% {
-      transform: translate(-50%, -50%) scale(1.2);
+      transform: translate(var(--target-x), var(--target-y)) scale(0.8);
       opacity: 0;
     }
   }

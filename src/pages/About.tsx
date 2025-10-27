@@ -20,12 +20,21 @@ const About = () => {
       
       const buttonRect = buttonRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
+      const windowWidth = window.innerWidth;
       
-      // Update widget position to track button (fixed position, so no need to add scroll)
+      // Calculate button center position
       const buttonCenterX = buttonRect.left + buttonRect.width / 2;
       const buttonCenterY = buttonRect.top + buttonRect.height / 2;
       
-      setWidgetPosition({ x: buttonCenterX, y: buttonCenterY });
+      // Calculate bottom-right corner position (where Retell widget is)
+      const cornerX = windowWidth - 48; // 3rem = 48px
+      const cornerY = windowHeight - 48;
+      
+      // Calculate the transform needed to move from corner to button
+      const deltaX = buttonCenterX - cornerX;
+      const deltaY = buttonCenterY - cornerY;
+      
+      setWidgetPosition({ x: deltaX, y: deltaY });
       
       // Show tracking widget when button is visible and not yet triggered
       if (buttonRect.top < windowHeight && buttonRect.bottom > 0 && !hasTriggered) {
@@ -38,7 +47,7 @@ const About = () => {
       const isInCenter = buttonRect.top < windowHeight * 0.6 && buttonRect.bottom > windowHeight * 0.4;
       
       if (isInCenter && !hasTriggered) {
-        console.log('[About] Scroll triggered animation', { x: buttonCenterX, y: buttonCenterY });
+        console.log('[About] Scroll triggered animation', { deltaX, deltaY, buttonCenterX, buttonCenterY, cornerX, cornerY });
         setHasTriggered(true);
         setShowTrackingWidget(false);
         
@@ -218,29 +227,14 @@ const About = () => {
             {/* Flying widget animation - flies from bottom right to button position */}
             {isAnimating && (
               <div 
-                className="fixed w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-lg z-[70] transition-all duration-700 ease-in-out"
+                className="fixed bottom-12 right-12 w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-lg z-[70]"
                 style={{
-                  left: `${widgetPosition.x}px`,
-                  top: `${widgetPosition.y}px`,
-                  transform: 'translate(-50%, -50%) scale(0.8)',
-                  animation: 'fly-from-corner 0.7s ease-in-out forwards'
-                }}
+                  animation: `fly-to-button 0.8s ease-in-out forwards`,
+                  '--target-x': `${widgetPosition.x}px`,
+                  '--target-y': `${widgetPosition.y}px`
+                } as React.CSSProperties}
               >
                 <MessageSquare className="w-8 h-8 text-primary-foreground" />
-              </div>
-            )}
-            
-            {/* Tracking widget that follows button */}
-            {showTrackingWidget && (
-              <div 
-                className="fixed w-12 h-12 bg-primary/80 rounded-full flex items-center justify-center shadow-lg z-[60] transition-all duration-200 ease-out pointer-events-none"
-                style={{
-                  left: `${widgetPosition.x}px`,
-                  top: `${widgetPosition.y}px`,
-                  transform: 'translate(-50%, -50%)'
-                }}
-              >
-                <MessageSquare className="w-6 h-6 text-primary-foreground" />
               </div>
             )}
           </div>
