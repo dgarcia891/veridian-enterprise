@@ -86,17 +86,15 @@
     }
   }
   
-  @keyframes fly-to-center {
+  @keyframes fly-from-corner {
     0% {
-      transform: translate(0, 0) scale(1);
+      left: calc(100vw - 3rem);
+      top: calc(100vh - 3rem);
+      transform: translate(-50%, -50%) scale(1);
       opacity: 1;
     }
-    50% {
-      transform: translate(calc(-50vw + 50%), calc(-50vh + 50%)) scale(1.2);
-      opacity: 0.8;
-    }
     100% {
-      transform: translate(calc(-50vw + 50%), calc(-50vh + 50%)) scale(0);
+      transform: translate(-50%, -50%) scale(1.2);
       opacity: 0;
     }
   }

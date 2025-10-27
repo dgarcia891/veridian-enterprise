@@ -38,14 +38,14 @@ const About = () => {
       const isInCenter = buttonRect.top < windowHeight * 0.6 && buttonRect.bottom > windowHeight * 0.4;
       
       if (isInCenter && !hasTriggered) {
-        console.log('[About] Scroll triggered animation', { buttonCenterX, buttonCenterY });
+        console.log('[About] Scroll triggered animation', { x: buttonCenterX, y: buttonCenterY });
         setHasTriggered(true);
         setShowTrackingWidget(false);
         
         // Start morph
         setIsMorphing(true);
         
-        // After morph, start flying
+        // After morph, start flying with the button's position
         setTimeout(() => {
           setIsAnimating(true);
           
@@ -54,7 +54,7 @@ const About = () => {
             openChat();
             setIsAnimating(false);
             setIsMorphing(false);
-          }, 700);
+          }, 800);
         }, 500);
       }
     };
@@ -215,6 +215,21 @@ const About = () => {
               )}
             </div>
             
+            {/* Flying widget animation - flies from bottom right to button position */}
+            {isAnimating && (
+              <div 
+                className="fixed w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-lg z-[70] transition-all duration-700 ease-in-out"
+                style={{
+                  left: `${widgetPosition.x}px`,
+                  top: `${widgetPosition.y}px`,
+                  transform: 'translate(-50%, -50%) scale(0.8)',
+                  animation: 'fly-from-corner 0.7s ease-in-out forwards'
+                }}
+              >
+                <MessageSquare className="w-8 h-8 text-primary-foreground" />
+              </div>
+            )}
+            
             {/* Tracking widget that follows button */}
             {showTrackingWidget && (
               <div 
@@ -226,15 +241,6 @@ const About = () => {
                 }}
               >
                 <MessageSquare className="w-6 h-6 text-primary-foreground" />
-              </div>
-            )}
-            
-            {/* Flying widget animation */}
-            {isAnimating && (
-              <div className="fixed bottom-6 right-6 z-50 animate-[fly-to-center_0.6s_ease-in-out_forwards]">
-                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-lg">
-                  <MessageSquare className="w-8 h-8 text-primary-foreground" />
-                </div>
               </div>
             )}
           </div>
