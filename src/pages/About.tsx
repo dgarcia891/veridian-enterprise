@@ -21,24 +21,26 @@ const About = () => {
       const buttonRect = buttonRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       
-      // Calculate button center position
+      // Update widget position to track button (fixed position, so no need to add scroll)
       const buttonCenterX = buttonRect.left + buttonRect.width / 2;
       const buttonCenterY = buttonRect.top + buttonRect.height / 2;
       
-      // Update widget position to track button
       setWidgetPosition({ x: buttonCenterX, y: buttonCenterY });
       
-      // Show tracking widget when button is visible
-      if (buttonRect.top < windowHeight && buttonRect.bottom > 0) {
+      // Show tracking widget when button is visible and not yet triggered
+      if (buttonRect.top < windowHeight && buttonRect.bottom > 0 && !hasTriggered) {
         setShowTrackingWidget(true);
+      } else if (hasTriggered) {
+        setShowTrackingWidget(false);
       }
       
       // Trigger animation when button is in center of viewport
       const isInCenter = buttonRect.top < windowHeight * 0.6 && buttonRect.bottom > windowHeight * 0.4;
       
       if (isInCenter && !hasTriggered) {
-        console.log('[About] Scroll triggered animation');
+        console.log('[About] Scroll triggered animation', { buttonCenterX, buttonCenterY });
         setHasTriggered(true);
+        setShowTrackingWidget(false);
         
         // Start morph
         setIsMorphing(true);
@@ -46,7 +48,6 @@ const About = () => {
         // After morph, start flying
         setTimeout(() => {
           setIsAnimating(true);
-          setShowTrackingWidget(false);
           
           // After fly, open chat
           setTimeout(() => {
@@ -59,9 +60,13 @@ const About = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
     handleScroll(); // Check initial position
     
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, [hasTriggered, isWidgetReady, openChat]);
 
   const handleChatClick = () => {
@@ -194,13 +199,13 @@ const About = () => {
             <div className="relative flex justify-center">
               <Button
                 onClick={handleChatClick}
-                disabled={!isWidgetReady || isAnimating}
+                disabled={!isWidgetReady || hasTriggered}
                 size="lg"
                 className={`bg-primary text-primary-foreground rounded-full px-6 py-4 sm:px-8 sm:py-6 text-base sm:text-lg font-semibold transition-all duration-500 ease-in-out flex items-center gap-2 ${
-                  isMorphing ? 'w-16 h-16 !p-0 scale-90' : 'hover:scale-105'
-                }`}
+                  isMorphing ? 'w-16 h-16 !p-0 scale-90 opacity-50' : 'hover:scale-105'
+                } ${hasTriggered ? 'invisible' : 'visible'}`}
               >
-                <MessageSquare className={`w-4 h-4 sm:w-5 sm:h-5 transition-all duration-300 ${isMorphing ? 'w-8 h-8' : ''}`} />
+                <MessageSquare className={`transition-all duration-300 ${isMorphing ? 'w-8 h-8' : 'w-4 h-4 sm:w-5 sm:h-5'}`} />
                 <span className={`transition-all duration-300 whitespace-nowrap ${isMorphing ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'}`}>
                   Chat with Rosie Now
                 </span>
@@ -210,26 +215,26 @@ const About = () => {
               )}
             </div>
             
-            {/* Flying widget animation */}
-            {isAnimating && (
-              <div className="fixed bottom-6 right-6 z-50 animate-[fly-to-center_0.6s_ease-in-out_forwards]">
-                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-lg">
-                  <MessageSquare className="w-8 h-8 text-primary-foreground" />
-                </div>
-              </div>
-            )}
-            
             {/* Tracking widget that follows button */}
-            {showTrackingWidget && !isAnimating && !hasTriggered && (
+            {showTrackingWidget && (
               <div 
-                className="fixed w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-lg z-50 transition-all duration-300 ease-out pointer-events-none"
+                className="fixed w-12 h-12 bg-primary/80 rounded-full flex items-center justify-center shadow-lg z-[60] transition-all duration-200 ease-out pointer-events-none"
                 style={{
                   left: `${widgetPosition.x}px`,
                   top: `${widgetPosition.y}px`,
                   transform: 'translate(-50%, -50%)'
                 }}
               >
-                <MessageSquare className="w-8 h-8 text-primary-foreground" />
+                <MessageSquare className="w-6 h-6 text-primary-foreground" />
+              </div>
+            )}
+            
+            {/* Flying widget animation */}
+            {isAnimating && (
+              <div className="fixed bottom-6 right-6 z-50 animate-[fly-to-center_0.6s_ease-in-out_forwards]">
+                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-lg">
+                  <MessageSquare className="w-8 h-8 text-primary-foreground" />
+                </div>
               </div>
             )}
           </div>
