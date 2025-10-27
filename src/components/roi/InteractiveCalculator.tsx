@@ -68,9 +68,9 @@ const InteractiveCalculator = () => {
                 <Slider
                   value={customerValue}
                   onValueChange={setCustomerValue}
-                  min={50}
-                  max={800}
-                  step={50}
+                  min={20}
+                  max={500}
+                  step={10}
                   className="w-full"
                 />
               </div>
