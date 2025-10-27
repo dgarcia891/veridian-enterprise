@@ -141,7 +141,7 @@ const ConsultationBooked = () => {
                 Back to Home
               </Button>
               <Button
-                onClick={() => navigate('/roi-calculator')}
+                onClick={() => navigate('/')}
                 size="lg"
                 className="gap-2"
               >
