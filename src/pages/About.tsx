@@ -1,7 +1,11 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { MessageSquare } from "lucide-react";
+import { useRetellWidget } from "@/hooks/useRetellWidget";
 
 const About = () => {
+  const { isWidgetReady, openChat } = useRetellWidget();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navigation />
@@ -103,6 +107,23 @@ const About = () => {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Chat with Rosie CTA */}
+          <div className="glass-card p-8 rounded-lg border border-primary/50 text-center bg-gradient-to-br from-primary/5 to-primary/10">
+            <h2 className="text-2xl font-bold mb-4">Have Questions? Chat with Rosie</h2>
+            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+              Our AI assistant Rosie is here to answer your questions about our services, pricing, and how AI voice agents can help your business.
+            </p>
+            <Button
+              onClick={openChat}
+              disabled={!isWidgetReady}
+              size="lg"
+              className="bg-primary text-primary-foreground rounded-full px-8 py-6 text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto"
+            >
+              <MessageSquare className="w-5 h-5" />
+              Chat with Rosie Now
+            </Button>
           </div>
 
           <div className="mt-12 pt-8 border-t border-border">
