@@ -82,7 +82,7 @@ const InteractiveCalculator = () => {
               <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
                 Potential Annual Revenue Lost
               </div>
-              <div className="text-6xl font-extrabold text-destructive mb-3">
+              <div className="text-4xl sm:text-6xl font-extrabold text-destructive mb-3">
                 {formatCurrency(annualLoss)}
               </div>
               <p className="text-sm text-muted-foreground">
@@ -136,7 +136,7 @@ const InteractiveCalculator = () => {
             <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
               Average 1st Year ROI
             </div>
-            <div className="text-6xl font-extrabold text-primary mb-4">
+            <div className="text-4xl sm:text-6xl font-extrabold text-primary mb-4">
               300%+
             </div>
             <p className="text-lg text-muted-foreground">
