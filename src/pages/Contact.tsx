@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
 import { z } from "zod";
+import { Link } from "react-router-dom";
 
 const contactSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100, "Name too long"),
@@ -199,6 +200,20 @@ const Contact = () => {
                 <p className="text-muted-foreground">Santa Clarita, CA</p>
               </div>
             </div>
+          </div>
+
+          {/* Blog CTA */}
+          <div className="glass-card p-8 rounded-2xl border border-primary/50 bg-gradient-to-br from-primary/5 to-primary/10 text-center mt-16">
+            <h2 className="text-2xl font-bold mb-4">Want to Learn More?</h2>
+            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+              Check out our blog for insights on AI voice technology, ROI calculations, and success stories from businesses like yours.
+            </p>
+            <Link 
+              to="/blog"
+              className="inline-flex items-center justify-center glass-button px-6 py-3 rounded-full font-semibold hover:scale-105 transition-transform"
+            >
+              Read Our Blog
+            </Link>
           </div>
         </div>
       </main>

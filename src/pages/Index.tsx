@@ -44,6 +44,22 @@ const Index = () => {
           description="Capture every call, 24/7. Setup takes 10 minutes, and one recovered call pays for months of service."
           buttonText="Get Started Today"
         />
+
+        {/* Blog CTA Section */}
+        <section className="px-6 py-20 bg-accent/30">
+          <div className="max-w-7xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Learn More About AI Voice Technology</h2>
+            <p className="text-lg text-muted-foreground mb-8 max-w-3xl mx-auto">
+              Discover insights, case studies, and best practices for implementing AI voice assistants in your business.
+            </p>
+            <a 
+              href="/blog"
+              className="inline-flex items-center justify-center bg-primary text-primary-foreground px-8 py-4 rounded-full font-semibold hover:scale-105 transition-transform text-lg"
+            >
+              Explore Our Blog
+            </a>
+          </div>
+        </section>
       </main>
       
       <Footer />

@@ -19,6 +19,7 @@ const Footer = () => {
     ],
     Resources: [
       { label: "ROI Calculator", href: "/" },
+      { label: "Blog", href: "/blog" },
       { label: "FAQ", href: "/faq" },
       { label: "Contact", href: "/contact" },
       { label: "Privacy", href: "/privacy-policy" },

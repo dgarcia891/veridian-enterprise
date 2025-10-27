@@ -1,5 +1,6 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { Link } from "react-router-dom";
 
 const About = () => {
   return (
@@ -111,6 +112,20 @@ const About = () => {
             <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
               Our AI assistant Rosie is here to answer your questions about our services, pricing, and how AI voice agents can help your business. Click the chat widget in the bottom right corner to get started.
             </p>
+          </div>
+
+          {/* Blog CTA */}
+          <div className="glass-card p-8 rounded-lg border border-border text-center">
+            <h2 className="text-2xl font-bold mb-4">Learn More About AI Voice Technology</h2>
+            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+              Explore our blog for insights, case studies, and best practices on implementing AI voice assistants in your business.
+            </p>
+            <Link 
+              to="/blog"
+              className="inline-flex items-center justify-center bg-primary text-primary-foreground px-6 py-3 rounded-full font-semibold hover:scale-105 transition-transform"
+            >
+              Visit Our Blog
+            </Link>
           </div>
 
           <div className="mt-12 pt-8 border-t border-border">
