@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 
 const sections = [
   { id: "problem", label: "The Problem" },
@@ -36,9 +36,36 @@ const ROINavigation = () => {
           >
             The AI Agent ROI
           </button>
+
+          {/* Mobile: Phone + Menu Button */}
+          <div className="md:hidden flex items-center gap-2">
+            <a 
+              href="tel:661-263-4388"
+              className="flex items-center gap-1 text-foreground hover:opacity-80 transition-opacity"
+              aria-label="Call us at 661-263-4388"
+            >
+              <Phone size={16} aria-hidden="true" />
+              <span className="text-xs font-medium">661-263-4388</span>
+            </a>
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-md text-foreground hover:bg-accent"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
+            <a 
+              href="tel:661-263-4388"
+              className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors px-3 py-2"
+              aria-label="Call us at 661-263-4388"
+            >
+              <Phone size={16} aria-hidden="true" />
+              <span className="text-sm font-medium">661-263-4388</span>
+            </a>
             {sections.map((section) => (
               <button
                 key={section.id}
@@ -59,15 +86,6 @@ const ROINavigation = () => {
               Get Started
             </Button>
           </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-md text-foreground hover:bg-accent"
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
         </div>
 
         {/* Mobile Navigation */}

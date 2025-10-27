@@ -31,6 +31,27 @@ const Navigation = () => {
         >
           <img src={logo} alt="AI Agents 3000 Logo" className="h-12 w-auto" />
         </Link>
+
+        {/* Mobile: Phone + Menu Button */}
+        <div className="md:hidden flex items-center gap-2">
+          <a 
+            href="tel:661-263-4388"
+            className="flex items-center gap-1 text-foreground hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-primary rounded-sm px-2 py-1"
+            aria-label="Call us at 661-263-4388"
+          >
+            <Phone size={16} aria-hidden="true" />
+            <span className="text-xs font-medium">661-263-4388</span>
+          </a>
+          <button 
+            className="p-2 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm" 
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
+          >
+            {isOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
+          </button>
+        </div>
         
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-6 text-sm" role="menubar">
@@ -112,17 +133,6 @@ const Navigation = () => {
             Get Started
           </Button>
         </div>
-
-        {/* Mobile Menu Button */}
-        <button 
-          className="md:hidden text-white p-2 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm" 
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label={isOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isOpen}
-          aria-controls="mobile-menu"
-        >
-          {isOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
-        </button>
       </div>
 
       {/* Mobile Navigation */}
@@ -180,16 +190,7 @@ const Navigation = () => {
               );
             })}
             
-            <a 
-              href="tel:661-263-4388"
-              className="flex items-center gap-2 text-foreground/80 hover:text-foreground transition-colors py-2"
-              onClick={() => setIsOpen(false)}
-            >
-              <Phone size={16} aria-hidden="true" />
-              <span>661-263-4388</span>
-            </a>
-            
-            <Button 
+            <Button
               className="mt-4 glass-button rounded-full py-3 transition-all duration-200"
               onClick={() => {
                 setIsOpen(false);
