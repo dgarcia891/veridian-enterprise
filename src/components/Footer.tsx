@@ -14,12 +14,12 @@ const Footer = () => {
     })),
     Company: [
       { label: "About", href: "/about" },
-      { label: "Pricing", href: "/#pricing" },
+      { label: "Pricing", href: "/ai-receptionist#pricing" },
       { label: "Contact", href: "/contact" }
     ],
     Resources: [
-      { label: "Help Center", href: "/#contact" },
-      { label: "Contact", href: "/#contact" },
+      { label: "ROI Calculator", href: "/" },
+      { label: "Contact", href: "/contact" },
       { label: "Privacy", href: "/privacy-policy" },
       { label: "Terms", href: "/terms-of-service" }
     ],

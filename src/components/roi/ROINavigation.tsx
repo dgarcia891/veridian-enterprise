@@ -9,6 +9,7 @@ const sections = [
   { id: "solution", label: "The Solution" },
   { id: "calculator", label: "Calculator" },
   { id: "growth", label: "Growth" },
+  { id: "about", label: "About", route: "/about" },
 ];
 
 const ROINavigation = () => {
@@ -16,7 +17,13 @@ const ROINavigation = () => {
   const activeSection = useScrollSpy(sections.map(s => s.id));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = (sectionId: string, route?: string) => {
+    if (route) {
+      navigate(route);
+      setMobileMenuOpen(false);
+      return;
+    }
+    
     const element = document.getElementById(sectionId);
     if (element) {
       const offset = 80; // Account for sticky nav
@@ -69,7 +76,7 @@ const ROINavigation = () => {
             {sections.map((section) => (
               <button
                 key={section.id}
-                onClick={() => scrollToSection(section.id)}
+                onClick={() => scrollToSection(section.id, section.route)}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   activeSection === section.id
                     ? "bg-primary text-primary-foreground"
@@ -94,7 +101,7 @@ const ROINavigation = () => {
             {sections.map((section) => (
               <button
                 key={section.id}
-                onClick={() => scrollToSection(section.id)}
+                onClick={() => scrollToSection(section.id, section.route)}
                 className={`block w-full text-left px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   activeSection === section.id
                     ? "bg-primary text-primary-foreground"
