@@ -1,35 +1,25 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Form } from "@/components/ui/form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, CheckCircle, Phone } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import { usePlanPricing, PlanType } from "@/hooks/usePlanPricing";
+import { PlanSummaryCard } from "@/components/signup/PlanSummaryCard";
+import { ContactInfoForm } from "@/components/signup/ContactInfoForm";
+import { BusinessDetailsForm } from "@/components/signup/BusinessDetailsForm";
+import { PlanSelectionForm } from "@/components/signup/PlanSelectionForm";
+import { ProceedOptionsForm } from "@/components/signup/ProceedOptionsForm";
+import { SignupFormSkeleton } from "@/components/signup/SignupFormSkeleton";
+
+const Footer = lazy(() => import("@/components/Footer"));
 
 const formSchema = z.object({
   contactName: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
@@ -53,31 +43,20 @@ const Signup = () => {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
+    mode: "onTouched",
     defaultValues: {
       contactName: "",
       email: "",
       phone: "",
       companyName: "",
-      industry: "",
-      averageCallsPerDay: "",
-      currentPhoneSystem: "",
       planType: "annual",
       wantsCallFirst: false,
     },
   });
 
-  const watchPlanType = form.watch("planType");
+  const watchPlanType = form.watch("planType") as PlanType;
   const watchWantsCallFirst = form.watch("wantsCallFirst");
-
-  const getPlanPrice = () => {
-    if (watchPlanType === "annual") {
-      return { monthly: "$300", total: "$3,600/year", setupFee: "$0" };
-    }
-    if (watchPlanType === "medical") {
-      return { monthly: "$850", total: "$10,200/year", setupFee: "$0" };
-    }
-    return { monthly: "$600", total: "$600/month", setupFee: "$450" };
-  };
+  const planDetails = usePlanPricing(watchPlanType);
 
   const onSubmit = async (values: FormValues) => {
     setIsSubmitting(true);
@@ -141,8 +120,6 @@ const Signup = () => {
     }
   };
 
-  const planDetails = getPlanPrice();
-
   return (
     <>
       <Navigation />
@@ -157,57 +134,7 @@ const Signup = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Current Plan</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold mb-2">
-                  {planDetails.monthly}
-                  <span className="text-base font-normal text-muted-foreground">/month</span>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  {watchPlanType === "annual" 
-                    ? "Billed annually" 
-                    : watchPlanType === "medical"
-                    ? "Billed annually (HIPAA-compliant)"
-                    : "Billed monthly"}
-                </p>
-                {watchPlanType === "monthly" && (
-                  <p className="text-sm font-semibold text-primary mt-2">+ {planDetails.setupFee} setup fee</p>
-                )}
-              </CardContent>
-            </Card>
-
-            <Card className="md:col-span-2">
-              <CardHeader>
-                <CardTitle className="text-lg">What's Included</CardTitle>
-              </CardHeader>
-              <CardContent className="grid sm:grid-cols-2 gap-2">
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                  <span className="text-sm">Unlimited call handling</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                  <span className="text-sm">24/7 availability</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                  <span className="text-sm">Lead qualification</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                  <span className="text-sm">Appointment booking</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                  <span className="text-sm">Calendar integration</span>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          <PlanSummaryCard planType={watchPlanType} planDetails={planDetails} />
 
           <Card>
             <CardHeader>
@@ -217,262 +144,19 @@ const Signup = () => {
             <CardContent>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="contactName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Full Name *</FormLabel>
-                          <FormControl>
-                            <Input placeholder="John Doe" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="companyName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Company Name *</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Acme Inc." {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Email Address *</FormLabel>
-                          <FormControl>
-                            <Input type="email" placeholder="john@company.com" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="phone"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Phone Number *</FormLabel>
-                          <FormControl>
-                            <Input type="tel" placeholder="(555) 123-4567" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                  <ContactInfoForm control={form.control} />
 
                   <Separator />
 
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">Business Details (Optional)</h3>
-                    
-                    <FormField
-                      control={form.control}
-                      name="industry"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Industry</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select your industry" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="restaurant">Restaurant & Food Service</SelectItem>
-                              <SelectItem value="healthcare">Healthcare & Medical</SelectItem>
-                              <SelectItem value="retail">Retail & E-commerce</SelectItem>
-                              <SelectItem value="professional">Professional Services</SelectItem>
-                              <SelectItem value="home-services">Home Services</SelectItem>
-                              <SelectItem value="other">Other</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="averageCallsPerDay"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Average Calls Per Day</FormLabel>
-                          <FormControl>
-                            <Input type="number" placeholder="50" {...field} />
-                          </FormControl>
-                          <FormDescription>
-                            Helps us understand your call volume
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="currentPhoneSystem"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Current Phone System</FormLabel>
-                          <FormControl>
-                            <Textarea 
-                              placeholder="Tell us about your current setup (e.g., traditional phone line, VoIP system, etc.)"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                  <BusinessDetailsForm control={form.control} />
 
                   <Separator />
 
-                  <FormField
-                    control={form.control}
-                    name="planType"
-                    render={({ field }) => (
-                      <FormItem className="space-y-3">
-                        <FormLabel>Select Your Plan *</FormLabel>
-                        <FormControl>
-                          <RadioGroup
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            className="grid md:grid-cols-3 gap-4"
-                          >
-                            <label
-                              htmlFor="annual"
-                              className={`flex items-center space-x-2 border-2 rounded-lg p-4 cursor-pointer transition-all ${
-                                field.value === "annual"
-                                  ? "border-primary bg-primary/5"
-                                  : "border-border hover:border-primary/50"
-                              }`}
-                            >
-                              <RadioGroupItem value="annual" id="annual" />
-                              <div className="flex-1">
-                                <div className="font-semibold">Annual Plan (Most Popular)</div>
-                                <div className="text-2xl font-bold mt-1">$300<span className="text-base font-normal">/month</span></div>
-                                <div className="text-sm text-muted-foreground">Billed $3,600/year</div>
-                                <div className="text-sm text-primary font-semibold mt-2">Save $3,600/year</div>
-                              </div>
-                            </label>
-
-                            <label
-                              htmlFor="monthly"
-                              className={`flex items-center space-x-2 border-2 rounded-lg p-4 cursor-pointer transition-all ${
-                                field.value === "monthly"
-                                  ? "border-primary bg-primary/5"
-                                  : "border-border hover:border-primary/50"
-                              }`}
-                            >
-                              <RadioGroupItem value="monthly" id="monthly" />
-                              <div className="flex-1">
-                                <div className="font-semibold">Monthly Plan</div>
-                                <div className="text-2xl font-bold mt-1">$600<span className="text-base font-normal">/month</span></div>
-                                <div className="text-sm text-muted-foreground">Billed monthly</div>
-                                <div className="text-sm text-destructive font-semibold mt-2">+ $450 setup fee</div>
-                              </div>
-                            </label>
-
-                            <label
-                              htmlFor="medical"
-                              className={`flex items-center space-x-2 border-2 rounded-lg p-4 cursor-pointer transition-all ${
-                                field.value === "medical"
-                                  ? "border-primary bg-primary/5"
-                                  : "border-border hover:border-primary/50"
-                              }`}
-                            >
-                              <RadioGroupItem value="medical" id="medical" />
-                              <div className="flex-1">
-                                <div className="font-semibold">Medical/Healthcare Plan</div>
-                                <div className="text-2xl font-bold mt-1">$850<span className="text-base font-normal">/month</span></div>
-                                <div className="text-sm text-muted-foreground">Billed $10,200/year</div>
-                                <div className="text-sm text-primary font-semibold mt-2">HIPAA-compliant**</div>
-                              </div>
-                            </label>
-                          </RadioGroup>
-                        </FormControl>
-                        <FormDescription className="text-xs">
-                          HIPAA compliance available with Medical/Healthcare plan - includes Business Associate Agreement (BAA) and enhanced security protocols
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <PlanSelectionForm control={form.control} />
 
                   <Separator />
 
-                  <FormField
-                    control={form.control}
-                    name="wantsCallFirst"
-                    render={({ field }) => (
-                      <FormItem className="space-y-3">
-                        <FormLabel>How would you like to proceed? *</FormLabel>
-                        <FormControl>
-                          <RadioGroup
-                            onValueChange={(value) => field.onChange(value === "true")}
-                            value={field.value ? "true" : "false"}
-                            className="space-y-3"
-                          >
-                            <label
-                              htmlFor="pay-now"
-                              className={`flex items-start space-x-3 border-2 rounded-lg p-4 cursor-pointer transition-all ${
-                                !field.value
-                                  ? "border-primary bg-primary/5"
-                                  : "border-border hover:border-primary/50"
-                              }`}
-                            >
-                              <RadioGroupItem value="false" id="pay-now" className="mt-1" />
-                              <div className="flex-1">
-                                <div className="font-semibold">Sign Up Now & Pay</div>
-                                <div className="text-sm text-muted-foreground mt-1">
-                                  Complete payment now, then schedule your setup appointment
-                                </div>
-                              </div>
-                            </label>
-
-                            <label
-                              htmlFor="call-first"
-                              className={`flex items-start space-x-3 border-2 rounded-lg p-4 cursor-pointer transition-all ${
-                                field.value
-                                  ? "border-primary bg-primary/5"
-                                  : "border-border hover:border-primary/50"
-                              }`}
-                            >
-                              <RadioGroupItem value="true" id="call-first" className="mt-1" />
-                              <div className="flex-1">
-                                <div className="font-semibold flex items-center gap-2">
-                                  <Phone className="h-4 w-4" />
-                                  Schedule a Call First
-                                </div>
-                                <div className="text-sm text-muted-foreground mt-1">
-                                  Talk to our team before committing - we'll answer questions and help you get started
-                                </div>
-                              </div>
-                            </label>
-                          </RadioGroup>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <ProceedOptionsForm control={form.control} />
 
                   <div className="flex gap-4 pt-4">
                     <Button
@@ -504,7 +188,9 @@ const Signup = () => {
           </Card>
         </div>
       </main>
-      <Footer />
+      <Suspense fallback={<div className="h-20" />}>
+        <Footer />
+      </Suspense>
     </>
   );
 };
