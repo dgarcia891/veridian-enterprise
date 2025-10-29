@@ -1,11 +1,25 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Navigation />
+    <>
+      <Helmet>
+        <title>About AI Agents 3000 - Our Mission & Story | AI Voice Receptionist</title>
+        <meta name="description" content="Learn about AI Agents 3000's mission to help local businesses capture every customer call with intelligent AI voice receptionist technology. Founded in 2020." />
+        <link rel="canonical" href="https://veridian.lovable.app/about" />
+        <meta property="og:title" content="About AI Agents 3000 - Our Mission & Story" />
+        <meta property="og:description" content="Helping local businesses capture every customer call with intelligent AI voice receptionist technology since 2020." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://veridian.lovable.app/about" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="About AI Agents 3000 - Our Mission & Story" />
+        <meta name="twitter:description" content="Helping local businesses capture every customer call with intelligent AI voice receptionist technology since 2020." />
+      </Helmet>
+      <div className="min-h-screen bg-background text-foreground">
+        <Navigation />
       <main className="max-w-6xl mx-auto px-6 py-20">
         <h1 className="text-4xl md:text-6xl font-bold mb-8 text-center">About AI Agents 3000</h1>
         <p className="text-xl text-muted-foreground mb-16 text-center max-w-3xl mx-auto">
@@ -134,9 +148,10 @@ const About = () => {
             </p>
           </div>
         </section>
-      </main>
-      <Footer />
-    </div>
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 };
 

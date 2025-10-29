@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Phone, MessageSquare, Calendar, Zap, Shield, TrendingUp } from "lucide-react";
+import { Helmet } from "react-helmet";
 
 const faqCategories = [
   {
@@ -168,9 +169,40 @@ const faqCategories = [
 ];
 
 const FAQ = () => {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqCategories.flatMap(category => 
+      category.questions.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.a
+        }
+      }))
+    )
+  };
+
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Navigation />
+    <>
+      <Helmet>
+        <title>FAQ - AI Voice Receptionist Questions Answered | AI Agents 3000</title>
+        <meta name="description" content="Get answers about AI voice receptionists: capabilities, pricing, integrations, security, setup time. Learn how AI agents work 24/7 to capture every call." />
+        <link rel="canonical" href="https://veridian.lovable.app/faq" />
+        <meta property="og:title" content="FAQ - AI Voice Receptionist Questions Answered" />
+        <meta property="og:description" content="Everything you need to know about AI voice receptionists, pricing, integrations, and how they transform business communication." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://veridian.lovable.app/faq" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="FAQ - AI Voice Receptionist Questions Answered" />
+        <meta name="twitter:description" content="Get answers about AI voice receptionists: capabilities, pricing, integrations, security, and setup." />
+        <script type="application/ld+json">
+          {JSON.stringify(faqSchema)}
+        </script>
+      </Helmet>
+      <div className="min-h-screen bg-background text-foreground">
+        <Navigation />
       
       <main>
         {/* Hero Section */}
@@ -261,10 +293,11 @@ const FAQ = () => {
             </div>
           </div>
         </section>
-      </main>
-      
-      <Footer />
-    </div>
+        </main>
+        
+        <Footer />
+      </div>
+    </>
   );
 };
 

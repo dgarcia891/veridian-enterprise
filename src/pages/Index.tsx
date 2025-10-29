@@ -8,18 +8,50 @@ import SocialProof from "@/components/SocialProof";
 import ServiceCTA from "@/components/ServiceCTA";
 import Footer from "@/components/Footer";
 import { services } from "@/data/services";
+import { Helmet } from "react-helmet";
 
 const Index = () => {
   const primaryService = services[0];
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-hidden">
-      <a 
-        href="#main-content" 
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-      >
-        Skip to main content
-      </a>
+    <>
+      <Helmet>
+        <title>AI Voice Receptionist - Never Miss a Call | AI Agents 3000</title>
+        <meta name="description" content="24/7 AI voice receptionist service for local businesses. Never miss a customer call again. Setup in 10 minutes. 100% call answer rate. Get started today." />
+        <link rel="canonical" href="https://veridian.lovable.app/" />
+        <meta property="og:title" content="AI Voice Receptionist - Never Miss a Call | AI Agents 3000" />
+        <meta property="og:description" content="24/7 AI voice receptionist service for local businesses. Never miss a customer call again. Setup in 10 minutes. 100% call answer rate." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://veridian.lovable.app/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="AI Voice Receptionist - Never Miss a Call | AI Agents 3000" />
+        <meta name="twitter:description" content="24/7 AI voice receptionist service for local businesses. Never miss a customer call again. Setup in 10 minutes." />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "AI Agents 3000",
+            "description": "AI Voice Receptionist Service",
+            "url": "https://veridian.lovable.app",
+            "logo": "https://veridian.lovable.app/favicon.png",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+1-661-263-4388",
+              "contactType": "Customer Service",
+              "areaServed": "US",
+              "availableLanguage": "English"
+            },
+            "sameAs": []
+          })}
+        </script>
+      </Helmet>
+      <div className="min-h-screen bg-background text-foreground overflow-hidden">
+        <a 
+          href="#main-content" 
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 flex:bg-primary focus:text-primary-foreground focus:rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+        >
+          Skip to main content
+        </a>
       
       <ROINavigation />
       
@@ -62,8 +94,9 @@ const Index = () => {
         </section>
       </main>
       
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </>
   );
 };
 

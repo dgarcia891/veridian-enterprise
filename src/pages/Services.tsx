@@ -2,6 +2,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Target, Users, TrendingUp, BarChart3, Zap, Shield } from "lucide-react";
+import { Helmet } from "react-helmet";
 
 const Services = () => {
   const scrollToAIPage = () => {
@@ -9,8 +10,21 @@ const Services = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <Navigation />
+    <>
+      <Helmet>
+        <title>AI Voice Receptionist Services - 24/7 Call Management | AI Agents 3000</title>
+        <meta name="description" content="Professional AI voice receptionist services for local businesses. 24/7 availability, intelligent lead qualification, and seamless system integration. Never miss a call." />
+        <link rel="canonical" href="https://veridian.lovable.app/services" />
+        <meta property="og:title" content="AI Voice Receptionist Services - 24/7 Call Management" />
+        <meta property="og:description" content="Professional AI voice receptionist services for local businesses. Never miss another customer call." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://veridian.lovable.app/services" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="AI Voice Receptionist Services - 24/7 Call Management" />
+        <meta name="twitter:description" content="Professional AI voice receptionist services for local businesses. Never miss another customer call." />
+      </Helmet>
+      <div className="min-h-screen bg-black text-white">
+        <Navigation />
       <main className="max-w-6xl mx-auto px-6 py-20">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Our Services</h1>
@@ -70,9 +84,10 @@ const Services = () => {
             Schedule Your Free Demo
           </Button>
         </section>
-      </main>
-      <Footer />
-    </div>
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 };
 

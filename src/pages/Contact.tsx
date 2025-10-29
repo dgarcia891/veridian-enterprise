@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
 import { z } from "zod";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const contactSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100, "Name too long"),
@@ -96,8 +97,21 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Navigation />
+    <>
+      <Helmet>
+        <title>Contact Us - Schedule Free Demo | AI Agents 3000</title>
+        <meta name="description" content="Contact AI Agents 3000 for a free demo of our AI voice receptionist service. Call +1 661-263-4388 or email sales@aiagents3000.com. Santa Clarita, CA." />
+        <link rel="canonical" href="https://veridian.lovable.app/contact" />
+        <meta property="og:title" content="Contact Us - Schedule Free Demo | AI Agents 3000" />
+        <meta property="og:description" content="Get started with AI voice receptionist. Schedule a free demo today. Call +1 661-263-4388." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://veridian.lovable.app/contact" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Contact Us - Schedule Free Demo | AI Agents 3000" />
+        <meta name="twitter:description" content="Get started with AI voice receptionist. Schedule a free demo today." />
+      </Helmet>
+      <div className="min-h-screen bg-background text-foreground">
+        <Navigation />
       
       <main className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
@@ -216,10 +230,11 @@ const Contact = () => {
             </Link>
           </div>
         </div>
-      </main>
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </>
   );
 };
 

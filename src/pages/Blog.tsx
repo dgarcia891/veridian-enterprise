@@ -2,6 +2,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const blogPosts = [
   {
@@ -68,8 +69,21 @@ const blogPosts = [
 
 const Blog = () => {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Navigation />
+    <>
+      <Helmet>
+        <title>AI Voice Technology Blog - Insights & Best Practices | AI Agents 3000</title>
+        <meta name="description" content="Expert insights on AI voice assistants, ROI calculations, and success stories. Learn how AI receptionists transform customer service for local businesses." />
+        <link rel="canonical" href="https://veridian.lovable.app/blog" />
+        <meta property="og:title" content="AI Voice Technology Blog - Insights & Best Practices" />
+        <meta property="og:description" content="Expert insights on AI voice assistants, ROI calculations, and success stories from local businesses." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://veridian.lovable.app/blog" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="AI Voice Technology Blog - Insights & Best Practices" />
+        <meta name="twitter:description" content="Expert insights on AI voice assistants, ROI calculations, and success stories from local businesses." />
+      </Helmet>
+      <div className="min-h-screen bg-background text-foreground">
+        <Navigation />
       
       <main className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
@@ -197,10 +211,11 @@ const Blog = () => {
             </div>
           </div>
         </div>
-      </main>
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </>
   );
 };
 
