@@ -42,6 +42,7 @@ const blogPosts = [
     readTime: "8 min read",
     category: "Tutorial",
     image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop",
+    slug: "setting-up-first-ai",
   },
   {
     id: 5,
@@ -51,6 +52,7 @@ const blogPosts = [
     readTime: "6 min read",
     category: "Case Studies",
     image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&auto=format&fit=crop",
+    slug: "why-local-businesses-switching",
   },
   {
     id: 6,
@@ -60,6 +62,7 @@ const blogPosts = [
     readTime: "5 min read",
     category: "Industry Insights",
     image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop",
+    slug: "future-of-communication",
   },
 ];
 
