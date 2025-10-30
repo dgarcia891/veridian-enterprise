@@ -20,7 +20,7 @@ serve(async (req) => {
 
     console.log('Sending message to Retell chat:', chatId);
 
-    const response = await fetch('https://api.retellai.com/v2/create-chat-completion', {
+    const response = await fetch('https://api.retellai.com/create-chat-completion', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${retellApiKey}`,
