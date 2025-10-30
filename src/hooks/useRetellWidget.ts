@@ -77,55 +77,57 @@ export const useRetellWidget = (config?: RetellWidgetConfig) => {
 
   const openChat = () => {
     try {
-      console.log("Attempting to open Retell chat widget...");
+      console.log("=== Opening Retell Chat ===");
+      console.log("Widget ready:", isWidgetReady);
       
-      const selectors = [
-        '[id*="retell"]',
-        '[class*="retell"]',
-        'iframe[src*="retell"]',
-        'button[aria-label*="chat"]',
-        'div[class*="widget"]'
-      ];
+      // Look for any Retell elements
+      const allElements = document.querySelectorAll('*');
+      console.log("Searching through", allElements.length, "elements");
       
-      let widgetElement: HTMLElement | null = null;
+      const retellElements = Array.from(allElements).filter(el => 
+        el.id?.toLowerCase().includes('retell') || 
+        el.className?.toString().toLowerCase().includes('retell')
+      );
       
-      for (const selector of selectors) {
-        widgetElement = document.querySelector(selector) as HTMLElement;
-        if (widgetElement) {
-          console.log(`Found widget with selector: ${selector}`);
-          break;
-        }
-      }
+      console.log("Found Retell elements:", retellElements.length);
+      retellElements.forEach((el, i) => {
+        console.log(`Element ${i}:`, el.tagName, el.id, el.className);
+      });
       
-      if (widgetElement) {
-        const clickEvent = new MouseEvent('click', {
+      // Try clicking any retell element
+      if (retellElements.length > 0) {
+        console.log("Attempting to click first Retell element");
+        const element = retellElements[0] as HTMLElement;
+        element.click();
+        
+        // Also try programmatic trigger
+        const event = new MouseEvent('click', {
           view: window,
           bubbles: true,
           cancelable: true
         });
-        widgetElement.dispatchEvent(clickEvent);
-        
-        setTimeout(() => {
-          if (widgetElement) widgetElement.click();
-        }, 100);
-        
-        console.log("Widget triggered successfully");
-      } else if ((window as any).RetellWebClient) {
+        element.dispatchEvent(event);
+        return;
+      }
+      
+      // Try the RetellWebClient API
+      if ((window as any).RetellWebClient) {
         console.log("Using RetellWebClient API");
         (window as any).RetellWebClient.open();
-      } else {
-        console.log("Please click the chat widget directly in the bottom right corner");
-        toast({
-          title: "Chat Available",
-          description: "Click the chat widget in the bottom right corner to start chatting.",
-        });
+        return;
       }
+      
+      // Try looking for iframe
+      const iframes = document.querySelectorAll('iframe');
+      console.log("Found iframes:", iframes.length);
+      iframes.forEach((iframe, i) => {
+        console.log(`Iframe ${i}:`, iframe.src);
+      });
+      
+      console.log("No widget elements found. Check if script loaded correctly.");
+      
     } catch (error) {
       console.error("Error opening Retell chat:", error);
-      toast({
-        title: "Chat Available",
-        description: "Click the chat widget in the bottom right corner to connect.",
-      });
     }
   };
 

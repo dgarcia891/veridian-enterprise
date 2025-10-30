@@ -93,27 +93,29 @@ const SunsetOnLyons = () => {
 
                 {/* Widget Container */}
                 <div className="lg:col-span-2">
-                  <div className="bg-card border rounded-lg p-8 min-h-[600px] flex items-center justify-center">
+                  <div className="bg-card border rounded-lg p-6 min-h-[400px] flex items-center justify-center">
                     <div className="text-center max-w-md">
-                      <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-                        <MessageCircle className="w-10 h-10 text-primary" />
+                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <MessageCircle className="w-8 h-8 text-primary" />
                       </div>
-                      <h3 className="text-2xl font-bold mb-2">Talk to Rosie</h3>
-                      <p className="text-muted-foreground mb-6">
-                        Click the button below to start a conversation with our AI receptionist. 
-                        Ask about reservations, events, menus, or any other questions about Sunset on Lyons.
+                      <h3 className="text-xl font-bold mb-2">Talk to Sunset on Lyons</h3>
+                      <p className="text-muted-foreground mb-4 text-sm">
+                        Click below to chat with our AI assistant about reservations, events, and more.
                       </p>
                       <Button 
                         size="lg"
-                        onClick={openChat}
+                        onClick={() => {
+                          console.log("Start Conversation clicked, widget ready:", isWidgetReady);
+                          openChat();
+                        }}
                         disabled={!isWidgetReady}
-                        className="mb-4"
+                        className="mb-3"
                       >
                         <MessageCircle className="mr-2 h-5 w-5" />
-                        Start Conversation
+                        {isWidgetReady ? "Start Conversation" : "Loading..."}
                       </Button>
-                      <div className="inline-block px-4 py-2 bg-primary/5 rounded-lg text-sm">
-                        <span className="text-primary font-semibold">Status:</span> {isWidgetReady ? "Ready to chat" : "Loading..."}
+                      <div className="inline-block px-3 py-1.5 bg-primary/5 rounded-lg text-xs">
+                        <span className="text-primary font-semibold">Status:</span> {isWidgetReady ? "Ready" : "Loading..."}
                       </div>
                     </div>
                   </div>
