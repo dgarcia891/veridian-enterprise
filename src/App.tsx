@@ -2,13 +2,15 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import { RetellVoiceWidget } from "@/components/RetellVoiceWidget";
 import ScrollToTop from "@/components/ScrollToTop";
 
 const Index = lazy(() => import("./pages/Index"));
 const ROICalculator = lazy(() => import("./pages/ROICalculator"));
 const AIReceptionist = lazy(() => import("./pages/AIReceptionist"));
+const Services = lazy(() => import("./pages/Services"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
@@ -35,46 +37,59 @@ const SunsetOnLyons = lazy(() => import("./pages/demos/SunsetOnLyons"));
 
 const queryClient = new QueryClient();
 
+const AppContent = () => {
+  const location = useLocation();
+  const isDemoPage = location.pathname.startsWith('/demos/');
+
+  return (
+    <>
+      <Suspense fallback={<div className="flex items-center justify-center min-h-screen bg-background">Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/ai-receptionist" element={<AIReceptionist />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/services/:serviceId" element={<ServiceDetail />} />
+          <Route path="/features" element={<Features />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/roi-calculator" element={<ROICalculator />} />
+          <Route path="/lost-revenue-calculator" element={<LostRevenueCalculator />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/schedule-consultation" element={<ScheduleConsultation />} />
+          <Route path="/consultation-booked" element={<ConsultationBooked />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/cookie-policy" element={<CookiePolicy />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/roi-of-voice-ai" element={<ROIOfVoiceAI />} />
+          <Route path="/blog/transforming-customer-service" element={<TransformingCustomerService />} />
+          <Route path="/blog/why-local-businesses" element={<WhyLocalBusinesses />} />
+          <Route path="/blog/signs-you-need-ai" element={<SignsYouNeedAI />} />
+          <Route path="/blog/setting-up-first-ai" element={<SettingUpFirstAI />} />
+          <Route path="/blog/future-of-communication" element={<FutureOfCommunication />} />
+          <Route path="/demos/ai-agent-demos" element={<AIAgentDemos />} />
+          <Route path="/demos/sunset-on-lyons" element={<SunsetOnLyons />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+      
+      {/* Show voice widget on all pages except demo pages */}
+      {!isDemoPage && (
+        <RetellVoiceWidget agentId="agent_e2e5fced5406ba51c5bbf6cd40" />
+      )}
+    </>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <ScrollToTop />
-        <Suspense fallback={
-          <div className="min-h-screen bg-background flex items-center justify-center">
-            <div className="text-foreground text-lg">Loading...</div>
-          </div>
-        }>
-          <Routes>
-            <Route path="/" element={<ROICalculator />} />
-            <Route path="/ai-receptionist" element={<AIReceptionist />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/transforming-customer-service" element={<TransformingCustomerService />} />
-            <Route path="/blog/roi-of-voice-ai" element={<ROIOfVoiceAI />} />
-            <Route path="/blog/signs-you-need-ai" element={<SignsYouNeedAI />} />
-            <Route path="/blog/setting-up-first-ai" element={<SettingUpFirstAI />} />
-            <Route path="/blog/why-local-businesses-switching" element={<WhyLocalBusinesses />} />
-            <Route path="/blog/future-of-communication" element={<FutureOfCommunication />} />
-            <Route path="/ai-agent-demos" element={<AIAgentDemos />} />
-            <Route path="/demos/sunset-on-lyons" element={<SunsetOnLyons />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/lost-revenue-calculator" element={<LostRevenueCalculator />} />
-            <Route path="/features" element={<Features />} />
-            <Route path="/services/:slug" element={<ServiceDetail />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/payment-success" element={<PaymentSuccess />} />
-            <Route path="/schedule-consultation" element={<ScheduleConsultation />} />
-            <Route path="/consultation-booked" element={<ConsultationBooked />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-of-service" element={<TermsOfService />} />
-            <Route path="/cookie-policy" element={<CookiePolicy />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
+        <AppContent />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
