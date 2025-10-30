@@ -30,6 +30,8 @@ const SignsYouNeedAI = lazy(() => import("./pages/blog/SignsYouNeedAI"));
 const SettingUpFirstAI = lazy(() => import("./pages/blog/SettingUpFirstAI"));
 const WhyLocalBusinesses = lazy(() => import("./pages/blog/WhyLocalBusinesses"));
 const FutureOfCommunication = lazy(() => import("./pages/blog/FutureOfCommunication"));
+const AIAgentDemos = lazy(() => import("./pages/AIAgentDemos"));
+const SunsetOnLyons = lazy(() => import("./pages/demos/SunsetOnLyons"));
 
 const queryClient = new QueryClient();
 
@@ -56,6 +58,8 @@ const App = () => (
             <Route path="/blog/setting-up-first-ai" element={<SettingUpFirstAI />} />
             <Route path="/blog/why-local-businesses-switching" element={<WhyLocalBusinesses />} />
             <Route path="/blog/future-of-communication" element={<FutureOfCommunication />} />
+            <Route path="/ai-agent-demos" element={<AIAgentDemos />} />
+            <Route path="/demos/sunset-on-lyons" element={<SunsetOnLyons />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/lost-revenue-calculator" element={<LostRevenueCalculator />} />
