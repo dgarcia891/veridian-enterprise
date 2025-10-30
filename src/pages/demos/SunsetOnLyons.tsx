@@ -16,8 +16,8 @@ const SunsetOnLyons = () => {
     script.src = 'https://dashboard.retellai.com/retell-widget.js';
     script.setAttribute('data-public-key', 'public_key_2dfbee8cc6fc84d1f88bf');
     script.setAttribute('data-agent-id', 'agent_1ef5afe461594f65be72ab17db');
-    script.setAttribute('data-title', 'AI Agents 3000 Chat Agent');
-    script.setAttribute('data-bot-name', 'Rosie');
+    script.setAttribute('data-title', 'Talk to Sunset on Lyons');
+    script.setAttribute('data-bot-name', 'Sunset on Lyons');
     script.setAttribute('data-show-ai-popup', 'true');
     script.setAttribute('data-show-ai-popup-time', '5');
     script.setAttribute('data-auto-open', 'false');
