@@ -1,4 +1,4 @@
-import { LucideIcon, Clock, Phone, Zap, Target, CheckCircle, DollarSign, Globe, Shield } from "lucide-react";
+import { LucideIcon, Clock, Phone, Zap, Target, CheckCircle, DollarSign, Globe, Shield, MessageCircle, Brain, Sparkles, BarChart3, Languages, BookOpen } from "lucide-react";
 
 export interface Feature {
   icon: LucideIcon;
@@ -151,6 +151,127 @@ export const services: Service[] = [
           "24/7 priority support"
         ],
         ctaText: "Contact for Medical Plan"
+      }
+    ],
+    active: true
+  },
+  {
+    id: "ai-chat-widget",
+    slug: "ai-chat-widget",
+    name: "AI Chat Widget",
+    tagline: "24/7 Intelligent Customer Engagement",
+    description: "Transform your website into a conversion machine with our intelligent AI chat widget. Multi-lingual, expertly trained, and always ready to help your visitors.",
+    heroSubtitle: "Deploy a sophisticated AI chat assistant on your website in minutes. Trained on your business knowledge, fluent in multiple languages, and capable of handling complex customer inquiries with natural, human-like conversations.",
+    features: [
+      {
+        icon: Languages,
+        title: "Multi-Lingual Excellence",
+        description: "Communicate fluently in 95+ languages with automatic detection and seamless language switching. Serve global customers without language barriers."
+      },
+      {
+        icon: Brain,
+        title: "Easy Training & Customization",
+        description: "Simply upload your documents, FAQs, and product information. Our AI learns your business in minutes and stays updated as you grow."
+      },
+      {
+        icon: Sparkles,
+        title: "Expert Knowledge Base",
+        description: "Trained on your specific industry expertise, product catalogs, and company policies. Provides accurate, contextual answers every time."
+      },
+      {
+        icon: MessageCircle,
+        title: "Natural Conversations",
+        description: "Advanced AI understands context, intent, and nuance. Handles complex questions with human-like responses that feel personal and authentic."
+      },
+      {
+        icon: Target,
+        title: "Smart Lead Capture",
+        description: "Intelligently qualifies leads during conversations, collects contact information naturally, and routes hot prospects to your sales team."
+      },
+      {
+        icon: BarChart3,
+        title: "Advanced Analytics",
+        description: "Track conversation metrics, customer sentiment, common questions, and conversion rates. Gain insights to improve your business."
+      },
+      {
+        icon: Zap,
+        title: "Instant Integration",
+        description: "One-line code snippet installs on any website. Works with Shopify, WordPress, Wix, custom sites, and all major platforms."
+      },
+      {
+        icon: BookOpen,
+        title: "Continuous Learning",
+        description: "Improves over time by learning from conversations. You can refine responses, add new information, and optimize performance."
+      }
+    ],
+    benefits: [
+      {
+        stat: "3X",
+        description: "increase in customer engagement and conversions",
+        icon: Target
+      },
+      {
+        stat: "95+",
+        description: "languages supported out of the box",
+        icon: Globe
+      },
+      {
+        stat: "60%",
+        description: "reduction in support ticket volume",
+        icon: MessageCircle
+      }
+    ],
+    pricing: [
+      {
+        name: "Starter",
+        price: "$199",
+        period: "/month",
+        description: "Perfect for small businesses and startups",
+        features: [
+          "Up to 1,000 conversations/month",
+          "5 languages included",
+          "Basic customization",
+          "Standard support",
+          "Basic analytics",
+          "Email integration"
+        ],
+        ctaText: "Start Starter Plan"
+      },
+      {
+        name: "Professional",
+        price: "$499",
+        period: "/month",
+        description: "Ideal for growing businesses with high traffic",
+        features: [
+          "Up to 5,000 conversations/month",
+          "All 95+ languages included",
+          "Advanced customization",
+          "Priority support",
+          "Advanced analytics & reports",
+          "CRM integrations",
+          "Custom training documents",
+          "API access"
+        ],
+        popular: true,
+        ctaText: "Start Professional Plan"
+      },
+      {
+        name: "Enterprise",
+        price: "Custom",
+        period: "",
+        description: "Unlimited scale with white-glove service",
+        features: [
+          "Unlimited conversations",
+          "All languages + custom dialects",
+          "Full white-label customization",
+          "Dedicated account manager",
+          "Custom AI training & optimization",
+          "Advanced security & compliance",
+          "Multi-site deployment",
+          "SLA guarantees",
+          "24/7 priority support"
+        ],
+        ctaText: "Contact Sales"
       }
     ],
     active: true

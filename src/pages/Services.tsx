@@ -1,12 +1,12 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Target, Users, TrendingUp, BarChart3, Zap, Shield } from "lucide-react";
+import { Target, MessageCircle } from "lucide-react";
 import { Helmet } from "react-helmet";
 
 const Services = () => {
-  const scrollToAIPage = () => {
-    window.location.href = '/voice-ai-receptionist';
+  const scrollToService = (slug: string) => {
+    window.location.href = `/${slug}`;
   };
 
   return (
@@ -33,34 +33,72 @@ const Services = () => {
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto mb-20">
+          {/* Voice AI Receptionist */}
           <div
-            onClick={scrollToAIPage}
-            className="bg-white/5 p-12 rounded-lg border border-white/10 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 cursor-pointer group"
+            onClick={() => scrollToService('voice-ai-receptionist')}
+            className="bg-white/5 p-10 rounded-lg border border-white/10 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 cursor-pointer group"
           >
             <div className="text-primary mb-6">
-              <Target className="w-16 h-16 mx-auto" />
+              <Target className="w-14 h-14 mx-auto" />
             </div>
-            <h2 className="text-3xl font-bold mb-6 text-center">Voice AI Receptionist</h2>
-            <p className="text-xl text-white/70 mb-8 text-center">
+            <h2 className="text-2xl font-bold mb-4 text-center">Voice AI Receptionist</h2>
+            <p className="text-lg text-white/70 mb-6 text-center">
               Never miss a customer call again with our intelligent 24/7 Voice AI Agent service
             </p>
-            <ul className="space-y-4 mb-8">
+            <ul className="space-y-3 mb-6">
               <li className="flex items-start">
-                <span className="text-primary mr-3 text-xl">✓</span>
-                <span className="text-white/80">24/7 availability - capture every sales opportunity</span>
+                <span className="text-primary mr-3 text-lg">✓</span>
+                <span className="text-white/80 text-sm">24/7 availability - capture every sales opportunity</span>
               </li>
               <li className="flex items-start">
-                <span className="text-primary mr-3 text-xl">✓</span>
-                <span className="text-white/80">Handle complex orders and transactions automatically</span>
+                <span className="text-primary mr-3 text-lg">✓</span>
+                <span className="text-white/80 text-sm">Handle complex orders and transactions automatically</span>
               </li>
               <li className="flex items-start">
-                <span className="text-primary mr-3 text-xl">✓</span>
-                <span className="text-white/80">Seamless integration with your existing systems</span>
+                <span className="text-primary mr-3 text-lg">✓</span>
+                <span className="text-white/80 text-sm">Seamless integration with your existing systems</span>
               </li>
               <li className="flex items-start">
-                <span className="text-primary mr-3 text-xl">✓</span>
-                <span className="text-white/80">Intelligent lead qualification and appointment booking</span>
+                <span className="text-primary mr-3 text-lg">✓</span>
+                <span className="text-white/80 text-sm">Intelligent lead qualification and appointment booking</span>
+              </li>
+            </ul>
+            <div className="text-center">
+              <span className="text-white/70 group-hover:text-white transition-colors">
+                Click to learn more →
+              </span>
+            </div>
+          </div>
+
+          {/* AI Chat Widget */}
+          <div
+            onClick={() => scrollToService('ai-chat-widget')}
+            className="bg-white/5 p-10 rounded-lg border border-white/10 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 cursor-pointer group"
+          >
+            <div className="text-primary mb-6">
+              <MessageCircle className="w-14 h-14 mx-auto" />
+            </div>
+            <h2 className="text-2xl font-bold mb-4 text-center">AI Chat Widget</h2>
+            <p className="text-lg text-white/70 mb-6 text-center">
+              Transform your website into a conversion machine with intelligent 24/7 chat support
+            </p>
+            <ul className="space-y-3 mb-6">
+              <li className="flex items-start">
+                <span className="text-primary mr-3 text-lg">✓</span>
+                <span className="text-white/80 text-sm">Multi-lingual support in 95+ languages</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-primary mr-3 text-lg">✓</span>
+                <span className="text-white/80 text-sm">Easy training with your business knowledge</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-primary mr-3 text-lg">✓</span>
+                <span className="text-white/80 text-sm">Expert responses with natural conversations</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-primary mr-3 text-lg">✓</span>
+                <span className="text-white/80 text-sm">Smart lead capture and advanced analytics</span>
               </li>
             </ul>
             <div className="text-center">
