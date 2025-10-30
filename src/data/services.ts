@@ -223,37 +223,37 @@ export const services: Service[] = [
     ],
     pricing: [
       {
-        name: "Starter",
-        price: "$199",
+        name: "Monthly",
+        price: "$100",
         period: "/month",
-        description: "Perfect for small businesses and startups",
+        description: "Perfect for businesses wanting flexibility",
         features: [
-          "Up to 1,000 conversations/month",
-          "5 languages included",
-          "Basic customization",
-          "Standard support",
-          "Basic analytics",
-          "Email integration"
-        ],
-        ctaText: "Start Starter Plan"
-      },
-      {
-        name: "Professional",
-        price: "$499",
-        period: "/month",
-        description: "Ideal for growing businesses with high traffic",
-        features: [
-          "Up to 5,000 conversations/month",
+          "Up to 2,500 conversations/month",
           "All 95+ languages included",
           "Advanced customization",
           "Priority support",
           "Advanced analytics & reports",
           "CRM integrations",
-          "Custom training documents",
-          "API access"
+          "Custom training documents"
+        ],
+        ctaText: "Start Monthly Plan"
+      },
+      {
+        name: "Bundle Deal",
+        price: "FREE",
+        period: "",
+        description: "Free with Voice AI Receptionist Annual Plan",
+        features: [
+          "Everything in Monthly, plus:",
+          "FREE when bundled with Voice AI Receptionist 1-year package",
+          "Unlimited conversations",
+          "Priority setup & onboarding",
+          "Dedicated account manager",
+          "Quarterly optimization sessions",
+          "Advanced integrations included"
         ],
         popular: true,
-        ctaText: "Start Professional Plan"
+        ctaText: "Get Bundle Deal"
       },
       {
         name: "Enterprise",
@@ -264,7 +264,6 @@ export const services: Service[] = [
           "Unlimited conversations",
           "All languages + custom dialects",
           "Full white-label customization",
-          "Dedicated account manager",
           "Custom AI training & optimization",
           "Advanced security & compliance",
           "Multi-site deployment",

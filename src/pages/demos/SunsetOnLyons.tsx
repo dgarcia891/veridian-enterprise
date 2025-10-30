@@ -4,15 +4,73 @@ import Footer from "@/components/Footer";
 import { ArrowLeft, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { useRetellWidget } from "@/hooks/useRetellWidget";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const SunsetOnLyons = () => {
-  const { isWidgetReady, openChat } = useRetellWidget();
+  const [isWidgetReady, setIsWidgetReady] = useState(false);
 
   useEffect(() => {
-    console.log("Retell widget ready:", isWidgetReady);
-  }, [isWidgetReady]);
+    // Load the Retell widget specifically for this demo
+    const script = document.createElement('script');
+    script.id = 'retell-sunset-widget';
+    script.src = 'https://dashboard.retellai.com/retell-widget.js';
+    script.setAttribute('data-public-key', 'public_key_2dfbee8cc6fc84d1f88bf');
+    script.setAttribute('data-agent-id', 'agent_1ef5afe461594f65be72ab17db');
+    script.setAttribute('data-title', 'AI Agents 3000 Chat Agent');
+    script.setAttribute('data-bot-name', 'Rosie');
+    script.setAttribute('data-show-ai-popup', 'true');
+    script.setAttribute('data-show-ai-popup-time', '5');
+    script.setAttribute('data-auto-open', 'false');
+    
+    script.onload = () => {
+      console.log('Sunset on Lyons Retell widget loaded');
+      // Wait for widget to initialize
+      setTimeout(() => setIsWidgetReady(true), 1000);
+    };
+    
+    document.body.appendChild(script);
+    
+    return () => {
+      // Cleanup: remove the script when component unmounts
+      const existingScript = document.getElementById('retell-sunset-widget');
+      if (existingScript) {
+        existingScript.remove();
+      }
+    };
+  }, []);
+
+  const openChat = () => {
+    try {
+      console.log("Attempting to open Retell chat widget for Sunset on Lyons...");
+      
+      // Try multiple methods to trigger the widget
+      const selectors = [
+        '[id*="retell"]',
+        '[class*="retell"]',
+        'iframe[src*="retell"]',
+      ];
+      
+      let widgetElement: HTMLElement | null = null;
+      
+      for (const selector of selectors) {
+        widgetElement = document.querySelector(selector) as HTMLElement;
+        if (widgetElement) {
+          console.log(`Found widget with selector: ${selector}`);
+          break;
+        }
+      }
+      
+      if (widgetElement) {
+        widgetElement.click();
+        console.log("Widget triggered successfully");
+      } else if ((window as any).RetellWebClient) {
+        console.log("Using RetellWebClient API");
+        (window as any).RetellWebClient.open();
+      }
+    } catch (error) {
+      console.error("Error opening Retell chat:", error);
+    }
+  };
 
   return (
     <>
