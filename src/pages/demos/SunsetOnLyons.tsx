@@ -1,15 +1,12 @@
 import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Phone, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { useRetellWebClient } from "@/hooks/useRetellWebClient";
+import { RetellChatInterface } from "@/components/RetellChatInterface";
 
 const SunsetOnLyons = () => {
-  const { startCall, stopCall, isCallActive } = useRetellWebClient({
-    agentId: "agent_1ef5afe461594f65be72ab17db",
-  });
 
   return (
     <>
@@ -63,15 +60,15 @@ const SunsetOnLyons = () => {
                     <ol className="space-y-3 text-sm text-muted-foreground">
                       <li className="flex gap-2">
                         <span className="font-semibold text-primary">1.</span>
-                        <span>Click "Start Conversation" button</span>
+                        <span>Click "Start Chat" to begin the conversation</span>
                       </li>
                       <li className="flex gap-2">
                         <span className="font-semibold text-primary">2.</span>
-                        <span>Allow microphone access when prompted</span>
+                        <span>Type your questions about the restaurant</span>
                       </li>
                       <li className="flex gap-2">
                         <span className="font-semibold text-primary">3.</span>
-                        <span>Start speaking your questions naturally</span>
+                        <span>Try asking about reservations, events, menus, or hours</span>
                       </li>
                     </ol>
 
@@ -89,37 +86,10 @@ const SunsetOnLyons = () => {
 
                 {/* Widget Container */}
                 <div className="lg:col-span-2">
-                  <div className="bg-card border rounded-lg p-6 min-h-[400px] flex items-center justify-center">
-                    <div className="text-center max-w-md">
-                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Phone className="w-8 h-8 text-primary" />
-                      </div>
-                      <h3 className="text-xl font-bold mb-2">Talk to Sunset on Lyons</h3>
-                      <p className="text-muted-foreground mb-4 text-sm">
-                        Click below to start a voice conversation with our AI assistant.
-                      </p>
-                      {!isCallActive ? (
-                        <Button 
-                          size="lg" 
-                          onClick={startCall}
-                          className="gap-2"
-                        >
-                          <Phone className="w-5 h-5" />
-                          Start Conversation
-                        </Button>
-                      ) : (
-                        <Button 
-                          size="lg" 
-                          onClick={stopCall}
-                          variant="destructive"
-                          className="gap-2"
-                        >
-                          <Phone className="w-5 h-5" />
-                          End Call
-                        </Button>
-                      )}
-                    </div>
-                  </div>
+                  <RetellChatInterface
+                    agentId="agent_1ef5afe461594f65be72ab17db"
+                    title="Sunset on Lyons AI"
+                  />
                 </div>
               </div>
             </div>

@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 import { PricingPlan } from "@/data/services";
-import { useRetellWidget } from "@/hooks/useRetellWidget";
 
 interface PricingProps {
   plans: PricingPlan[];
@@ -14,15 +13,14 @@ const Pricing = ({
   title = "Simple, Transparent Pricing",
   subtitle = "One recovered call pays for months of service"
 }: PricingProps) => {
-  const { isWidgetReady, openChat } = useRetellWidget();
-
   const handlePlanClick = (planName: string) => {
     console.log('[Analytics] Plan Select:', { 
       plan: planName, 
       location: 'pricing', 
       timestamp: new Date().toISOString() 
     });
-    openChat();
+    // Navigate to signup or open contact
+    window.location.href = '/signup';
   };
 
   return (
@@ -72,13 +70,12 @@ const Pricing = ({
 
               <Button 
                 onClick={() => handlePlanClick(plan.name)}
-                disabled={!isWidgetReady}
                 className={`w-full rounded-full py-6 text-base font-semibold transition-all duration-200 ${
                   plan.popular 
                     ? 'bg-primary text-primary-foreground hover:scale-105' 
                     : 'bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:scale-105'
-                } disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100`}
-                aria-label={`${plan.ctaText} - open chat to get started`}
+                }`}
+                aria-label={`${plan.ctaText} - get started`}
               >
                 {plan.ctaText}
               </Button>

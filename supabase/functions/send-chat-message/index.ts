@@ -11,40 +11,41 @@ serve(async (req) => {
   }
 
   try {
-    const { agentId } = await req.json();
+    const { chatId, content } = await req.json();
     const retellApiKey = Deno.env.get('RETELL_API_KEY');
 
     if (!retellApiKey) {
       throw new Error('RETELL_API_KEY not configured');
     }
 
-    console.log('Creating Retell web call for agent:', agentId);
+    console.log('Sending message to Retell chat:', chatId);
 
-    const response = await fetch('https://api.retellai.com/v2/create-web-call', {
+    const response = await fetch('https://api.retellai.com/v2/create-chat-completion', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${retellApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        agent_id: agentId,
+        chat_id: chatId,
+        content: content,
       }),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
       console.error('Retell API error:', response.status, errorText);
-      throw new Error(`Failed to create Retell call: ${errorText}`);
+      throw new Error(`Failed to send message: ${errorText}`);
     }
 
     const data = await response.json();
-    console.log('Retell call created successfully');
+    console.log('Received response from Retell');
 
     return new Response(JSON.stringify(data), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error('Error creating Retell call:', error);
+    console.error('Error sending chat message:', error);
     return new Response(
       JSON.stringify({ error: error.message }),
       {
