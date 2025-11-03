@@ -57,10 +57,12 @@ export const useAIReport = () => {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ error: "Failed to generate report" }));
+        console.error("Report generation failed:", response.status, errorData);
         throw new Error(errorData.error || "Failed to generate report");
       }
 
       const data = await response.json();
+      console.log("Report data received:", data);
       
       setReportData({
         business: data.business,
