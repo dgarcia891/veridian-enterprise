@@ -34,6 +34,7 @@ const WhyLocalBusinesses = lazy(() => import("./pages/blog/WhyLocalBusinesses"))
 const FutureOfCommunication = lazy(() => import("./pages/blog/FutureOfCommunication"));
 const AIAgentDemos = lazy(() => import("./pages/AIAgentDemos"));
 const SunsetOnLyons = lazy(() => import("./pages/demos/SunsetOnLyons"));
+const AIInsightReport = lazy(() => import("./pages/AIInsightReport"));
 
 const queryClient = new QueryClient();
 
@@ -71,6 +72,7 @@ const AppContent = () => {
           <Route path="/blog/future-of-communication" element={<FutureOfCommunication />} />
           <Route path="/demos/ai-agent-demos" element={<AIAgentDemos />} />
           <Route path="/demos/sunset-on-lyons" element={<SunsetOnLyons />} />
+          <Route path="/ai-insight" element={<AIInsightReport />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
