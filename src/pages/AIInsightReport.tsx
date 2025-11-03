@@ -4,6 +4,7 @@ import { AIInsightGenerator } from "@/components/AIInsightGenerator";
 import Footer from "@/components/Footer";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function AIInsightReport() {
   const [isPaid, setIsPaid] = useState(false);
@@ -20,30 +21,16 @@ export default function AIInsightReport() {
 
   async function verifyPayment(sessionId: string) {
     setVerifying(true);
-    
-    const n8nBaseUrl = import.meta.env.VITE_N8N_WEBHOOK_BASE_URL;
-    if (!n8nBaseUrl) {
-      console.error("N8N webhook URL not configured");
-      toast.error("Payment verification unavailable. Please contact support.");
-      setVerifying(false);
-      return;
-    }
 
     try {
-      const response = await fetch(`${n8nBaseUrl}/webhook/verify-payment`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ session_id: sessionId }),
+      const { data, error } = await supabase.functions.invoke("verify-ai-report-payment", {
+        body: { session_id: sessionId },
       });
 
-      if (!response.ok) {
-        throw new Error("Payment verification failed");
+      if (error) {
+        throw error;
       }
 
-      const data = await response.json();
-      
       if (data.status === "paid") {
         setIsPaid(true);
         toast.success("Payment verified! Full report unlocked.");
@@ -62,32 +49,18 @@ export default function AIInsightReport() {
   }
 
   async function handleCheckout() {
-    const n8nBaseUrl = import.meta.env.VITE_N8N_WEBHOOK_BASE_URL;
-    if (!n8nBaseUrl) {
-      toast.error("Payment system not configured. Please contact support.");
-      return;
-    }
-
     try {
-      const response = await fetch(`${n8nBaseUrl}/webhook/create-checkout-session`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ product: "ai_report" }),
-      });
+      const { data, error } = await supabase.functions.invoke("create-ai-report-payment");
 
-      if (!response.ok) {
-        throw new Error("Failed to create checkout session");
+      if (error) {
+        throw error;
       }
 
-      const data = await response.json();
-      
-      if (data.sessionId) {
+      if (data.url) {
         // Redirect to Stripe checkout
-        window.location.href = `https://checkout.stripe.com/c/pay/${data.sessionId}`;
+        window.location.href = data.url;
       } else {
-        throw new Error("No session ID returned");
+        throw new Error("No checkout URL returned");
       }
     } catch (error) {
       console.error("Checkout error:", error);
