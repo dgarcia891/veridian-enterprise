@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { RetellVoiceWidget } from "@/components/RetellVoiceWidget";
+import { RetellChatInterface } from "@/components/RetellChatInterface";
 import ScrollToTop from "@/components/ScrollToTop";
 
 const Index = lazy(() => import("./pages/Index"));
@@ -41,6 +42,7 @@ const queryClient = new QueryClient();
 const AppContent = () => {
   const location = useLocation();
   const isDemoPage = location.pathname.startsWith('/demos/');
+  const isAIInsightPage = location.pathname === '/ai-insight';
 
   return (
     <>
@@ -77,9 +79,17 @@ const AppContent = () => {
         </Routes>
       </Suspense>
       
-      {/* Show voice widget on all pages except demo pages */}
-      {!isDemoPage && (
+      {/* Show chat widget on AI Insight page, voice widget on others */}
+      {!isDemoPage && !isAIInsightPage && (
         <RetellVoiceWidget agentId="agent_e2e5fced5406ba51c5bbf6cd40" />
+      )}
+      {isAIInsightPage && (
+        <div className="fixed bottom-8 right-8 w-96 z-50">
+          <RetellChatInterface 
+            agentId="agent_e2e5fced5406ba51c5bbf6cd40"
+            title="AI Report Assistant"
+          />
+        </div>
       )}
     </>
   );
