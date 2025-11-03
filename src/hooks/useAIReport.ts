@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { getOpportunitiesForIndustry } from "@/data/aiOpportunities";
+import { toast } from "sonner";
 
 export interface BusinessData {
   websiteUrl: string;
@@ -10,15 +10,25 @@ export interface BusinessData {
   phone?: string;
 }
 
+export interface Opportunity {
+  title: string;
+  description: string;
+  bullets: string[];
+  whyNow: string;
+}
+
 export interface ROIData {
   recoveredOrders: number;
-  cateringAnnual: number;
-  total: number;
 }
 
 export interface ReportData {
-  businessData: BusinessData;
-  opportunities: ReturnType<typeof getOpportunitiesForIndustry>;
+  business: {
+    name: string;
+    url: string;
+    industry: string;
+  };
+  executiveSummary: string;
+  opportunities: Opportunity[];
   roi: ROIData;
   generatedAt: Date;
 }
@@ -27,35 +37,50 @@ export const useAIReport = () => {
   const [reportData, setReportData] = useState<ReportData | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const calculateROI = useCallback((industry: string): ROIData => {
-    const opportunities = getOpportunitiesForIndustry(industry);
-    const total = opportunities.reduce((sum, opp) => sum + opp.roi, 0);
-    
-    return {
-      recoveredOrders: opportunities[0]?.roi || 0,
-      cateringAnnual: opportunities[1]?.roi || 0,
-      total
-    };
-  }, []);
-
-  const generateReport = useCallback((businessData: BusinessData) => {
+  const generateReport = useCallback(async (businessData: BusinessData) => {
     setIsGenerating(true);
     
-    // Simulate AI generation delay
-    setTimeout(() => {
-      const opportunities = getOpportunitiesForIndustry(businessData.industry);
-      const roi = calculateROI(businessData.industry);
+    try {
+      const response = await fetch("https://n8n.srv946115.hstgr.cloud/webhook/ai-insight-build", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          businessName: businessData.businessName,
+          url: businessData.websiteUrl,
+          industry: businessData.industry,
+          contactName: businessData.contactName,
+          email: businessData.email,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: "Failed to generate report" }));
+        throw new Error(errorData.error || "Failed to generate report");
+      }
+
+      const data = await response.json();
       
       setReportData({
-        businessData,
-        opportunities,
-        roi,
+        business: data.business,
+        executiveSummary: data.executiveSummary,
+        opportunities: data.opportunities,
+        roi: {
+          recoveredOrders: data.roi.calc.recoveredOrders
+        },
         generatedAt: new Date()
       });
       
+      toast.success("Report generated successfully!");
+    } catch (error) {
+      console.error("Error generating report:", error);
+      toast.error(error instanceof Error ? error.message : "Failed to generate report. Please try again.");
+      setReportData(null);
+    } finally {
       setIsGenerating(false);
-    }, 1500);
-  }, [calculateROI]);
+    }
+  }, []);
 
   const resetReport = useCallback(() => {
     setReportData(null);

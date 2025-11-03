@@ -88,7 +88,7 @@ export const AIInsightGenerator: React.FC<AIInsightGeneratorProps> = ({
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
       pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-      pdf.save(`${reportData.businessData.businessName}-AI-Report.pdf`);
+      pdf.save(`${reportData.business.name}-AI-Report.pdf`);
       
       toast.success("PDF downloaded successfully!");
     } catch (error) {
@@ -108,7 +108,7 @@ export const AIInsightGenerator: React.FC<AIInsightGeneratorProps> = ({
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
             <h2 className="text-3xl font-bold">Your AI Growth Report</h2>
-            <p className="text-muted-foreground">Generated for {reportData.businessData.businessName}</p>
+            <p className="text-muted-foreground">Generated for {reportData.business.name}</p>
           </div>
           {!showPaywall && (
             <Button onClick={handleDownloadPDF} disabled={isDownloading} size="lg">
@@ -149,10 +149,14 @@ export const AIInsightGenerator: React.FC<AIInsightGeneratorProps> = ({
 
           {!showPaywall && (
             <>
-              <ROIBreakdown roi={reportData.roi} businessName={reportData.businessData.businessName} />
+              <div className="glass-card rounded-3xl p-6 mb-6">
+                <h3 className="text-xl font-bold mb-3">Executive Summary</h3>
+                <p className="text-muted-foreground">{reportData.executiveSummary}</p>
+              </div>
+              <ROIBreakdown roi={reportData.roi} businessName={reportData.business.name} />
               <OutreachTemplates 
-                businessName={reportData.businessData.businessName}
-                industry={reportData.businessData.industry}
+                businessName={reportData.business.name}
+                industry={reportData.business.industry}
               />
             </>
           )}
