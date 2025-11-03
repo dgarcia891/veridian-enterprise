@@ -17,12 +17,22 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
 const formSchema = z.object({
-  websiteUrl: z.string().url({ message: "Please enter a valid website URL" }),
-  businessName: z.string().optional(),
+  websiteUrl: z.string()
+    .min(1, { message: "Please enter a website URL" })
+    .max(255, { message: "URL must be less than 255 characters" })
+    .refine(
+      (url) => {
+        // Allow URLs with or without protocol
+        const urlPattern = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/i;
+        return urlPattern.test(url);
+      },
+      { message: "Please enter a valid website URL" }
+    ),
+  businessName: z.string().trim().max(100, { message: "Business name must be less than 100 characters" }).optional(),
   industry: z.string().min(1, { message: "Please select an industry" }),
-  contactName: z.string().optional(),
-  email: z.string().email({ message: "Please enter a valid email" }).optional().or(z.literal("")),
-  phone: z.string().optional(),
+  contactName: z.string().trim().max(100, { message: "Name must be less than 100 characters" }).optional(),
+  email: z.string().email({ message: "Please enter a valid email" }).max(255, { message: "Email must be less than 255 characters" }).optional().or(z.literal("")),
+  phone: z.string().trim().max(20, { message: "Phone must be less than 20 characters" }).optional(),
 });
 
 interface AIInsightGeneratorProps {
@@ -53,9 +63,15 @@ export const AIInsightGenerator: React.FC<AIInsightGeneratorProps> = ({
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    // Add https:// if no protocol is specified
+    let websiteUrl = values.websiteUrl.trim();
+    if (!websiteUrl.startsWith('http://') && !websiteUrl.startsWith('https://')) {
+      websiteUrl = 'https://' + websiteUrl;
+    }
+
     const businessData: BusinessData = {
-      websiteUrl: values.websiteUrl,
-      businessName: values.businessName || new URL(values.websiteUrl).hostname,
+      websiteUrl: websiteUrl,
+      businessName: values.businessName || new URL(websiteUrl).hostname,
       industry: values.industry,
       contactName: values.contactName,
       email: values.email,
@@ -183,7 +199,7 @@ export const AIInsightGenerator: React.FC<AIInsightGeneratorProps> = ({
             <Label htmlFor="websiteUrl">Website URL *</Label>
             <Input
               id="websiteUrl"
-              placeholder="https://yourbusiness.com"
+              placeholder="yourbusiness.com"
               {...form.register("websiteUrl")}
             />
             {form.formState.errors.websiteUrl && (
