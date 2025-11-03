@@ -84,12 +84,11 @@ const AppContent = () => {
         <RetellVoiceWidget agentId="agent_e2e5fced5406ba51c5bbf6cd40" />
       )}
       {isAIInsightPage && (
-        <div className="fixed bottom-8 right-8 w-96 z-50">
-          <RetellChatInterface 
-            agentId="agent_e2e5fced5406ba51c5bbf6cd40"
-            title="AI Report Assistant"
-          />
-        </div>
+        <RetellChatInterface 
+          agentId="agent_e2e5fced5406ba51c5bbf6cd40"
+          title="AI Report Assistant"
+          minimized={true}
+        />
       )}
     </>
   );

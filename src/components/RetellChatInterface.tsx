@@ -9,10 +9,12 @@ import { useRetellChat } from "@/hooks/useRetellChat";
 interface RetellChatInterfaceProps {
   agentId: string;
   title?: string;
+  minimized?: boolean;
 }
 
-export const RetellChatInterface = ({ agentId, title = "AI Assistant" }: RetellChatInterfaceProps) => {
+export const RetellChatInterface = ({ agentId, title = "AI Assistant", minimized = false }: RetellChatInterfaceProps) => {
   const [inputValue, setInputValue] = useState("");
+  const [isExpanded, setIsExpanded] = useState(!minimized);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { messages, sendMessage, startChat, endChat, isLoading, isChatActive } = useRetellChat({
     agentId,
@@ -39,6 +41,19 @@ export const RetellChatInterface = ({ agentId, title = "AI Assistant" }: RetellC
     }
   };
 
+  // Minimized widget view
+  if (minimized && !isExpanded) {
+    return (
+      <button
+        onClick={() => setIsExpanded(true)}
+        className="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg flex items-center justify-center transition-transform hover:scale-110 z-50"
+        aria-label="Open chat"
+      >
+        <MessageCircle className="w-8 h-8" />
+      </button>
+    );
+  }
+
   if (!isChatActive) {
     return (
       <Card className="p-8">
@@ -58,22 +73,40 @@ export const RetellChatInterface = ({ agentId, title = "AI Assistant" }: RetellC
             <MessageCircle className="mr-2 h-5 w-5" />
             {isLoading ? "Starting..." : "Start Chat"}
           </Button>
+          {minimized && (
+            <Button
+              variant="ghost"
+              onClick={() => setIsExpanded(false)}
+              className="mt-2"
+            >
+              Minimize
+            </Button>
+          )}
         </div>
       </Card>
     );
   }
 
   return (
-    <Card className="flex flex-col h-[500px]">
+    <Card className="fixed bottom-6 right-6 w-96 h-[500px] flex flex-col shadow-2xl z-50">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 bg-green-500 rounded-full" />
           <span className="font-semibold">{title}</span>
         </div>
-        <Button variant="ghost" size="icon" onClick={endChat}>
-          <X className="h-4 w-4" />
-        </Button>
+        <div className="flex gap-2">
+          {minimized && (
+            <Button variant="ghost" size="icon" onClick={() => setIsExpanded(false)}>
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </Button>
+          )}
+          <Button variant="ghost" size="icon" onClick={endChat}>
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
 
       {/* Messages */}
