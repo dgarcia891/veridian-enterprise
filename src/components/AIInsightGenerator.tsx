@@ -36,9 +36,9 @@ export const AIInsightGenerator: React.FC<AIInsightGeneratorProps> = ({
   isPaid = false,
   onUpgradeClick
 }) => {
-  const { reportData, isGenerating, generateReport } = useAIReport();
   const [isDownloading, setIsDownloading] = useState(false);
   const reportRef = React.useRef<HTMLDivElement>(null);
+  const { reportData, isGenerating, generateReport } = useAIReport();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
