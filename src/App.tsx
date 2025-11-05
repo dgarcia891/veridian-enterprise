@@ -26,6 +26,9 @@ const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 const ScheduleConsultation = lazy(() => import("./pages/ScheduleConsultation"));
 const ConsultationBooked = lazy(() => import("./pages/ConsultationBooked"));
 const FAQ = lazy(() => import("./pages/FAQ"));
+const Admin = lazy(() => import("./pages/Admin"));
+const AdminLogin = lazy(() => import("./pages/AdminLogin"));
+const AdminSetup = lazy(() => import("./pages/AdminSetup"));
 const Blog = lazy(() => import("./pages/Blog"));
 const TransformingCustomerService = lazy(() => import("./pages/blog/TransformingCustomerService"));
 const ROIOfVoiceAI = lazy(() => import("./pages/blog/ROIOfVoiceAI"));
@@ -75,6 +78,9 @@ const AppContent = () => {
           <Route path="/demos/ai-agent-demos" element={<AIAgentDemos />} />
           <Route path="/demos/sunset-on-lyons" element={<SunsetOnLyons />} />
           <Route path="/ai-insight" element={<AIInsightReport />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/setup" element={<AdminSetup />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

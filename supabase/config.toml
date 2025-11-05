@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.verify-ai-report-payment]
 verify_jwt = false
+
+[functions.setup-admin]
+verify_jwt = false
