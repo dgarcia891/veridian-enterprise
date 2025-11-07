@@ -98,7 +98,7 @@ const faqCategories = [
       },
       {
         q: "Is there a setup fee?",
-        a: "No setup fees! We include free onboarding, custom configuration, integration setup, and training to ensure your AI agent is perfectly aligned with your business needs. You only pay the monthly subscription."
+        a: "Monthly plans include a $450 setup fee. However, when you commit to an annual plan, the setup fee is completely waived! We include free onboarding, custom configuration, integration setup, and training to ensure your AI agent is perfectly aligned with your business needs."
       },
       {
         q: "What's included in the monthly price?",
