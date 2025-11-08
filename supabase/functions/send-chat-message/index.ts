@@ -12,45 +12,45 @@ serve(async (req) => {
 
   try {
     const { chatId, content } = await req.json();
-    const retellApiKey = Deno.env.get('RETELL_API_KEY');
 
-    if (!retellApiKey) {
-      throw new Error('RETELL_API_KEY not configured');
+    if (!chatId || !content) {
+      throw new Error("Chat ID and message content are required");
     }
 
-    console.log('Sending message to Retell chat:', chatId);
+    const retellApiKey = Deno.env.get('RETELL_API_KEY');
+    if (!retellApiKey) {
+      throw new Error('Service configuration error');
+    }
 
-    const response = await fetch('https://api.retellai.com/create-chat-completion', {
+    const response = await fetch(`https://api.retellai.com/v2/send-chat-message/${chatId}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${retellApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        chat_id: chatId,
         content: content,
+        role: 'user',
       }),
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Retell API error:', response.status, errorText);
-      throw new Error(`Failed to send message: ${errorText}`);
+      console.error('API call failed');
+      throw new Error('Unable to send message');
     }
 
     const data = await response.json();
-    console.log('Received response from Retell');
-
     return new Response(JSON.stringify(data), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      status: 200,
     });
   } catch (error) {
-    console.error('Error sending chat message:', error);
+    console.error('Message send failed');
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: error.message || 'Failed to send message' }),
       {
-        status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 500,
       }
     );
   }

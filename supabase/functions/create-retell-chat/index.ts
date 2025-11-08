@@ -12,15 +12,17 @@ serve(async (req) => {
 
   try {
     const { agentId } = await req.json();
-    const retellApiKey = Deno.env.get('RETELL_API_KEY');
 
-    if (!retellApiKey) {
-      throw new Error('RETELL_API_KEY not configured');
+    if (!agentId) {
+      throw new Error("Agent ID is required");
     }
 
-    console.log('Creating Retell chat session for agent:', agentId);
+    const retellApiKey = Deno.env.get('RETELL_API_KEY');
+    if (!retellApiKey) {
+      throw new Error('Service configuration error');
+    }
 
-    const response = await fetch('https://api.retellai.com/create-chat', {
+    const response = await fetch('https://api.retellai.com/v2/create-web-chat', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${retellApiKey}`,
@@ -32,24 +34,23 @@ serve(async (req) => {
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Retell API error:', response.status, errorText);
-      throw new Error(`Failed to create Retell chat: ${errorText}`);
+      console.error('API call failed');
+      throw new Error('Unable to create chat session');
     }
 
     const data = await response.json();
-    console.log('Retell chat session created:', data.chat_id);
 
     return new Response(JSON.stringify(data), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      status: 200,
     });
   } catch (error) {
-    console.error('Error creating Retell chat:', error);
+    console.error('Chat session creation failed');
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: error.message || 'Failed to create chat session' }),
       {
-        status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 500,
       }
     );
   }

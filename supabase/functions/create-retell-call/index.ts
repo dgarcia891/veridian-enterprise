@@ -12,17 +12,15 @@ serve(async (req) => {
 
   try {
     const { agentId } = await req.json();
-    
+
     if (!agentId) {
-      throw new Error('Agent ID is required');
+      throw new Error("Agent ID is required");
     }
 
     const retellApiKey = Deno.env.get('RETELL_API_KEY');
     if (!retellApiKey) {
-      throw new Error('RETELL_API_KEY is not configured');
+      throw new Error('Service configuration error');
     }
-
-    console.log('Creating Retell web call for agent:', agentId);
 
     const response = await fetch('https://api.retellai.com/v2/create-web-call', {
       method: 'POST',
@@ -36,35 +34,23 @@ serve(async (req) => {
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Retell API error:', response.status, errorText);
-      throw new Error(`Retell API error: ${response.status} - ${errorText}`);
+      console.error('API call failed');
+      throw new Error('Unable to create voice call');
     }
 
     const data = await response.json();
-    console.log('Successfully created web call:', data.call_id);
 
-    return new Response(
-      JSON.stringify(data),
-      { 
-        headers: { 
-          ...corsHeaders, 
-          'Content-Type': 'application/json' 
-        } 
-      }
-    );
+    return new Response(JSON.stringify(data), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      status: 200,
+    });
   } catch (error) {
-    console.error('Error in create-retell-call function:', error);
+    console.error('Voice call creation failed');
     return new Response(
-      JSON.stringify({ 
-        error: error instanceof Error ? error.message : 'Unknown error occurred' 
-      }),
-      { 
+      JSON.stringify({ error: error.message || 'Failed to create voice call' }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500,
-        headers: { 
-          ...corsHeaders, 
-          'Content-Type': 'application/json' 
-        } 
       }
     );
   }

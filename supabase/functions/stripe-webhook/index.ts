@@ -15,7 +15,6 @@ serve(async (req) => {
   const signature = req.headers.get("stripe-signature");
   
   if (!signature) {
-    console.error("[stripe-webhook] No signature provided");
     return new Response(JSON.stringify({ error: "No signature" }), {
       status: 400,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -34,10 +33,8 @@ serve(async (req) => {
       : Deno.env.get("STRIPE_WEBHOOK_SECRET_TEST");
     
     if (!stripeKey || !webhookSecret) {
-      throw new Error(`Stripe configuration missing for ${stripeMode} mode`);
+      throw new Error("Webhook configuration error");
     }
-
-    console.log(`[stripe-webhook] Processing webhook in ${stripeMode} mode`);
 
     const stripe = new Stripe(stripeKey, {
       apiVersion: "2025-08-27.basil",
@@ -56,25 +53,21 @@ serve(async (req) => {
     try {
       event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
     } catch (err) {
-      console.error("[stripe-webhook] Signature verification failed:", err.message);
+      console.error("Webhook signature verification failed");
       return new Response(JSON.stringify({ error: "Invalid signature" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    console.log("[stripe-webhook] Event type:", event.type);
-
     // Handle different event types
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
-        console.log("[stripe-webhook] Checkout session completed:", session.id);
         
         const signupId = session.metadata?.signup_id;
         
         if (!signupId) {
-          console.error("[stripe-webhook] No signup_id in metadata");
           break;
         }
 
@@ -100,54 +93,41 @@ serve(async (req) => {
           .eq("id", signupId);
 
         if (updateError) {
-          console.error("[stripe-webhook] Failed to update signup:", updateError);
           throw updateError;
         }
-
-        console.log("[stripe-webhook] Successfully updated signup:", signupId);
         break;
       }
 
       case "payment_intent.succeeded": {
-        const paymentIntent = event.data.object as Stripe.PaymentIntent;
-        console.log("[stripe-webhook] Payment intent succeeded:", paymentIntent.id);
+        // Payment successful
         break;
       }
 
       case "payment_intent.payment_failed": {
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
-        console.log("[stripe-webhook] Payment failed:", paymentIntent.id);
         
-        // Optionally update the payment status to failed
-        const { error: updateError } = await supabaseClient
+        // Update the payment status to failed
+        await supabaseClient
           .from("customer_signups")
           .update({ payment_status: "failed" })
           .eq("stripe_payment_intent_id", paymentIntent.id);
-
-        if (updateError) {
-          console.error("[stripe-webhook] Failed to update payment status:", updateError);
-        }
         break;
       }
 
       case "customer.subscription.deleted": {
         const subscription = event.data.object as Stripe.Subscription;
-        console.log("[stripe-webhook] Subscription cancelled:", subscription.id);
         
         // Update the subscription status
-        const { error: updateError } = await supabaseClient
+        await supabaseClient
           .from("customer_signups")
           .update({ payment_status: "cancelled" })
           .eq("stripe_subscription_id", subscription.id);
-
-        if (updateError) {
-          console.error("[stripe-webhook] Failed to update subscription:", updateError);
-        }
         break;
       }
 
       default:
-        console.log("[stripe-webhook] Unhandled event type:", event.type);
+        // Unhandled event type
+        break;
     }
 
     return new Response(JSON.stringify({ received: true }), {
@@ -155,9 +135,9 @@ serve(async (req) => {
       status: 200,
     });
   } catch (error) {
-    console.error("[stripe-webhook] Error:", error);
+    console.error("Webhook processing error");
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: "Webhook processing failed" }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 500,

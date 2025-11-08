@@ -21,7 +21,6 @@ serve(async (req) => {
     const { signupId, planType, email } = await req.json();
     
     if (!signupId || !planType || !email) {
-      console.error("[create-payment] Missing required parameters");
       throw new Error("Invalid request parameters");
     }
 
@@ -33,37 +32,31 @@ serve(async (req) => {
       .maybeSingle();
 
     if (signupError) {
-      console.error("[create-payment] Database error:", signupError);
       throw new Error("Unable to process payment request");
     }
 
     if (!signup) {
-      console.error("[create-payment] Signup not found:", signupId);
       throw new Error("Invalid signup reference");
     }
 
     if (signup.email !== email) {
-      console.error("[create-payment] Email mismatch for signup:", signupId);
       throw new Error("Invalid signup reference");
     }
 
     // Check if payment already initiated
     if (signup.payment_status !== "pending") {
-      console.error("[create-payment] Payment already processed:", signupId);
       throw new Error("Payment already initiated for this signup");
     }
 
     // Determine which Stripe key to use based on mode
-    const stripeMode = Deno.env.get("STRIPE_MODE") || "test"; // defaults to test
+    const stripeMode = Deno.env.get("STRIPE_MODE") || "test";
     const stripeKey = stripeMode === "live" 
       ? Deno.env.get("STRIPE_SECRET_KEY_LIVE")
       : Deno.env.get("STRIPE_SECRET_KEY_TEST");
     
     if (!stripeKey) {
-      throw new Error(`Stripe key not found for mode: ${stripeMode}`);
+      throw new Error("Payment service configuration error");
     }
-
-    console.log(`Using Stripe in ${stripeMode} mode`);
 
     const stripe = new Stripe(stripeKey, {
       apiVersion: "2025-08-27.basil",
@@ -129,8 +122,7 @@ serve(async (req) => {
       status: 200,
     });
   } catch (error) {
-    // Log detailed error server-side
-    console.error("[create-payment] Error:", error);
+    console.error("Payment creation failed");
     
     // Return generic error message to client
     const userMessage = error instanceof Error && error.message.includes("Invalid")
