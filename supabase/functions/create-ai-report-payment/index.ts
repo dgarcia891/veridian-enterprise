@@ -84,8 +84,13 @@ serve(async (req) => {
         });
     }
 
-    // Clean up old rate limit entries
-    await supabase.rpc("cleanup_old_rate_limits");
+    // Clean up old rate limit entries (non-critical operation)
+    try {
+      await supabase.rpc("cleanup_old_rate_limits");
+    } catch (cleanupError) {
+      // Log but don't fail - cleanup is a background operation
+      console.error("Rate limit cleanup error (non-fatal)");
+    }
 
     // Initialize Stripe
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {

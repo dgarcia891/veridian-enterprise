@@ -107,10 +107,14 @@ serve(async (req) => {
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
         
         // Update the payment status to failed
-        await supabaseClient
+        const { error: failError } = await supabaseClient
           .from("customer_signups")
           .update({ payment_status: "failed" })
           .eq("stripe_payment_intent_id", paymentIntent.id);
+        
+        if (failError) {
+          console.error("Failed to update payment status");
+        }
         break;
       }
 
@@ -118,10 +122,14 @@ serve(async (req) => {
         const subscription = event.data.object as Stripe.Subscription;
         
         // Update the subscription status
-        await supabaseClient
+        const { error: cancelError } = await supabaseClient
           .from("customer_signups")
           .update({ payment_status: "cancelled" })
           .eq("stripe_subscription_id", subscription.id);
+        
+        if (cancelError) {
+          console.error("Failed to update subscription status");
+        }
         break;
       }
 
