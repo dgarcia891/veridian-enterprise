@@ -114,6 +114,17 @@ serve(async (req) => {
         
         if (failError) {
           console.error("Failed to update payment status");
+          
+          // Log to monitoring table
+          await supabaseClient.from("edge_function_errors").insert({
+            function_name: "stripe-webhook",
+            error_type: "payment_status_update_failed",
+            error_message: failError.message,
+            metadata: { 
+              payment_intent_id: paymentIntent.id,
+              event_type: event.type 
+            }
+          });
         }
         break;
       }
@@ -129,6 +140,17 @@ serve(async (req) => {
         
         if (cancelError) {
           console.error("Failed to update subscription status");
+          
+          // Log to monitoring table
+          await supabaseClient.from("edge_function_errors").insert({
+            function_name: "stripe-webhook",
+            error_type: "subscription_status_update_failed",
+            error_message: cancelError.message,
+            metadata: { 
+              subscription_id: subscription.id,
+              event_type: event.type 
+            }
+          });
         }
         break;
       }

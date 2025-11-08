@@ -80,6 +80,33 @@ export type Database = {
         }
         Relationships: []
       }
+      edge_function_errors: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          error_type: string
+          function_name: string
+          id: string
+          metadata: Json | null
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          error_type: string
+          function_name: string
+          id?: string
+          metadata?: Json | null
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          error_type?: string
+          function_name?: string
+          id?: string
+          metadata?: Json | null
+        }
+        Relationships: []
+      }
       payment_rate_limits: {
         Row: {
           attempt_count: number
@@ -133,6 +160,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      cleanup_old_error_logs: { Args: never; Returns: undefined }
       cleanup_old_rate_limits: { Args: never; Returns: undefined }
       has_role: {
         Args: {

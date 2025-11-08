@@ -90,6 +90,14 @@ serve(async (req) => {
     } catch (cleanupError) {
       // Log but don't fail - cleanup is a background operation
       console.error("Rate limit cleanup error (non-fatal)");
+      
+      // Log to monitoring table
+      await supabase.from("edge_function_errors").insert({
+        function_name: "create-ai-report-payment",
+        error_type: "rate_limit_cleanup_failed",
+        error_message: cleanupError instanceof Error ? cleanupError.message : "Unknown cleanup error",
+        metadata: { client_ip: clientIp }
+      });
     }
 
     // Initialize Stripe
