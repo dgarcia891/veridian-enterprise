@@ -80,6 +80,33 @@ export type Database = {
         }
         Relationships: []
       }
+      payment_rate_limits: {
+        Row: {
+          attempt_count: number
+          created_at: string
+          first_attempt_at: string
+          id: string
+          ip_address: string
+          last_attempt_at: string
+        }
+        Insert: {
+          attempt_count?: number
+          created_at?: string
+          first_attempt_at?: string
+          id?: string
+          ip_address: string
+          last_attempt_at?: string
+        }
+        Update: {
+          attempt_count?: number
+          created_at?: string
+          first_attempt_at?: string
+          id?: string
+          ip_address?: string
+          last_attempt_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string | null
@@ -106,6 +133,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      cleanup_old_rate_limits: { Args: never; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

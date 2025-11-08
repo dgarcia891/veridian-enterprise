@@ -25,7 +25,10 @@ serve(async (req) => {
       );
     }
 
-    console.log("Verifying payment for session:", session_id);
+    // Get client IP address
+    const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() 
+      || req.headers.get("x-real-ip") 
+      || "unknown";
 
     // Initialize Stripe
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
@@ -35,7 +38,21 @@ serve(async (req) => {
     // Retrieve the checkout session
     const session = await stripe.checkout.sessions.retrieve(session_id);
 
-    console.log("Session payment status:", session.payment_status);
+    // Verify session ownership by comparing IP addresses
+    const sessionIp = session.metadata?.client_ip;
+    
+    if (sessionIp && clientIp !== "unknown" && sessionIp !== clientIp) {
+      return new Response(
+        JSON.stringify({ 
+          error: "Unauthorized: This payment session belongs to a different client",
+          status: "unauthorized"
+        }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 403,
+        }
+      );
+    }
 
     return new Response(
       JSON.stringify({ 
@@ -48,10 +65,13 @@ serve(async (req) => {
       }
     );
   } catch (error) {
-    console.error("Error verifying payment:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-      status: 500,
-    });
+    console.error("Payment verification error");
+    return new Response(
+      JSON.stringify({ error: "Unable to verify payment. Please try again." }),
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 500,
+      }
+    );
   }
 });
