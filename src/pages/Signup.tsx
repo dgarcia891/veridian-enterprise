@@ -109,7 +109,6 @@ const Signup = () => {
         }
       }
     } catch (error: any) {
-      console.error("Signup error:", error);
       toast({
         title: "Error",
         description: error.message || "Failed to process signup. Please try again.",
