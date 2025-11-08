@@ -7,13 +7,13 @@ verify_jwt = false
 verify_jwt = false
 
 [functions.create-retell-call]
-verify_jwt = true
+verify_jwt = false
 
 [functions.create-retell-chat]
-verify_jwt = true
+verify_jwt = false
 
 [functions.send-chat-message]
-verify_jwt = true
+verify_jwt = false
 
 [functions.create-ai-report-payment]
 verify_jwt = false
