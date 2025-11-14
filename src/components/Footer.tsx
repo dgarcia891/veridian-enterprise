@@ -107,7 +107,9 @@ const Footer = () => {
         {/* Bottom */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-border">
           <div className="text-muted-foreground text-sm mb-4 md:mb-0">
-            <p>© 2024 AI Agents 3000. All rights reserved.</p>
+            <p className="mb-1">© 2024 AI Agents 3000. All rights reserved.</p>
+            <p className="text-xs">VERIDIAN ENTERPRISES LLC</p>
+            <p className="text-xs">A Wyoming Limited Liability Company</p>
           </div>
           <nav className="flex space-x-6 text-sm" aria-label="Legal links">
             <Link to="/privacy-policy" className="text-muted-foreground hover:text-foreground transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded-sm">
