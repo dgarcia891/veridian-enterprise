@@ -18,6 +18,61 @@ const Index = () => {
           content="Calculate how much revenue your business loses from missed calls. See the real ROI of 24/7 AI receptionists vs human staff. Free interactive calculator." 
         />
         <link rel="canonical" href="https://veridian.lovable.app/" />
+        
+        {/* Structured Data for Search Engines */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "AI Receptionist ROI Calculator",
+            "description": "Calculate how much revenue your business loses from missed calls. Interactive ROI calculator for AI receptionist services.",
+            "applicationCategory": "BusinessApplication",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "featureList": [
+              "24/7 Call Answering",
+              "100% Call Answer Rate",
+              "Instant Response Time",
+              "Lead Capture",
+              "Appointment Booking"
+            ]
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "How much revenue do businesses lose from missed calls?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Small and medium businesses lose an average of $126,000 annually from unanswered calls. 85% of customers who get voicemail won't call back, and 62% will immediately contact a competitor."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What is an AI receptionist?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "An AI receptionist is a 24/7/365 virtual employee that answers 100% of your calls, captures leads, takes orders, and books appointments instantly with response times under 1 second."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How does the ROI calculator work?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Our calculator estimates revenue loss based on your missed calls per day and average customer value. It factors in that 85% of callers don't call back when they reach voicemail."
+                }
+              }
+            ]
+          })}
+        </script>
       </Helmet>
 
       <a 
