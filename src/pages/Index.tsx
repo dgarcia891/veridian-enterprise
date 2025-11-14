@@ -1,4 +1,3 @@
-import ROINavigation from "@/components/roi/ROINavigation";
 import ProblemStatsSection from "@/components/roi/ProblemStatsSection";
 import SolutionSection from "@/components/roi/SolutionSection";
 import InteractiveCalculator from "@/components/roi/InteractiveCalculator";
@@ -7,8 +6,12 @@ import ServiceCTA from "@/components/ServiceCTA";
 import Footer from "@/components/Footer";
 import { Helmet } from "react-helmet";
 import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
+  const navigate = useNavigate();
+  
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Helmet>
@@ -82,7 +85,24 @@ const Index = () => {
         Skip to main content
       </a>
       
-      <ROINavigation />
+      <header className="bg-background/90 backdrop-blur-md shadow-md sticky top-0 z-50 border-b border-border">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <button 
+              onClick={() => navigate("/")}
+              className="flex-shrink-0 text-xl font-bold text-primary hover:opacity-80 transition-opacity"
+            >
+              The AI Agent ROI
+            </button>
+            <Button 
+              onClick={() => navigate("/signup")}
+              size="lg"
+            >
+              Get Started
+            </Button>
+          </div>
+        </nav>
+      </header>
       
       <main>
         <ProblemStatsSection />
