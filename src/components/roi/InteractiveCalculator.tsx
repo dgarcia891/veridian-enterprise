@@ -10,10 +10,17 @@ const costComparisonData = [
 ];
 
 const InteractiveCalculator = () => {
-  const [missedCalls, setMissedCalls] = useState([10]);
-  const [customerValue, setCustomerValue] = useState([60]);
+  // Create custom value mapping for customer value slider
+  const customerValueMap = [
+    ...Array.from({ length: 10 }, (_, i) => (i + 1) * 10), // 10, 20, 30...100
+    ...Array.from({ length: 9 }, (_, i) => 100 + (i + 1) * 100) // 200, 300...1000
+  ];
   
-  const { annualLoss } = useROICalculation(missedCalls[0], customerValue[0]);
+  const [missedCalls, setMissedCalls] = useState([10]);
+  const [customerValueIndex, setCustomerValueIndex] = useState([5]); // Index for $60
+  
+  const customerValue = customerValueMap[customerValueIndex[0]];
+  const { annualLoss } = useROICalculation(missedCalls[0], customerValue);
 
   return (
     <section id="calculator" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16 bg-gradient-to-br from-background to-accent/20">
@@ -50,7 +57,7 @@ const InteractiveCalculator = () => {
                   value={missedCalls}
                   onValueChange={setMissedCalls}
                   min={1}
-                  max={25}
+                  max={10}
                   step={1}
                   className="w-full"
                 />
@@ -62,15 +69,15 @@ const InteractiveCalculator = () => {
                     Average Value Per Customer:
                   </label>
                   <span className="text-2xl font-bold text-primary">
-                    {formatCurrency(customerValue[0])}
+                    {formatCurrency(customerValue)}
                   </span>
                 </div>
                 <Slider
-                  value={customerValue}
-                  onValueChange={setCustomerValue}
-                  min={20}
-                  max={500}
-                  step={10}
+                  value={customerValueIndex}
+                  onValueChange={setCustomerValueIndex}
+                  min={0}
+                  max={customerValueMap.length - 1}
+                  step={1}
                   className="w-full"
                 />
               </div>
