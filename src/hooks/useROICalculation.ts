@@ -1,20 +1,20 @@
 import { useMemo } from "react";
 
-export const useROICalculation = (missedCallsPerWeek: number, avgCustomerValue: number) => {
+export const useROICalculation = (missedCallsPerDay: number, avgCustomerValue: number) => {
   return useMemo(() => {
     const callbackRate = 0.15; // 85% don't call back
-    const weeksPerYear = 52;
+    const workingDaysPerYear = 250;
     
-    const weeklyLoss = missedCallsPerWeek * avgCustomerValue * (1 - callbackRate);
-    const monthlyLoss = weeklyLoss * (weeksPerYear / 12); // ~4.33 weeks per month
-    const annualLoss = weeklyLoss * weeksPerYear;
+    const dailyLoss = missedCallsPerDay * avgCustomerValue * (1 - callbackRate);
+    const monthlyLoss = dailyLoss * 21; // ~21 working days per month
+    const annualLoss = dailyLoss * workingDaysPerYear;
     
     return {
-      weeklyLoss: Math.round(weeklyLoss),
+      dailyLoss: Math.round(dailyLoss),
       monthlyLoss: Math.round(monthlyLoss),
       annualLoss: Math.round(annualLoss),
     };
-  }, [missedCallsPerWeek, avgCustomerValue]);
+  }, [missedCallsPerDay, avgCustomerValue]);
 };
 
 export const formatCurrency = (value: number): string => {
