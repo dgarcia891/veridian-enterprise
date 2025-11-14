@@ -47,7 +47,7 @@ const InteractiveCalculator = () => {
               <div>
                 <div className="flex justify-between items-center mb-3">
                   <label className="text-sm font-medium text-foreground">
-                    Missed Calls Per Day:
+                    Missed Calls Per Week:
                   </label>
                   <span className="text-2xl font-bold text-primary">
                     {missedCalls[0]}
@@ -56,8 +56,8 @@ const InteractiveCalculator = () => {
                 <Slider
                   value={missedCalls}
                   onValueChange={setMissedCalls}
-                  min={1}
-                  max={10}
+                  min={3}
+                  max={30}
                   step={1}
                   className="w-full"
                 />
