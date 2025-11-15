@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle, Shield, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useROI } from "@/contexts/ROIContext";
+import { formatCurrency } from "@/hooks/useROICalculation";
 
 interface CloserSectionProps {
   isMediumBusiness: boolean;
@@ -8,7 +10,8 @@ interface CloserSectionProps {
 
 const CloserSection = ({ isMediumBusiness }: CloserSectionProps) => {
   const navigate = useNavigate();
-  const annualLoss = isMediumBusiness ? "$126,000" : "$17,000";
+  const { annualLoss: annualLossValue } = useROI();
+  const annualLoss = formatCurrency(annualLossValue);
 
   const handleCTAClick = () => {
     console.log('[Analytics] CTA Click: Final Closer', { 

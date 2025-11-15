@@ -11,13 +11,15 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { ROIProvider } from "@/contexts/ROIContext";
 
 const Index = () => {
   const navigate = useNavigate();
   const [isMediumBusiness, setIsMediumBusiness] = useState(false);
   
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <ROIProvider>
+      <div className="min-h-screen bg-background text-foreground">
       <Helmet>
         <title>AI Receptionist ROI Calculator | Stop Losing $126k/Year</title>
         <meta 
@@ -134,7 +136,8 @@ const Index = () => {
       </main>
       
       <Footer />
-    </div>
+      </div>
+    </ROIProvider>
   );
 };
 

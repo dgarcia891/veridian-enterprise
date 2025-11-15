@@ -5,6 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useROI } from "@/contexts/ROIContext";
+import { formatCurrency } from "@/hooks/useROICalculation";
 
 interface ProblemStatsSectionProps {
   isMediumBusiness: boolean;
@@ -37,7 +39,8 @@ const missedCallsData = [{
 }];
 const ProblemStatsSection = ({ isMediumBusiness, setIsMediumBusiness }: ProblemStatsSectionProps) => {
   const navigate = useNavigate();
-  const annualLossValue = isMediumBusiness ? "$126,000" : "$17,000";
+  const { annualLoss: annualLossAmount } = useROI();
+  const annualLossValue = formatCurrency(annualLossAmount);
   const businessSize = isMediumBusiness ? "Medium" : "Small";
   return <section id="problem" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16">
       <div className="max-w-7xl mx-auto">
