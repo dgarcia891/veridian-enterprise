@@ -86,7 +86,7 @@ const AppContent = () => {
       {/* Show chat widget on all pages except demos */}
       {!isDemoPage && (
         <RetellChatInterface 
-          agentId="agent_e2e5fced5406ba51c5bbf6cd40"
+          agentId="agent_2df66bc30b17e2cbf174bf2f3b"
           title={isAIInsightPage ? "AI Report Assistant" : "Chat with AI"}
           minimized={true}
         />
