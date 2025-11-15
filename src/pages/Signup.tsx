@@ -17,9 +17,7 @@ import { BusinessDetailsForm } from "@/components/signup/BusinessDetailsForm";
 import { PlanSelectionForm } from "@/components/signup/PlanSelectionForm";
 import { ProceedOptionsForm } from "@/components/signup/ProceedOptionsForm";
 import { SignupFormSkeleton } from "@/components/signup/SignupFormSkeleton";
-
 const Footer = lazy(() => import("@/components/Footer"));
-
 const formSchema = z.object({
   contactName: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
   email: z.string().trim().email("Invalid email address").max(255),
@@ -29,17 +27,16 @@ const formSchema = z.object({
   averageCallsPerDay: z.string().optional(),
   currentPhoneSystem: z.string().optional(),
   planType: z.enum(["monthly", "annual", "medical"]),
-  wantsCallFirst: z.boolean(),
+  wantsCallFirst: z.boolean()
 });
-
 type FormValues = z.infer<typeof formSchema>;
-
 const Signup = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
-
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     mode: "onTouched",
@@ -49,58 +46,52 @@ const Signup = () => {
       phone: "",
       companyName: "",
       planType: "annual",
-      wantsCallFirst: false,
-    },
+      wantsCallFirst: false
+    }
   });
-
   const watchPlanType = form.watch("planType") as PlanType;
   const watchWantsCallFirst = form.watch("wantsCallFirst");
-
   const onSubmit = async (values: FormValues) => {
     setIsSubmitting(true);
     try {
       // Save signup data to database
-      const { data: signupData, error: signupError } = await supabase
-        .from("customer_signups")
-        .insert({
-          contact_name: values.contactName,
-          email: values.email,
-          phone: values.phone,
-          company_name: values.companyName,
-          industry: values.industry || null,
-          average_calls_per_day: values.averageCallsPerDay ? parseInt(values.averageCallsPerDay) : null,
-          current_phone_system: values.currentPhoneSystem || null,
-          plan_type: values.planType,
-          wants_call_first: values.wantsCallFirst,
-        })
-        .select()
-        .single();
-
+      const {
+        data: signupData,
+        error: signupError
+      } = await supabase.from("customer_signups").insert({
+        contact_name: values.contactName,
+        email: values.email,
+        phone: values.phone,
+        company_name: values.companyName,
+        industry: values.industry || null,
+        average_calls_per_day: values.averageCallsPerDay ? parseInt(values.averageCallsPerDay) : null,
+        current_phone_system: values.currentPhoneSystem || null,
+        plan_type: values.planType,
+        wants_call_first: values.wantsCallFirst
+      }).select().single();
       if (signupError) throw signupError;
-
       if (values.wantsCallFirst) {
         // Navigate to embedded calendar for scheduling
         toast({
           title: "Registration Successful!",
-          description: "Redirecting to schedule your consultation call.",
+          description: "Redirecting to schedule your consultation call."
         });
         navigate("/schedule-consultation");
       } else {
         // Process payment
         setIsProcessingPayment(true);
-        const { data: checkoutData, error: checkoutError } = await supabase.functions.invoke(
-          "create-payment",
-          {
-            body: {
-              signupId: signupData.id,
-              planType: values.planType,
-              email: values.email,
-            },
+        const {
+          data: checkoutData,
+          error: checkoutError
+        } = await supabase.functions.invoke("create-payment", {
+          body: {
+            signupId: signupData.id,
+            planType: values.planType,
+            email: values.email
           }
-        );
-
+        });
         if (checkoutError) throw checkoutError;
-        
+
         // Open Stripe checkout
         if (checkoutData?.url) {
           window.location.href = checkoutData.url;
@@ -110,15 +101,13 @@ const Signup = () => {
       toast({
         title: "Error",
         description: error.message || "Failed to process signup. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
       setIsSubmitting(false);
       setIsProcessingPayment(false);
     }
   };
-
-  return (
-    <>
+  return <>
       <Navigation />
       <main className="min-h-screen pt-20 pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
@@ -175,31 +164,13 @@ const Signup = () => {
 
                   <ProceedOptionsForm control={form.control} />
 
-                  {watchWantsCallFirst && (
-                    <>
+                  {watchWantsCallFirst && <>
                       <Separator />
                       <BusinessDetailsForm control={form.control} />
-                    </>
-                  )}
+                    </>}
 
                   <div className="flex gap-4 pt-4">
-                    <Button
-                      type="submit"
-                      size="lg"
-                      disabled={isSubmitting || isProcessingPayment}
-                      className="flex-1"
-                    >
-                      {isSubmitting || isProcessingPayment ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          {isProcessingPayment ? "Processing..." : "Submitting..."}
-                        </>
-                      ) : watchWantsCallFirst ? (
-                        "Schedule Consultation"
-                      ) : (
-                        "Get 100% Lead Capture Now"
-                      )}
-                    </Button>
+                    
                   </div>
 
                   <p className="text-xs text-muted-foreground text-center">
@@ -215,8 +186,6 @@ const Signup = () => {
       <Suspense fallback={<div className="h-20" />}>
         <Footer />
       </Suspense>
-    </>
-  );
+    </>;
 };
-
 export default Signup;
