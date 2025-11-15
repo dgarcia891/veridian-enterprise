@@ -76,7 +76,18 @@ const ProblemStatsSection = ({ isMediumBusiness, setIsMediumBusiness }: ProblemS
                   </div>}
                 
                 <div className="text-5xl font-extrabold text-destructive mb-2">
-                  <strong>{isAnnualLossCard ? annualLossValue : kpi.value}</strong>
+                  <strong>
+                    <a 
+                      href="#calculator"
+                      className="hover:underline cursor-pointer transition-all"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        document.getElementById('calculator')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }}
+                    >
+                      {isAnnualLossCard ? annualLossValue : kpi.value}
+                    </a>
+                  </strong>
                 </div>
                 <p className="text-sm text-muted-foreground">
                   {isAnnualLossCard ? `Revenue lost from unanswered calls for ${businessSize.toLowerCase()} businesses.` : kpi.description}

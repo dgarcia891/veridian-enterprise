@@ -53,7 +53,18 @@ const PASSection = ({ isMediumBusiness }: PASSectionProps) => {
           {/* AGITATE */}
           <div className="space-y-4 pt-4 border-t border-border">
             <p className="text-lg sm:text-xl text-muted-foreground">
-              Think about it: <strong>{annualLoss} lost every year</strong>.
+              Think about it: <strong>
+                <a 
+                  href="#calculator"
+                  className="text-destructive hover:underline cursor-pointer transition-all"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('calculator')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }}
+                >
+                  {annualLoss} lost every year
+                </a>
+              </strong>.
             </p>
             
             <p className="text-lg sm:text-xl text-muted-foreground">
