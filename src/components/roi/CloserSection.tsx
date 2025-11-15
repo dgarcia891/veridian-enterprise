@@ -43,7 +43,18 @@ const CloserSection = ({ isMediumBusiness }: CloserSectionProps) => {
           </h2>
           
           <p className="text-xl sm:text-2xl text-muted-foreground mb-3">
-            Stop losing <strong>{annualLoss} a year</strong>.
+            Stop losing <strong>
+              <a 
+                href="#calculator"
+                className="text-destructive hover:underline cursor-pointer transition-all"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('calculator')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+              >
+                {annualLoss} a year
+              </a>
+            </strong>.
           </p>
           
           <p className="text-xl sm:text-2xl text-muted-foreground mb-12">
