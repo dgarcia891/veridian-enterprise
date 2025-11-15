@@ -130,9 +130,9 @@ const Navigation = () => {
           <Button 
             className="glass-button rounded-full px-6 py-2 text-sm hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary"
             onClick={() => navigate("/signup")}
-            aria-label="Get started with AI Agents 3000"
+            aria-label="Get 100% Lead Capture"
           >
-            Get Started
+            Get 100% Lead Capture
           </Button>
         </div>
       </div>
