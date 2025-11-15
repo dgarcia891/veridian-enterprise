@@ -6,19 +6,19 @@ const highlights = [
   {
     value: "100%",
     title: "Call Answer Rate",
-    description: "Never miss a lead again, even at 3 AM or on a holiday.",
+    description: "Never miss a lead. Even at 3 AM or holidays.",
     icon: CheckCircle,
   },
   {
     value: "<1 sec",
     title: "Response Time",
-    description: "Customers get instant answers, not a ringing phone or hold music.",
+    description: "Instant answers. No ringing phone or hold music.",
     icon: Clock,
   },
   {
     value: "24/7",
     title: "Availability",
-    description: "Capture leads while you eat, sleep, and focus on your work.",
+    description: "Capture leads while you eat, sleep, and work.",
     icon: Calendar,
   },
 ];
@@ -30,10 +30,15 @@ const SolutionSection = () => {
     <section id="solution" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16 bg-primary text-primary-foreground">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl sm:text-5xl font-extrabold mb-6 text-center">
-          The Solution: A 24/7 AI Agent
+          The Solution: <strong>A 24/7 AI Agent</strong>
         </h2>
+        
+        <p className="text-xl opacity-90 mb-3 text-center max-w-3xl mx-auto">
+          An AI agent isn't just a voicemail.
+        </p>
+        
         <p className="text-xl opacity-90 mb-12 text-center max-w-3xl mx-auto">
-          An AI agent isn't just a voicemail. It's a 24/7/365 employee that answers 100% of your calls, captures leads, takes orders, and books appointments—instantly.
+          It's a <strong>24/7/365 employee</strong> that answers 100% of your calls instantly.
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -43,10 +48,10 @@ const SolutionSection = () => {
               <div key={index} className="text-center p-6">
                 <Icon className="w-12 h-12 mx-auto mb-4 opacity-90" />
                 <div className="text-5xl font-extrabold mb-2">
-                  {highlight.value}
+                  <strong>{highlight.value}</strong>
                 </div>
                 <div className="text-lg font-semibold mb-2 opacity-90">
-                  {highlight.title}
+                  <strong>{highlight.title}</strong>
                 </div>
                 <p className="text-sm opacity-80">
                   {highlight.description}

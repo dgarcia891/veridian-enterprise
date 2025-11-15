@@ -30,19 +30,24 @@ const InteractiveCalculator = () => {
     <section id="calculator" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16 bg-gradient-to-br from-background to-accent/20">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl sm:text-5xl font-extrabold text-foreground mb-6 text-center">
-          Your Personal ROI
+          Your Personal <strong>ROI</strong>
         </h2>
+        
+        <p className="text-xl text-muted-foreground mb-3 text-center max-w-3xl mx-auto">
+          Don't guess. <strong>See the real numbers.</strong>
+        </p>
+        
         <p className="text-xl text-muted-foreground mb-12 text-center max-w-3xl mx-auto">
-          Don't guess. See the real numbers. A full-time human receptionist costs over $50,000/year. An AI agent does more, for less.
+          A human receptionist costs over <strong>$50,000/year</strong>. AI does more for less.
         </p>
         
         {/* Interactive Calculator */}
         <div className="glass-card p-8 rounded-lg mb-12">
           <h3 className="text-2xl font-bold text-foreground mb-2 text-center">
-            Interactive Cost Calculator
+            <strong>Interactive Cost Calculator</strong>
           </h3>
           <p className="text-center text-muted-foreground mb-8">
-            Drag the sliders to match your business.
+            Drag the sliders to see your numbers.
           </p>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
@@ -108,7 +113,7 @@ const InteractiveCalculator = () => {
           {/* Cost Comparison Chart */}
           <div className="glass-card p-8 rounded-lg">
             <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
-              Annual Cost: AI vs. Human
+              <strong>Annual Cost: AI vs. Human</strong>
             </h3>
             <div className="w-full" style={{ height: "300px" }}>
               <ResponsiveContainer width="100%" height="100%">
@@ -145,13 +150,16 @@ const InteractiveCalculator = () => {
           {/* ROI Card */}
           <div className="glass-card p-8 rounded-lg flex flex-col justify-center text-center border-t-4 border-primary">
             <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
-              Average 1st Year ROI
+              <strong>Average 1st Year ROI</strong>
             </div>
             <div className="text-4xl sm:text-6xl font-extrabold text-primary mb-4">
-              300%+
+              <strong>300%+</strong>
             </div>
+            <p className="text-lg text-muted-foreground mb-3">
+              AI adopters capture lost leads and cut costs.
+            </p>
             <p className="text-lg text-muted-foreground">
-              Case studies show AI agent adopters achieve massive ROI by capturing lost leads and cutting costs. Some firms report up to 1,775% ROI.
+              Some firms report up to <strong>1,775% ROI</strong>.
             </p>
           </div>
         </div>

@@ -122,11 +122,11 @@ const Index = () => {
               href="/faq"
               className="inline-flex items-center gap-2 text-lg font-semibold text-primary hover:underline transition-all group"
             >
-              Want to Know More About AI Agents?
+              <strong>Want to Know More About AI Agents?</strong>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </a>
             <p className="text-sm text-muted-foreground mt-2">
-              Explore our comprehensive FAQ covering capabilities, integrations, and more
+              Explore our FAQ covering capabilities and integrations.
             </p>
           </div>
         </section>
