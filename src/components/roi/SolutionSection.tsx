@@ -51,7 +51,7 @@ const SolutionSection = () => {
           {highlights.map((highlight, index) => {
             const Icon = highlight.icon;
             return (
-              <div key={index} className="text-center p-6 glass-card rounded-lg">
+              <div key={index} className="text-center p-6">
                 <Icon className="w-12 h-12 mx-auto mb-4 opacity-90" />
                 <div className="text-5xl font-extrabold mb-2">
                   <strong>{highlight.value}</strong>
@@ -59,7 +59,7 @@ const SolutionSection = () => {
                 <div className="text-lg font-semibold mb-2 opacity-90">
                   <strong>{highlight.title}</strong>
                 </div>
-                <h3 className="text-xl font-bold mb-2 text-primary-foreground">
+                <h3 className="text-xl font-bold mb-2">
                   {highlight.headline}
                 </h3>
                 <p className="text-base opacity-90 mb-2">
