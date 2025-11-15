@@ -3,6 +3,7 @@ import PASSection from "@/components/roi/PASSection";
 import SolutionSection from "@/components/roi/SolutionSection";
 import InteractiveCalculator from "@/components/roi/InteractiveCalculator";
 import GrowthSection from "@/components/roi/GrowthSection";
+import CloserSection from "@/components/roi/CloserSection";
 import Footer from "@/components/Footer";
 import { Helmet } from "react-helmet";
 import { ArrowRight } from "lucide-react";
@@ -115,19 +116,17 @@ const Index = () => {
         <SolutionSection />
         <InteractiveCalculator isMediumBusiness={isMediumBusiness} />
         <GrowthSection />
+        <CloserSection />
         
-        <section className="py-12 px-4 sm:px-6 lg:px-8 bg-card border-t border-border">
+        <section className="py-8 px-4 sm:px-6 lg:px-8 bg-card border-t border-border">
           <div className="max-w-4xl mx-auto text-center">
             <a 
               href="/faq"
-              className="inline-flex items-center gap-2 text-lg font-semibold text-primary hover:underline transition-all group"
+              className="inline-flex items-center gap-2 text-base font-semibold text-primary hover:underline transition-all group"
             >
-              <strong>Want to Know More About AI Agents?</strong>
+              <strong>Questions? Visit Our FAQ</strong>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </a>
-            <p className="text-sm text-muted-foreground mt-2">
-              Explore our FAQ covering capabilities and integrations.
-            </p>
           </div>
         </section>
       </main>
