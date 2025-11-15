@@ -38,6 +38,7 @@ const AIAgentDemos = lazy(() => import("./pages/AIAgentDemos"));
 const SunsetOnLyons = lazy(() => import("./pages/demos/SunsetOnLyons"));
 const AIInsightReport = lazy(() => import("./pages/AIInsightReport"));
 const SiteContent = lazy(() => import("./pages/SiteContent"));
+const Restaurants = lazy(() => import("./pages/Restaurants"));
 
 const queryClient = new QueryClient();
 
@@ -77,6 +78,7 @@ const AppContent = () => {
           <Route path="/blog/future-of-communication" element={<FutureOfCommunication />} />
           <Route path="/demos/ai-agent-demos" element={<AIAgentDemos />} />
           <Route path="/demos/sunset-on-lyons" element={<SunsetOnLyons />} />
+          <Route path="/restaurants" element={<Restaurants />} />
           <Route path="/ai-insight" element={<AIInsightReport />} />
           <Route path="/site-content" element={<SiteContent />} />
           <Route path="*" element={<NotFound />} />
