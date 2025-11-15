@@ -1,5 +1,7 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
-import { TrendingUp, Calendar, Users } from "lucide-react";
+import { TrendingUp, Calendar, Users, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const conversionData = [
   { stage: "Before AI", rate: 12 },
@@ -28,6 +30,8 @@ const growthStats = [
 ];
 
 const GrowthSection = () => {
+  const navigate = useNavigate();
+  
   return (
     <section id="growth" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16">
       <div className="max-w-7xl mx-auto">
@@ -105,6 +109,21 @@ const GrowthSection = () => {
               );
             })}
           </div>
+        </div>
+        
+        {/* CTA Button */}
+        <div className="mt-12 text-center">
+          <Button 
+            onClick={() => navigate("/signup")}
+            size="lg"
+            className="bg-primary text-primary-foreground rounded-full px-10 py-6 text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group"
+          >
+            Get 100% Lead Capture Now
+            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
+          </Button>
+          <p className="text-sm text-muted-foreground mt-3">
+            No credit card required • Free consultation • Setup in 24 hours
+          </p>
         </div>
       </div>
     </section>

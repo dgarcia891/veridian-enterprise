@@ -1,4 +1,6 @@
-import { Clock, CheckCircle, Calendar } from "lucide-react";
+import { Clock, CheckCircle, Calendar, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const highlights = [
   {
@@ -22,6 +24,8 @@ const highlights = [
 ];
 
 const SolutionSection = () => {
+  const navigate = useNavigate();
+  
   return (
     <section id="solution" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16 bg-primary text-primary-foreground">
       <div className="max-w-7xl mx-auto">
@@ -50,6 +54,21 @@ const SolutionSection = () => {
               </div>
             );
           })}
+        </div>
+        
+        {/* CTA Button */}
+        <div className="mt-12 text-center">
+          <Button 
+            onClick={() => navigate("/signup")}
+            size="lg"
+            className="rounded-full px-10 py-6 text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group bg-primary-foreground text-primary"
+          >
+            Get 100% Lead Capture Now
+            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
+          </Button>
+          <p className="text-sm opacity-80 mt-3">
+            No credit card required • Free consultation • Setup in 24 hours
+          </p>
         </div>
       </div>
     </section>

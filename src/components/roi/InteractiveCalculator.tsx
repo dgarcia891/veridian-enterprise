@@ -2,7 +2,9 @@ import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { useROICalculation, formatCurrency } from "@/hooks/useROICalculation";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import { DollarSign } from "lucide-react";
+import { DollarSign, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const costComparisonData = [
   { name: "Human Receptionist", cost: 55000, color: "hsl(var(--destructive))" },
@@ -10,6 +12,8 @@ const costComparisonData = [
 ];
 
 const InteractiveCalculator = () => {
+  const navigate = useNavigate();
+  
   // Create custom value mapping for customer value slider
   const customerValueMap = [
     ...Array.from({ length: 10 }, (_, i) => (i + 1) * 10), // 10, 20, 30...100
@@ -150,6 +154,21 @@ const InteractiveCalculator = () => {
               Case studies show AI agent adopters achieve massive ROI by capturing lost leads and cutting costs. Some firms report up to 1,775% ROI.
             </p>
           </div>
+        </div>
+        
+        {/* CTA Button */}
+        <div className="mt-12 text-center">
+          <Button 
+            onClick={() => navigate("/signup")}
+            size="lg"
+            className="bg-primary text-primary-foreground rounded-full px-10 py-6 text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group"
+          >
+            Get 100% Lead Capture Now
+            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
+          </Button>
+          <p className="text-sm text-muted-foreground mt-3">
+            No credit card required • Free consultation • Setup in 24 hours
+          </p>
         </div>
       </div>
     </section>
