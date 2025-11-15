@@ -175,9 +175,12 @@ const Signup = () => {
 
                   <ProceedOptionsForm control={form.control} />
 
-                  <Separator />
-
-                  <BusinessDetailsForm control={form.control} />
+                  {watchWantsCallFirst && (
+                    <>
+                      <Separator />
+                      <BusinessDetailsForm control={form.control} />
+                    </>
+                  )}
 
                   <div className="flex gap-4 pt-4">
                     <Button
