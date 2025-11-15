@@ -81,14 +81,11 @@ const AppContent = () => {
         </Routes>
       </Suspense>
       
-      {/* Show chat widget on AI Insight page, voice widget on others */}
-      {!isDemoPage && !isAIInsightPage && (
-        <RetellVoiceWidget agentId="agent_e2e5fced5406ba51c5bbf6cd40" />
-      )}
-      {isAIInsightPage && (
+      {/* Show chat widget on all pages except demos */}
+      {!isDemoPage && (
         <RetellChatInterface 
           agentId="agent_e2e5fced5406ba51c5bbf6cd40"
-          title="AI Report Assistant"
+          title={isAIInsightPage ? "AI Report Assistant" : "Chat with AI"}
           minimized={true}
         />
       )}
