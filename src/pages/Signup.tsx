@@ -138,7 +138,7 @@ const Signup = () => {
                     </div>
                   </div>
 
-                  <Button type="submit" className="w-full">
+                  <Button type="submit" size="sm" className="px-6">
                     Secure Enrollment & Launch
                   </Button>
 
