@@ -2,35 +2,25 @@ import { CheckCircle, TrendingUp, Clock, Users, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
 const CaseStudySection = () => {
   const navigate = useNavigate();
-
-  const results = [
-    {
-      icon: CheckCircle,
-      text: "100% automation of routine inquiries and scheduling",
-    },
-    {
-      icon: TrendingUp,
-      text: "90% reduction in manual workload for administrative tasks",
-    },
-    {
-      icon: Clock,
-      text: "Instant responses to customers, 24/7/365",
-    },
-    {
-      icon: Users,
-      text: "Customer satisfaction rate increased by 47%",
-    },
-    {
-      icon: Zap,
-      text: "Set new industry benchmark for innovation and efficiency",
-    },
-  ];
-
-  return (
-    <section id="case-study" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16 bg-gradient-to-br from-background via-primary/5 to-background">
+  const results = [{
+    icon: CheckCircle,
+    text: "100% automation of routine inquiries and scheduling"
+  }, {
+    icon: TrendingUp,
+    text: "90% reduction in manual workload for administrative tasks"
+  }, {
+    icon: Clock,
+    text: "Instant responses to customers, 24/7/365"
+  }, {
+    icon: Users,
+    text: "Customer satisfaction rate increased by 47%"
+  }, {
+    icon: Zap,
+    text: "Set new industry benchmark for innovation and efficiency"
+  }];
+  return <section id="case-study" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16 bg-gradient-to-br from-background via-primary/5 to-background">
       <div className="max-w-6xl mx-auto">
         {/* Headline */}
         <div className="text-center mb-12">
@@ -100,9 +90,7 @@ const CaseStudySection = () => {
                 <strong>SoCal Scoopers deployed a 24/7 AI Agent.</strong>
               </p>
               
-              <p className="text-lg sm:text-xl text-muted-foreground">
-                Built on <strong>Twilio-Retell.ai telephony integration</strong>.
-              </p>
+              
               
               <p className="text-lg sm:text-xl text-muted-foreground">
                 The AI answers <strong>100% of calls</strong>. Instantly.
@@ -131,18 +119,16 @@ const CaseStudySection = () => {
 
             <div className="space-y-4 pl-0 sm:pl-16">
               {results.map((result, index) => {
-                const Icon = result.icon;
-                return (
-                  <div key={index} className="flex items-start gap-4 p-4 rounded-lg bg-background/50 hover:bg-background transition-all">
+              const Icon = result.icon;
+              return <div key={index} className="flex items-start gap-4 p-4 rounded-lg bg-background/50 hover:bg-background transition-all">
                     <div className="flex-shrink-0 mt-1">
                       <Icon className="w-6 h-6 text-primary" />
                     </div>
                     <p className="text-base sm:text-lg font-semibold text-foreground">
                       {result.text}
                     </p>
-                  </div>
-                );
-              })}
+                  </div>;
+            })}
             </div>
 
             <div className="mt-8 pt-8 border-t border-border pl-0 sm:pl-16">
@@ -170,11 +156,7 @@ const CaseStudySection = () => {
               Ready to Achieve <strong>The Same Results?</strong>
             </p>
             
-            <Button 
-              onClick={() => navigate("/signup")}
-              size="lg"
-              className="bg-primary text-primary-foreground rounded-full px-10 py-6 text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group"
-            >
+            <Button onClick={() => navigate("/signup")} size="lg" className="bg-primary text-primary-foreground rounded-full px-10 py-6 text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group">
               Get 100% Lead Capture Now
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
             </Button>
@@ -184,8 +166,6 @@ const CaseStudySection = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default CaseStudySection;
