@@ -38,56 +38,10 @@ const ProblemStatsSection = () => {
   const businessSize = isMediumBusiness ? "Medium" : "Small";
   return <section id="problem" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16">
       <div className="max-w-7xl mx-auto">
-        {/* Problem */}
-        <div className="mb-8 text-center max-w-4xl mx-auto">
-          <p className="text-2xl sm:text-3xl font-bold text-foreground mb-4">
-            Dear Business Owner,
-          </p>
-          <p className="text-xl sm:text-2xl text-foreground mb-3">
-            Are you losing customers because you can't answer the phone 24/7?
-          </p>
-          <p className="text-xl sm:text-2xl text-foreground">
-            Have you watched your annual revenue shrink due to unanswered leads?
-          </p>
-        </div>
-
-        {/* Agitate */}
-        <div className="mb-12 text-center max-w-4xl mx-auto space-y-4">
-          <p className="text-lg sm:text-xl text-muted-foreground">
-            This isn't just a minor inconvenience.
-          </p>
-          
-          <p className="text-xl sm:text-2xl font-bold text-destructive">
-            This is the single biggest, silent revenue killer for your business.
-          </p>
-          
-          <p className="text-xl sm:text-2xl font-bold text-destructive">
-            It is costing you <span className="underline">$126,000 annually</span> in lost revenue.
-          </p>
-          
-          <p className="text-lg sm:text-xl text-foreground">
-            Worse, <span className="font-bold">85% of those customers won't call back.</span>
-          </p>
-          
-          <p className="text-lg sm:text-xl text-foreground">
-            They just hang up and immediately become a new customer for your competitor.
-          </p>
-        </div>
-
-        {/* Solve */}
-        <div className="mb-12 text-center max-w-4xl mx-auto space-y-4">
-          <p className="text-xl sm:text-2xl font-bold text-primary">
-            You don't need another expensive human receptionist.
-          </p>
-          
-          <p className="text-xl sm:text-2xl font-bold text-primary">
-            You need a growth engine that converts leads at a dramatically higher rate.
-          </p>
-          
-          <p className="text-2xl sm:text-3xl font-extrabold text-foreground">
-            Our 24/7 AI agent guarantees a <span className="text-primary">100% call answer rate</span> and <span className="text-primary">300%+ ROI.</span>
-          </p>
-        </div>
+        <h2 className="text-4xl sm:text-5xl font-extrabold text-foreground mb-4 text-center">Unlock Massive Growth & Book +220% More Appointments Now Using Your 24/7 Voice AI Receptionist</h2>
+        <p className="text-xl text-muted-foreground mb-12 text-center max-w-3xl mx-auto">
+          Tired of 62% of your missed callers going to a competitor? The only 24/7 Voice AI Receptionist guarantees a 100% call answer rate to capture leads, take orders, and boost appointments by 220% instantly.
+        </p>
         
         {/* KPI Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
