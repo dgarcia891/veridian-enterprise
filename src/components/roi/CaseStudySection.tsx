@@ -28,7 +28,7 @@ const CaseStudySection = () => {
             <span className="text-sm font-bold uppercase tracking-wide">Real Results</span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground mb-4">
-            How <strong>SoCal Scoopers</strong> Achieved Benchmark Efficiency
+            How <strong><a href="https://www.socalscoopers.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">SoCal Scoopers</a></strong> Achieved Benchmark Efficiency
           </h2>
           <p className="text-2xl sm:text-3xl font-bold text-primary">
             Automated <strong>100% of Scheduling</strong>
@@ -49,7 +49,7 @@ const CaseStudySection = () => {
 
             <div className="space-y-4 pl-0 sm:pl-16">
               <p className="text-lg sm:text-xl text-muted-foreground">
-                <strong>SoCal Scoopers was stuck.</strong>
+                <strong><a href="https://www.socalscoopers.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">SoCal Scoopers</a> was stuck.</strong>
               </p>
               
               <p className="text-lg sm:text-xl text-muted-foreground">
@@ -87,7 +87,7 @@ const CaseStudySection = () => {
 
             <div className="space-y-4 pl-0 sm:pl-16">
               <p className="text-lg sm:text-xl text-foreground font-semibold">
-                <strong>SoCal Scoopers deployed a 24/7 AI Agent.</strong>
+                <strong><a href="https://www.socalscoopers.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">SoCal Scoopers</a> deployed a 24/7 AI Agent.</strong>
               </p>
               
               
@@ -137,7 +137,7 @@ const CaseStudySection = () => {
               </p>
               
               <p className="text-lg sm:text-xl text-muted-foreground mb-3">
-                SoCal Scoopers now operates <strong>benchmark efficiency</strong>.
+                <a href="https://www.socalscoopers.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">SoCal Scoopers</a> now operates <strong>benchmark efficiency</strong>.
               </p>
               
               <p className="text-lg sm:text-xl text-muted-foreground mb-3">
