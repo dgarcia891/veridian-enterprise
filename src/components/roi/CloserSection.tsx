@@ -2,8 +2,13 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle, Shield, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const CloserSection = () => {
+interface CloserSectionProps {
+  isMediumBusiness: boolean;
+}
+
+const CloserSection = ({ isMediumBusiness }: CloserSectionProps) => {
   const navigate = useNavigate();
+  const annualLoss = isMediumBusiness ? "$126,000" : "$17,000";
 
   const handleCTAClick = () => {
     console.log('[Analytics] CTA Click: Final Closer', { 
@@ -38,7 +43,7 @@ const CloserSection = () => {
           </h2>
           
           <p className="text-xl sm:text-2xl text-muted-foreground mb-3">
-            Stop losing <strong>$126,000 a year</strong>.
+            Stop losing <strong>{annualLoss} a year</strong>.
           </p>
           
           <p className="text-xl sm:text-2xl text-muted-foreground mb-12">

@@ -4,6 +4,7 @@ import PASSection from "@/components/roi/PASSection";
 import SolutionSection from "@/components/roi/SolutionSection";
 import InteractiveCalculator from "@/components/roi/InteractiveCalculator";
 import GrowthSection from "@/components/roi/GrowthSection";
+import CloserSection from "@/components/roi/CloserSection";
 import Footer from "@/components/Footer";
 import { Helmet } from "react-helmet";
 import { ArrowRight } from "lucide-react";
@@ -35,10 +36,11 @@ const ROICalculator = () => {
           isMediumBusiness={isMediumBusiness}
           setIsMediumBusiness={setIsMediumBusiness}
         />
-        <PASSection />
+        <PASSection isMediumBusiness={isMediumBusiness} />
         <SolutionSection />
         <InteractiveCalculator isMediumBusiness={isMediumBusiness} />
         <GrowthSection />
+        <CloserSection isMediumBusiness={isMediumBusiness} />
         
         <section className="py-12 px-4 sm:px-6 lg:px-8 bg-card border-t border-border">
           <div className="max-w-4xl mx-auto text-center">

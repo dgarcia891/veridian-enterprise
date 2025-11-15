@@ -2,8 +2,13 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, AlertTriangle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const PASSection = () => {
+interface PASSectionProps {
+  isMediumBusiness: boolean;
+}
+
+const PASSection = ({ isMediumBusiness }: PASSectionProps) => {
   const navigate = useNavigate();
+  const annualLoss = isMediumBusiness ? "$126,000" : "$17,000";
 
   const handleCTAClick = () => {
     console.log('[Analytics] CTA Click: Get Started', { 
@@ -48,7 +53,7 @@ const PASSection = () => {
           {/* AGITATE */}
           <div className="space-y-4 pt-4 border-t border-border">
             <p className="text-lg sm:text-xl text-muted-foreground">
-              Think about it: <strong>$126,000 lost every year</strong>.
+              Think about it: <strong>{annualLoss} lost every year</strong>.
             </p>
             
             <p className="text-lg sm:text-xl text-muted-foreground">

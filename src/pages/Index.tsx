@@ -112,11 +112,11 @@ const Index = () => {
           isMediumBusiness={isMediumBusiness}
           setIsMediumBusiness={setIsMediumBusiness}
         />
-        <PASSection />
+        <PASSection isMediumBusiness={isMediumBusiness} />
         <SolutionSection />
         <InteractiveCalculator isMediumBusiness={isMediumBusiness} />
         <GrowthSection />
-        <CloserSection />
+        <CloserSection isMediumBusiness={isMediumBusiness} />
         
         <section className="py-8 px-4 sm:px-6 lg:px-8 bg-card border-t border-border">
           <div className="max-w-4xl mx-auto text-center">
