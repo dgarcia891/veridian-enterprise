@@ -194,7 +194,7 @@ const Signup = () => {
                       ) : watchWantsCallFirst ? (
                         "Schedule Consultation"
                       ) : (
-                        "Proceed to Payment"
+                        "Get 100% Lead Capture Now"
                       )}
                     </Button>
                   </div>

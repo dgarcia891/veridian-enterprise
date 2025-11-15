@@ -32,7 +32,7 @@ export const ProceedOptionsForm = memo(({ control }: ProceedOptionsFormProps) =>
               >
                 <div className="flex items-center gap-2 font-semibold mb-2">
                   <CreditCard className="h-4 w-4" />
-                  Sign Up Now & Pay
+                  Get 100% Lead Capture Now
                 </div>
                 <div className="text-xs font-normal opacity-90">
                   Complete payment now, then schedule your setup appointment
@@ -47,10 +47,10 @@ export const ProceedOptionsForm = memo(({ control }: ProceedOptionsFormProps) =>
               >
                 <div className="flex items-center gap-2 font-semibold mb-2">
                   <Phone className="h-4 w-4" />
-                  Schedule a Call First
+                  Schedule a Consultation
                 </div>
                 <div className="text-xs font-normal opacity-90">
-                  Talk to our team before committing - we'll answer questions and help you get started
+                  Talk to our team before committing
                 </div>
               </Button>
             </div>
