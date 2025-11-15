@@ -167,7 +167,7 @@ const InteractiveCalculator = () => {
             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
           </Button>
           <p className="text-sm text-muted-foreground mt-3">
-            No credit card required • Free consultation • Setup in 24 hours
+            No complex setup required • Replaces $50k+ Human Receptionist
           </p>
         </div>
       </div>
