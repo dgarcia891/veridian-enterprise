@@ -43,7 +43,7 @@ const ProblemStatsSection = () => {
           Stop Losing Tens of Thousands of Dollars Annually & Book 2X More Appointments in 30 Days with Instant 1-Second AI Response
         </h2>
         <p className="text-xl text-muted-foreground mb-12 text-center max-w-3xl mx-auto">
-          As a business owner, you're busy. But data shows that missed calls aren't just a minor inconvenience—they are the single biggest, silent revenue killer for your business.
+          Tired of 62% of your missed callers going to a competitor? The only 24/7 Voice AI Receptionist guarantees a 100% call answer rate to capture leads, take orders, and boost appointments by 220% instantly.
         </p>
         
         {/* KPI Cards */}
