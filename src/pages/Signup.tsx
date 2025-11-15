@@ -138,9 +138,11 @@ const Signup = () => {
                     </div>
                   </div>
 
-                  <Button type="submit" size="sm" className="px-6">
-                    Secure Enrollment & Launch
-                  </Button>
+                  <div className="flex justify-center">
+                    <Button type="submit" size="sm" className="px-6">
+                      Secure Enrollment & Launch
+                    </Button>
+                  </div>
 
                   <p className="text-xs text-muted-foreground text-center">
                     By clicking continue, you agree to our Terms of Service and Privacy Policy.
