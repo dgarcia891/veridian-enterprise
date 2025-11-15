@@ -6,19 +6,25 @@ const highlights = [
   {
     value: "100%",
     title: "Call Answer Rate",
-    description: "Never miss a lead. Even at 3 AM or holidays.",
+    headline: "Never Lose Another Lead",
+    benefit: "With 100% Call Capture That Protects Your Revenue",
+    description: "Even at 3 AM or holidays. Your business never sleeps.",
     icon: CheckCircle,
   },
   {
     value: "<1 sec",
     title: "Response Time",
-    description: "Instant answers. No ringing phone or hold music.",
+    headline: "Answer Every Customer Instantly",
+    benefit: "With Sub-Second Response That Builds Trust",
+    description: "No ringing phone. No hold music. Just answers.",
     icon: Clock,
   },
   {
     value: "24/7",
     title: "Availability",
-    description: "Capture leads while you eat, sleep, and work.",
+    headline: "Work Freely",
+    benefit: "With 24/7 Availability That Captures Leads While You Sleep",
+    description: "Focus on your work. AI handles the calls.",
     icon: Calendar,
   },
 ];
@@ -41,11 +47,11 @@ const SolutionSection = () => {
           It's a <strong>24/7/365 employee</strong> that answers 100% of your calls instantly.
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {highlights.map((highlight, index) => {
             const Icon = highlight.icon;
             return (
-              <div key={index} className="text-center p-6">
+              <div key={index} className="text-center p-6 glass-card rounded-lg">
                 <Icon className="w-12 h-12 mx-auto mb-4 opacity-90" />
                 <div className="text-5xl font-extrabold mb-2">
                   <strong>{highlight.value}</strong>
@@ -53,6 +59,12 @@ const SolutionSection = () => {
                 <div className="text-lg font-semibold mb-2 opacity-90">
                   <strong>{highlight.title}</strong>
                 </div>
+                <h3 className="text-xl font-bold mb-2 text-primary-foreground">
+                  {highlight.headline}
+                </h3>
+                <p className="text-base opacity-90 mb-2">
+                  {highlight.benefit}
+                </p>
                 <p className="text-sm opacity-80">
                   {highlight.description}
                 </p>
@@ -62,17 +74,17 @@ const SolutionSection = () => {
         </div>
         
         {/* CTA Button */}
-        <div className="mt-12 text-center">
+        <div className="mt-8 text-center">
           <Button 
             onClick={() => navigate("/signup")}
             size="lg"
             className="rounded-full px-10 py-6 text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group bg-primary-foreground text-primary"
           >
-            Get 100% Lead Capture Now
+            Calculate My Lost Revenue
             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
           </Button>
           <p className="text-sm opacity-80 mt-3">
-            No complex setup required • 60-Day Money Back Guarantee
+            See exactly how much you're losing • Free calculator
           </p>
         </div>
       </div>
