@@ -22,7 +22,7 @@ serve(async (req) => {
       throw new Error('Service configuration error');
     }
 
-    const response = await fetch('https://api.retellai.com/v2/create-web-chat', {
+    const response = await fetch('https://api.retellai.com/create-chat', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${retellApiKey}`,
