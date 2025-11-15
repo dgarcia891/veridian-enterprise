@@ -3,45 +3,38 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recha
 import { useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-
-const kpiData = [
-  {
-    title: "Annual Loss for Small & Medium Businesses",
-    value: "$126,000",
-    description: "Average annual revenue lost from unanswered calls.",
-    icon: TrendingDown,
-  },
-  {
-    title: "Customers Who Won't Call Back",
-    value: "85%",
-    description: "They don't leave a voicemail. They just hang up.",
-    icon: PhoneMissed,
-  },
-  {
-    title: "Callers Who Go to a Competitor",
-    value: "62%",
-    description: "A missed call for you is a new customer for them.",
-    icon: AlertCircle,
-  },
-];
-
-const missedCallsData = [
-  { name: "Missed Calls", value: 62, color: "hsl(var(--destructive))" },
-  { name: "Answered Calls", value: 38, color: "hsl(var(--muted))" },
-];
-
+const kpiData = [{
+  title: "Annual Loss for Small & Medium Businesses",
+  value: "$126,000",
+  description: "Average annual revenue lost from unanswered calls.",
+  icon: TrendingDown
+}, {
+  title: "Customers Who Won't Call Back",
+  value: "85%",
+  description: "They don't leave a voicemail. They just hang up.",
+  icon: PhoneMissed
+}, {
+  title: "Callers Who Go to a Competitor",
+  value: "62%",
+  description: "A missed call for you is a new customer for them.",
+  icon: AlertCircle
+}];
+const missedCallsData = [{
+  name: "Missed Calls",
+  value: 62,
+  color: "hsl(var(--destructive))"
+}, {
+  name: "Answered Calls",
+  value: 38,
+  color: "hsl(var(--muted))"
+}];
 const ProblemStatsSection = () => {
   const [isMediumBusiness, setIsMediumBusiness] = useState(false);
-  
   const annualLossValue = isMediumBusiness ? "$126,000" : "$17,000";
   const businessSize = isMediumBusiness ? "Medium" : "Small";
-  
-  return (
-    <section id="problem" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16">
+  return <section id="problem" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-foreground mb-4 text-center">
-          Stop Losing Tens of Thousands of Dollars Annually & Book 2X More Appointments in 30 Days with Instant 1-Second AI Response
-        </h2>
+        <h2 className="text-4xl sm:text-5xl font-extrabold text-foreground mb-4 text-center">Unlock Massive Growth & Book +220% More Appointments Now Using Your 24/7 Voice AI Receptionist</h2>
         <p className="text-xl text-muted-foreground mb-12 text-center max-w-3xl mx-auto">
           Tired of 62% of your missed callers going to a competitor? The only 24/7 Voice AI Receptionist guarantees a 100% call answer rate to capture leads, take orders, and boost appointments by 220% instantly.
         </p>
@@ -49,40 +42,23 @@ const ProblemStatsSection = () => {
         {/* KPI Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {kpiData.map((kpi, index) => {
-            const Icon = kpi.icon;
-            const isAnnualLossCard = index === 0;
-            
-            return (
-              <div
-                key={index}
-                className="glass-card p-6 rounded-lg border-t-4 border-destructive text-center"
-              >
+          const Icon = kpi.icon;
+          const isAnnualLossCard = index === 0;
+          return <div key={index} className="glass-card p-6 rounded-lg border-t-4 border-destructive text-center">
                 <Icon className="w-8 h-8 text-destructive mx-auto mb-3" />
                 <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
                   {kpi.title}
                 </div>
                 
-                {isAnnualLossCard && (
-                  <div className="flex items-center justify-center gap-3 mb-3">
-                    <Label 
-                      htmlFor="business-size" 
-                      className={`text-sm text-foreground cursor-pointer transition-all ${!isMediumBusiness ? 'underline font-bold' : 'font-medium'}`}
-                    >
+                {isAnnualLossCard && <div className="flex items-center justify-center gap-3 mb-3">
+                    <Label htmlFor="business-size" className={`text-sm text-foreground cursor-pointer transition-all ${!isMediumBusiness ? 'underline font-bold' : 'font-medium'}`}>
                       Small
                     </Label>
-                    <Switch
-                      id="business-size"
-                      checked={isMediumBusiness}
-                      onCheckedChange={setIsMediumBusiness}
-                    />
-                    <Label 
-                      htmlFor="business-size" 
-                      className={`text-sm text-foreground cursor-pointer transition-all ${isMediumBusiness ? 'underline font-bold' : 'font-medium'}`}
-                    >
+                    <Switch id="business-size" checked={isMediumBusiness} onCheckedChange={setIsMediumBusiness} />
+                    <Label htmlFor="business-size" className={`text-sm text-foreground cursor-pointer transition-all ${isMediumBusiness ? 'underline font-bold' : 'font-medium'}`}>
                       Medium
                     </Label>
-                  </div>
-                )}
+                  </div>}
                 
                 <div className="text-5xl font-extrabold text-destructive mb-2">
                   {isAnnualLossCard ? annualLossValue : kpi.value}
@@ -90,13 +66,10 @@ const ProblemStatsSection = () => {
                 <p className="text-sm text-muted-foreground">
                   {isAnnualLossCard ? `Average annual revenue lost from unanswered calls for ${businessSize.toLowerCase()} businesses.` : kpi.description}
                 </p>
-              </div>
-            );
-          })}
+              </div>;
+        })}
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default ProblemStatsSection;
