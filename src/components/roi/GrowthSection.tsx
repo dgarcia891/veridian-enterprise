@@ -1,5 +1,5 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
-import { TrendingUp, Calendar, Users, ArrowRight } from "lucide-react";
+import { TrendingUp, Calendar, Users, ArrowRight, DollarSign, Clock, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -10,22 +10,28 @@ const conversionData = [
 
 const growthStats = [
   {
-    title: "Lead Response Time",
-    value: "7x",
-    description: "Leads are 7x more likely to convert in the first hour. AI responds in 1 second.",
-    icon: TrendingUp,
+    icon: Clock,
+    metric: "7x",
+    statLabel: "Higher Conversion Rate",
+    headline: "Turn Speed Into Revenue",
+    benefit: "Leads convert 7x more when answered in the first hour.",
+    moneyImpact: "AI responds in 1 second. Every second counts.",
   },
   {
-    title: "Appointments Booked",
-    value: "+220%",
-    description: "Case study: 220% increase in conversions with an AI agent.",
     icon: Calendar,
+    metric: "+220%",
+    statLabel: "More Appointments Booked",
+    headline: "Triple Your Appointment Rate",
+    benefit: "Case study: 220% increase in lead-to-appointment conversions.",
+    moneyImpact: "More appointments = More closed deals = More revenue.",
   },
   {
-    title: "Customer Satisfaction",
-    value: "+20%",
-    description: "61% of consumers prefer faster AI response over waiting.",
     icon: Users,
+    metric: "61%",
+    statLabel: "Customer Preference",
+    headline: "Give Customers What They Want",
+    benefit: "61% prefer faster AI response over waiting for humans.",
+    moneyImpact: "Happy customers buy more. Satisfied customers refer more.",
   },
 ];
 
@@ -91,25 +97,55 @@ const GrowthSection = () => {
             </div>
           </div>
           
-          {/* Growth Stats */}
+          {/* Conversion Proof Cards */}
           <div className="space-y-6">
+            <div className="flex items-center gap-2 mb-8">
+              <DollarSign className="w-6 h-6 text-primary" />
+              <h3 className="text-2xl font-bold text-foreground">
+                <strong>Conversion Proof: How AI Makes You Money</strong>
+              </h3>
+            </div>
+            
             {growthStats.map((stat, index) => {
               const Icon = stat.icon;
               return (
                 <div
                   key={index}
-                  className="glass-card p-6 rounded-lg border-t-4 border-primary text-center"
+                  className="glass-card p-6 rounded-lg border-l-4 border-primary hover:shadow-lg transition-all duration-200"
                 >
-                  <Icon className="w-8 h-8 text-primary mx-auto mb-3" />
-                  <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
-                    <strong>{stat.title}</strong>
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                        <Icon className="w-8 h-8 text-primary" />
+                      </div>
+                    </div>
+                    
+                    <div className="flex-1">
+                      <div className="flex items-baseline gap-3 mb-2">
+                        <span className="text-4xl font-extrabold text-primary">
+                          <strong>{stat.metric}</strong>
+                        </span>
+                        <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                          {stat.statLabel}
+                        </span>
+                      </div>
+                      
+                      <h4 className="text-xl font-bold text-foreground mb-2">
+                        {stat.headline}
+                      </h4>
+                      
+                      <p className="text-base text-muted-foreground mb-2">
+                        {stat.benefit}
+                      </p>
+                      
+                      <div className="flex items-start gap-2 mt-3 pt-3 border-t border-border">
+                        <Zap className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                        <p className="text-sm font-semibold text-foreground">
+                          <strong>{stat.moneyImpact}</strong>
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-5xl font-extrabold text-primary mb-2">
-                    <strong>{stat.value}</strong>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    {stat.description}
-                  </p>
                 </div>
               );
             })}
