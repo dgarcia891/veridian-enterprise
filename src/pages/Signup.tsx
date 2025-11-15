@@ -11,8 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
-import { usePlanPricing, PlanType } from "@/hooks/usePlanPricing";
-import { PlanSummaryCard } from "@/components/signup/PlanSummaryCard";
+import { PlanType } from "@/hooks/usePlanPricing";
 import { ContactInfoForm } from "@/components/signup/ContactInfoForm";
 import { BusinessDetailsForm } from "@/components/signup/BusinessDetailsForm";
 import { PlanSelectionForm } from "@/components/signup/PlanSelectionForm";
@@ -56,7 +55,6 @@ const Signup = () => {
 
   const watchPlanType = form.watch("planType") as PlanType;
   const watchWantsCallFirst = form.watch("wantsCallFirst");
-  const planDetails = usePlanPricing(watchPlanType);
 
   const onSubmit = async (values: FormValues) => {
     setIsSubmitting(true);
@@ -133,25 +131,49 @@ const Signup = () => {
             </p>
           </div>
 
-          <PlanSummaryCard planType={watchPlanType} planDetails={planDetails} />
-
           <Card>
             <CardHeader>
-              <CardTitle>Contact Information</CardTitle>
-              <CardDescription>Tell us about yourself and your business</CardDescription>
+              <CardTitle>Select Your Plan</CardTitle>
+              <CardDescription>Choose the plan that best fits your business needs</CardDescription>
             </CardHeader>
             <CardContent>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <PlanSelectionForm control={form.control} />
+                  
+                  <div className="bg-muted/30 rounded-lg p-6">
+                    <h3 className="font-semibold mb-4">What's Included</h3>
+                    <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm">
+                      <div className="flex items-center gap-2">
+                        <span className="text-primary">✓</span>
+                        <span>Unlimited call handling</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-primary">✓</span>
+                        <span>24/7 availability</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-primary">✓</span>
+                        <span>Lead qualification</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-primary">✓</span>
+                        <span>Appointment booking</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-primary">✓</span>
+                        <span>Calendar integration</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Separator />
+
                   <ContactInfoForm control={form.control} />
 
                   <Separator />
 
                   <BusinessDetailsForm control={form.control} />
-
-                  <Separator />
-
-                  <PlanSelectionForm control={form.control} />
 
                   <Separator />
 
