@@ -12,6 +12,7 @@ serve(async (req) => {
 
   try {
     const { agentId } = await req.json();
+    console.log('Received request with agentId:', agentId);
 
     if (!agentId) {
       throw new Error("Agent ID is required");
@@ -19,8 +20,11 @@ serve(async (req) => {
 
     const retellApiKey = Deno.env.get('RETELL_API_KEY');
     if (!retellApiKey) {
-      throw new Error('Service configuration error');
+      console.error('RETELL_API_KEY is not configured');
+      throw new Error('Service configuration error - API key not found');
     }
+    
+    console.log('RETELL_API_KEY found, calling Retell API...');
 
     const response = await fetch('https://api.retellai.com/create-chat', {
       method: 'POST',
