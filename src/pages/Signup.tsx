@@ -1,4 +1,5 @@
 import { useState, lazy, Suspense } from "react";
+import { ContactDialog } from "@/components/signup/ContactDialog";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -19,13 +20,6 @@ import { PlanSelectionForm } from "@/components/signup/PlanSelectionForm";
 import { SignupFormSkeleton } from "@/components/signup/SignupFormSkeleton";
 const Footer = lazy(() => import("@/components/Footer"));
 const formSchema = z.object({
-  contactName: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
-  email: z.string().trim().email("Invalid email address").max(255),
-  phone: z.string().trim().min(10, "Phone number must be at least 10 digits").max(20),
-  companyName: z.string().trim().min(2, "Company name is required").max(200),
-  industry: z.string().optional(),
-  averageCallsPerDay: z.string().optional(),
-  currentPhoneSystem: z.string().optional(),
   planType: z.enum(["monthly", "annual", "medical"])
 });
 type FormValues = z.infer<typeof formSchema>;
@@ -36,19 +30,23 @@ const Signup = () => {
   } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [showContactDialog, setShowContactDialog] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<PlanType>("annual");
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     mode: "onTouched",
     defaultValues: {
-      contactName: "",
-      email: "",
-      phone: "",
-      companyName: "",
       planType: "annual"
     }
   });
   const watchPlanType = form.watch("planType") as PlanType;
-  const onSubmit = async (values: FormValues) => {
+  
+  const handleGetStarted = (values: FormValues) => {
+    setSelectedPlan(values.planType);
+    setShowContactDialog(true);
+  };
+
+  const handleContactSubmit = async (contactValues: any) => {
     setIsSubmitting(true);
     setIsProcessingPayment(true);
     try {
@@ -57,14 +55,14 @@ const Signup = () => {
         data: signupData,
         error: signupError
       } = await supabase.from("customer_signups").insert({
-        contact_name: values.contactName,
-        email: values.email,
-        phone: values.phone,
-        company_name: values.companyName,
-        industry: values.industry || null,
-        average_calls_per_day: values.averageCallsPerDay ? parseInt(values.averageCallsPerDay) : null,
-        current_phone_system: values.currentPhoneSystem || null,
-        plan_type: values.planType,
+        contact_name: contactValues.contactName,
+        email: contactValues.email,
+        phone: contactValues.phone,
+        company_name: contactValues.contactName, // Using contact name as company name
+        industry: contactValues.industry || null,
+        average_calls_per_day: contactValues.averageCallsPerDay ? parseInt(contactValues.averageCallsPerDay) : null,
+        current_phone_system: contactValues.currentPhoneSystem || null,
+        plan_type: selectedPlan,
         wants_call_first: false
       }).select().single();
       if (signupError) throw signupError;
@@ -76,8 +74,8 @@ const Signup = () => {
       } = await supabase.functions.invoke("create-payment", {
         body: {
           signupId: signupData.id,
-          planType: values.planType,
-          email: values.email
+          planType: selectedPlan,
+          email: contactValues.email
         }
       });
       if (checkoutError) throw checkoutError;
@@ -116,7 +114,7 @@ const Signup = () => {
             </CardHeader>
             <CardContent>
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={form.handleSubmit(handleGetStarted)} className="space-y-6">
                   <PlanSelectionForm control={form.control} />
                   
                   <div className="bg-muted/30 rounded-lg p-6">
@@ -145,33 +143,16 @@ const Signup = () => {
                     </div>
                   </div>
 
-                  <Separator />
-
-                  <ContactInfoForm control={form.control} />
-
-                  <Separator />
-
-                  <BusinessDetailsForm control={form.control} />
-
                   <Button 
                     type="submit" 
                     className="w-full" 
                     size="lg"
-                    disabled={isSubmitting || isProcessingPayment}
                   >
-                    {isProcessingPayment ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Processing...
-                      </>
-                    ) : (
-                      "Get 100% Lead Capture Now"
-                    )}
+                    Get 100% Lead Capture Now
                   </Button>
 
                   <p className="text-xs text-muted-foreground text-center">
-                    By submitting this form, you agree to our Terms of Service and Privacy Policy.
-                    You will be redirected to Stripe for secure payment processing.
+                    By clicking continue, you agree to our Terms of Service and Privacy Policy.
                   </p>
                 </form>
               </Form>
@@ -179,6 +160,14 @@ const Signup = () => {
           </Card>
         </div>
       </main>
+      
+      <ContactDialog 
+        open={showContactDialog}
+        onOpenChange={setShowContactDialog}
+        onSubmit={handleContactSubmit}
+        isSubmitting={isSubmitting || isProcessingPayment}
+      />
+      
       <Suspense fallback={<div className="h-20" />}>
         <Footer />
       </Suspense>
