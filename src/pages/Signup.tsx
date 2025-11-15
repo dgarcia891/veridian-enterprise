@@ -139,7 +139,7 @@ const Signup = () => {
                   </div>
 
                   <Button type="submit" className="w-full" size="lg">
-                    Get 100% Lead Capture Now
+                    Secure Enrollment & Launch
                   </Button>
 
                   <p className="text-xs text-muted-foreground text-center">
