@@ -33,13 +33,21 @@ serve(async (req) => {
       }),
     });
 
+    console.log('Retell API response status:', response.status);
+
     if (!response.ok) {
       const errorText = await response.text();
       console.error('API call failed', { 
         status: response.status, 
         statusText: response.statusText,
-        error: errorText 
+        error: errorText,
+        agentId: agentId 
       });
+      
+      if (response.status === 404) {
+        throw new Error(`Agent not found. Please verify agent ID '${agentId}' exists in your Retell dashboard.`);
+      }
+      
       throw new Error(`Retell API error: ${response.status} - ${errorText}`);
     }
 
