@@ -16,7 +16,6 @@ import { PlanType } from "@/hooks/usePlanPricing";
 import { ContactInfoForm } from "@/components/signup/ContactInfoForm";
 import { BusinessDetailsForm } from "@/components/signup/BusinessDetailsForm";
 import { PlanSelectionForm } from "@/components/signup/PlanSelectionForm";
-
 import { SignupFormSkeleton } from "@/components/signup/SignupFormSkeleton";
 const Footer = lazy(() => import("@/components/Footer"));
 const formSchema = z.object({
@@ -40,12 +39,10 @@ const Signup = () => {
     }
   });
   const watchPlanType = form.watch("planType") as PlanType;
-  
   const handleGetStarted = (values: FormValues) => {
     setSelectedPlan(values.planType);
     setShowContactDialog(true);
   };
-
   const handleContactSubmit = async (contactValues: any) => {
     setIsSubmitting(true);
     setIsProcessingPayment(true);
@@ -58,7 +55,8 @@ const Signup = () => {
         contact_name: contactValues.contactName,
         email: contactValues.email,
         phone: contactValues.phone,
-        company_name: contactValues.contactName, // Using contact name as company name
+        company_name: contactValues.contactName,
+        // Using contact name as company name
         industry: contactValues.industry || null,
         average_calls_per_day: contactValues.averageCallsPerDay ? parseInt(contactValues.averageCallsPerDay) : null,
         current_phone_system: contactValues.currentPhoneSystem || null,
@@ -108,10 +106,7 @@ const Signup = () => {
           </div>
 
           <Card>
-            <CardHeader>
-              <CardTitle>Select Your Plan</CardTitle>
-              <CardDescription>Choose the plan that best fits your business needs</CardDescription>
-            </CardHeader>
+            
             <CardContent>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleGetStarted)} className="space-y-6">
@@ -143,11 +138,7 @@ const Signup = () => {
                     </div>
                   </div>
 
-                  <Button 
-                    type="submit" 
-                    className="w-full" 
-                    size="lg"
-                  >
+                  <Button type="submit" className="w-full" size="lg">
                     Get 100% Lead Capture Now
                   </Button>
 
@@ -161,12 +152,7 @@ const Signup = () => {
         </div>
       </main>
       
-      <ContactDialog 
-        open={showContactDialog}
-        onOpenChange={setShowContactDialog}
-        onSubmit={handleContactSubmit}
-        isSubmitting={isSubmitting || isProcessingPayment}
-      />
+      <ContactDialog open={showContactDialog} onOpenChange={setShowContactDialog} onSubmit={handleContactSubmit} isSubmitting={isSubmitting || isProcessingPayment} />
       
       <Suspense fallback={<div className="h-20" />}>
         <Footer />
