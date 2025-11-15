@@ -3,6 +3,7 @@ import PASSection from "@/components/roi/PASSection";
 import SolutionSection from "@/components/roi/SolutionSection";
 import InteractiveCalculator from "@/components/roi/InteractiveCalculator";
 import GrowthSection from "@/components/roi/GrowthSection";
+import CaseStudySection from "@/components/roi/CaseStudySection";
 import CloserSection from "@/components/roi/CloserSection";
 import Footer from "@/components/Footer";
 import { Helmet } from "react-helmet";
@@ -116,6 +117,7 @@ const Index = () => {
         <SolutionSection />
         <InteractiveCalculator isMediumBusiness={isMediumBusiness} />
         <GrowthSection />
+        <CaseStudySection />
         <CloserSection isMediumBusiness={isMediumBusiness} />
         
         <section className="py-8 px-4 sm:px-6 lg:px-8 bg-card border-t border-border">
