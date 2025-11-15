@@ -7,8 +7,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Phone } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Phone, CreditCard } from "lucide-react";
 
 interface ProceedOptionsFormProps {
   control: Control<any>;
@@ -23,48 +23,37 @@ export const ProceedOptionsForm = memo(({ control }: ProceedOptionsFormProps) =>
         <FormItem className="space-y-3">
           <FormLabel>How would you like to proceed? *</FormLabel>
           <FormControl>
-            <RadioGroup
-              onValueChange={(value) => field.onChange(value === "true")}
-              value={field.value ? "true" : "false"}
-              className="space-y-3"
-            >
-              <label
-                htmlFor="pay-now"
-                className={`flex items-start space-x-3 border-2 rounded-lg p-4 cursor-pointer transition-all ${
-                  !field.value
-                    ? "border-primary bg-primary/5"
-                    : "border-border hover:border-primary/50"
-                }`}
+            <div className="grid grid-cols-2 gap-4">
+              <Button
+                type="button"
+                variant={!field.value ? "default" : "outline"}
+                className="h-auto py-6 px-4 flex-col items-start text-left"
+                onClick={() => field.onChange(false)}
               >
-                <RadioGroupItem value="false" id="pay-now" className="mt-1" />
-                <div className="flex-1">
-                  <div className="font-semibold">Sign Up Now & Pay</div>
-                  <div className="text-sm text-muted-foreground mt-1">
-                    Complete payment now, then schedule your setup appointment
-                  </div>
+                <div className="flex items-center gap-2 font-semibold mb-2">
+                  <CreditCard className="h-4 w-4" />
+                  Sign Up Now & Pay
                 </div>
-              </label>
+                <div className="text-xs font-normal opacity-90">
+                  Complete payment now, then schedule your setup appointment
+                </div>
+              </Button>
 
-              <label
-                htmlFor="call-first"
-                className={`flex items-start space-x-3 border-2 rounded-lg p-4 cursor-pointer transition-all ${
-                  field.value
-                    ? "border-primary bg-primary/5"
-                    : "border-border hover:border-primary/50"
-                }`}
+              <Button
+                type="button"
+                variant={field.value ? "default" : "outline"}
+                className="h-auto py-6 px-4 flex-col items-start text-left"
+                onClick={() => field.onChange(true)}
               >
-                <RadioGroupItem value="true" id="call-first" className="mt-1" />
-                <div className="flex-1">
-                  <div className="font-semibold flex items-center gap-2">
-                    <Phone className="h-4 w-4" />
-                    Schedule a Call First
-                  </div>
-                  <div className="text-sm text-muted-foreground mt-1">
-                    Talk to our team before committing - we'll answer questions and help you get started
-                  </div>
+                <div className="flex items-center gap-2 font-semibold mb-2">
+                  <Phone className="h-4 w-4" />
+                  Schedule a Call First
                 </div>
-              </label>
-            </RadioGroup>
+                <div className="text-xs font-normal opacity-90">
+                  Talk to our team before committing - we'll answer questions and help you get started
+                </div>
+              </Button>
+            </div>
           </FormControl>
           <FormMessage />
         </FormItem>

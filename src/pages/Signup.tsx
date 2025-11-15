@@ -173,11 +173,11 @@ const Signup = () => {
 
                   <Separator />
 
-                  <BusinessDetailsForm control={form.control} />
+                  <ProceedOptionsForm control={form.control} />
 
                   <Separator />
 
-                  <ProceedOptionsForm control={form.control} />
+                  <BusinessDetailsForm control={form.control} />
 
                   <div className="flex gap-4 pt-4">
                     <Button
