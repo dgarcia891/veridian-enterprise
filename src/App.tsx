@@ -17,6 +17,7 @@ const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
 const About = lazy(() => import("./pages/About"));
+const AboutCEO = lazy(() => import("./pages/AboutCEO"));
 const ServiceDetail = lazy(() => import("./pages/ServiceDetail"));
 const Contact = lazy(() => import("./pages/Contact"));
 const LostRevenueCalculator = lazy(() => import("./pages/LostRevenueCalculator"));
@@ -55,6 +56,7 @@ const AppContent = () => {
           <Route path="/services/:serviceId" element={<ServiceDetail />} />
           <Route path="/features" element={<Features />} />
           <Route path="/about" element={<About />} />
+          <Route path="/abouttheceo" element={<AboutCEO />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/roi-calculator" element={<ROICalculator />} />
