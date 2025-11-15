@@ -28,7 +28,7 @@ const ServiceCTA = ({
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-background to-card">
       <div className="max-w-4xl mx-auto text-center glass-card p-12 rounded-3xl">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
-          {headline}
+          <strong>{headline}</strong>
         </h2>
         <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
           {description}

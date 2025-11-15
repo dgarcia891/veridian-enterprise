@@ -12,19 +12,19 @@ const growthStats = [
   {
     title: "Lead Response Time",
     value: "7x",
-    description: "Leads are 7x more likely to convert if responded to in the first hour. An AI responds in 1 second.",
+    description: "Leads are 7x more likely to convert in the first hour. AI responds in 1 second.",
     icon: TrendingUp,
   },
   {
     title: "Appointments Booked",
     value: "+220%",
-    description: "A case study showed a 220% increase in lead-to-appointment conversions with an AI agent.",
+    description: "Case study: 220% increase in conversions with an AI agent.",
     icon: Calendar,
   },
   {
     title: "Customer Satisfaction",
     value: "+20%",
-    description: "61% of consumers prefer a faster AI response over waiting for a human agent.",
+    description: "61% of consumers prefer faster AI response over waiting.",
     icon: Users,
   },
 ];
@@ -36,20 +36,25 @@ const GrowthSection = () => {
     <section id="growth" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl sm:text-5xl font-extrabold text-foreground mb-6 text-center">
-          From Saving Money to Making Money
+          From <strong>Saving Money</strong> to <strong>Making Money</strong>
         </h2>
+        
+        <p className="text-xl text-muted-foreground mb-3 text-center max-w-3xl mx-auto">
+          An AI agent isn't just a cost-saver.
+        </p>
+        
         <p className="text-xl text-muted-foreground mb-12 text-center max-w-3xl mx-auto">
-          An AI agent isn't just a cost-saver, it's a growth engine. By responding instantly, it converts leads at a dramatically higher rate.
+          It's a <strong>growth engine</strong> that converts leads at higher rates.
         </p>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Conversion Chart */}
           <div className="glass-card p-8 rounded-lg">
             <h3 className="text-2xl font-bold text-foreground mb-4 text-center">
-              Lead Conversion: Before vs. After AI
+              <strong>Lead Conversion: Before vs. After AI</strong>
             </h3>
             <p className="text-center text-muted-foreground mb-6">
-              Instant follow-up is proven to increase conversions.
+              Instant follow-up increases conversions.
             </p>
             <div className="w-full" style={{ height: "300px" }}>
               <ResponsiveContainer width="100%" height="100%">
@@ -97,10 +102,10 @@ const GrowthSection = () => {
                 >
                   <Icon className="w-8 h-8 text-primary mx-auto mb-3" />
                   <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
-                    {stat.title}
+                    <strong>{stat.title}</strong>
                   </div>
                   <div className="text-5xl font-extrabold text-primary mb-2">
-                    {stat.value}
+                    <strong>{stat.value}</strong>
                   </div>
                   <p className="text-sm text-muted-foreground">
                     {stat.description}
