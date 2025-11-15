@@ -34,8 +34,13 @@ serve(async (req) => {
     });
 
     if (!response.ok) {
-      console.error('API call failed');
-      throw new Error('Unable to create chat session');
+      const errorText = await response.text();
+      console.error('API call failed', { 
+        status: response.status, 
+        statusText: response.statusText,
+        error: errorText 
+      });
+      throw new Error(`Retell API error: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
@@ -45,7 +50,10 @@ serve(async (req) => {
       status: 200,
     });
   } catch (error) {
-    console.error('Chat session creation failed');
+    console.error('Chat session creation failed', { 
+      message: error.message,
+      stack: error.stack 
+    });
     return new Response(
       JSON.stringify({ error: error.message || 'Failed to create chat session' }),
       {
