@@ -15,7 +15,7 @@ import { PlanType } from "@/hooks/usePlanPricing";
 import { ContactInfoForm } from "@/components/signup/ContactInfoForm";
 import { BusinessDetailsForm } from "@/components/signup/BusinessDetailsForm";
 import { PlanSelectionForm } from "@/components/signup/PlanSelectionForm";
-import { ProceedOptionsForm } from "@/components/signup/ProceedOptionsForm";
+
 import { SignupFormSkeleton } from "@/components/signup/SignupFormSkeleton";
 const Footer = lazy(() => import("@/components/Footer"));
 const formSchema = z.object({
@@ -26,8 +26,7 @@ const formSchema = z.object({
   industry: z.string().optional(),
   averageCallsPerDay: z.string().optional(),
   currentPhoneSystem: z.string().optional(),
-  planType: z.enum(["monthly", "annual", "medical"]),
-  wantsCallFirst: z.boolean()
+  planType: z.enum(["monthly", "annual", "medical"])
 });
 type FormValues = z.infer<typeof formSchema>;
 const Signup = () => {
@@ -45,14 +44,13 @@ const Signup = () => {
       email: "",
       phone: "",
       companyName: "",
-      planType: "annual",
-      wantsCallFirst: false
+      planType: "annual"
     }
   });
   const watchPlanType = form.watch("planType") as PlanType;
-  const watchWantsCallFirst = form.watch("wantsCallFirst");
   const onSubmit = async (values: FormValues) => {
     setIsSubmitting(true);
+    setIsProcessingPayment(true);
     try {
       // Save signup data to database
       const {
@@ -67,35 +65,26 @@ const Signup = () => {
         average_calls_per_day: values.averageCallsPerDay ? parseInt(values.averageCallsPerDay) : null,
         current_phone_system: values.currentPhoneSystem || null,
         plan_type: values.planType,
-        wants_call_first: values.wantsCallFirst
+        wants_call_first: false
       }).select().single();
       if (signupError) throw signupError;
-      if (values.wantsCallFirst) {
-        // Navigate to embedded calendar for scheduling
-        toast({
-          title: "Registration Successful!",
-          description: "Redirecting to schedule your consultation call."
-        });
-        navigate("/schedule-consultation");
-      } else {
-        // Process payment
-        setIsProcessingPayment(true);
-        const {
-          data: checkoutData,
-          error: checkoutError
-        } = await supabase.functions.invoke("create-payment", {
-          body: {
-            signupId: signupData.id,
-            planType: values.planType,
-            email: values.email
-          }
-        });
-        if (checkoutError) throw checkoutError;
 
-        // Open Stripe checkout
-        if (checkoutData?.url) {
-          window.location.href = checkoutData.url;
+      // Process payment
+      const {
+        data: checkoutData,
+        error: checkoutError
+      } = await supabase.functions.invoke("create-payment", {
+        body: {
+          signupId: signupData.id,
+          planType: values.planType,
+          email: values.email
         }
+      });
+      if (checkoutError) throw checkoutError;
+
+      // Open Stripe checkout
+      if (checkoutData?.url) {
+        window.location.href = checkoutData.url;
       }
     } catch (error: any) {
       toast({
@@ -162,20 +151,27 @@ const Signup = () => {
 
                   <Separator />
 
-                  <ProceedOptionsForm control={form.control} />
+                  <BusinessDetailsForm control={form.control} />
 
-                  {watchWantsCallFirst && <>
-                      <Separator />
-                      <BusinessDetailsForm control={form.control} />
-                    </>}
-
-                  <div className="flex gap-4 pt-4">
-                    
-                  </div>
+                  <Button 
+                    type="submit" 
+                    className="w-full" 
+                    size="lg"
+                    disabled={isSubmitting || isProcessingPayment}
+                  >
+                    {isProcessingPayment ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Processing...
+                      </>
+                    ) : (
+                      "Get 100% Lead Capture Now"
+                    )}
+                  </Button>
 
                   <p className="text-xs text-muted-foreground text-center">
                     By submitting this form, you agree to our Terms of Service and Privacy Policy.
-                    {!watchWantsCallFirst && " You will be redirected to Stripe for secure payment processing."}
+                    You will be redirected to Stripe for secure payment processing.
                   </p>
                 </form>
               </Form>
