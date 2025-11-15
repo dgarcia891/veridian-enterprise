@@ -26,15 +26,15 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
   
   // Default values based on business size
   // Small: 2 calls, $40 (index 3)
-  // Medium: 1 call, $800 (index 16)
+  // Medium: 1 call, $600 (index 14)
   const [missedCalls, setMissedCalls] = useState([isMediumBusiness ? 1 : 2]);
-  const [customerValueIndex, setCustomerValueIndex] = useState([isMediumBusiness ? 16 : 3]);
+  const [customerValueIndex, setCustomerValueIndex] = useState([isMediumBusiness ? 14 : 3]);
   
   // Update values when business size changes
   useEffect(() => {
     if (isMediumBusiness) {
       setMissedCalls([1]);
-      setCustomerValueIndex([16]); // $800
+      setCustomerValueIndex([14]); // $600
     } else {
       setMissedCalls([2]);
       setCustomerValueIndex([3]); // $40
