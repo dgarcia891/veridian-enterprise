@@ -1,5 +1,8 @@
 import { AlertCircle, PhoneMissed, TrendingDown } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
+import { useState } from "react";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 const kpiData = [
   {
@@ -28,6 +31,11 @@ const missedCallsData = [
 ];
 
 const ProblemStatsSection = () => {
+  const [isMediumBusiness, setIsMediumBusiness] = useState(false);
+  
+  const annualLossValue = isMediumBusiness ? "$126,000" : "$17,000";
+  const businessSize = isMediumBusiness ? "Medium" : "Small";
+  
   return (
     <section id="problem" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16">
       <div className="max-w-7xl mx-auto">
@@ -42,6 +50,8 @@ const ProblemStatsSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {kpiData.map((kpi, index) => {
             const Icon = kpi.icon;
+            const isAnnualLossCard = index === 0;
+            
             return (
               <div
                 key={index}
@@ -51,11 +61,28 @@ const ProblemStatsSection = () => {
                 <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
                   {kpi.title}
                 </div>
+                
+                {isAnnualLossCard && (
+                  <div className="flex items-center justify-center gap-3 mb-3">
+                    <Label htmlFor="business-size" className="text-sm font-medium text-foreground">
+                      Small
+                    </Label>
+                    <Switch
+                      id="business-size"
+                      checked={isMediumBusiness}
+                      onCheckedChange={setIsMediumBusiness}
+                    />
+                    <Label htmlFor="business-size" className="text-sm font-medium text-foreground">
+                      Medium
+                    </Label>
+                  </div>
+                )}
+                
                 <div className="text-5xl font-extrabold text-destructive mb-2">
-                  {kpi.value}
+                  {isAnnualLossCard ? annualLossValue : kpi.value}
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  {kpi.description}
+                  {isAnnualLossCard ? `Average annual revenue lost from unanswered calls for ${businessSize.toLowerCase()} businesses.` : kpi.description}
                 </p>
               </div>
             );
