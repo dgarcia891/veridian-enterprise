@@ -93,7 +93,11 @@ const ProblemStatsSection = ({ isMediumBusiness, setIsMediumBusiness }: ProblemS
                   </strong>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  {isAnnualLossCard ? `Revenue lost from unanswered calls for ${businessSize.toLowerCase()} businesses.` : kpi.description}
+                  {isAnnualLossCard 
+                    ? isMediumBusiness 
+                      ? "Revenue lost from 1 unanswered call per day, for Medium sized businesses."
+                      : "Revenue lost from 2 unanswered calls per day, for small businesses."
+                    : kpi.description}
                 </p>
               </div>;
         })}
