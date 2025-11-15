@@ -7,8 +7,10 @@ import ServiceCTA from "@/components/ServiceCTA";
 import Footer from "@/components/Footer";
 import { Helmet } from "react-helmet";
 import { ArrowRight } from "lucide-react";
+import { useState } from "react";
 
 const ROICalculator = () => {
+  const [isMediumBusiness, setIsMediumBusiness] = useState(false);
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Helmet>
@@ -29,9 +31,12 @@ const ROICalculator = () => {
       <ROINavigation />
       
       <main>
-        <ProblemStatsSection />
+        <ProblemStatsSection 
+          isMediumBusiness={isMediumBusiness}
+          setIsMediumBusiness={setIsMediumBusiness}
+        />
         <SolutionSection />
-        <InteractiveCalculator />
+        <InteractiveCalculator isMediumBusiness={isMediumBusiness} />
         <GrowthSection />
         
         <ServiceCTA 

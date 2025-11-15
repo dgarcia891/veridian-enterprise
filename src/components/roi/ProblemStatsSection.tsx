@@ -1,11 +1,15 @@
 import { AlertCircle, PhoneMissed, TrendingDown } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
-import { useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+
+interface ProblemStatsSectionProps {
+  isMediumBusiness: boolean;
+  setIsMediumBusiness: (value: boolean) => void;
+}
 const kpiData = [{
   title: "Annual Loss for Small & Medium Businesses",
   value: "$126,000",
@@ -31,9 +35,8 @@ const missedCallsData = [{
   value: 38,
   color: "hsl(var(--muted))"
 }];
-const ProblemStatsSection = () => {
+const ProblemStatsSection = ({ isMediumBusiness, setIsMediumBusiness }: ProblemStatsSectionProps) => {
   const navigate = useNavigate();
-  const [isMediumBusiness, setIsMediumBusiness] = useState(false);
   const annualLossValue = isMediumBusiness ? "$126,000" : "$17,000";
   const businessSize = isMediumBusiness ? "Medium" : "Small";
   return <section id="problem" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16">

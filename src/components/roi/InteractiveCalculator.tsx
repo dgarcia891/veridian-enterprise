@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
 import { useROICalculation, formatCurrency } from "@/hooks/useROICalculation";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
@@ -6,12 +6,16 @@ import { DollarSign, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
+interface InteractiveCalculatorProps {
+  isMediumBusiness: boolean;
+}
+
 const costComparisonData = [
   { name: "Human Receptionist", cost: 55000, color: "hsl(var(--destructive))" },
   { name: "AI Agent", cost: 3000, color: "hsl(var(--primary))" },
 ];
 
-const InteractiveCalculator = () => {
+const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps) => {
   const navigate = useNavigate();
   
   // Create custom value mapping for customer value slider
@@ -20,8 +24,22 @@ const InteractiveCalculator = () => {
     ...Array.from({ length: 9 }, (_, i) => 100 + (i + 1) * 100) // 200, 300...1000
   ];
   
-  const [missedCalls, setMissedCalls] = useState([10]);
-  const [customerValueIndex, setCustomerValueIndex] = useState([5]); // Index for $60
+  // Default values based on business size
+  // Small: 2 calls, $40 (index 3)
+  // Medium: 1 call, $800 (index 16)
+  const [missedCalls, setMissedCalls] = useState([isMediumBusiness ? 1 : 2]);
+  const [customerValueIndex, setCustomerValueIndex] = useState([isMediumBusiness ? 16 : 3]);
+  
+  // Update values when business size changes
+  useEffect(() => {
+    if (isMediumBusiness) {
+      setMissedCalls([1]);
+      setCustomerValueIndex([16]); // $800
+    } else {
+      setMissedCalls([2]);
+      setCustomerValueIndex([3]); // $40
+    }
+  }, [isMediumBusiness]);
   
   const customerValue = customerValueMap[customerValueIndex[0]];
   const { annualLoss } = useROICalculation(missedCalls[0], customerValue);

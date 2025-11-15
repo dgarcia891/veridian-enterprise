@@ -8,9 +8,11 @@ import { Helmet } from "react-helmet";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Index = () => {
   const navigate = useNavigate();
+  const [isMediumBusiness, setIsMediumBusiness] = useState(false);
   
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -105,9 +107,12 @@ const Index = () => {
       </header>
       
       <main>
-        <ProblemStatsSection />
+        <ProblemStatsSection 
+          isMediumBusiness={isMediumBusiness}
+          setIsMediumBusiness={setIsMediumBusiness}
+        />
         <SolutionSection />
-        <InteractiveCalculator />
+        <InteractiveCalculator isMediumBusiness={isMediumBusiness} />
         <GrowthSection />
         
         <ServiceCTA 
