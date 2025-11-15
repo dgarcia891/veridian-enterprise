@@ -42,7 +42,7 @@ const ServiceCTA = ({
           <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
         </Button>
         <p className="text-sm text-muted-foreground mt-4">
-          No credit card required • Free consultation • Setup in 24 hours
+          Replaces $50,000 Human Receptionist WITHOUT High Salaries or Training Costs
         </p>
       </div>
     </section>
