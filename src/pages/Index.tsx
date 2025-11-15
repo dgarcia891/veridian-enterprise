@@ -98,7 +98,7 @@ const Index = () => {
               onClick={() => navigate("/signup")}
               size="lg"
             >
-              Get Started
+              Get 100% Lead Capture Now
             </Button>
           </div>
         </nav>
@@ -113,7 +113,7 @@ const Index = () => {
         <ServiceCTA 
           headline="Can you afford to miss another call?"
           description="Stop losing $126,000 a year. Start converting 100% of your calls."
-          buttonText="Get Started Today"
+          buttonText="Get 100% Lead Capture Now"
         />
         
         <section className="py-12 px-4 sm:px-6 lg:px-8 bg-card border-t border-border">
