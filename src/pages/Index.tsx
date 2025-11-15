@@ -94,9 +94,9 @@ const Index = () => {
           <div className="flex justify-between items-center h-16">
             <button 
               onClick={() => navigate("/")}
-              className="flex-shrink-0 text-xl font-bold text-primary hover:opacity-80 transition-opacity"
+              className="flex-shrink-0 text-xl font-bold text-cyan-500 hover:opacity-80 transition-opacity"
             >
-              The AI Agent ROI
+              AI Agents 3000
             </button>
             <Button 
               onClick={() => navigate("/signup")}
