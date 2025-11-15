@@ -142,6 +142,15 @@ const About = () => {
             </Link>
           </div>
 
+          {/* Location */}
+          <div className="glass-card p-8 rounded-lg border border-border text-center">
+            <h2 className="text-2xl font-bold mb-4">Our Location</h2>
+            <p className="text-muted-foreground">
+              23638 Lyons Ave #429<br />
+              Newhall, CA 91321
+            </p>
+          </div>
+
           <div className="mt-12 pt-8 border-t border-border">
             <p className="text-sm text-muted-foreground max-w-4xl">
               * Based on annual subscription cost of $3,600 and assuming 85% of missed callers never call back, recovering just one call valued at approximately $4,235 or higher would cover the entire year. Alternatively, recovering 5 missed calls at $850 each, or 10 missed calls at $425 each would achieve the same result.
