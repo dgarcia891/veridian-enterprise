@@ -91,12 +91,14 @@ export const PlanSelectionForm = memo(({ control }: PlanSelectionFormProps) => {
                   </div>
                 </label>
               ))}
-            </RadioGroup>
-          </FormControl>
+          </RadioGroup>
+        </FormControl>
+        {field.value === "medical" && (
           <FormDescription className="text-xs">
             HIPAA compliance available with Medical/Healthcare plan - includes Business Associate Agreement (BAA) and enhanced security protocols
           </FormDescription>
-          <FormMessage />
+        )}
+        <FormMessage />
         </FormItem>
       )}
     />
