@@ -64,7 +64,10 @@ const ProblemStatsSection = () => {
                 
                 {isAnnualLossCard && (
                   <div className="flex items-center justify-center gap-3 mb-3">
-                    <Label htmlFor="business-size" className="text-sm font-medium text-foreground">
+                    <Label 
+                      htmlFor="business-size" 
+                      className={`text-sm font-medium text-foreground cursor-pointer ${!isMediumBusiness ? 'underline' : ''}`}
+                    >
                       Small
                     </Label>
                     <Switch
@@ -72,7 +75,10 @@ const ProblemStatsSection = () => {
                       checked={isMediumBusiness}
                       onCheckedChange={setIsMediumBusiness}
                     />
-                    <Label htmlFor="business-size" className="text-sm font-medium text-foreground">
+                    <Label 
+                      htmlFor="business-size" 
+                      className={`text-sm font-medium text-foreground cursor-pointer ${isMediumBusiness ? 'underline' : ''}`}
+                    >
                       Medium
                     </Label>
                   </div>
