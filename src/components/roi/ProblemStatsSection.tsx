@@ -66,7 +66,7 @@ const ProblemStatsSection = () => {
                   <div className="flex items-center justify-center gap-3 mb-3">
                     <Label 
                       htmlFor="business-size" 
-                      className={`text-sm font-medium text-foreground cursor-pointer ${!isMediumBusiness ? 'underline' : ''}`}
+                      className={`text-sm text-foreground cursor-pointer transition-all ${!isMediumBusiness ? 'underline font-bold' : 'font-medium'}`}
                     >
                       Small
                     </Label>
@@ -77,7 +77,7 @@ const ProblemStatsSection = () => {
                     />
                     <Label 
                       htmlFor="business-size" 
-                      className={`text-sm font-medium text-foreground cursor-pointer ${isMediumBusiness ? 'underline' : ''}`}
+                      className={`text-sm text-foreground cursor-pointer transition-all ${isMediumBusiness ? 'underline font-bold' : 'font-medium'}`}
                     >
                       Medium
                     </Label>
