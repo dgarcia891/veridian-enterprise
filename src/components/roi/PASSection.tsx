@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, AlertTriangle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useROI } from "@/contexts/ROIContext";
+import { formatCurrency } from "@/hooks/useROICalculation";
 
 interface PASSectionProps {
   isMediumBusiness: boolean;
@@ -8,7 +10,8 @@ interface PASSectionProps {
 
 const PASSection = ({ isMediumBusiness }: PASSectionProps) => {
   const navigate = useNavigate();
-  const annualLoss = isMediumBusiness ? "$126,000" : "$17,000";
+  const { annualLoss: annualLossValue } = useROI();
+  const annualLoss = formatCurrency(annualLossValue);
 
   const handleCTAClick = () => {
     console.log('[Analytics] CTA Click: Get Started', { 

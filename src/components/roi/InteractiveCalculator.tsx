@@ -5,6 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 
 import { DollarSign, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useROI } from "@/contexts/ROIContext";
 
 interface InteractiveCalculatorProps {
   isMediumBusiness: boolean;
@@ -17,6 +18,7 @@ const costComparisonData = [
 
 const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps) => {
   const navigate = useNavigate();
+  const { setAnnualLoss } = useROI();
   
   // Create custom value mapping for customer value slider
   const customerValueMap = [
@@ -43,6 +45,11 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
   
   const customerValue = customerValueMap[customerValueIndex[0]];
   const { annualLoss } = useROICalculation(missedCalls[0], customerValue);
+
+  // Update context whenever annualLoss changes
+  useEffect(() => {
+    setAnnualLoss(annualLoss);
+  }, [annualLoss, setAnnualLoss]);
 
   return (
     <section id="calculator" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16 bg-gradient-to-br from-background to-accent/20">
