@@ -143,7 +143,7 @@ const About = () => {
           </div>
 
           {/* Location */}
-          <div className="glass-card p-8 rounded-lg border border-border text-center">
+          <div id="location" className="glass-card p-8 rounded-lg border border-border text-center">
             <h2 className="text-2xl font-bold mb-4">Our Location</h2>
             <p className="text-muted-foreground">
               23638 Lyons Ave #429<br />
