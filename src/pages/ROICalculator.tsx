@@ -1,9 +1,9 @@
 import ROINavigation from "@/components/roi/ROINavigation";
 import ProblemStatsSection from "@/components/roi/ProblemStatsSection";
+import PASSection from "@/components/roi/PASSection";
 import SolutionSection from "@/components/roi/SolutionSection";
 import InteractiveCalculator from "@/components/roi/InteractiveCalculator";
 import GrowthSection from "@/components/roi/GrowthSection";
-import ServiceCTA from "@/components/ServiceCTA";
 import Footer from "@/components/Footer";
 import { Helmet } from "react-helmet";
 import { ArrowRight } from "lucide-react";
@@ -35,15 +35,10 @@ const ROICalculator = () => {
           isMediumBusiness={isMediumBusiness}
           setIsMediumBusiness={setIsMediumBusiness}
         />
+        <PASSection />
         <SolutionSection />
         <InteractiveCalculator isMediumBusiness={isMediumBusiness} />
         <GrowthSection />
-        
-        <ServiceCTA 
-          headline="Can you afford to miss another call?"
-          description="Stop losing $126,000 a year. Start converting 100% of your calls."
-          buttonText="Get Started Today"
-        />
         
         <section className="py-12 px-4 sm:px-6 lg:px-8 bg-card border-t border-border">
           <div className="max-w-4xl mx-auto text-center">
