@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { AlertCircle, TrendingUp, DollarSign, Users, Phone, CheckCircle, Save, Lightbulb } from "lucide-react";
+import { AlertCircle, TrendingUp, DollarSign, Users, Phone, CheckCircle, Save, Lightbulb, Shield, Clock, Sparkles, MessageSquare, Star, TrendingDown } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { formatCurrency } from "@/hooks/useROICalculation";
 import { supabase } from "@/integrations/supabase/client";
@@ -65,6 +65,57 @@ const PAIN_POINTS = [
     label: "Difficulty Measuring ROI or Tracking Marketing Effectiveness",
     description: "Unable to track lead sources or generate conversion reports",
     solutions: ["Built-in Analytics", "Source Tracking", "Conversion Reporting"],
+  },
+] as const;
+
+const KEY_BENEFITS = [
+  {
+    icon: Shield,
+    title: "Eliminates Time Wasters",
+    description: "Automatically screens and filters spam calls, robocalls, and low-quality leads. Your team only talks to real prospects worth their time.",
+    highlight: true,
+  },
+  {
+    icon: MessageSquare,
+    title: "Sounds Real, Not Robotic",
+    description: "Natural conversational AI that understands context, handles interruptions, and responds like a real person. Customers won't know they're talking to AI.",
+    highlight: true,
+  },
+  {
+    icon: Clock,
+    title: "24/7/365 Availability",
+    description: "Never miss a call again. Captures leads at 2 AM, on weekends, and during holidays when competitors are closed.",
+    highlight: false,
+  },
+  {
+    icon: TrendingDown,
+    title: "Reduces Staffing Costs",
+    description: "Replaces $50,000/year receptionist salary plus benefits, training, sick days, and turnover costs. One-time setup, fraction of the cost.",
+    highlight: false,
+  },
+  {
+    icon: Sparkles,
+    title: "Instant Response Time",
+    description: "Answers every call in under 2 rings. No hold times, no voicemail. Prospects get immediate attention while interest is hot.",
+    highlight: false,
+  },
+  {
+    icon: Star,
+    title: "Consistent Quality",
+    description: "Every caller gets the same professional, on-brand experience. No bad days, no training gaps, no human error.",
+    highlight: false,
+  },
+  {
+    icon: TrendingUp,
+    title: "Scales With Your Business",
+    description: "Handles 10 calls or 1,000 calls simultaneously. No hiring, training, or infrastructure changes needed as you grow.",
+    highlight: false,
+  },
+  {
+    icon: Phone,
+    title: "Smart Call Routing",
+    description: "Qualifies leads, schedules appointments, routes emergencies correctly, and ensures the right person gets the right call.",
+    highlight: false,
   },
 ] as const;
 
@@ -779,6 +830,55 @@ const Qualification = () => {
                       <AlertDescription>
                         <strong>Proposal Strategy:</strong> Focus your demo and proposal on these {selectedPainPoints.length} areas. 
                         Show how each solution directly addresses their specific challenges.
+                      </AlertDescription>
+                    </Alert>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Key Benefits for Proposal */}
+              {(selectedPainPoints.length > 0 || watchedValues.avgProjectValue > 0) && (
+                <Card className="bg-gradient-to-br from-secondary to-background">
+                  <CardHeader>
+                    <CardTitle className="text-lg">💎 Key Benefits to Highlight</CardTitle>
+                    <CardDescription>Include these in your proposal presentation</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid gap-4">
+                      {KEY_BENEFITS.map((benefit, idx) => {
+                        const IconComponent = benefit.icon;
+                        return (
+                          <div 
+                            key={idx} 
+                            className={`flex gap-3 p-3 rounded-lg transition-all ${
+                              benefit.highlight 
+                                ? 'bg-primary/10 border-2 border-primary' 
+                                : 'bg-card border border-border'
+                            }`}
+                          >
+                            <div className={`flex-shrink-0 mt-0.5 ${benefit.highlight ? 'text-primary' : 'text-muted-foreground'}`}>
+                              <IconComponent className="w-5 h-5" />
+                            </div>
+                            <div className="flex-1">
+                              <h4 className="font-semibold text-sm mb-1 flex items-center gap-2">
+                                {benefit.title}
+                                {benefit.highlight && (
+                                  <Badge variant="default" className="text-xs">Key Differentiator</Badge>
+                                )}
+                              </h4>
+                              <p className="text-sm text-muted-foreground leading-relaxed">
+                                {benefit.description}
+                              </p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    <Alert className="mt-4 bg-primary/5 border-primary">
+                      <AlertDescription>
+                        <strong>Sales Tip:</strong> Lead with "Eliminates Time Wasters" and "Sounds Real" - these are the biggest objections. 
+                        Then tie other benefits to their specific pain points for maximum impact.
                       </AlertDescription>
                     </Alert>
                   </CardContent>
