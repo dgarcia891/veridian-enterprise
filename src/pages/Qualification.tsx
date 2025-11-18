@@ -7,9 +7,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { AlertCircle, TrendingUp, DollarSign, Users, Phone, CheckCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { AlertCircle, TrendingUp, DollarSign, Users, Phone, CheckCircle, Save } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { formatCurrency } from "@/hooks/useROICalculation";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
@@ -32,6 +35,9 @@ interface QualificationFormData {
 }
 
 const Qualification = () => {
+  const { toast } = useToast();
+  const [isSaving, setIsSaving] = useState(false);
+  
   const form = useForm<QualificationFormData>({
     defaultValues: {
       companyName: "",
@@ -82,6 +88,75 @@ const Qualification = () => {
   const isQualified = watchedValues.missedCallsPerDay >= 3 && watchedValues.avgProjectValue >= 500;
   const isHighValue = watchedValues.avgProjectValue >= 2000 && watchedValues.missedCallsPerDay >= 5;
 
+  const handleSaveSubmission = async () => {
+    const values = form.getValues();
+    
+    // Validation - require at least company name and key metrics
+    if (!values.companyName) {
+      toast({
+        title: "Missing Information",
+        description: "Please enter at least the company name before saving.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSaving(true);
+    
+    try {
+      const { error } = await supabase
+        .from('qualification_submissions')
+        .insert({
+          company_name: values.companyName,
+          location: values.location,
+          services: values.services,
+          contact_name: values.contactName,
+          phone: values.phone,
+          email: values.email,
+          employee_count: values.employeeCount,
+          inbound_calls_per_day: values.inboundCallsPerDay,
+          missed_calls_per_day: values.missedCallsPerDay,
+          current_call_method: values.currentCallMethod,
+          pain_points: values.painPoints,
+          avg_project_value: values.avgProjectValue,
+          new_clients_per_month: values.newClientsPerMonth,
+          customer_acquisition_cost: values.customerAcquisitionCost,
+          lifetime_value: values.lifetimeValue,
+          // Store calculated ROI metrics
+          daily_lost_revenue: dailyLostRevenue,
+          monthly_lost_revenue: monthlyLostRevenue,
+          annual_lost_revenue: annualLostRevenue,
+          monthly_recovered_revenue: monthlyRecoveredRevenue,
+          annual_recovered_revenue: annualRecoveredRevenue,
+          monthly_net_gain: monthlyNetGain,
+          annual_net_gain: annualNetGain,
+          roi_percentage: roiPercentage,
+          is_qualified: isQualified,
+          is_high_value: isHighValue,
+        });
+
+      if (error) throw error;
+
+      toast({
+        title: "Qualification Saved",
+        description: `Saved submission for ${values.companyName}. You can continue editing or start a new qualification.`,
+      });
+
+      // Optionally reset form after save
+      // form.reset();
+      
+    } catch (error) {
+      console.error('Error saving qualification:', error);
+      toast({
+        title: "Save Failed",
+        description: "Could not save the qualification. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -97,9 +172,20 @@ const Qualification = () => {
           <div className="mb-8 text-center">
             <h1 className="text-4xl font-bold mb-3">Sales Qualification & ROI Calculator</h1>
             <p className="text-muted-foreground text-lg">Internal tool for positioning and qualifying prospects</p>
-            <Badge variant={isHighValue ? "default" : isQualified ? "secondary" : "outline"} className="mt-3">
-              {isHighValue ? "🔥 High-Value Prospect" : isQualified ? "✓ Qualified Lead" : "⏳ Gathering Info"}
-            </Badge>
+            <div className="flex items-center justify-center gap-3 mt-3">
+              <Badge variant={isHighValue ? "default" : isQualified ? "secondary" : "outline"}>
+                {isHighValue ? "🔥 High-Value Prospect" : isQualified ? "✓ Qualified Lead" : "⏳ Gathering Info"}
+              </Badge>
+              <Button
+                onClick={handleSaveSubmission}
+                disabled={isSaving || !watchedValues.companyName}
+                size="sm"
+                className="gap-2"
+              >
+                <Save className="w-4 h-4" />
+                {isSaving ? "Saving..." : "Save Qualification"}
+              </Button>
+            </div>
           </div>
 
           <div className="grid lg:grid-cols-3 gap-6">
