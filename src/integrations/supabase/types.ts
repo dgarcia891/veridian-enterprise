@@ -134,6 +134,105 @@ export type Database = {
         }
         Relationships: []
       }
+      qualification_submissions: {
+        Row: {
+          annual_lost_revenue: number | null
+          annual_net_gain: number | null
+          annual_recovered_revenue: number | null
+          avg_project_value: number | null
+          company_name: string
+          contact_name: string | null
+          created_at: string | null
+          created_by_email: string | null
+          current_call_method: string | null
+          customer_acquisition_cost: number | null
+          daily_lost_revenue: number | null
+          email: string | null
+          employee_count: string | null
+          id: string
+          inbound_calls_per_day: number | null
+          is_high_value: boolean | null
+          is_qualified: boolean | null
+          lifetime_value: number | null
+          location: string | null
+          missed_calls_per_day: number | null
+          monthly_lost_revenue: number | null
+          monthly_net_gain: number | null
+          monthly_recovered_revenue: number | null
+          new_clients_per_month: number | null
+          notes: string | null
+          pain_points: string | null
+          phone: string | null
+          roi_percentage: number | null
+          services: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          annual_lost_revenue?: number | null
+          annual_net_gain?: number | null
+          annual_recovered_revenue?: number | null
+          avg_project_value?: number | null
+          company_name: string
+          contact_name?: string | null
+          created_at?: string | null
+          created_by_email?: string | null
+          current_call_method?: string | null
+          customer_acquisition_cost?: number | null
+          daily_lost_revenue?: number | null
+          email?: string | null
+          employee_count?: string | null
+          id?: string
+          inbound_calls_per_day?: number | null
+          is_high_value?: boolean | null
+          is_qualified?: boolean | null
+          lifetime_value?: number | null
+          location?: string | null
+          missed_calls_per_day?: number | null
+          monthly_lost_revenue?: number | null
+          monthly_net_gain?: number | null
+          monthly_recovered_revenue?: number | null
+          new_clients_per_month?: number | null
+          notes?: string | null
+          pain_points?: string | null
+          phone?: string | null
+          roi_percentage?: number | null
+          services?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          annual_lost_revenue?: number | null
+          annual_net_gain?: number | null
+          annual_recovered_revenue?: number | null
+          avg_project_value?: number | null
+          company_name?: string
+          contact_name?: string | null
+          created_at?: string | null
+          created_by_email?: string | null
+          current_call_method?: string | null
+          customer_acquisition_cost?: number | null
+          daily_lost_revenue?: number | null
+          email?: string | null
+          employee_count?: string | null
+          id?: string
+          inbound_calls_per_day?: number | null
+          is_high_value?: boolean | null
+          is_qualified?: boolean | null
+          lifetime_value?: number | null
+          location?: string | null
+          missed_calls_per_day?: number | null
+          monthly_lost_revenue?: number | null
+          monthly_net_gain?: number | null
+          monthly_recovered_revenue?: number | null
+          new_clients_per_month?: number | null
+          notes?: string | null
+          pain_points?: string | null
+          phone?: string | null
+          roi_percentage?: number | null
+          services?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string | null
