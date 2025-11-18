@@ -39,6 +39,7 @@ const SunsetOnLyons = lazy(() => import("./pages/demos/SunsetOnLyons"));
 const AIInsightReport = lazy(() => import("./pages/AIInsightReport"));
 const SiteContent = lazy(() => import("./pages/SiteContent"));
 const Restaurants = lazy(() => import("./pages/Restaurants"));
+const OptIn = lazy(() => import("./pages/OptIn"));
 
 const queryClient = new QueryClient();
 
@@ -81,6 +82,7 @@ const AppContent = () => {
           <Route path="/restaurants" element={<Restaurants />} />
           <Route path="/ai-insight" element={<AIInsightReport />} />
           <Route path="/site-content" element={<SiteContent />} />
+          <Route path="/opt-in" element={<OptIn />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
