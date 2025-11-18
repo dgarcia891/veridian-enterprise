@@ -6,15 +6,67 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { AlertCircle, TrendingUp, DollarSign, Users, Phone, CheckCircle, Save } from "lucide-react";
+import { AlertCircle, TrendingUp, DollarSign, Users, Phone, CheckCircle, Save, Lightbulb } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { formatCurrency } from "@/hooks/useROICalculation";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+
+const PAIN_POINTS = [
+  {
+    id: "missed-calls",
+    label: "Missed Calls and Lead Leakage",
+    description: "Unreturned calls resulting in lost opportunities or revenue",
+    solutions: ["AI Receptionist", "Missed-Call Text Back", "Automated Follow-Up Flows"],
+  },
+  {
+    id: "manual-booking",
+    label: "Manual and Inefficient Appointment Booking",
+    description: "Time-consuming scheduling prone to double-booking and errors",
+    solutions: ["Automated Online Booking", "Calendar Sync", "SMS/Email Reminders"],
+  },
+  {
+    id: "slow-response",
+    label: "Slow Response Time to Inquiries",
+    description: "Delayed prospect contact causing drop-off to competitors",
+    solutions: ["Automated Lead Nurturing", "Instant Contact Workflows", "Shared Inboxes"],
+  },
+  {
+    id: "no-reviews",
+    label: "Lack of Systematic Review/Referral Generation",
+    description: "No process to request reviews or manage online reputation",
+    solutions: ["Automated Review Requests", "Reputation Management Dashboards"],
+  },
+  {
+    id: "scattered-leads",
+    label: "No Centralized Lead/Job Management",
+    description: "Lead details scattered across spreadsheets, notes, or email",
+    solutions: ["Centralized CRM", "Pipeline and Deal Tracking", "Tagging/Segmenting"],
+  },
+  {
+    id: "after-hours",
+    label: "Limited After-Hours or Weekend Coverage",
+    description: "Lapses in customer service outside business hours",
+    solutions: ["24/7 AI Agent", "Automated Scheduling Links", "Message Routing"],
+  },
+  {
+    id: "no-automation",
+    label: "Inconsistent/No Marketing Automation",
+    description: "Manual campaigns with no automation for follow-ups or promotions",
+    solutions: ["Drip Marketing", "Re-engagement Workflows", "Promo Campaign Automations"],
+  },
+  {
+    id: "no-tracking",
+    label: "Difficulty Measuring ROI or Tracking Marketing Effectiveness",
+    description: "Unable to track lead sources or generate conversion reports",
+    solutions: ["Built-in Analytics", "Source Tracking", "Conversion Reporting"],
+  },
+] as const;
 
 interface QualificationFormData {
   companyName: string;
@@ -32,6 +84,7 @@ interface QualificationFormData {
   lifetimeValue: number;
   currentCallMethod: string;
   painPoints: string;
+  selectedPainPoints: string[];
 }
 
 const Qualification = () => {
@@ -55,10 +108,12 @@ const Qualification = () => {
       lifetimeValue: 0,
       currentCallMethod: "",
       painPoints: "",
+      selectedPainPoints: [],
     },
   });
 
   const watchedValues = form.watch();
+  const selectedPainPoints = watchedValues.selectedPainPoints || [];
   
   // ROI Calculations
   const callbackRate = 0.15; // 85% don't call back
@@ -118,6 +173,7 @@ const Qualification = () => {
           missed_calls_per_day: values.missedCallsPerDay,
           current_call_method: values.currentCallMethod,
           pain_points: values.painPoints,
+          selected_pain_points: values.selectedPainPoints,
           avg_project_value: values.avgProjectValue,
           new_clients_per_month: values.newClientsPerMonth,
           customer_acquisition_cost: values.customerAcquisitionCost,
@@ -394,6 +450,62 @@ const Qualification = () => {
                           </FormItem>
                         )}
                       />
+
+                      {/* Pain Points Checklist */}
+                      <FormField
+                        control={form.control}
+                        name="selectedPainPoints"
+                        render={() => (
+                          <FormItem>
+                            <div className="mb-4">
+                              <FormLabel className="text-base">Pain Points Checklist</FormLabel>
+                              <FormDescription>
+                                Check all that apply to identify solution fit
+                              </FormDescription>
+                            </div>
+                            <div className="space-y-3">
+                              {PAIN_POINTS.map((painPoint) => (
+                                <FormField
+                                  key={painPoint.id}
+                                  control={form.control}
+                                  name="selectedPainPoints"
+                                  render={({ field }) => {
+                                    return (
+                                      <FormItem
+                                        key={painPoint.id}
+                                        className="flex flex-row items-start space-x-3 space-y-0 border rounded-lg p-3 hover:bg-secondary/50 transition-colors"
+                                      >
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value?.includes(painPoint.id)}
+                                            onCheckedChange={(checked) => {
+                                              return checked
+                                                ? field.onChange([...(field.value || []), painPoint.id])
+                                                : field.onChange(
+                                                    field.value?.filter(
+                                                      (value) => value !== painPoint.id
+                                                    )
+                                                  )
+                                            }}
+                                          />
+                                        </FormControl>
+                                        <div className="space-y-1 leading-none flex-1">
+                                          <FormLabel className="font-semibold cursor-pointer">
+                                            {painPoint.label}
+                                          </FormLabel>
+                                          <FormDescription className="text-xs">
+                                            {painPoint.description}
+                                          </FormDescription>
+                                        </div>
+                                      </FormItem>
+                                    )
+                                  }}
+                                />
+                              ))}
+                            </div>
+                          </FormItem>
+                        )}
+                      />
                     </CardContent>
                   </Card>
 
@@ -632,6 +744,43 @@ const Qualification = () => {
                         </AlertDescription>
                       </Alert>
                     )}
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Recommended Solutions Based on Pain Points */}
+              {selectedPainPoints.length > 0 && (
+                <Card className="border-primary bg-primary/5">
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Lightbulb className="w-5 h-5 text-primary" />
+                      Recommended Solutions
+                    </CardTitle>
+                    <CardDescription>
+                      Based on {selectedPainPoints.length} selected pain {selectedPainPoints.length === 1 ? 'point' : 'points'}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {PAIN_POINTS.filter(pp => selectedPainPoints.includes(pp.id)).map((painPoint) => (
+                      <div key={painPoint.id} className="border-l-4 border-primary pl-4 py-2">
+                        <h4 className="font-semibold text-sm mb-2">{painPoint.label}</h4>
+                        <div className="space-y-1">
+                          {painPoint.solutions.map((solution, idx) => (
+                            <div key={idx} className="flex items-center gap-2 text-sm">
+                              <CheckCircle className="w-3 h-3 text-primary flex-shrink-0" />
+                              <span className="text-muted-foreground">{solution}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                    
+                    <Alert className="bg-primary/10 border-primary mt-4">
+                      <AlertDescription>
+                        <strong>Proposal Strategy:</strong> Focus your demo and proposal on these {selectedPainPoints.length} areas. 
+                        Show how each solution directly addresses their specific challenges.
+                      </AlertDescription>
+                    </Alert>
                   </CardContent>
                 </Card>
               )}
