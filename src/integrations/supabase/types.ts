@@ -164,6 +164,7 @@ export type Database = {
           pain_points: string | null
           phone: string | null
           roi_percentage: number | null
+          selected_pain_points: string[] | null
           services: string | null
           updated_at: string | null
         }
@@ -196,6 +197,7 @@ export type Database = {
           pain_points?: string | null
           phone?: string | null
           roi_percentage?: number | null
+          selected_pain_points?: string[] | null
           services?: string | null
           updated_at?: string | null
         }
@@ -228,6 +230,7 @@ export type Database = {
           pain_points?: string | null
           phone?: string | null
           roi_percentage?: number | null
+          selected_pain_points?: string[] | null
           services?: string | null
           updated_at?: string | null
         }
