@@ -10,18 +10,18 @@ export interface PlanPricing {
 
 export const PLAN_PRICING: Record<PlanType, PlanPricing> = {
   annual: { 
-    monthly: "$300", 
-    total: "$3,600/year", 
+    monthly: "$500", 
+    total: "$6,000/year", 
     setupFee: "$0" 
   },
   medical: { 
-    monthly: "$850", 
-    total: "$10,200/year", 
+    monthly: "$2,000", 
+    total: "$24,000/year", 
     setupFee: "$0" 
   },
   monthly: { 
-    monthly: "$600", 
-    total: "$600/month", 
+    monthly: "$1,000", 
+    total: "$1,000/month", 
     setupFee: "$450" 
   },
 };
