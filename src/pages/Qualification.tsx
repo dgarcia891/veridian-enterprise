@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -144,6 +144,7 @@ interface QualificationFormData {
   contactName: string;
   phone: string;
   email: string;
+  industry: string;
   employeeCount: string;
   inboundCallsPerDay: number;
   missedCallsPerDay: number;
@@ -168,6 +169,7 @@ const Qualification = () => {
       contactName: "",
       phone: "",
       email: "",
+      industry: "",
       employeeCount: "",
       inboundCallsPerDay: 0,
       missedCallsPerDay: 0,
@@ -183,6 +185,39 @@ const Qualification = () => {
 
   const watchedValues = form.watch();
   const selectedPainPoints = watchedValues.selectedPainPoints || [];
+  const selectedIndustry = watchedValues.industry;
+
+  // Auto-populate construction industry defaults
+  useEffect(() => {
+    if (selectedIndustry === "construction") {
+      const currentValues = form.getValues();
+      
+      // Only set defaults if fields are empty (don't override user input)
+      if (currentValues.avgProjectValue === 0) {
+        form.setValue("avgProjectValue", 31500); // Midpoint of $29,500-$33,962
+      }
+      if (currentValues.newClientsPerMonth === 0) {
+        form.setValue("newClientsPerMonth", 3); // Midpoint of 2-4
+      }
+      if (currentValues.customerAcquisitionCost === 0) {
+        form.setValue("customerAcquisitionCost", 410); // Midpoint of $212-$610
+      }
+      if (currentValues.lifetimeValue === 0) {
+        form.setValue("lifetimeValue", 52500); // Midpoint of $30,000-$75,000
+      }
+      if (currentValues.inboundCallsPerDay === 0) {
+        form.setValue("inboundCallsPerDay", 15); // Conservative estimate
+      }
+      if (currentValues.missedCallsPerDay === 0) {
+        form.setValue("missedCallsPerDay", 3); // ~20% of 15 calls
+      }
+      
+      toast({
+        title: "Construction Defaults Applied",
+        description: "Pre-filled typical metrics for LA County construction companies. Adjust as needed.",
+      });
+    }
+  }, [selectedIndustry, form, toast]);
   
   // ROI Calculations
   const callbackRate = 0.15; // 85% don't call back
@@ -237,6 +272,7 @@ const Qualification = () => {
           contact_name: values.contactName,
           phone: values.phone,
           email: values.email,
+          industry: values.industry,
           employee_count: values.employeeCount,
           inbound_calls_per_day: values.inboundCallsPerDay,
           missed_calls_per_day: values.missedCallsPerDay,
@@ -364,6 +400,41 @@ const Qualification = () => {
                             <FormControl>
                               <Input placeholder="HVAC, Plumbing, Electrical" {...field} />
                             </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="industry"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Industry</FormLabel>
+                            <Select onValueChange={field.onChange} value={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select industry" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="construction">Construction & Contractors</SelectItem>
+                                <SelectItem value="home-services">Home Services (HVAC, Plumbing, Electrical)</SelectItem>
+                                <SelectItem value="healthcare">Healthcare & Medical</SelectItem>
+                                <SelectItem value="legal">Legal Services</SelectItem>
+                                <SelectItem value="real-estate">Real Estate</SelectItem>
+                                <SelectItem value="restaurants">Restaurants & Food Service</SelectItem>
+                                <SelectItem value="automotive">Automotive Services</SelectItem>
+                                <SelectItem value="professional-services">Professional Services</SelectItem>
+                                <SelectItem value="other">Other</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormDescription>
+                              {selectedIndustry === "construction" && (
+                                <span className="text-primary font-medium">
+                                  ✓ Construction defaults will be applied
+                                </span>
+                              )}
+                            </FormDescription>
                           </FormItem>
                         )}
                       />

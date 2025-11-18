@@ -151,6 +151,7 @@ export type Database = {
           employee_count: string | null
           id: string
           inbound_calls_per_day: number | null
+          industry: string | null
           is_high_value: boolean | null
           is_qualified: boolean | null
           lifetime_value: number | null
@@ -184,6 +185,7 @@ export type Database = {
           employee_count?: string | null
           id?: string
           inbound_calls_per_day?: number | null
+          industry?: string | null
           is_high_value?: boolean | null
           is_qualified?: boolean | null
           lifetime_value?: number | null
@@ -217,6 +219,7 @@ export type Database = {
           employee_count?: string | null
           id?: string
           inbound_calls_per_day?: number | null
+          industry?: string | null
           is_high_value?: boolean | null
           is_qualified?: boolean | null
           lifetime_value?: number | null
