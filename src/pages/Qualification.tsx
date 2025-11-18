@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { AlertCircle, TrendingUp, DollarSign, Users, Phone, CheckCircle, Save, Lightbulb, Shield, Clock, Sparkles, MessageSquare, Star, TrendingDown } from "lucide-react";
+import { AlertCircle, TrendingUp, DollarSign, Users, Phone, CheckCircle, Save, Lightbulb, Shield, Clock, Sparkles, MessageSquare, Star, TrendingDown, Ban, Calendar, Gift } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { formatCurrency } from "@/hooks/useROICalculation";
 import { supabase } from "@/integrations/supabase/client";
@@ -80,6 +80,24 @@ const KEY_BENEFITS = [
     title: "Sounds Real, Not Robotic",
     description: "Natural conversational AI that understands context, handles interruptions, and responds like a real person. Customers won't know they're talking to AI.",
     highlight: true,
+  },
+  {
+    icon: Ban,
+    title: "No Contracts - Cancel Anytime",
+    description: "Month-to-month commitment with zero cancellation fees. Not working for you? Cancel with one click. No questions asked, no penalties.",
+    highlight: true,
+  },
+  {
+    icon: Calendar,
+    title: "50% Off Annual Plans",
+    description: "Pay annually and get 6 months free ($6,000/year vs $12,000). Save $6,000 compared to monthly billing. Lock in today's rate and budget predictably.",
+    highlight: false,
+  },
+  {
+    icon: Gift,
+    title: "$450 Setup Fee Waived (Annual)",
+    description: "Choose annual billing and skip the $450 setup fee completely. Get premium onboarding, custom configuration, and training included at no extra cost.",
+    highlight: false,
   },
   {
     icon: Clock,
@@ -877,8 +895,9 @@ const Qualification = () => {
 
                     <Alert className="mt-4 bg-primary/5 border-primary">
                       <AlertDescription>
-                        <strong>Sales Tip:</strong> Lead with "Eliminates Time Wasters" and "Sounds Real" - these are the biggest objections. 
-                        Then tie other benefits to their specific pain points for maximum impact.
+                        <strong>Sales Tip:</strong> Lead with "No Contracts" and "Cancel Anytime" to remove risk. 
+                        Then hit "Eliminates Time Wasters" and "Sounds Real" as the key differentiators. 
+                        Close with annual pricing - emphasize saving $6,000 + $450 setup fee ($6,450 total savings).
                       </AlertDescription>
                     </Alert>
                   </CardContent>
