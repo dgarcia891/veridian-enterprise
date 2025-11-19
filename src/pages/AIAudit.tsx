@@ -12,6 +12,7 @@ export interface BusinessMetrics {
   avgProfitPerCustomer: number;
   industry: string;
   currentCallMethod: string;
+  websiteUrl: string;
 }
 
 export interface ContactInfo {
@@ -28,14 +29,40 @@ const AIAudit = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const { calculateAudit } = useAuditCalculation();
 
-  const handleMetricsSubmit = (metrics: BusinessMetrics) => {
+  const handleMetricsSubmit = async (metrics: BusinessMetrics) => {
     setBusinessMetrics(metrics);
     setIsProcessing(true);
     
-    // Show processing animation for 3 seconds
+    // Analyze website with AI
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analyze-website`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            websiteUrl: metrics.websiteUrl,
+            industry: metrics.industry,
+          }),
+        }
+      );
+      
+      if (response.ok) {
+        const { analysis } = await response.json();
+        console.log('Website analysis:', analysis);
+        // Store analysis for later use in the report
+        sessionStorage.setItem('websiteAnalysis', JSON.stringify(analysis));
+      }
+    } catch (error) {
+      console.error('Error analyzing website:', error);
+    }
+    
+    // Show processing animation for 4 seconds (3 seconds + 1 second buffer)
     setTimeout(() => {
       setIsProcessing(false);
-    }, 3000);
+    }, 4000);
     
     // Scroll to top when report is shown
     window.scrollTo({ top: 0, behavior: "smooth" });

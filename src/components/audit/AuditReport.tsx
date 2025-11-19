@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BusinessMetrics, ContactInfo } from "@/pages/AIAudit";
 import ReadinessScore from "./ReadinessScore";
 import RevenueAnalysis from "./RevenueAnalysis";
@@ -6,6 +6,7 @@ import SolutionRecommendations from "./SolutionRecommendations";
 import NextStepsSection from "./NextStepsSection";
 import PaywallOverlay from "./PaywallOverlay";
 import ProcessingScreen from "./ProcessingScreen";
+import WebsiteInsights from "./WebsiteInsights";
 import { useAuditCalculation } from "@/hooks/useAuditCalculation";
 import { useToast } from "@/hooks/use-toast";
 import confetti from "canvas-confetti";
@@ -21,6 +22,15 @@ const AuditReport = ({ businessMetrics, contactInfo, onContactSubmit, isProcessi
   const { toast } = useToast();
   const { getAuditResults } = useAuditCalculation();
   const results = getAuditResults(businessMetrics);
+  const [websiteAnalysis, setWebsiteAnalysis] = useState<any>(null);
+
+  useEffect(() => {
+    // Load website analysis from session storage
+    const analysisData = sessionStorage.getItem('websiteAnalysis');
+    if (analysisData) {
+      setWebsiteAnalysis(JSON.parse(analysisData));
+    }
+  }, []);
 
   useEffect(() => {
     if (contactInfo) {
@@ -57,6 +67,15 @@ const AuditReport = ({ businessMetrics, contactInfo, onContactSubmit, isProcessi
         </div>
 
         <ReadinessScore score={results.score} tier={results.tier} />
+        
+        {/* Show website insights to everyone (before paywall) */}
+        {websiteAnalysis && (
+          <WebsiteInsights 
+            opportunities={websiteAnalysis.opportunities || []}
+            experienceGaps={websiteAnalysis.experienceGaps || []}
+            contentInsights={websiteAnalysis.contentInsights || []}
+          />
+        )}
         
         <div className={!contactInfo ? 'relative' : ''}>
           {!contactInfo && (
