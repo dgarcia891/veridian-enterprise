@@ -1,4 +1,4 @@
-import { BusinessMetrics, ContactInfo } from "@/pages/AIAudit";
+import { BusinessMetrics, ContactInfo } from "@/types/audit";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 

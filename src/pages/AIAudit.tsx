@@ -2,90 +2,86 @@ import { useState } from "react";
 import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import BusinessMetricsForm from "@/components/audit/BusinessMetricsForm";
-import ContactCaptureForm from "@/components/audit/ContactCaptureForm";
-import AuditReport from "@/components/audit/AuditReport";
-import { useAuditCalculation } from "@/hooks/useAuditCalculation";
-
-export interface BusinessMetrics {
-  missedCallsPerWeek: number;
-  avgProfitPerCustomer: number;
-  industry: string;
-  currentCallMethod: string;
-  websiteUrl: string;
-  websiteVisitsPerMonth?: number;
-  clientsPerMonth: number;
-}
-
-export interface ContactInfo {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  companyName: string;
-}
+import EnhancedBusinessMetricsForm from "@/components/audit/EnhancedBusinessMetricsForm";
+import EnhancedResultsPage from "@/components/audit/EnhancedResultsPage";
+import ProcessingScreen from "@/components/audit/ProcessingScreen";
+import { useEnhancedAuditCalculation, EnhancedBusinessMetrics, EnhancedContactInfo } from "@/hooks/useEnhancedAuditCalculation";
+import { useToast } from "@/hooks/use-toast";
+import confetti from "canvas-confetti";
 
 const AIAudit = () => {
-  const [businessMetrics, setBusinessMetrics] = useState<BusinessMetrics | null>(null);
-  const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null);
+  const [businessMetrics, setBusinessMetrics] = useState<EnhancedBusinessMetrics | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const { calculateAudit } = useAuditCalculation();
+  const [showResults, setShowResults] = useState(false);
+  const [websiteAnalysis, setWebsiteAnalysis] = useState<any>(null);
+  const [auditResults, setAuditResults] = useState<any>(null);
+  
+  const { getEnhancedAuditResults, saveEnhancedAudit } = useEnhancedAuditCalculation();
+  const { toast } = useToast();
 
-  const handleMetricsSubmit = async (metrics: BusinessMetrics) => {
+  const handleMetricsSubmit = async (metrics: EnhancedBusinessMetrics) => {
     setBusinessMetrics(metrics);
     setIsProcessing(true);
     
-    // Analyze website with AI
     try {
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analyze-website`,
         {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            websiteUrl: metrics.websiteUrl,
-            industry: metrics.industry,
-          }),
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ websiteUrl: metrics.websiteUrl, industry: metrics.industry }),
         }
       );
       
+      let analysis = null;
       if (response.ok) {
-        const { analysis } = await response.json();
-        console.log('Website analysis:', analysis);
-        // Store analysis for later use in the report
-        sessionStorage.setItem('websiteAnalysis', JSON.stringify(analysis));
+        const data = await response.json();
+        analysis = data.analysis;
+        setWebsiteAnalysis(analysis);
+      } else {
+        analysis = { opportunities: [], experienceGaps: [], contentInsights: [], contactScore: 70, contentScore: 70 };
+        setWebsiteAnalysis(analysis);
       }
+      
+      const results = getEnhancedAuditResults(metrics, analysis);
+      setAuditResults(results);
+
+      const contactInfo: EnhancedContactInfo = {
+        firstName: "Visitor",
+        lastName: "",
+        email: "visitor@example.com",
+        phone: "",
+        companyName: metrics.websiteUrl,
+      };
+
+      await saveEnhancedAudit(metrics, contactInfo, results, analysis);
+
+      if (results.grades.overallGrade === 'A' || results.grades.overallGrade === 'B') {
+        setTimeout(() => confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }), 500);
+      }
+
+      toast({ title: "Analysis Complete!", description: "Your AI opportunity report is ready." });
     } catch (error) {
-      console.error('Error analyzing website:', error);
+      console.error('Error:', error);
+      const fallback = { opportunities: [], experienceGaps: [], contentInsights: [], contactScore: 70, contentScore: 70 };
+      setWebsiteAnalysis(fallback);
+      setAuditResults(getEnhancedAuditResults(metrics, fallback));
     }
     
-    // Show processing animation for 4 seconds (3 seconds + 1 second buffer)
     setTimeout(() => {
       setIsProcessing(false);
+      setShowResults(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }, 4000);
-    
-    // Scroll to top when report is shown
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleContactSubmit = async (contact: ContactInfo) => {
-    setContactInfo(contact);
-    
-    if (businessMetrics) {
-      // Calculate audit results and save to database
-      await calculateAudit(businessMetrics, contact);
-    }
   };
 
   return (
     <>
       <Helmet>
-        <title>Free AI Readiness Audit | AI Agents 3000</title>
+        <title>Free AI Website ROI Audit | AI Agents 3000</title>
         <meta 
           name="description" 
-          content="Get a comprehensive AI readiness assessment for your business. Discover how AI voice agents can help you recover lost revenue and improve efficiency." 
+          content="Get a comprehensive AI opportunity assessment for your business. Discover how AI automation can help you recover lost revenue and improve efficiency." 
         />
       </Helmet>
       
@@ -94,14 +90,17 @@ const AIAudit = () => {
         
         <main className="flex-1 pt-24 pb-16">
           <div className="container max-w-4xl mx-auto px-4">
-            {!businessMetrics ? (
-              <BusinessMetricsForm onSubmit={handleMetricsSubmit} />
-            ) : (
-              <AuditReport 
-                businessMetrics={businessMetrics}
-                contactInfo={contactInfo}
-                onContactSubmit={handleContactSubmit}
-                isProcessing={isProcessing}
+            {isProcessing && <ProcessingScreen />}
+            
+            {!showResults && !isProcessing && (
+              <EnhancedBusinessMetricsForm onSubmit={handleMetricsSubmit} />
+            )}
+            
+            {showResults && businessMetrics && auditResults && (
+              <EnhancedResultsPage
+                companyName={businessMetrics.websiteUrl}
+                results={auditResults}
+                websiteAnalysis={websiteAnalysis}
               />
             )}
           </div>

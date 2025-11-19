@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ContactInfo } from "@/pages/AIAudit";
+import { ContactInfo } from "@/types/audit";
 import { Loader2 } from "lucide-react";
 
 interface ContactCaptureFormProps {
