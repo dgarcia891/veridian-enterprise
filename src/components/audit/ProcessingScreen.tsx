@@ -13,11 +13,21 @@ const ProcessingScreen = () => {
   ];
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentStep((prev) => (prev + 1) % steps.length);
-    }, 750);
+    const timings = [2000, 3000, 2500, 2000]; // Different timing for each step
+    let timeoutId: NodeJS.Timeout;
 
-    return () => clearInterval(interval);
+    const advanceStep = (stepIndex: number) => {
+      if (stepIndex < steps.length) {
+        timeoutId = setTimeout(() => {
+          setCurrentStep(stepIndex);
+          advanceStep(stepIndex + 1);
+        }, timings[stepIndex - 1] || 0);
+      }
+    };
+
+    advanceStep(1);
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   return (
