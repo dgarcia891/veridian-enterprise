@@ -164,7 +164,7 @@ const LostRevenueCalculator = () => {
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="averageCallValue">Average Value per Call ($) *</Label>
+                      <Label htmlFor="averageCallValue">Average Profit per Call ($) *</Label>
                       <Input
                         id="averageCallValue"
                         type="number"
