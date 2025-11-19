@@ -16,11 +16,12 @@ const BusinessMetricsForm = ({ onSubmit }: BusinessMetricsFormProps) => {
   const [avgProfitPerCustomer, setAvgProfitPerCustomer] = useState("");
   const [industry, setIndustry] = useState("");
   const [currentCallMethod, setCurrentCallMethod] = useState("");
+  const [websiteUrl, setWebsiteUrl] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!avgProfitPerCustomer || !industry || !currentCallMethod) {
+    if (!avgProfitPerCustomer || !industry || !currentCallMethod || !websiteUrl) {
       return;
     }
 
@@ -29,10 +30,11 @@ const BusinessMetricsForm = ({ onSubmit }: BusinessMetricsFormProps) => {
       avgProfitPerCustomer: parseFloat(avgProfitPerCustomer),
       industry,
       currentCallMethod,
+      websiteUrl,
     });
   };
 
-  const isValid = avgProfitPerCustomer && industry && currentCallMethod;
+  const isValid = avgProfitPerCustomer && industry && currentCallMethod && websiteUrl;
 
   return (
     <Card className="glass-card">
@@ -82,6 +84,23 @@ const BusinessMetricsForm = ({ onSubmit }: BusinessMetricsFormProps) => {
               step="0.01"
               required
             />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="website" className="text-base">
+              Your website URL
+            </Label>
+            <Input
+              id="website"
+              type="url"
+              placeholder="https://yourwebsite.com"
+              value={websiteUrl}
+              onChange={(e) => setWebsiteUrl(e.target.value)}
+              required
+            />
+            <p className="text-sm text-muted-foreground">
+              We'll analyze your website to provide personalized AI recommendations
+            </p>
           </div>
 
           <div className="space-y-2">

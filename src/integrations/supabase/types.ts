@@ -35,6 +35,8 @@ export type Database = {
           phone: string
           recommended_solutions: string[]
           score_tier: string
+          website_analysis: Json | null
+          website_url: string | null
         }
         Insert: {
           ai_readiness_score: number
@@ -56,6 +58,8 @@ export type Database = {
           phone: string
           recommended_solutions: string[]
           score_tier: string
+          website_analysis?: Json | null
+          website_url?: string | null
         }
         Update: {
           ai_readiness_score?: number
@@ -77,6 +81,8 @@ export type Database = {
           phone?: string
           recommended_solutions?: string[]
           score_tier?: string
+          website_analysis?: Json | null
+          website_url?: string | null
         }
         Relationships: []
       }

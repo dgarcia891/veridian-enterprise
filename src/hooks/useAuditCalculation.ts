@@ -110,6 +110,10 @@ export const useAuditCalculation = () => {
   ): Promise<void> => {
     const results = getAuditResults(metrics);
 
+    // Get website analysis from session storage
+    const websiteAnalysisData = sessionStorage.getItem('websiteAnalysis');
+    const websiteAnalysis = websiteAnalysisData ? JSON.parse(websiteAnalysisData) : null;
+
     try {
       const { error } = await supabase
         .from("ai_audit_submissions")
@@ -123,6 +127,8 @@ export const useAuditCalculation = () => {
           missed_calls_per_week: metrics.missedCallsPerWeek,
           avg_profit_per_customer: metrics.avgProfitPerCustomer,
           current_call_method: metrics.currentCallMethod,
+          website_url: metrics.websiteUrl,
+          website_analysis: websiteAnalysis,
           daily_loss: results.dailyLoss,
           monthly_loss: results.monthlyLoss,
           annual_loss: results.annualLoss,

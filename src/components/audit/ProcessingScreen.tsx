@@ -7,8 +7,8 @@ const ProcessingScreen = () => {
   
   const steps = [
     { icon: Brain, text: "Analyzing your business metrics..." },
-    { icon: TrendingUp, text: "Calculating revenue impact..." },
-    { icon: Target, text: "Determining AI readiness score..." },
+    { icon: TrendingUp, text: "Scanning your website for AI opportunities..." },
+    { icon: Target, text: "Calculating revenue impact..." },
     { icon: Zap, text: "Generating personalized recommendations..." },
   ];
 
