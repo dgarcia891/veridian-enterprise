@@ -20,7 +20,7 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
   const navigate = useNavigate();
   const { setAnnualLoss } = useROI();
   
-  // Create custom value mapping for customer value slider
+  // Create custom value mapping for customer profit slider
   const customerValueMap = [
     ...Array.from({ length: 10 }, (_, i) => (i + 1) * 10), // 10, 20, 30...100
     ...Array.from({ length: 9 }, (_, i) => 100 + (i + 1) * 100) // 200, 300...1000
@@ -28,15 +28,15 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
   
   // Default values based on business size
   // Small: 10 calls per week, $40 (index 3)
-  // Medium: 5 calls per week, $600 (index 14)
-  const [missedCalls, setMissedCalls] = useState([isMediumBusiness ? 5 : 10]);
-  const [customerValueIndex, setCustomerValueIndex] = useState([isMediumBusiness ? 14 : 3]);
+  // Medium: 1 call per week, $800 (index 16)
+  const [missedCalls, setMissedCalls] = useState([isMediumBusiness ? 1 : 10]);
+  const [customerValueIndex, setCustomerValueIndex] = useState([isMediumBusiness ? 16 : 3]);
   
   // Update values when business size changes
   useEffect(() => {
     if (isMediumBusiness) {
-      setMissedCalls([5]);
-      setCustomerValueIndex([14]); // $600
+      setMissedCalls([1]);
+      setCustomerValueIndex([16]); // $800
     } else {
       setMissedCalls([10]);
       setCustomerValueIndex([3]); // $40
@@ -100,7 +100,7 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
               <div>
                 <div className="flex justify-between items-center mb-3">
                   <label className="text-sm font-medium text-foreground">
-                    Average Value Per Customer:
+                    Average Profit Per Customer:
                   </label>
                   <span className="text-2xl font-bold text-primary">
                     {formatCurrency(customerValue)}

@@ -668,7 +668,7 @@ const Qualification = () => {
                           name="avgProjectValue"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel className="text-primary">Average Project Value *</FormLabel>
+                              <FormLabel className="text-primary">Average Project Profit *</FormLabel>
                               <FormControl>
                                 <Input 
                                   type="number" 
@@ -725,7 +725,7 @@ const Qualification = () => {
                           name="lifetimeValue"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Lifetime Value Per Customer (Optional)</FormLabel>
+                              <FormLabel>Lifetime Profit Per Customer (Optional)</FormLabel>
                               <FormControl>
                                 <Input 
                                   type="number" 
@@ -734,7 +734,7 @@ const Qualification = () => {
                                   onChange={(e) => field.onChange(Number(e.target.value))}
                                 />
                               </FormControl>
-                              <FormDescription>Total value over customer relationship</FormDescription>
+                              <FormDescription>Total profit over customer relationship</FormDescription>
                             </FormItem>
                           )}
                         />
