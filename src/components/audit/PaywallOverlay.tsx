@@ -38,9 +38,9 @@ const PaywallOverlay = ({ onSubmit }: PaywallOverlayProps) => {
   const isValid = Object.values(formData).every(value => value.trim() !== "");
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-md animate-in fade-in duration-300">
-      <div className="container max-w-xl mx-auto px-4">
-        <Card className="glass-card shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-background/95 backdrop-blur-lg animate-in fade-in slide-in-from-bottom duration-500">
+      <div className="container max-w-xl mx-auto px-4 mb-8">
+        <Card className="glass-card shadow-2xl border-2 border-primary/20">
           <CardHeader className="text-center space-y-3">
             <div className="mx-auto w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
               <Lock className="w-8 h-8 text-primary" />
