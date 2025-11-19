@@ -1,6 +1,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Lightbulb, AlertTriangle, FileText, CheckCircle } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Lightbulb, AlertTriangle, FileText, CheckCircle, DollarSign } from "lucide-react";
+import { formatCurrency } from "@/hooks/useROICalculation";
 
 interface Opportunity {
   title: string;
@@ -25,9 +27,11 @@ interface WebsiteInsightsProps {
   opportunities: Opportunity[];
   experienceGaps: ExperienceGap[];
   contentInsights: ContentInsight[];
+  missedCallsPerWeek: number;
+  avgProfitPerCustomer: number;
 }
 
-const WebsiteInsights = ({ opportunities, experienceGaps, contentInsights }: WebsiteInsightsProps) => {
+const WebsiteInsights = ({ opportunities, experienceGaps, contentInsights, missedCallsPerWeek, avgProfitPerCustomer }: WebsiteInsightsProps) => {
   const getImpactColor = (impact: string) => {
     switch (impact) {
       case "high": return "bg-red-500/10 text-red-500 border-red-500/20";
@@ -35,6 +39,17 @@ const WebsiteInsights = ({ opportunities, experienceGaps, contentInsights }: Web
       case "low": return "bg-green-500/10 text-green-500 border-green-500/20";
       default: return "bg-muted";
     }
+  };
+
+  const calculateEstimatedLoss = (impact: "high" | "medium" | "low") => {
+    const callbackRate = 0.15;
+    const workingDaysPerWeek = 5;
+    const missedCallsPerDay = missedCallsPerWeek / workingDaysPerWeek;
+    const dailyPotentialLoss = missedCallsPerDay * avgProfitPerCustomer * (1 - callbackRate);
+    
+    // Calculate monthly loss based on impact
+    const impactMultiplier = impact === "high" ? 0.3 : impact === "medium" ? 0.15 : 0.05;
+    return Math.round(dailyPotentialLoss * 21 * impactMultiplier);
   };
 
   return (
@@ -57,24 +72,36 @@ const WebsiteInsights = ({ opportunities, experienceGaps, contentInsights }: Web
             Specific areas where AI can be implemented on your website
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {opportunities.map((opp, index) => (
-            <div key={index} className="p-4 border border-border rounded-lg space-y-2">
-              <div className="flex items-start justify-between gap-2">
-                <h4 className="font-semibold">{opp.title}</h4>
-                <Badge className={getImpactColor(opp.impact)}>
-                  {opp.impact} impact
-                </Badge>
-              </div>
-              <p className="text-sm text-muted-foreground">{opp.description}</p>
-              <div className="pt-2 border-t border-border/50">
-                <p className="text-sm">
-                  <span className="font-medium">Implementation: </span>
-                  {opp.implementation}
-                </p>
-              </div>
-            </div>
-          ))}
+        <CardContent>
+          <Accordion type="multiple" className="space-y-4">
+            {opportunities.map((opp, index) => (
+              <AccordionItem key={index} value={`opp-${index}`} className="border border-border rounded-lg">
+                <AccordionTrigger className="px-4 hover:no-underline">
+                  <div className="flex items-center justify-between w-full pr-4">
+                    <h4 className="font-semibold text-left">{opp.title}</h4>
+                    <div className="flex items-center gap-2">
+                      <Badge className={getImpactColor(opp.impact)}>
+                        {opp.impact} impact
+                      </Badge>
+                      <Badge variant="outline" className="bg-red-500/10 text-red-500 border-red-500/20">
+                        <DollarSign className="w-3 h-3 mr-1" />
+                        {formatCurrency(calculateEstimatedLoss(opp.impact))}/mo
+                      </Badge>
+                    </div>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="px-4 pb-4 space-y-2">
+                  <p className="text-sm text-muted-foreground">{opp.description}</p>
+                  <div className="pt-2 border-t border-border/50">
+                    <p className="text-sm">
+                      <span className="font-medium">Implementation: </span>
+                      {opp.implementation}
+                    </p>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </CardContent>
       </Card>
 
@@ -89,26 +116,38 @@ const WebsiteInsights = ({ opportunities, experienceGaps, contentInsights }: Web
             Friction points that AI can help resolve
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {experienceGaps.map((gap, index) => (
-            <div key={index} className="p-4 border border-border rounded-lg space-y-2">
-              <h4 className="font-semibold text-yellow-600 dark:text-yellow-500">
-                {gap.issue}
-              </h4>
-              <div className="text-sm space-y-1">
-                <p>
-                  <span className="font-medium">Impact: </span>
-                  <span className="text-muted-foreground">{gap.impact}</span>
-                </p>
-                <p>
-                  <span className="font-medium text-green-600 dark:text-green-500">
-                    AI Solution: 
-                  </span>
-                  <span className="text-muted-foreground ml-1">{gap.solution}</span>
-                </p>
-              </div>
-            </div>
-          ))}
+        <CardContent>
+          <Accordion type="multiple" className="space-y-4">
+            {experienceGaps.map((gap, index) => (
+              <AccordionItem key={index} value={`gap-${index}`} className="border border-border rounded-lg">
+                <AccordionTrigger className="px-4 hover:no-underline">
+                  <div className="flex items-center justify-between w-full pr-4">
+                    <h4 className="font-semibold text-yellow-600 dark:text-yellow-500 text-left">
+                      {gap.issue}
+                    </h4>
+                    <Badge variant="outline" className="bg-red-500/10 text-red-500 border-red-500/20">
+                      <DollarSign className="w-3 h-3 mr-1" />
+                      {formatCurrency(calculateEstimatedLoss("medium"))}/mo
+                    </Badge>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="px-4 pb-4">
+                  <div className="text-sm space-y-1">
+                    <p>
+                      <span className="font-medium">Impact: </span>
+                      <span className="text-muted-foreground">{gap.impact}</span>
+                    </p>
+                    <p>
+                      <span className="font-medium text-green-600 dark:text-green-500">
+                        AI Solution: 
+                      </span>
+                      <span className="text-muted-foreground ml-1">{gap.solution}</span>
+                    </p>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </CardContent>
       </Card>
 
@@ -123,22 +162,34 @@ const WebsiteInsights = ({ opportunities, experienceGaps, contentInsights }: Web
             Insights on your service offerings and content
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {contentInsights.map((insight, index) => (
-            <div key={index} className="p-4 border border-border rounded-lg space-y-2">
-              <h4 className="font-semibold flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-blue-500" />
-                {insight.area}
-              </h4>
-              <div className="text-sm space-y-1 pl-6">
-                <p className="text-muted-foreground">{insight.observation}</p>
-                <p>
-                  <span className="font-medium text-primary">Recommendation: </span>
-                  <span className="text-muted-foreground">{insight.recommendation}</span>
-                </p>
-              </div>
-            </div>
-          ))}
+        <CardContent>
+          <Accordion type="multiple" className="space-y-4">
+            {contentInsights.map((insight, index) => (
+              <AccordionItem key={index} value={`insight-${index}`} className="border border-border rounded-lg">
+                <AccordionTrigger className="px-4 hover:no-underline">
+                  <div className="flex items-center justify-between w-full pr-4">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-blue-500" />
+                      <h4 className="font-semibold text-left">{insight.area}</h4>
+                    </div>
+                    <Badge variant="outline" className="bg-red-500/10 text-red-500 border-red-500/20">
+                      <DollarSign className="w-3 h-3 mr-1" />
+                      {formatCurrency(calculateEstimatedLoss("low"))}/mo
+                    </Badge>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="px-4 pb-4">
+                  <div className="text-sm space-y-1 pl-6">
+                    <p className="text-muted-foreground">{insight.observation}</p>
+                    <p>
+                      <span className="font-medium text-primary">Recommendation: </span>
+                      <span className="text-muted-foreground">{insight.recommendation}</span>
+                    </p>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </CardContent>
       </Card>
     </div>

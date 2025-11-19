@@ -1,6 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Phone, MessageSquare, Calendar, Mail, RefreshCw, CheckCircle2 } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Phone, MessageSquare, Calendar, Mail, RefreshCw, CheckCircle2, DollarSign } from "lucide-react";
+import { formatCurrency } from "@/hooks/useROICalculation";
 
 interface Solution {
   id: string;
@@ -14,9 +16,30 @@ interface Solution {
 interface SolutionRecommendationsProps {
   solutions: string[];
   industry: string;
+  missedCallsPerWeek: number;
+  avgProfitPerCustomer: number;
 }
 
-const SolutionRecommendations = ({ solutions, industry }: SolutionRecommendationsProps) => {
+const SolutionRecommendations = ({ solutions, industry, missedCallsPerWeek, avgProfitPerCustomer }: SolutionRecommendationsProps) => {
+  const calculateSolutionLoss = (solutionId: string) => {
+    const callbackRate = 0.15;
+    const workingDaysPerWeek = 5;
+    const missedCallsPerDay = missedCallsPerWeek / workingDaysPerWeek;
+    const dailyPotentialLoss = missedCallsPerDay * avgProfitPerCustomer * (1 - callbackRate);
+    
+    // Different solutions prevent different percentages of loss
+    const preventionRates: Record<string, number> = {
+      "voice-receptionist": 0.85, // Prevents 85% of missed call loss
+      "chat-assistant": 0.60,     // Prevents 60% of lost web leads
+      "appointment-scheduling": 0.40, // Prevents 40% of scheduling-related loss
+      "follow-up-system": 0.50,   // Prevents 50% of cold lead loss
+      "email-assistant": 0.30     // Prevents 30% of email-related loss
+    };
+    
+    const preventionRate = preventionRates[solutionId] || 0.5;
+    return Math.round(dailyPotentialLoss * 21 * preventionRate);
+  };
+
   const allSolutions: Record<string, Solution> = {
     "voice-receptionist": {
       id: "voice-receptionist",
@@ -104,37 +127,40 @@ const SolutionRecommendations = ({ solutions, industry }: SolutionRecommendation
               <CheckCircle2 className="h-5 w-5 text-primary" />
               Solutions We Provide
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Accordion type="multiple" className="space-y-4">
               {weProvide.map((solution) => {
                 const Icon = solution.icon;
                 return (
-                  <div
-                    key={solution.id}
-                    className="p-5 rounded-lg bg-card/50 border border-primary/20 hover:border-primary/40 transition-colors"
-                  >
-                    <div className="flex items-start gap-3 mb-3">
-                      <div className="p-2 rounded-lg bg-primary/10">
-                        <Icon className="h-5 w-5 text-primary" />
+                  <AccordionItem key={solution.id} value={solution.id} className="border border-primary/20 rounded-lg">
+                    <AccordionTrigger className="px-4 hover:no-underline">
+                      <div className="flex items-center justify-between w-full pr-4">
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 rounded-lg bg-primary/10">
+                            <Icon className="h-5 w-5 text-primary" />
+                          </div>
+                          <h4 className="font-semibold text-left">{solution.title}</h4>
+                        </div>
+                        <Badge variant="outline" className="bg-red-500/10 text-red-500 border-red-500/20">
+                          <DollarSign className="w-3 h-3 mr-1" />
+                          {formatCurrency(calculateSolutionLoss(solution.id))}/mo lost
+                        </Badge>
                       </div>
-                      <div className="flex-1">
-                        <h4 className="font-semibold mb-1">{solution.title}</h4>
-                        <p className="text-sm text-muted-foreground">
-                          {solution.description}
-                        </p>
-                      </div>
-                    </div>
-                    <ul className="space-y-1">
-                      {solution.benefits.map((benefit, idx) => (
-                        <li key={idx} className="text-sm flex items-start gap-2">
-                          <CheckCircle2 className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                          <span>{benefit}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="px-4 pb-4">
+                      <p className="text-sm text-muted-foreground mb-3">{solution.description}</p>
+                      <ul className="space-y-1">
+                        {solution.benefits.map((benefit, idx) => (
+                          <li key={idx} className="text-sm flex items-start gap-2">
+                            <CheckCircle2 className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                            <span>{benefit}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </AccordionContent>
+                  </AccordionItem>
                 );
               })}
-            </div>
+            </Accordion>
           </div>
         )}
 
@@ -147,29 +173,32 @@ const SolutionRecommendations = ({ solutions, industry }: SolutionRecommendation
             <p className="text-sm text-muted-foreground">
               We can help connect you with trusted partners for these solutions
             </p>
-            <div className="grid grid-cols-1 gap-4">
+            <Accordion type="multiple" className="space-y-4">
               {weRecommend.map((solution) => {
                 const Icon = solution.icon;
                 return (
-                  <div
-                    key={solution.id}
-                    className="p-4 rounded-lg bg-muted/30 border border-border"
-                  >
-                    <div className="flex items-start gap-3">
-                      <div className="p-2 rounded-lg bg-muted">
-                        <Icon className="h-5 w-5" />
+                  <AccordionItem key={solution.id} value={solution.id} className="border border-border rounded-lg">
+                    <AccordionTrigger className="px-4 hover:no-underline">
+                      <div className="flex items-center justify-between w-full pr-4">
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 rounded-lg bg-muted">
+                            <Icon className="h-5 w-5" />
+                          </div>
+                          <h4 className="font-semibold text-left">{solution.title}</h4>
+                        </div>
+                        <Badge variant="outline" className="bg-red-500/10 text-red-500 border-red-500/20">
+                          <DollarSign className="w-3 h-3 mr-1" />
+                          {formatCurrency(calculateSolutionLoss(solution.id))}/mo lost
+                        </Badge>
                       </div>
-                      <div className="flex-1">
-                        <h4 className="font-semibold mb-1">{solution.title}</h4>
-                        <p className="text-sm text-muted-foreground">
-                          {solution.description}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="px-4 pb-4">
+                      <p className="text-sm text-muted-foreground">{solution.description}</p>
+                    </AccordionContent>
+                  </AccordionItem>
                 );
               })}
-            </div>
+            </Accordion>
           </div>
         )}
       </CardContent>
