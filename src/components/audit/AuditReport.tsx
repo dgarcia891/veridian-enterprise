@@ -74,6 +74,8 @@ const AuditReport = ({ businessMetrics, contactInfo, onContactSubmit, isProcessi
             opportunities={websiteAnalysis.opportunities || []}
             experienceGaps={websiteAnalysis.experienceGaps || []}
             contentInsights={websiteAnalysis.contentInsights || []}
+            missedCallsPerWeek={businessMetrics.missedCallsPerWeek}
+            avgProfitPerCustomer={businessMetrics.avgProfitPerCustomer}
           />
         )}
         
@@ -91,6 +93,8 @@ const AuditReport = ({ businessMetrics, contactInfo, onContactSubmit, isProcessi
               <SolutionRecommendations
                 solutions={results.recommendedSolutions}
                 industry={businessMetrics.industry}
+                missedCallsPerWeek={businessMetrics.missedCallsPerWeek}
+                avgProfitPerCustomer={businessMetrics.avgProfitPerCustomer}
               />
             </div>
           </div>
