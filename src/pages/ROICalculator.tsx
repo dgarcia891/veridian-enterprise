@@ -9,11 +9,13 @@ import Footer from "@/components/Footer";
 import { Helmet } from "react-helmet";
 import { ArrowRight } from "lucide-react";
 import { useState } from "react";
+import { ROIProvider } from "@/contexts/ROIContext";
 
 const ROICalculator = () => {
   const [isMediumBusiness, setIsMediumBusiness] = useState(false);
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <ROIProvider>
+      <div className="min-h-screen bg-background text-foreground">
       <Helmet>
         <title>AI Receptionist ROI Calculator | Stop Losing $126k/Year</title>
         <meta 
@@ -59,7 +61,8 @@ const ROICalculator = () => {
       </main>
       
       <Footer />
-    </div>
+      </div>
+    </ROIProvider>
   );
 };
 
