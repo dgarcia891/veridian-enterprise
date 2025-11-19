@@ -27,18 +27,18 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
   ];
   
   // Default values based on business size
-  // Small: 2 calls, $40 (index 3)
-  // Medium: 1 call, $600 (index 14)
-  const [missedCalls, setMissedCalls] = useState([isMediumBusiness ? 1 : 2]);
+  // Small: 10 calls per week, $40 (index 3)
+  // Medium: 5 calls per week, $600 (index 14)
+  const [missedCalls, setMissedCalls] = useState([isMediumBusiness ? 5 : 10]);
   const [customerValueIndex, setCustomerValueIndex] = useState([isMediumBusiness ? 14 : 3]);
   
   // Update values when business size changes
   useEffect(() => {
     if (isMediumBusiness) {
-      setMissedCalls([1]);
+      setMissedCalls([5]);
       setCustomerValueIndex([14]); // $600
     } else {
-      setMissedCalls([2]);
+      setMissedCalls([10]);
       setCustomerValueIndex([3]); // $40
     }
   }, [isMediumBusiness]);
@@ -81,7 +81,7 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
               <div>
                 <div className="flex justify-between items-center mb-3">
                   <label className="text-sm font-medium text-foreground">
-                    Missed Calls Per Day:
+                    Missed Calls Per Week:
                   </label>
                   <span className="text-2xl font-bold text-primary">
                     {missedCalls[0]}
@@ -91,7 +91,7 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
                   value={missedCalls}
                   onValueChange={setMissedCalls}
                   min={1}
-                  max={10}
+                  max={50}
                   step={1}
                   className="w-full"
                 />

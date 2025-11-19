@@ -147,7 +147,7 @@ interface QualificationFormData {
   industry: string;
   employeeCount: string;
   inboundCallsPerDay: number;
-  missedCallsPerDay: number;
+  missedCallsPerWeek: number;
   avgProjectValue: number;
   newClientsPerMonth: number;
   customerAcquisitionCost: number;
@@ -172,7 +172,7 @@ const Qualification = () => {
       industry: "",
       employeeCount: "",
       inboundCallsPerDay: 0,
-      missedCallsPerDay: 0,
+      missedCallsPerWeek: 0,
       avgProjectValue: 0,
       newClientsPerMonth: 0,
       customerAcquisitionCost: 0,
@@ -208,8 +208,8 @@ const Qualification = () => {
       if (currentValues.inboundCallsPerDay === 0) {
         form.setValue("inboundCallsPerDay", 15); // Conservative estimate
       }
-      if (currentValues.missedCallsPerDay === 0) {
-        form.setValue("missedCallsPerDay", 3); // ~20% of 15 calls
+      if (currentValues.missedCallsPerWeek === 0) {
+        form.setValue("missedCallsPerWeek", 15); // ~20% of 75 weekly calls (15 calls/day * 5 days)
       }
       
       toast({
@@ -224,8 +224,11 @@ const Qualification = () => {
   const conversionRate = 0.30; // 30% of answered calls convert
   const workingDaysPerMonth = 21;
   const workingDaysPerYear = 250;
+  const workingDaysPerWeek = 5;
   
-  const dailyLostRevenue = watchedValues.missedCallsPerDay * watchedValues.avgProjectValue * (1 - callbackRate) * conversionRate;
+  // Convert weekly missed calls to daily
+  const missedCallsPerDay = watchedValues.missedCallsPerWeek / workingDaysPerWeek;
+  const dailyLostRevenue = missedCallsPerDay * watchedValues.avgProjectValue * (1 - callbackRate) * conversionRate;
   const monthlyLostRevenue = dailyLostRevenue * workingDaysPerMonth;
   const annualLostRevenue = dailyLostRevenue * workingDaysPerYear;
   
@@ -244,8 +247,8 @@ const Qualification = () => {
   const oneClientPerMonth = watchedValues.avgProjectValue * 12;
   const breakEvenClients = Math.ceil((annualServiceCost + setupFee) / watchedValues.avgProjectValue);
 
-  const isQualified = watchedValues.missedCallsPerDay >= 3 && watchedValues.avgProjectValue >= 500;
-  const isHighValue = watchedValues.avgProjectValue >= 2000 && watchedValues.missedCallsPerDay >= 5;
+  const isQualified = watchedValues.missedCallsPerWeek >= 15 && watchedValues.avgProjectValue >= 500;
+  const isHighValue = watchedValues.avgProjectValue >= 2000 && watchedValues.missedCallsPerWeek >= 25;
 
   const handleSaveSubmission = async () => {
     const values = form.getValues();
@@ -275,7 +278,7 @@ const Qualification = () => {
           industry: values.industry,
           employee_count: values.employeeCount,
           inbound_calls_per_day: values.inboundCallsPerDay,
-          missed_calls_per_day: values.missedCallsPerDay,
+          missed_calls_per_day: values.missedCallsPerWeek / 5, // Convert weekly to daily average for storage
           current_call_method: values.currentCallMethod,
           pain_points: values.painPoints,
           selected_pain_points: values.selectedPainPoints,
@@ -535,20 +538,20 @@ const Qualification = () => {
                         />
                         <FormField
                           control={form.control}
-                          name="missedCallsPerDay"
+                          name="missedCallsPerWeek"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel className="text-destructive">Missed Calls Per Day *</FormLabel>
+                              <FormLabel className="text-destructive">Missed Calls Per Week *</FormLabel>
                               <FormControl>
                                 <Input 
                                   type="number" 
-                                  placeholder="5" 
+                                  placeholder="15" 
                                   {...field}
                                   onChange={(e) => field.onChange(Number(e.target.value))}
                                   className="border-destructive"
                                 />
                               </FormControl>
-                              <FormDescription>Key question! "How often do calls go unanswered?"</FormDescription>
+                              <FormDescription>Key question! "How many calls go unanswered in a typical week?"</FormDescription>
                             </FormItem>
                           )}
                         />
@@ -745,7 +748,7 @@ const Qualification = () => {
             {/* ROI Display Column */}
             <div className="space-y-6">
               {/* Qualification Status */}
-              {watchedValues.missedCallsPerDay > 0 && watchedValues.avgProjectValue > 0 && (
+              {watchedValues.missedCallsPerWeek > 0 && watchedValues.avgProjectValue > 0 && (
                 <Card className={isQualified ? "border-primary shadow-lg" : ""}>
                   <CardHeader>
                     <CardTitle className="text-lg">Qualification Status</CardTitle>
