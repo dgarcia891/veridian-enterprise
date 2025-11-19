@@ -5,6 +5,7 @@ import RevenueAnalysis from "./RevenueAnalysis";
 import SolutionRecommendations from "./SolutionRecommendations";
 import NextStepsSection from "./NextStepsSection";
 import PaywallOverlay from "./PaywallOverlay";
+import ProcessingScreen from "./ProcessingScreen";
 import { useAuditCalculation } from "@/hooks/useAuditCalculation";
 import { useToast } from "@/hooks/use-toast";
 import confetti from "canvas-confetti";
@@ -13,9 +14,10 @@ interface AuditReportProps {
   businessMetrics: BusinessMetrics;
   contactInfo: ContactInfo | null;
   onContactSubmit: (contact: ContactInfo) => Promise<void>;
+  isProcessing: boolean;
 }
 
-const AuditReport = ({ businessMetrics, contactInfo, onContactSubmit }: AuditReportProps) => {
+const AuditReport = ({ businessMetrics, contactInfo, onContactSubmit, isProcessing }: AuditReportProps) => {
   const { toast } = useToast();
   const { getAuditResults } = useAuditCalculation();
   const results = getAuditResults(businessMetrics);
@@ -38,9 +40,13 @@ const AuditReport = ({ businessMetrics, contactInfo, onContactSubmit }: AuditRep
     }
   }, [contactInfo]);
 
+  if (isProcessing) {
+    return <ProcessingScreen />;
+  }
+
   return (
     <>
-      <div className={`space-y-8 animate-in fade-in duration-500 ${!contactInfo ? 'blur-sm pointer-events-none select-none' : ''}`}>
+      <div className="space-y-8 animate-in fade-in duration-500">
         <div className="text-center space-y-2">
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             Your AI Readiness Report
@@ -52,17 +58,27 @@ const AuditReport = ({ businessMetrics, contactInfo, onContactSubmit }: AuditRep
 
         <ReadinessScore score={results.score} tier={results.tier} />
         
-        <RevenueAnalysis
-          dailyLoss={results.dailyLoss}
-          monthlyLoss={results.monthlyLoss}
-          annualLoss={results.annualLoss}
-          missedCalls={businessMetrics.missedCallsPerWeek}
-        />
-        
-        <SolutionRecommendations
-          solutions={results.recommendedSolutions}
-          industry={businessMetrics.industry}
-        />
+        <div className={!contactInfo ? 'relative' : ''}>
+          {!contactInfo && (
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background z-10 pointer-events-none" />
+          )}
+          
+          <div className={!contactInfo ? 'blur-sm pointer-events-none select-none' : ''}>
+            <RevenueAnalysis
+              dailyLoss={results.dailyLoss}
+              monthlyLoss={results.monthlyLoss}
+              annualLoss={results.annualLoss}
+              missedCalls={businessMetrics.missedCallsPerWeek}
+            />
+            
+            <div className="mt-8">
+              <SolutionRecommendations
+                solutions={results.recommendedSolutions}
+                industry={businessMetrics.industry}
+              />
+            </div>
+          </div>
+        </div>
         
         {contactInfo && <NextStepsSection contactInfo={contactInfo} />}
       </div>

@@ -25,10 +25,18 @@ export interface ContactInfo {
 const AIAudit = () => {
   const [businessMetrics, setBusinessMetrics] = useState<BusinessMetrics | null>(null);
   const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
   const { calculateAudit } = useAuditCalculation();
 
   const handleMetricsSubmit = (metrics: BusinessMetrics) => {
     setBusinessMetrics(metrics);
+    setIsProcessing(true);
+    
+    // Show processing animation for 3 seconds
+    setTimeout(() => {
+      setIsProcessing(false);
+    }, 3000);
+    
     // Scroll to top when report is shown
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -64,6 +72,7 @@ const AIAudit = () => {
                 businessMetrics={businessMetrics}
                 contactInfo={contactInfo}
                 onContactSubmit={handleContactSubmit}
+                isProcessing={isProcessing}
               />
             )}
           </div>
