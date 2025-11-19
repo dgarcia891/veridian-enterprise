@@ -19,6 +19,7 @@ export type Database = {
           ai_readiness_score: number
           annual_loss: number
           avg_profit_per_customer: number
+          clients_per_month: number
           company_name: string
           created_at: string | null
           current_call_method: string
@@ -37,11 +38,13 @@ export type Database = {
           score_tier: string
           website_analysis: Json | null
           website_url: string | null
+          website_visits_per_month: number | null
         }
         Insert: {
           ai_readiness_score: number
           annual_loss: number
           avg_profit_per_customer: number
+          clients_per_month?: number
           company_name: string
           created_at?: string | null
           current_call_method: string
@@ -60,11 +63,13 @@ export type Database = {
           score_tier: string
           website_analysis?: Json | null
           website_url?: string | null
+          website_visits_per_month?: number | null
         }
         Update: {
           ai_readiness_score?: number
           annual_loss?: number
           avg_profit_per_customer?: number
+          clients_per_month?: number
           company_name?: string
           created_at?: string | null
           current_call_method?: string
@@ -83,6 +88,7 @@ export type Database = {
           score_tier?: string
           website_analysis?: Json | null
           website_url?: string | null
+          website_visits_per_month?: number | null
         }
         Relationships: []
       }

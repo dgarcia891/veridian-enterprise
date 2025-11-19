@@ -13,6 +13,8 @@ export interface BusinessMetrics {
   industry: string;
   currentCallMethod: string;
   websiteUrl: string;
+  websiteVisitsPerMonth?: number;
+  clientsPerMonth: number;
 }
 
 export interface ContactInfo {

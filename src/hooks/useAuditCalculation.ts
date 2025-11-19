@@ -129,6 +129,8 @@ export const useAuditCalculation = () => {
           current_call_method: metrics.currentCallMethod,
           website_url: metrics.websiteUrl,
           website_analysis: websiteAnalysis,
+          website_visits_per_month: metrics.websiteVisitsPerMonth,
+          clients_per_month: metrics.clientsPerMonth,
           daily_loss: results.dailyLoss,
           monthly_loss: results.monthlyLoss,
           annual_loss: results.annualLoss,

@@ -17,6 +17,8 @@ const BusinessMetricsForm = ({ onSubmit }: BusinessMetricsFormProps) => {
   const [industry, setIndustry] = useState("");
   const [currentCallMethod, setCurrentCallMethod] = useState("");
   const [websiteUrl, setWebsiteUrl] = useState("");
+  const [websiteVisitsPerMonth, setWebsiteVisitsPerMonth] = useState("");
+  const [clientsPerMonth, setClientsPerMonth] = useState("");
 
   const normalizeUrl = (url: string): string => {
     const trimmed = url.trim();
@@ -32,7 +34,7 @@ const BusinessMetricsForm = ({ onSubmit }: BusinessMetricsFormProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!avgProfitPerCustomer || !industry || !currentCallMethod || !websiteUrl) {
+    if (!avgProfitPerCustomer || !industry || !currentCallMethod || !websiteUrl || !clientsPerMonth) {
       return;
     }
 
@@ -42,10 +44,12 @@ const BusinessMetricsForm = ({ onSubmit }: BusinessMetricsFormProps) => {
       industry,
       currentCallMethod,
       websiteUrl: normalizeUrl(websiteUrl),
+      websiteVisitsPerMonth: websiteVisitsPerMonth ? parseInt(websiteVisitsPerMonth) : undefined,
+      clientsPerMonth: parseInt(clientsPerMonth),
     });
   };
 
-  const isValid = avgProfitPerCustomer && industry && currentCallMethod && websiteUrl;
+  const isValid = avgProfitPerCustomer && industry && currentCallMethod && websiteUrl && clientsPerMonth;
 
   return (
     <Card className="glass-card">
@@ -95,6 +99,40 @@ const BusinessMetricsForm = ({ onSubmit }: BusinessMetricsFormProps) => {
               step="0.01"
               required
             />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="clients-per-month" className="text-base">
+              How many clients/purchases do you typically get per month?
+            </Label>
+            <Input
+              id="clients-per-month"
+              type="number"
+              placeholder="e.g., 50"
+              value={clientsPerMonth}
+              onChange={(e) => setClientsPerMonth(e.target.value)}
+              min="0"
+              step="1"
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="website-visits" className="text-base">
+              How many website visits do you get per month? (Optional)
+            </Label>
+            <Input
+              id="website-visits"
+              type="number"
+              placeholder="e.g., 1000"
+              value={websiteVisitsPerMonth}
+              onChange={(e) => setWebsiteVisitsPerMonth(e.target.value)}
+              min="0"
+              step="1"
+            />
+            <p className="text-sm text-muted-foreground">
+              This helps us estimate your conversion rate and business potential
+            </p>
           </div>
 
           <div className="space-y-2">
