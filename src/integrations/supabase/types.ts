@@ -14,6 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_audit_submissions: {
+        Row: {
+          ai_readiness_score: number
+          annual_loss: number
+          avg_profit_per_customer: number
+          company_name: string
+          created_at: string | null
+          current_call_method: string
+          daily_loss: number
+          email: string
+          first_name: string
+          ghl_sent: boolean | null
+          ghl_sent_at: string | null
+          id: string
+          industry: string
+          last_name: string
+          missed_calls_per_week: number
+          monthly_loss: number
+          phone: string
+          recommended_solutions: string[]
+          score_tier: string
+        }
+        Insert: {
+          ai_readiness_score: number
+          annual_loss: number
+          avg_profit_per_customer: number
+          company_name: string
+          created_at?: string | null
+          current_call_method: string
+          daily_loss: number
+          email: string
+          first_name: string
+          ghl_sent?: boolean | null
+          ghl_sent_at?: string | null
+          id?: string
+          industry: string
+          last_name: string
+          missed_calls_per_week: number
+          monthly_loss: number
+          phone: string
+          recommended_solutions: string[]
+          score_tier: string
+        }
+        Update: {
+          ai_readiness_score?: number
+          annual_loss?: number
+          avg_profit_per_customer?: number
+          company_name?: string
+          created_at?: string | null
+          current_call_method?: string
+          daily_loss?: number
+          email?: string
+          first_name?: string
+          ghl_sent?: boolean | null
+          ghl_sent_at?: string | null
+          id?: string
+          industry?: string
+          last_name?: string
+          missed_calls_per_week?: number
+          monthly_loss?: number
+          phone?: string
+          recommended_solutions?: string[]
+          score_tier?: string
+        }
+        Relationships: []
+      }
       customer_signups: {
         Row: {
           appointment_date: string | null
