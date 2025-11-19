@@ -18,6 +18,17 @@ const BusinessMetricsForm = ({ onSubmit }: BusinessMetricsFormProps) => {
   const [currentCallMethod, setCurrentCallMethod] = useState("");
   const [websiteUrl, setWebsiteUrl] = useState("");
 
+  const normalizeUrl = (url: string): string => {
+    const trimmed = url.trim();
+    if (!trimmed) return trimmed;
+    
+    // If no protocol is present, add https://
+    if (!trimmed.match(/^https?:\/\//i)) {
+      return `https://${trimmed}`;
+    }
+    return trimmed;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -30,7 +41,7 @@ const BusinessMetricsForm = ({ onSubmit }: BusinessMetricsFormProps) => {
       avgProfitPerCustomer: parseFloat(avgProfitPerCustomer),
       industry,
       currentCallMethod,
-      websiteUrl,
+      websiteUrl: normalizeUrl(websiteUrl),
     });
   };
 
@@ -92,8 +103,8 @@ const BusinessMetricsForm = ({ onSubmit }: BusinessMetricsFormProps) => {
             </Label>
             <Input
               id="website"
-              type="url"
-              placeholder="https://yourwebsite.com"
+              type="text"
+              placeholder="yourwebsite.com"
               value={websiteUrl}
               onChange={(e) => setWebsiteUrl(e.target.value)}
               required
