@@ -17,7 +17,7 @@ import { industries } from "@/data/industries";
 
 const formSchema = z.object({
   averageCallValue: z.number().min(1, "Average call value must be at least $1").max(100000, "Please enter a realistic value"),
-  missedCallsPerDay: z.number().min(0, "Cannot be negative").max(1000, "Please enter a realistic number"),
+  missedCallsPerWeek: z.number().min(0, "Cannot be negative").max(250, "Please enter a realistic number"),
   businessType: z.string().min(1, "Please select a business type"),
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
   email: z.string().trim().email("Invalid email address").max(255, "Email must be less than 255 characters"),
@@ -51,7 +51,7 @@ const LostRevenueCalculator = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       averageCallValue: 0,
-      missedCallsPerDay: 0,
+      missedCallsPerWeek: 0,
       businessType: "",
       name: "",
       email: "",
@@ -67,8 +67,10 @@ const LostRevenueCalculator = () => {
       }
 
       // Step 2 - Calculate and show results
-      const daily = data.averageCallValue * data.missedCallsPerDay;
-      const monthly = daily * 30;
+      // Convert weekly to daily for calculations
+      const dailyMissedCalls = data.missedCallsPerWeek / 5;
+      const daily = data.averageCallValue * dailyMissedCalls;
+      const monthly = daily * 21; // Working days per month
       const yearly = monthly * 12;
 
       setCalculatedResults({ daily, monthly, yearly });
@@ -130,7 +132,7 @@ const LostRevenueCalculator = () => {
   };
 
   const averageCallValue = watch("averageCallValue");
-  const missedCallsPerDay = watch("missedCallsPerDay");
+  const missedCallsPerWeek = watch("missedCallsPerWeek");
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -178,18 +180,18 @@ const LostRevenueCalculator = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="missedCallsPerDay">Missed Calls per Day *</Label>
+                      <Label htmlFor="missedCallsPerWeek">Missed Calls per Week *</Label>
                       <Input
-                        id="missedCallsPerDay"
+                        id="missedCallsPerWeek"
                         type="number"
-                        {...register("missedCallsPerDay")}
-                        placeholder="5"
+                        {...register("missedCallsPerWeek")}
+                        placeholder="15"
                         className="bg-background"
                         min="0"
                         step="1"
                       />
-                      {errors.missedCallsPerDay && (
-                        <p className="text-sm text-destructive">{errors.missedCallsPerDay.message}</p>
+                      {errors.missedCallsPerWeek && (
+                        <p className="text-sm text-destructive">{errors.missedCallsPerWeek.message}</p>
                       )}
                     </div>
 
