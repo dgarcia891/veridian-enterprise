@@ -55,7 +55,7 @@ const AuditReport = ({ businessMetrics, contactInfo, onContactSubmit, isProcessi
   }
 
   return (
-    <>
+    <div className="relative">
       <div className="space-y-8 animate-in fade-in duration-500">
         <div className="text-center space-y-2">
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
@@ -77,12 +77,9 @@ const AuditReport = ({ businessMetrics, contactInfo, onContactSubmit, isProcessi
           />
         )}
         
-        <div className={!contactInfo ? 'relative' : ''}>
-          {!contactInfo && (
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background z-10 pointer-events-none" />
-          )}
-          
-          <div className={!contactInfo ? 'blur-sm pointer-events-none select-none' : ''}>
+        {/* Show partial preview of revenue analysis */}
+        <div className={!contactInfo ? 'relative pb-96' : ''}>
+          <div className={!contactInfo ? 'blur-[2px] pointer-events-none select-none' : ''}>
             <RevenueAnalysis
               dailyLoss={results.dailyLoss}
               monthlyLoss={results.monthlyLoss}
@@ -97,13 +94,17 @@ const AuditReport = ({ businessMetrics, contactInfo, onContactSubmit, isProcessi
               />
             </div>
           </div>
+          
+          {!contactInfo && (
+            <div className="absolute inset-x-0 bottom-0 h-[500px] bg-gradient-to-b from-transparent via-background/80 to-background pointer-events-none" />
+          )}
         </div>
         
         {contactInfo && <NextStepsSection contactInfo={contactInfo} />}
       </div>
 
       {!contactInfo && <PaywallOverlay onSubmit={onContactSubmit} />}
-    </>
+    </div>
   );
 };
 
