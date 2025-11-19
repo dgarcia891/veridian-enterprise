@@ -42,6 +42,8 @@ const Restaurants = lazy(() => import("./pages/Restaurants"));
 const OptIn = lazy(() => import("./pages/OptIn"));
 const Qualification = lazy(() => import("./pages/Qualification"));
 const AIAudit = lazy(() => import("./pages/AIAudit"));
+const Pricing = lazy(() => import("./pages/Pricing"));
+const Consultation = lazy(() => import("./pages/Consultation"));
 
 const queryClient = new QueryClient();
 
@@ -66,6 +68,8 @@ const AppContent = () => {
           <Route path="/roi-calculator" element={<ROICalculator />} />
           <Route path="/lost-revenue-calculator" element={<LostRevenueCalculator />} />
           <Route path="/audit" element={<AIAudit />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/consultation" element={<Consultation />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/schedule-consultation" element={<ScheduleConsultation />} />

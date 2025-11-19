@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BusinessMetrics, ContactInfo } from "@/pages/AIAudit";
+import { BusinessMetrics, ContactInfo } from "@/types/audit";
 import ReadinessScore from "./ReadinessScore";
 import RevenueAnalysis from "./RevenueAnalysis";
 import SolutionRecommendations from "./SolutionRecommendations";

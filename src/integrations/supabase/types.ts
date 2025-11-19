@@ -16,76 +16,133 @@ export type Database = {
     Tables: {
       ai_audit_submissions: {
         Row: {
+          after_hours_importance: string | null
+          ai_impact_potential_grade: string | null
           ai_readiness_score: number
           annual_loss: number
+          automation_readiness_grade: string | null
           avg_profit_per_customer: number
           clients_per_month: number
           company_name: string
+          contact_accessibility_grade: string | null
           created_at: string | null
           current_call_method: string
+          customer_experience_grade: string | null
           daily_loss: number
           email: string
           first_name: string
+          followup_completion_rate: number | null
           ghl_sent: boolean | null
           ghl_sent_at: string | null
           id: string
           industry: string
           last_name: string
+          lead_close_rate: number | null
+          lead_conversion_grade: string | null
+          lost_revenue_breakdown: Json | null
+          messaging_preference_rate: number | null
           missed_calls_per_week: number
           monthly_loss: number
+          monthly_website_leads: number | null
+          new_customers_per_month: number | null
+          overall_grade: string | null
+          percent_from_website: number | null
           phone: string
           recommended_solutions: string[]
+          recovery_calculations: Json | null
+          roi_metrics: Json | null
           score_tier: string
+          speed_of_followup: string | null
+          traffic_estimate: number | null
+          visitor_lead_conversion: string | null
           website_analysis: Json | null
           website_url: string | null
           website_visits_per_month: number | null
         }
         Insert: {
+          after_hours_importance?: string | null
+          ai_impact_potential_grade?: string | null
           ai_readiness_score: number
           annual_loss: number
+          automation_readiness_grade?: string | null
           avg_profit_per_customer: number
           clients_per_month?: number
           company_name: string
+          contact_accessibility_grade?: string | null
           created_at?: string | null
           current_call_method: string
+          customer_experience_grade?: string | null
           daily_loss: number
           email: string
           first_name: string
+          followup_completion_rate?: number | null
           ghl_sent?: boolean | null
           ghl_sent_at?: string | null
           id?: string
           industry: string
           last_name: string
+          lead_close_rate?: number | null
+          lead_conversion_grade?: string | null
+          lost_revenue_breakdown?: Json | null
+          messaging_preference_rate?: number | null
           missed_calls_per_week: number
           monthly_loss: number
+          monthly_website_leads?: number | null
+          new_customers_per_month?: number | null
+          overall_grade?: string | null
+          percent_from_website?: number | null
           phone: string
           recommended_solutions: string[]
+          recovery_calculations?: Json | null
+          roi_metrics?: Json | null
           score_tier: string
+          speed_of_followup?: string | null
+          traffic_estimate?: number | null
+          visitor_lead_conversion?: string | null
           website_analysis?: Json | null
           website_url?: string | null
           website_visits_per_month?: number | null
         }
         Update: {
+          after_hours_importance?: string | null
+          ai_impact_potential_grade?: string | null
           ai_readiness_score?: number
           annual_loss?: number
+          automation_readiness_grade?: string | null
           avg_profit_per_customer?: number
           clients_per_month?: number
           company_name?: string
+          contact_accessibility_grade?: string | null
           created_at?: string | null
           current_call_method?: string
+          customer_experience_grade?: string | null
           daily_loss?: number
           email?: string
           first_name?: string
+          followup_completion_rate?: number | null
           ghl_sent?: boolean | null
           ghl_sent_at?: string | null
           id?: string
           industry?: string
           last_name?: string
+          lead_close_rate?: number | null
+          lead_conversion_grade?: string | null
+          lost_revenue_breakdown?: Json | null
+          messaging_preference_rate?: number | null
           missed_calls_per_week?: number
           monthly_loss?: number
+          monthly_website_leads?: number | null
+          new_customers_per_month?: number | null
+          overall_grade?: string | null
+          percent_from_website?: number | null
           phone?: string
           recommended_solutions?: string[]
+          recovery_calculations?: Json | null
+          roi_metrics?: Json | null
           score_tier?: string
+          speed_of_followup?: string | null
+          traffic_estimate?: number | null
+          visitor_lead_conversion?: string | null
           website_analysis?: Json | null
           website_url?: string | null
           website_visits_per_month?: number | null
