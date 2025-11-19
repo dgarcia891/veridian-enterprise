@@ -23,14 +23,14 @@ export interface ContactInfo {
 }
 
 const AIAudit = () => {
-  const [step, setStep] = useState<"metrics" | "contact" | "report">("metrics");
   const [businessMetrics, setBusinessMetrics] = useState<BusinessMetrics | null>(null);
   const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null);
   const { calculateAudit } = useAuditCalculation();
 
   const handleMetricsSubmit = (metrics: BusinessMetrics) => {
     setBusinessMetrics(metrics);
-    setStep("contact");
+    // Scroll to top when report is shown
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleContactSubmit = async (contact: ContactInfo) => {
@@ -40,10 +40,6 @@ const AIAudit = () => {
       // Calculate audit results and save to database
       await calculateAudit(businessMetrics, contact);
     }
-    
-    setStep("report");
-    // Scroll to top when report is shown
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -61,18 +57,13 @@ const AIAudit = () => {
         
         <main className="flex-1 pt-24 pb-16">
           <div className="container max-w-4xl mx-auto px-4">
-            {step === "metrics" && (
+            {!businessMetrics ? (
               <BusinessMetricsForm onSubmit={handleMetricsSubmit} />
-            )}
-            
-            {step === "contact" && (
-              <ContactCaptureForm onSubmit={handleContactSubmit} />
-            )}
-            
-            {step === "report" && businessMetrics && contactInfo && (
+            ) : (
               <AuditReport 
                 businessMetrics={businessMetrics}
                 contactInfo={contactInfo}
+                onContactSubmit={handleContactSubmit}
               />
             )}
           </div>
