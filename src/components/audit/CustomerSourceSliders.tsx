@@ -29,14 +29,31 @@ export const CustomerSourceSliders = ({ value, onChange, totalCustomers, variant
   // Option A: Three Independent Sliders with Live Validation
   if (variant === "option-a") {
     const handleSliderChange = (field: "website" | "phone" | "other", newValue: number) => {
-      const updated = { ...localValue, [field]: newValue };
-      setLocalValue(updated);
+      const oldValue = localValue[field];
+      const difference = newValue - oldValue;
       
-      // Only propagate if sum is valid
-      const newSum = updated.website + updated.phone + updated.other;
-      if (newSum === 100) {
-        onChange(updated);
+      // Get the other two fields
+      const otherFields = (["website", "phone", "other"] as const).filter(f => f !== field);
+      
+      // Distribute the difference equally among the other two fields
+      const adjustmentPerField = difference / 2;
+      
+      const updated = {
+        ...localValue,
+        [field]: newValue,
+        [otherFields[0]]: Math.max(0, Math.min(100, localValue[otherFields[0]] - adjustmentPerField)),
+        [otherFields[1]]: Math.max(0, Math.min(100, localValue[otherFields[1]] - adjustmentPerField)),
+      };
+      
+      // Ensure we're at exactly 100% by adjusting any rounding
+      const sum = updated.website + updated.phone + updated.other;
+      if (sum !== 100) {
+        const correction = 100 - sum;
+        updated[otherFields[0]] += correction;
       }
+      
+      setLocalValue(updated);
+      onChange(updated);
     };
 
     return (
@@ -89,10 +106,9 @@ export const CustomerSourceSliders = ({ value, onChange, totalCustomers, variant
           <p className="text-xs text-muted-foreground">≈ {counts.other} customers</p>
         </div>
 
-        <div className={`text-center p-3 rounded-lg border-2 ${isValid ? 'border-green-500 bg-green-50 dark:bg-green-950' : 'border-yellow-500 bg-yellow-50 dark:bg-yellow-950'}`}>
-          <p className={`text-sm font-medium ${isValid ? 'text-green-700 dark:text-green-300' : 'text-yellow-700 dark:text-yellow-300'}`}>
-            {localValue.website}% + {localValue.phone}% + {localValue.other}% = {sum}%
-            {isValid ? ' ✓' : ' (must equal 100%)'}
+        <div className="text-center p-3 rounded-lg border-2 border-green-500 bg-green-50 dark:bg-green-950">
+          <p className="text-sm font-medium text-green-700 dark:text-green-300">
+            {localValue.website}% + {localValue.phone}% + {localValue.other}% = 100% ✓
           </p>
         </div>
       </div>
