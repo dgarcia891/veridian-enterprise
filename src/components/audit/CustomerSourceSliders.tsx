@@ -26,31 +26,33 @@ export const CustomerSourceSliders = ({ value, onChange, totalCustomers, variant
   const sum = localValue.website + localValue.phone + localValue.other;
   const isValid = sum === 100;
 
-  // Option A: Three Independent Sliders with Live Validation
+  // Option A: Visual Bar with Priority-Based Filling
   if (variant === "option-a") {
-    const handleSliderChange = (field: "website" | "phone" | "other", newValue: number) => {
-      const oldValue = localValue[field];
-      const difference = newValue - oldValue;
-      
-      // Get the other two fields
-      const otherFields = (["website", "phone", "other"] as const).filter(f => f !== field);
-      
-      // Distribute the difference equally among the other two fields
-      const adjustmentPerField = difference / 2;
+    const handleWebsiteChange = (newValue: number) => {
+      const remaining = 100 - newValue;
+      const phoneMax = Math.min(localValue.phone, remaining);
+      const otherValue = remaining - phoneMax;
       
       const updated = {
-        ...localValue,
-        [field]: newValue,
-        [otherFields[0]]: Math.max(0, Math.min(100, localValue[otherFields[0]] - adjustmentPerField)),
-        [otherFields[1]]: Math.max(0, Math.min(100, localValue[otherFields[1]] - adjustmentPerField)),
+        website: newValue,
+        phone: phoneMax,
+        other: otherValue,
       };
       
-      // Ensure we're at exactly 100% by adjusting any rounding
-      const sum = updated.website + updated.phone + updated.other;
-      if (sum !== 100) {
-        const correction = 100 - sum;
-        updated[otherFields[0]] += correction;
-      }
+      setLocalValue(updated);
+      onChange(updated);
+    };
+
+    const handlePhoneChange = (newValue: number) => {
+      const maxPhone = 100 - localValue.website;
+      const clampedPhone = Math.min(newValue, maxPhone);
+      const otherValue = 100 - localValue.website - clampedPhone;
+      
+      const updated = {
+        website: localValue.website,
+        phone: clampedPhone,
+        other: otherValue,
+      };
       
       setLocalValue(updated);
       onChange(updated);
@@ -58,58 +60,87 @@ export const CustomerSourceSliders = ({ value, onChange, totalCustomers, variant
 
     return (
       <div className="space-y-6">
+        {/* Visual Bar Display */}
+        <div className="space-y-3">
+          <Label>Customer Source Split</Label>
+          <div className="relative h-12 w-full rounded-lg overflow-hidden border-2 border-border flex">
+            <div 
+              className="bg-blue-500 dark:bg-blue-600 flex items-center justify-center text-white font-medium text-sm transition-all duration-300"
+              style={{ width: `${localValue.website}%` }}
+            >
+              {localValue.website > 8 && `${localValue.website}%`}
+            </div>
+            <div 
+              className="bg-green-500 dark:bg-green-600 flex items-center justify-center text-white font-medium text-sm transition-all duration-300"
+              style={{ width: `${localValue.phone}%` }}
+            >
+              {localValue.phone > 8 && `${localValue.phone}%`}
+            </div>
+            <div 
+              className="bg-purple-500 dark:bg-purple-600 flex items-center justify-center text-white font-medium text-sm transition-all duration-300"
+              style={{ width: `${localValue.other}%` }}
+            >
+              {localValue.other > 8 && `${localValue.other}%`}
+            </div>
+          </div>
+          <div className="flex justify-between text-xs text-muted-foreground">
+            <span>Website: ≈ {counts.website} customers</span>
+            <span>Phone: ≈ {counts.phone} customers</span>
+            <span>Other: ≈ {counts.other} customers</span>
+          </div>
+        </div>
+
+        {/* Website Slider */}
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <Label>Website %</Label>
+            <Label className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full bg-blue-500" />
+              Website
+            </Label>
             <span className="text-sm font-medium text-primary">{localValue.website}%</span>
           </div>
           <Slider
             value={[localValue.website]}
-            onValueChange={(val) => handleSliderChange("website", val[0])}
+            onValueChange={(val) => handleWebsiteChange(val[0])}
             min={0}
             max={100}
             step={1}
             className="w-full"
           />
-          <p className="text-xs text-muted-foreground">≈ {counts.website} customers</p>
         </div>
 
+        {/* Phone Slider */}
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <Label>Phone %</Label>
+            <Label className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full bg-green-500" />
+              Phone
+            </Label>
             <span className="text-sm font-medium text-primary">{localValue.phone}%</span>
           </div>
           <Slider
             value={[localValue.phone]}
-            onValueChange={(val) => handleSliderChange("phone", val[0])}
+            onValueChange={(val) => handlePhoneChange(val[0])}
             min={0}
-            max={100}
+            max={100 - localValue.website}
             step={1}
             className="w-full"
           />
-          <p className="text-xs text-muted-foreground">≈ {counts.phone} customers</p>
+          <p className="text-xs text-muted-foreground">Max: {100 - localValue.website}% (after website)</p>
         </div>
 
+        {/* Other (Auto-calculated) */}
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <Label>Other %</Label>
+            <Label className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full bg-purple-500" />
+              Other Sources
+            </Label>
             <span className="text-sm font-medium text-primary">{localValue.other}%</span>
           </div>
-          <Slider
-            value={[localValue.other]}
-            onValueChange={(val) => handleSliderChange("other", val[0])}
-            min={0}
-            max={100}
-            step={1}
-            className="w-full"
-          />
-          <p className="text-xs text-muted-foreground">≈ {counts.other} customers</p>
-        </div>
-
-        <div className="text-center p-3 rounded-lg border-2 border-green-500 bg-green-50 dark:bg-green-950">
-          <p className="text-sm font-medium text-green-700 dark:text-green-300">
-            {localValue.website}% + {localValue.phone}% + {localValue.other}% = 100% ✓
-          </p>
+          <div className="h-10 rounded-lg bg-muted flex items-center justify-center text-sm text-muted-foreground">
+            Auto-calculated: {localValue.other}% remaining
+          </div>
         </div>
       </div>
     );
