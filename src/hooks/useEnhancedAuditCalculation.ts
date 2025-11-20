@@ -25,9 +25,10 @@ export interface EnhancedBusinessMetrics {
   
   // Lead & conversion fields (now optional based on websiteKnowledge)
   websiteVisitsPerMonth?: number;
-  monthlyWebsiteLeads: number;
-  leadCloseRate: number;
-  visitorLeadConversion: string;
+  monthlyWebsiteVisits?: number;
+  monthlyWebsiteLeads?: number;
+  leadCloseRate?: number;
+  visitorLeadConversion?: string;
   speedOfFollowup: string;
   followupCompletionRate: number;
   messagingPreferenceRate: number;
