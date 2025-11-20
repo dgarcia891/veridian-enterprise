@@ -11,11 +11,13 @@ export interface EnhancedBusinessMetrics {
   currentCallMethod: string;
   websiteUrl: string;
   websiteVisitsPerMonth?: number;
-  clientsPerMonth: number;
   
-  // New fields
-  newCustomersPerMonth: number;
-  percentFromWebsite: number;
+  // Customer source fields
+  customersFromWebsite: number;
+  customersFromPhone: number;
+  customersFromOther: number;
+  
+  // Lead & conversion fields
   monthlyWebsiteLeads: number;
   leadCloseRate: number;
   visitorLeadConversion: string;
@@ -208,10 +210,14 @@ export const useEnhancedAuditCalculation = () => {
     metrics: EnhancedBusinessMetrics,
     websiteAnalysis: any
   ): EnhancedAuditResults => {
+    // Calculate total customers and percentage from website
+    const totalCustomers = metrics.customersFromWebsite + metrics.customersFromPhone + metrics.customersFromOther;
+    const percentFromWebsite = totalCustomers > 0 ? (metrics.customersFromWebsite / totalCustomers) * 100 : 0;
+    
     // Calculate traffic estimation
     const trafficData = calculateTraffic({
-      newCustomersPerMonth: metrics.newCustomersPerMonth,
-      percentFromWebsite: metrics.percentFromWebsite,
+      newCustomersPerMonth: totalCustomers,
+      percentFromWebsite: percentFromWebsite,
       leadCloseRate: metrics.leadCloseRate,
       visitorLeadConversion: metrics.visitorLeadConversion,
     });
@@ -261,6 +267,9 @@ export const useEnhancedAuditCalculation = () => {
     websiteAnalysis: any
   ): Promise<void> => {
     try {
+      const totalCustomers = metrics.customersFromWebsite + metrics.customersFromPhone + metrics.customersFromOther;
+      const percentFromWebsite = totalCustomers > 0 ? (metrics.customersFromWebsite / totalCustomers) * 100 : 0;
+      
       const { error } = await supabase.from("ai_audit_submissions").insert({
         first_name: contact.firstName,
         last_name: contact.lastName,
@@ -273,7 +282,16 @@ export const useEnhancedAuditCalculation = () => {
         current_call_method: metrics.currentCallMethod,
         website_url: metrics.websiteUrl,
         website_visits_per_month: metrics.websiteVisitsPerMonth,
-        clients_per_month: metrics.clientsPerMonth,
+        clients_per_month: totalCustomers,
+        new_customers_per_month: totalCustomers,
+        percent_from_website: percentFromWebsite,
+        monthly_website_leads: metrics.monthlyWebsiteLeads,
+        lead_close_rate: metrics.leadCloseRate,
+        visitor_lead_conversion: metrics.visitorLeadConversion,
+        speed_of_followup: metrics.speedOfFollowup,
+        followup_completion_rate: metrics.followupCompletionRate,
+        messaging_preference_rate: metrics.messagingPreferenceRate,
+        after_hours_importance: metrics.afterHoursImportance,
         daily_loss: results.lostRevenueBreakdown.totalMonthlyLostRevenue / 30,
         monthly_loss: results.lostRevenueBreakdown.totalMonthlyLostRevenue,
         annual_loss: results.lostRevenueBreakdown.totalAnnualLostRevenue,
@@ -281,6 +299,16 @@ export const useEnhancedAuditCalculation = () => {
         score_tier: results.grades.overallGrade,
         recommended_solutions: websiteAnalysis?.opportunities?.map((o: any) => o.title) || [],
         website_analysis: websiteAnalysis,
+        traffic_estimate: results.trafficEstimate,
+        lost_revenue_breakdown: results.lostRevenueBreakdown,
+        recovery_calculations: results.recoveryCalculations,
+        roi_metrics: results.roiMetrics,
+        lead_conversion_grade: results.grades.leadConversionGrade,
+        contact_accessibility_grade: results.grades.contactAccessibilityGrade,
+        automation_readiness_grade: results.grades.automationReadinessGrade,
+        customer_experience_grade: results.grades.customerExperienceGrade,
+        ai_impact_potential_grade: results.grades.aiImpactPotentialGrade,
+        overall_grade: results.grades.overallGrade,
       } as any);
 
       if (error) throw error;
