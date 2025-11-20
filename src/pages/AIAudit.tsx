@@ -15,6 +15,7 @@ const AIAudit = () => {
   const [showResults, setShowResults] = useState(false);
   const [websiteAnalysis, setWebsiteAnalysis] = useState<any>(null);
   const [auditResults, setAuditResults] = useState<any>(null);
+  const [backgroundAnalysis, setBackgroundAnalysis] = useState<any>(null);
   
   const { getEnhancedAuditResults, saveEnhancedAudit } = useEnhancedAuditCalculation();
   const { toast } = useToast();
@@ -24,25 +25,28 @@ const AIAudit = () => {
     setIsProcessing(true);
     
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analyze-website`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ websiteUrl: metrics.websiteUrl, industry: metrics.industry }),
-        }
-      );
+      // Use background analysis if available, otherwise fetch now
+      let analysis = backgroundAnalysis;
       
-      let analysis = null;
-      if (response.ok) {
-        const data = await response.json();
-        analysis = data.analysis;
-        setWebsiteAnalysis(analysis);
-      } else {
-        analysis = { opportunities: [], experienceGaps: [], contentInsights: [], contactScore: 70, contentScore: 70 };
-        setWebsiteAnalysis(analysis);
+      if (!analysis) {
+        const response = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analyze-website`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ websiteUrl: metrics.websiteUrl, industry: metrics.industry }),
+          }
+        );
+        
+        if (response.ok) {
+          const data = await response.json();
+          analysis = data.analysis;
+        } else {
+          analysis = { opportunities: [], experienceGaps: [], contentInsights: [], contactScore: 70, contentScore: 70 };
+        }
       }
       
+      setWebsiteAnalysis(analysis);
       const results = getEnhancedAuditResults(metrics, analysis);
       setAuditResults(results);
 
@@ -93,7 +97,10 @@ const AIAudit = () => {
             {isProcessing && <ProcessingScreen />}
             
             {!showResults && !isProcessing && (
-              <EnhancedBusinessMetricsForm onSubmit={handleMetricsSubmit} />
+              <EnhancedBusinessMetricsForm 
+                onSubmit={handleMetricsSubmit}
+                onBackgroundAnalysis={setBackgroundAnalysis}
+              />
             )}
             
             {showResults && businessMetrics && auditResults && (

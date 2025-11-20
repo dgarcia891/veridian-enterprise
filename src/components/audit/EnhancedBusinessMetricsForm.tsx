@@ -14,12 +14,13 @@ import { Save, RotateCcw, HelpCircle } from "lucide-react";
 
 interface EnhancedBusinessMetricsFormProps {
   onSubmit: (metrics: EnhancedBusinessMetrics) => void;
+  onBackgroundAnalysis?: (analysis: any) => void;
 }
 
 const STORAGE_KEY = 'audit-form-progress';
 const STORAGE_EXPIRY = 24 * 60 * 60 * 1000; // 24 hours
 
-const EnhancedBusinessMetricsForm = ({ onSubmit }: EnhancedBusinessMetricsFormProps) => {
+const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: EnhancedBusinessMetricsFormProps) => {
   // New simplified fields
   const [totalCustomersPerMonth, setTotalCustomersPerMonth] = useState("");
   const [customerSourceSplit, setCustomerSourceSplit] = useState({
@@ -49,6 +50,7 @@ const EnhancedBusinessMetricsForm = ({ onSubmit }: EnhancedBusinessMetricsFormPr
   const [speedOfFollowup, setSpeedOfFollowup] = useState("");
   const [followupCompletionRate, setFollowupCompletionRate] = useState(70);
   const [afterHoursImportance, setAfterHoursImportance] = useState("");
+  const [hasTriggeredBackgroundScan, setHasTriggeredBackgroundScan] = useState(false);
 
   const showWebsiteQuestions = websiteKnowledge === "exactly" || websiteKnowledge === "kind-of";
 
@@ -127,6 +129,36 @@ const EnhancedBusinessMetricsForm = ({ onSubmit }: EnhancedBusinessMetricsFormPr
     localStorage.removeItem(STORAGE_KEY);
     window.location.reload();
   };
+
+  // Trigger background website analysis when URL and industry are both filled
+  useEffect(() => {
+    const triggerBackgroundAnalysis = async () => {
+      if (websiteUrl && industry && !hasTriggeredBackgroundScan && onBackgroundAnalysis) {
+        setHasTriggeredBackgroundScan(true);
+        
+        try {
+          const normalizedUrl = normalizeUrl(websiteUrl);
+          const response = await fetch(
+            `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analyze-website`,
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ websiteUrl: normalizedUrl, industry }),
+            }
+          );
+          
+          if (response.ok) {
+            const data = await response.json();
+            onBackgroundAnalysis(data.analysis);
+          }
+        } catch (error) {
+          console.log('Background analysis failed, will retry on submit');
+        }
+      }
+    };
+
+    triggerBackgroundAnalysis();
+  }, [websiteUrl, industry, hasTriggeredBackgroundScan, onBackgroundAnalysis]);
 
   const normalizeUrl = (url: string): string => {
     const trimmed = url.trim();
@@ -272,10 +304,27 @@ const EnhancedBusinessMetricsForm = ({ onSubmit }: EnhancedBusinessMetricsFormPr
           </div>
 
           {/* Section 1: Business Overview */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             <h3 className="text-xl font-semibold flex items-center gap-2">
               📊 Business Overview
             </h3>
+
+            <div className="space-y-2">
+              <Label htmlFor="website" className="text-base">
+                Your website URL *
+              </Label>
+              <Input
+                id="website"
+                type="text"
+                placeholder="yourwebsite.com"
+                value={websiteUrl}
+                onChange={(e) => setWebsiteUrl(e.target.value)}
+                required
+              />
+              <p className="text-sm text-muted-foreground">
+                We'll analyze your website to provide personalized AI recommendations
+              </p>
+            </div>
 
             <div className="space-y-2">
               <Label htmlFor="total-customers" className="text-base flex items-center gap-2">
@@ -353,14 +402,14 @@ const EnhancedBusinessMetricsForm = ({ onSubmit }: EnhancedBusinessMetricsFormPr
           </div>
 
           {/* Section 2: Website Performance */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             <h3 className="text-xl font-semibold flex items-center gap-2">
               🌐 Website Performance
             </h3>
 
             <div className="space-y-3">
               <Label className="text-base flex items-center gap-2">
-                Do you track your website numbers? *
+                Do you track your website numbers? (Number of visits, inquiries, etc.) *
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
@@ -520,7 +569,7 @@ const EnhancedBusinessMetricsForm = ({ onSubmit }: EnhancedBusinessMetricsFormPr
           </div>
 
           {/* Section 3: Response & Follow-up */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             <h3 className="text-xl font-semibold flex items-center gap-2">
               ⚡ Response & Follow-up
             </h3>
@@ -617,7 +666,7 @@ const EnhancedBusinessMetricsForm = ({ onSubmit }: EnhancedBusinessMetricsFormPr
           </div>
 
           {/* Section 4: Customer Preferences */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             <h3 className="text-xl font-semibold flex items-center gap-2">
               💬 Customer Preferences
             </h3>
@@ -656,27 +705,10 @@ const EnhancedBusinessMetricsForm = ({ onSubmit }: EnhancedBusinessMetricsFormPr
           </div>
 
           {/* Section 5: Company Details */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             <h3 className="text-xl font-semibold flex items-center gap-2">
               🏢 Company Details
             </h3>
-
-            <div className="space-y-2">
-              <Label htmlFor="website" className="text-base">
-                Your website URL *
-              </Label>
-              <Input
-                id="website"
-                type="text"
-                placeholder="yourwebsite.com"
-                value={websiteUrl}
-                onChange={(e) => setWebsiteUrl(e.target.value)}
-                required
-              />
-              <p className="text-sm text-muted-foreground">
-                We'll analyze your website to provide personalized AI recommendations
-              </p>
-            </div>
 
             <div className="space-y-2">
               <Label htmlFor="industry" className="text-base">
