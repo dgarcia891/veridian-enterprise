@@ -19,11 +19,13 @@ const EnhancedBusinessMetricsForm = ({ onSubmit }: EnhancedBusinessMetricsFormPr
   const [currentCallMethod, setCurrentCallMethod] = useState("");
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [websiteVisitsPerMonth, setWebsiteVisitsPerMonth] = useState("");
-  const [clientsPerMonth, setClientsPerMonth] = useState("");
 
-  // New fields
-  const [newCustomersPerMonth, setNewCustomersPerMonth] = useState("");
-  const [percentFromWebsite, setPercentFromWebsite] = useState(50);
+  // Customer source fields
+  const [customersFromWebsite, setCustomersFromWebsite] = useState("");
+  const [customersFromPhone, setCustomersFromPhone] = useState("");
+  const [customersFromOther, setCustomersFromOther] = useState("");
+
+  // Lead & conversion fields
   const [monthlyWebsiteLeads, setMonthlyWebsiteLeads] = useState("");
   const [leadCloseRate, setLeadCloseRate] = useState(30);
   const [visitorLeadConversion, setVisitorLeadConversion] = useState("");
@@ -45,8 +47,8 @@ const EnhancedBusinessMetricsForm = ({ onSubmit }: EnhancedBusinessMetricsFormPr
     e.preventDefault();
     
     if (!avgProfitPerCustomer || !industry || !currentCallMethod || !websiteUrl || 
-        !clientsPerMonth || !newCustomersPerMonth || !monthlyWebsiteLeads || 
-        !visitorLeadConversion || !speedOfFollowup || !afterHoursImportance) {
+        !customersFromWebsite || !customersFromPhone || !customersFromOther || 
+        !monthlyWebsiteLeads || !visitorLeadConversion || !speedOfFollowup || !afterHoursImportance) {
       return;
     }
 
@@ -57,9 +59,9 @@ const EnhancedBusinessMetricsForm = ({ onSubmit }: EnhancedBusinessMetricsFormPr
       currentCallMethod,
       websiteUrl: normalizeUrl(websiteUrl),
       websiteVisitsPerMonth: websiteVisitsPerMonth ? parseInt(websiteVisitsPerMonth) : undefined,
-      clientsPerMonth: parseInt(clientsPerMonth),
-      newCustomersPerMonth: parseInt(newCustomersPerMonth),
-      percentFromWebsite,
+      customersFromWebsite: parseInt(customersFromWebsite),
+      customersFromPhone: parseInt(customersFromPhone),
+      customersFromOther: parseInt(customersFromOther),
       monthlyWebsiteLeads: parseInt(monthlyWebsiteLeads),
       leadCloseRate,
       visitorLeadConversion,
@@ -71,8 +73,8 @@ const EnhancedBusinessMetricsForm = ({ onSubmit }: EnhancedBusinessMetricsFormPr
   };
 
   const isValid = avgProfitPerCustomer && industry && currentCallMethod && websiteUrl && 
-                  clientsPerMonth && newCustomersPerMonth && monthlyWebsiteLeads && 
-                  visitorLeadConversion && speedOfFollowup && afterHoursImportance;
+                  customersFromWebsite && customersFromPhone && customersFromOther && 
+                  monthlyWebsiteLeads && visitorLeadConversion && speedOfFollowup && afterHoursImportance;
 
   return (
     <Card className="glass-card">
@@ -89,35 +91,55 @@ const EnhancedBusinessMetricsForm = ({ onSubmit }: EnhancedBusinessMetricsFormPr
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Business Overview */}
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-primary">Business Overview</h3>
+            <h3 className="text-xl font-semibold text-primary">Customer Sources</h3>
+            <p className="text-sm text-muted-foreground">Tell us where your customers come from each month</p>
             
             <div className="space-y-2">
-              <Label htmlFor="new-customers" className="text-base">
-                New customers per month *
+              <Label htmlFor="customers-website" className="text-base">
+                New customers from website per month *
               </Label>
               <Input
-                id="new-customers"
+                id="customers-website"
                 type="number"
-                placeholder="e.g., 15"
-                value={newCustomersPerMonth}
-                onChange={(e) => setNewCustomersPerMonth(e.target.value)}
+                placeholder="e.g., 8"
+                value={customersFromWebsite}
+                onChange={(e) => setCustomersFromWebsite(e.target.value)}
                 min="0"
                 required
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="percent-from-website" className="text-base">
-                Percent of customers from website: {percentFromWebsite}%
+              <Label htmlFor="customers-phone" className="text-base">
+                New customers from phone calls per month *
               </Label>
-              <Slider
-                id="percent-from-website"
-                value={[percentFromWebsite]}
-                onValueChange={(value) => setPercentFromWebsite(value[0])}
-                min={0}
-                max={100}
-                step={5}
+              <Input
+                id="customers-phone"
+                type="number"
+                placeholder="e.g., 5"
+                value={customersFromPhone}
+                onChange={(e) => setCustomersFromPhone(e.target.value)}
+                min="0"
+                required
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="customers-other" className="text-base">
+                New customers from other sources per month *
+              </Label>
+              <Input
+                id="customers-other"
+                type="number"
+                placeholder="e.g., 2"
+                value={customersFromOther}
+                onChange={(e) => setCustomersFromOther(e.target.value)}
+                min="0"
+                required
+              />
+              <p className="text-sm text-muted-foreground">
+                Referrals, walk-ins, social media, etc.
+              </p>
             </div>
 
             <div className="space-y-2">
@@ -301,20 +323,6 @@ const EnhancedBusinessMetricsForm = ({ onSubmit }: EnhancedBusinessMetricsFormPr
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="clients-per-month" className="text-base">
-                Total clients/purchases per month *
-              </Label>
-              <Input
-                id="clients-per-month"
-                type="number"
-                placeholder="e.g., 20"
-                value={clientsPerMonth}
-                onChange={(e) => setClientsPerMonth(e.target.value)}
-                min="0"
-                required
-              />
-            </div>
 
             <div className="space-y-2">
               <Label htmlFor="industry" className="text-base">
