@@ -26,15 +26,20 @@ export const CustomerSourceSliders = ({ value, onChange, totalCustomers, variant
   const sum = localValue.website + localValue.phone + localValue.other;
   const isValid = sum === 100;
 
-  // Option A: Visual Bar with Priority-Based Filling
+  // Option A: Three Separate Interactive Horizontal Bars
   if (variant === "option-a") {
-    const handleWebsiteChange = (newValue: number) => {
-      const remaining = 100 - newValue;
+    const handleWebsiteClick = (e: React.MouseEvent<HTMLDivElement>) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const percentage = Math.round((clickX / rect.width) * 100);
+      const clampedPercentage = Math.max(0, Math.min(100, percentage));
+      
+      const remaining = 100 - clampedPercentage;
       const phoneMax = Math.min(localValue.phone, remaining);
       const otherValue = remaining - phoneMax;
       
       const updated = {
-        website: newValue,
+        website: clampedPercentage,
         phone: phoneMax,
         other: otherValue,
       };
@@ -43,14 +48,17 @@ export const CustomerSourceSliders = ({ value, onChange, totalCustomers, variant
       onChange(updated);
     };
 
-    const handlePhoneChange = (newValue: number) => {
+    const handlePhoneClick = (e: React.MouseEvent<HTMLDivElement>) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const percentage = Math.round((clickX / rect.width) * 100);
       const maxPhone = 100 - localValue.website;
-      const clampedPhone = Math.min(newValue, maxPhone);
-      const otherValue = 100 - localValue.website - clampedPhone;
+      const clampedPercentage = Math.max(0, Math.min(maxPhone, percentage));
+      const otherValue = 100 - localValue.website - clampedPercentage;
       
       const updated = {
         website: localValue.website,
-        phone: clampedPhone,
+        phone: clampedPercentage,
         other: otherValue,
       };
       
@@ -60,87 +68,86 @@ export const CustomerSourceSliders = ({ value, onChange, totalCustomers, variant
 
     return (
       <div className="space-y-6">
-        {/* Visual Bar Display */}
-        <div className="space-y-3">
-          <Label>Customer Source Split</Label>
-          <div className="relative h-12 w-full rounded-lg overflow-hidden border-2 border-border flex">
-            <div 
-              className="bg-blue-500 dark:bg-blue-600 flex items-center justify-center text-white font-medium text-sm transition-all duration-300"
-              style={{ width: `${localValue.website}%` }}
-            >
-              {localValue.website > 8 && `${localValue.website}%`}
-            </div>
-            <div 
-              className="bg-green-500 dark:bg-green-600 flex items-center justify-center text-white font-medium text-sm transition-all duration-300"
-              style={{ width: `${localValue.phone}%` }}
-            >
-              {localValue.phone > 8 && `${localValue.phone}%`}
-            </div>
-            <div 
-              className="bg-purple-500 dark:bg-purple-600 flex items-center justify-center text-white font-medium text-sm transition-all duration-300"
-              style={{ width: `${localValue.other}%` }}
-            >
-              {localValue.other > 8 && `${localValue.other}%`}
-            </div>
-          </div>
-          <div className="flex justify-between text-xs text-muted-foreground">
-            <span>Website: ≈ {counts.website} customers</span>
-            <span>Phone: ≈ {counts.phone} customers</span>
-            <span>Other: ≈ {counts.other} customers</span>
-          </div>
-        </div>
-
-        {/* Website Slider */}
+        {/* Website Bar */}
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <Label className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-blue-500" />
               Website
             </Label>
-            <span className="text-sm font-medium text-primary">{localValue.website}%</span>
+            <span className="text-sm font-medium text-primary">{localValue.website}% • ≈ {counts.website} customers</span>
           </div>
-          <Slider
-            value={[localValue.website]}
-            onValueChange={(val) => handleWebsiteChange(val[0])}
-            min={0}
-            max={100}
-            step={1}
-            className="w-full"
-          />
+          <div 
+            className="relative h-12 w-full rounded-lg overflow-hidden border-2 border-border bg-muted cursor-pointer hover:border-primary transition-colors"
+            onClick={handleWebsiteClick}
+          >
+            <div 
+              className="absolute inset-y-0 left-0 bg-blue-500 dark:bg-blue-600 flex items-center justify-center text-white font-medium transition-all duration-200"
+              style={{ width: `${localValue.website}%` }}
+            >
+              {localValue.website > 8 && <span>{localValue.website}%</span>}
+            </div>
+            {localValue.website <= 8 && (
+              <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-sm">
+                Click to set percentage
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Phone Slider */}
+        {/* Phone Bar */}
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <Label className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-green-500" />
               Phone
             </Label>
-            <span className="text-sm font-medium text-primary">{localValue.phone}%</span>
+            <span className="text-sm font-medium text-primary">{localValue.phone}% • ≈ {counts.phone} customers</span>
           </div>
-          <Slider
-            value={[localValue.phone]}
-            onValueChange={(val) => handlePhoneChange(val[0])}
-            min={0}
-            max={100 - localValue.website}
-            step={1}
-            className="w-full"
-          />
-          <p className="text-xs text-muted-foreground">Max: {100 - localValue.website}% (after website)</p>
+          <div 
+            className="relative h-12 w-full rounded-lg overflow-hidden border-2 border-border bg-muted cursor-pointer hover:border-primary transition-colors"
+            onClick={handlePhoneClick}
+          >
+            <div 
+              className="absolute inset-y-0 left-0 bg-green-500 dark:bg-green-600 flex items-center justify-center text-white font-medium transition-all duration-200"
+              style={{ width: `${localValue.phone}%` }}
+            >
+              {localValue.phone > 8 && <span>{localValue.phone}%</span>}
+            </div>
+            {localValue.phone <= 8 && (
+              <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-sm">
+                Click to set percentage (max: {100 - localValue.website}%)
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Other (Auto-calculated) */}
+        {/* Other Bar (Auto-calculated) */}
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <Label className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-purple-500" />
               Other Sources
             </Label>
-            <span className="text-sm font-medium text-primary">{localValue.other}%</span>
+            <span className="text-sm font-medium text-primary">{localValue.other}% • ≈ {counts.other} customers</span>
           </div>
-          <div className="h-10 rounded-lg bg-muted flex items-center justify-center text-sm text-muted-foreground">
-            Auto-calculated: {localValue.other}% remaining
+          <div className="relative h-12 w-full rounded-lg overflow-hidden border-2 border-dashed border-border bg-muted/50">
+            <div 
+              className="absolute inset-y-0 left-0 bg-purple-500 dark:bg-purple-600 flex items-center justify-center text-white font-medium transition-all duration-200"
+              style={{ width: `${localValue.other}%` }}
+            >
+              {localValue.other > 8 && <span>{localValue.other}%</span>}
+            </div>
+            <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-sm">
+              Auto-calculated
+            </div>
           </div>
+        </div>
+
+        <div className="text-center p-3 rounded-lg border-2 border-green-500 bg-green-50 dark:bg-green-950">
+          <p className="text-sm font-medium text-green-700 dark:text-green-300">
+            Total: {localValue.website}% + {localValue.phone}% + {localValue.other}% = 100% ✓
+          </p>
         </div>
       </div>
     );
