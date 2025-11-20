@@ -329,16 +329,14 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
             <div className="space-y-2">
               <Label htmlFor="total-customers" className="text-base flex items-center gap-2">
                 How many new customers do you get each month? *
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                    </TooltipTrigger>
-                    <TooltipContent className="max-w-xs">
-                      <p>This includes all new paying customers who sign up or purchase from your business each month, regardless of how they found you.</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>This includes all new paying customers who sign up or purchase from your business each month, regardless of how they found you.</p>
+                  </TooltipContent>
+                </Tooltip>
               </Label>
               <Input
                 id="total-customers"
@@ -355,16 +353,14 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
             <div className="space-y-2">
               <Label className="text-base flex items-center gap-2">
                 Where do your customers come from?
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                    </TooltipTrigger>
-                    <TooltipContent className="max-w-xs">
-                      <p>Estimate what percentage of your customers find you through your website, phone calls, or other sources (referrals, walk-ins, social media, etc.)</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>Estimate what percentage of your customers find you through your website, phone calls, or other sources (referrals, walk-ins, social media, etc.)</p>
+                  </TooltipContent>
+                </Tooltip>
               </Label>
               <CustomerSourceSliders
                 value={customerSourceSplit}
@@ -377,16 +373,14 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
             <div className="space-y-2">
               <Label htmlFor="profit" className="text-base flex items-center gap-2">
                 What's the average you make per customer? *
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                    </TooltipTrigger>
-                    <TooltipContent className="max-w-xs">
-                      <p>The average total revenue (in dollars) you earn from each customer. This helps us calculate your potential lost revenue.</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>The average total revenue (in dollars) you earn from each customer. This helps us calculate your potential lost revenue.</p>
+                  </TooltipContent>
+                </Tooltip>
               </Label>
               <Input
                 id="profit"
@@ -410,16 +404,14 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
             <div className="space-y-3">
               <Label className="text-base flex items-center gap-2">
                 Do you track your website numbers? (Number of visits, inquiries, etc.) *
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                    </TooltipTrigger>
-                    <TooltipContent className="max-w-xs">
-                      <p>Do you know things like how many people visit your site and how many contact you? This helps us give you more accurate recommendations.</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>Do you know things like how many people visit your site and how many contact you? This helps us give you more accurate recommendations.</p>
+                  </TooltipContent>
+                </Tooltip>
               </Label>
               <RadioGroup value={websiteKnowledge} onValueChange={setWebsiteKnowledge}>
                 <div className="flex items-start space-x-3 p-4 rounded-lg border-2 hover:border-primary cursor-pointer transition-colors">
@@ -451,16 +443,14 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
                 <div className="space-y-2">
                   <Label htmlFor="website-visits" className="text-base flex items-center gap-2">
                     How many people visit your website each month? *
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                        </TooltipTrigger>
-                        <TooltipContent className="max-w-xs">
-                          <p>The total number of visits to your website per month. You can find this in Google Analytics or similar tools.</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-xs">
+                        <p>The total number of visits to your website per month. You can find this in Google Analytics or similar tools.</p>
+                      </TooltipContent>
+                    </Tooltip>
                   </Label>
                   <Input
                     id="website-visits"
@@ -476,16 +466,14 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
                 <div className="space-y-2">
                   <Label htmlFor="website-leads" className="text-base flex items-center gap-2">
                     How many people contact you from your website each month? *
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                        </TooltipTrigger>
-                        <TooltipContent className="max-w-xs">
-                          <p>Count all inquiries: form submissions, chat messages, phone calls, or emails from website visitors wanting more information.</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-xs">
+                        <p>Count all inquiries: form submissions, chat messages, phone calls, or emails from website visitors wanting more information.</p>
+                      </TooltipContent>
+                    </Tooltip>
                   </Label>
                   <Input
                     id="website-leads"
@@ -502,16 +490,14 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
                 <div className="space-y-2">
                   <Label htmlFor="close-rate" className="text-base flex items-center gap-2">
                     What percentage of inquiries become paying customers?
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                        </TooltipTrigger>
-                        <TooltipContent className="max-w-xs">
-                          <p>Of all the people who inquire about your service, what percentage actually become customers? For example, if 10 people ask about your service and 3 buy, that's 30%.</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-xs">
+                        <p>Of all the people who inquire about your service, what percentage actually become customers? For example, if 10 people ask about your service and 3 buy, that's 30%.</p>
+                      </TooltipContent>
+                    </Tooltip>
                   </Label>
                   <div className="space-y-4">
                     <Slider
@@ -533,16 +519,14 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
                 <div className="space-y-2">
                   <Label htmlFor="conversion-quality" className="text-base flex items-center gap-2">
                     How well does your website turn visitors into contacts? *
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                        </TooltipTrigger>
-                        <TooltipContent className="max-w-xs">
-                          <p>Of all your website visitors, what percentage actually contact you? High means 5+ out of every 100 visitors reach out.</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-xs">
+                        <p>Of all your website visitors, what percentage actually contact you? High means 5+ out of every 100 visitors reach out.</p>
+                      </TooltipContent>
+                    </Tooltip>
                   </Label>
                   <Select value={visitorLeadConversion} onValueChange={setVisitorLeadConversion} required={showWebsiteQuestions}>
                     <SelectTrigger id="conversion-quality">
@@ -577,16 +561,14 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
             <div className="space-y-2">
               <Label htmlFor="missed-calls" className="text-base flex items-center gap-2">
                 Missed calls per week
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                    </TooltipTrigger>
-                    <TooltipContent className="max-w-xs">
-                      <p>How many phone calls do you typically miss each week because you're busy, closed, or can't answer the phone?</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>How many phone calls do you typically miss each week because you're busy, closed, or can't answer the phone?</p>
+                  </TooltipContent>
+                </Tooltip>
               </Label>
               <div className="space-y-4">
                 <Slider
@@ -608,16 +590,14 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
             <div className="space-y-2">
               <Label htmlFor="followup-speed" className="text-base flex items-center gap-2">
                 How quickly do you respond to new inquiries? *
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                    </TooltipTrigger>
-                    <TooltipContent className="max-w-xs">
-                      <p>When someone reaches out (calls, emails, or fills out a form), how fast do you typically get back to them?</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>When someone reaches out (calls, emails, or fills out a form), how fast do you typically get back to them?</p>
+                  </TooltipContent>
+                </Tooltip>
               </Label>
               <Select value={speedOfFollowup} onValueChange={setSpeedOfFollowup} required>
                 <SelectTrigger id="followup-speed">
@@ -636,16 +616,14 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
             <div className="space-y-2">
               <Label htmlFor="followup-rate" className="text-base flex items-center gap-2">
                 How often do you follow up with everyone who contacts you?
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                    </TooltipTrigger>
-                    <TooltipContent className="max-w-xs">
-                      <p>What percentage of people who reach out actually get a response from you? 100% means everyone gets followed up with.</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>What percentage of people who reach out actually get a response from you? 100% means everyone gets followed up with.</p>
+                  </TooltipContent>
+                </Tooltip>
               </Label>
               <div className="space-y-4">
                 <Slider
@@ -679,16 +657,14 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
             <div className="space-y-2">
               <Label htmlFor="after-hours" className="text-base flex items-center gap-2">
                 How important is it to respond outside business hours? *
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                    </TooltipTrigger>
-                    <TooltipContent className="max-w-xs">
-                      <p>Do you lose potential customers if you can't respond to inquiries in the evenings, weekends, or holidays?</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>Do you lose potential customers if you can't respond to inquiries in the evenings, weekends, or holidays?</p>
+                  </TooltipContent>
+                </Tooltip>
               </Label>
               <Select value={afterHoursImportance} onValueChange={setAfterHoursImportance} required>
                 <SelectTrigger id="after-hours">
