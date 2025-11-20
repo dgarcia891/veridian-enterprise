@@ -11,10 +11,28 @@ interface CustomerSourceSlidersProps {
 
 export const CustomerSourceSliders = ({ value, onChange, totalCustomers, variant }: CustomerSourceSlidersProps) => {
   const [localValue, setLocalValue] = useState(value);
+  
+  // All hooks must be at the top, before any conditional logic
+  const [isDragging, setIsDragging] = useState<"left" | "right" | null>(null);
+  const [leftDivider, setLeftDivider] = useState(value.website);
+  const [rightDivider, setRightDivider] = useState(value.website + value.phone);
 
   useEffect(() => {
     setLocalValue(value);
   }, [value]);
+  
+  useEffect(() => {
+    setLeftDivider(localValue.website);
+    setRightDivider(localValue.website + localValue.phone);
+  }, [localValue]);
+  
+  useEffect(() => {
+    if (isDragging) {
+      const handleMouseUp = () => setIsDragging(null);
+      document.addEventListener("mouseup", handleMouseUp);
+      return () => document.removeEventListener("mouseup", handleMouseUp);
+    }
+  }, [isDragging]);
 
   const calculateCustomerCounts = () => ({
     website: Math.round(totalCustomers * (localValue.website / 100)),
@@ -212,15 +230,6 @@ export const CustomerSourceSliders = ({ value, onChange, totalCustomers, variant
 
   // Option C: Visual Split Bar with Draggable Dividers
   if (variant === "option-c") {
-    const [isDragging, setIsDragging] = useState<"left" | "right" | null>(null);
-    const [leftDivider, setLeftDivider] = useState(localValue.website);
-    const [rightDivider, setRightDivider] = useState(localValue.website + localValue.phone);
-
-    useEffect(() => {
-      setLeftDivider(localValue.website);
-      setRightDivider(localValue.website + localValue.phone);
-    }, [localValue]);
-
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
       if (!isDragging) return;
 
@@ -254,17 +263,6 @@ export const CustomerSourceSliders = ({ value, onChange, totalCustomers, variant
       }
     };
 
-    const handleMouseUp = () => {
-      setIsDragging(null);
-    };
-
-    useEffect(() => {
-      if (isDragging) {
-        document.addEventListener("mouseup", handleMouseUp);
-        return () => document.removeEventListener("mouseup", handleMouseUp);
-      }
-    }, [isDragging]);
-
     return (
       <div className="space-y-4">
         <Label>Drag dividers to adjust split</Label>
@@ -272,7 +270,7 @@ export const CustomerSourceSliders = ({ value, onChange, totalCustomers, variant
         <div 
           className="relative h-16 rounded-lg overflow-hidden cursor-pointer select-none"
           onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseUp}
+          onMouseLeave={() => setIsDragging(null)}
         >
           {/* Website section */}
           <div 
