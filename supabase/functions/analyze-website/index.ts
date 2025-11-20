@@ -1,9 +1,25 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.76.0';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
+
+// Whitelisted IP that bypasses all restrictions
+const WHITELISTED_IP = '45.48.115.3';
+
+// Normalize URL for consistent comparison
+function normalizeUrl(url: string): string {
+  try {
+    const parsed = new URL(url.toLowerCase());
+    // Remove trailing slashes and www prefix
+    let normalized = parsed.hostname.replace(/^www\./, '') + parsed.pathname.replace(/\/$/, '');
+    return normalized;
+  } catch {
+    return url.toLowerCase();
+  }
+}
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -13,6 +29,83 @@ serve(async (req) => {
   try {
     const { websiteUrl, industry } = await req.json();
     console.log('Analyzing website:', websiteUrl);
+
+    // Get client IP address
+    const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || 
+                     req.headers.get('x-real-ip') || 
+                     'unknown';
+    console.log('Client IP:', clientIp);
+
+    // Initialize Supabase client
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    // Apply rate limiting unless IP is whitelisted
+    if (clientIp !== WHITELISTED_IP) {
+      const normalizedUrl = normalizeUrl(websiteUrl);
+      console.log('Normalized URL:', normalizedUrl);
+
+      // Check if this website has already been scanned
+      const { data: existingScans, error: scanCheckError } = await supabase
+        .from('website_scans')
+        .select('id')
+        .eq('website_url', normalizedUrl)
+        .limit(1);
+
+      if (scanCheckError) {
+        console.error('Error checking existing scans:', scanCheckError);
+      } else if (existingScans && existingScans.length > 0) {
+        console.log('Website already scanned:', normalizedUrl);
+        return new Response(
+          JSON.stringify({ 
+            error: "This website has already been scanned. Each website can only be analyzed once." 
+          }),
+          { 
+            status: 429, 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+          }
+        );
+      }
+
+      // Check IP scan count (limit to 2 scans per IP)
+      const { data: ipScans, error: ipCheckError } = await supabase
+        .from('website_scans')
+        .select('id')
+        .eq('ip_address', clientIp);
+
+      if (ipCheckError) {
+        console.error('Error checking IP scans:', ipCheckError);
+      } else if (ipScans && ipScans.length >= 2) {
+        console.log('IP has reached scan limit:', clientIp, 'count:', ipScans.length);
+        return new Response(
+          JSON.stringify({ 
+            error: "You have reached the maximum number of free scans (2 per user). Please contact us for additional scans." 
+          }),
+          { 
+            status: 429, 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+          }
+        );
+      }
+
+      // Record this scan
+      const { error: insertError } = await supabase
+        .from('website_scans')
+        .insert({
+          website_url: normalizedUrl,
+          ip_address: clientIp,
+          scanned_at: new Date().toISOString()
+        });
+
+      if (insertError) {
+        console.error('Error recording scan:', insertError);
+      } else {
+        console.log('Scan recorded for:', normalizedUrl, 'IP:', clientIp);
+      }
+    } else {
+      console.log('Whitelisted IP detected, bypassing rate limits');
+    }
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {

@@ -410,6 +410,30 @@ export type Database = {
         }
         Relationships: []
       }
+      website_scans: {
+        Row: {
+          created_at: string
+          id: string
+          ip_address: string
+          scanned_at: string
+          website_url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          ip_address: string
+          scanned_at?: string
+          website_url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          ip_address?: string
+          scanned_at?: string
+          website_url?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -417,6 +441,7 @@ export type Database = {
     Functions: {
       cleanup_old_error_logs: { Args: never; Returns: undefined }
       cleanup_old_rate_limits: { Args: never; Returns: undefined }
+      cleanup_old_website_scans: { Args: never; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
