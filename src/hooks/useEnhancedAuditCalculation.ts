@@ -10,14 +10,21 @@ export interface EnhancedBusinessMetrics {
   industry: string;
   currentCallMethod: string;
   websiteUrl: string;
-  websiteVisitsPerMonth?: number;
   
-  // Customer source fields
+  // NEW fields for refactored form
+  totalCustomersPerMonth: number;
+  customerSourceSplit: { website: number; phone: number; other: number };
+  websiteKnowledge: "exactly" | "kind-of" | "no-idea";
+  textPreference: number;
+  phonePreference: number;
+  
+  // Customer source fields (calculated from total + split)
   customersFromWebsite: number;
   customersFromPhone: number;
   customersFromOther: number;
   
-  // Lead & conversion fields
+  // Lead & conversion fields (now optional based on websiteKnowledge)
+  websiteVisitsPerMonth?: number;
   monthlyWebsiteLeads: number;
   leadCloseRate: number;
   visitorLeadConversion: string;

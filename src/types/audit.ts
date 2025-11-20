@@ -9,6 +9,15 @@ export interface BusinessMetrics {
   clientsPerMonth: number;
 }
 
+// Enhanced types for new form structure
+export interface EnhancedBusinessMetricsInput {
+  totalCustomersPerMonth: number;
+  customerSourceSplit: { website: number; phone: number; other: number };
+  websiteKnowledge: "exactly" | "kind-of" | "no-idea";
+  textPreference: number;
+  phonePreference: number;
+}
+
 export interface ContactInfo {
   firstName: string;
   lastName: string;
