@@ -268,7 +268,7 @@ export const CustomerSourceSliders = ({ value, onChange, totalCustomers, variant
         <Label>Drag dividers to adjust split</Label>
         
         <div 
-          className="relative h-16 rounded-lg overflow-hidden cursor-pointer select-none"
+          className="relative h-12 rounded-lg overflow-hidden cursor-pointer select-none"
           onMouseMove={handleMouseMove}
           onMouseLeave={() => setIsDragging(null)}
         >
@@ -322,21 +322,6 @@ export const CustomerSourceSliders = ({ value, onChange, totalCustomers, variant
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-6 h-10 bg-white dark:bg-gray-900 rounded-full shadow-lg flex items-center justify-center">
               <div className="w-1 h-6 bg-gray-400 rounded-full" />
             </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-3 gap-2 text-center text-sm">
-          <div className="p-2 rounded bg-blue-50 dark:bg-blue-950">
-            <p className="font-medium text-blue-700 dark:text-blue-300">≈ {counts.website} customers</p>
-            <p className="text-xs text-muted-foreground">from website</p>
-          </div>
-          <div className="p-2 rounded bg-green-50 dark:bg-green-950">
-            <p className="font-medium text-green-700 dark:text-green-300">≈ {counts.phone} customers</p>
-            <p className="text-xs text-muted-foreground">from phone</p>
-          </div>
-          <div className="p-2 rounded bg-purple-50 dark:bg-purple-950">
-            <p className="font-medium text-purple-700 dark:text-purple-300">≈ {counts.other} customers</p>
-            <p className="text-xs text-muted-foreground">from other</p>
           </div>
         </div>
       </div>
