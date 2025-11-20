@@ -28,6 +28,7 @@ export type Database = {
           created_at: string | null
           current_call_method: string
           customer_experience_grade: string | null
+          customer_source_split: Json | null
           daily_loss: number
           email: string
           first_name: string
@@ -48,14 +49,18 @@ export type Database = {
           overall_grade: string | null
           percent_from_website: number | null
           phone: string
+          phone_preference: number | null
           recommended_solutions: string[]
           recovery_calculations: Json | null
           roi_metrics: Json | null
           score_tier: string
           speed_of_followup: string | null
+          text_preference: number | null
+          total_customers_per_month: number | null
           traffic_estimate: number | null
           visitor_lead_conversion: string | null
           website_analysis: Json | null
+          website_knowledge: string | null
           website_url: string | null
           website_visits_per_month: number | null
         }
@@ -72,6 +77,7 @@ export type Database = {
           created_at?: string | null
           current_call_method: string
           customer_experience_grade?: string | null
+          customer_source_split?: Json | null
           daily_loss: number
           email: string
           first_name: string
@@ -92,14 +98,18 @@ export type Database = {
           overall_grade?: string | null
           percent_from_website?: number | null
           phone: string
+          phone_preference?: number | null
           recommended_solutions: string[]
           recovery_calculations?: Json | null
           roi_metrics?: Json | null
           score_tier: string
           speed_of_followup?: string | null
+          text_preference?: number | null
+          total_customers_per_month?: number | null
           traffic_estimate?: number | null
           visitor_lead_conversion?: string | null
           website_analysis?: Json | null
+          website_knowledge?: string | null
           website_url?: string | null
           website_visits_per_month?: number | null
         }
@@ -116,6 +126,7 @@ export type Database = {
           created_at?: string | null
           current_call_method?: string
           customer_experience_grade?: string | null
+          customer_source_split?: Json | null
           daily_loss?: number
           email?: string
           first_name?: string
@@ -136,14 +147,18 @@ export type Database = {
           overall_grade?: string | null
           percent_from_website?: number | null
           phone?: string
+          phone_preference?: number | null
           recommended_solutions?: string[]
           recovery_calculations?: Json | null
           roi_metrics?: Json | null
           score_tier?: string
           speed_of_followup?: string | null
+          text_preference?: number | null
+          total_customers_per_month?: number | null
           traffic_estimate?: number | null
           visitor_lead_conversion?: string | null
           website_analysis?: Json | null
+          website_knowledge?: string | null
           website_url?: string | null
           website_visits_per_month?: number | null
         }
