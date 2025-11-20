@@ -43,6 +43,17 @@ const EnhancedResultsPage = ({ companyName, results, websiteAnalysis }: Enhanced
     }
   };
 
+  const calculateEstimatedValue = (impact: string) => {
+    const totalLostRevenue = results.lostRevenueBreakdown.totalMonthlyLostRevenue;
+    const impactMultiplier = {
+      'high': 0.25,
+      'medium': 0.15,
+      'low': 0.08,
+    };
+    const multiplier = impactMultiplier[impact.toLowerCase() as keyof typeof impactMultiplier] || 0.1;
+    return totalLostRevenue * multiplier;
+  };
+
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
       {/* Hero Summary */}
@@ -237,16 +248,24 @@ const EnhancedResultsPage = ({ companyName, results, websiteAnalysis }: Enhanced
               AI Opportunities Identified
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground italic">
+              The following are only estimates and not a guarantee.
+            </p>
             <Accordion type="single" collapsible className="w-full">
               {websiteAnalysis.opportunities.map((opp: any, index: number) => (
                 <AccordionItem key={index} value={`item-${index}`}>
                   <AccordionTrigger>
-                    <div className="flex items-center gap-3 flex-1">
-                      <Badge className={getImpactColor(opp.impact)}>
-                        {opp.impact}
-                      </Badge>
-                      <span className="font-semibold">{opp.title}</span>
+                    <div className="flex items-center justify-between gap-3 flex-1 pr-4">
+                      <div className="flex items-center gap-3">
+                        <Badge className={getImpactColor(opp.impact)}>
+                          {opp.impact}
+                        </Badge>
+                        <span className="font-semibold">{opp.title}</span>
+                      </div>
+                      <span className="text-sm text-green-500 font-semibold">
+                        {formatCurrency(calculateEstimatedValue(opp.impact))}/mo
+                      </span>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent>
@@ -263,6 +282,9 @@ const EnhancedResultsPage = ({ companyName, results, websiteAnalysis }: Enhanced
                 </AccordionItem>
               ))}
             </Accordion>
+            <p className="text-xs text-muted-foreground italic border-t border-border pt-4">
+              These are estimates given the information provided and industry standards and are not a guarantee of performance or returns.
+            </p>
           </CardContent>
         </Card>
       )}
