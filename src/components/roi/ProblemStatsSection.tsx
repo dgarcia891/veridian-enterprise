@@ -44,16 +44,16 @@ const ProblemStatsSection = ({ isMediumBusiness, setIsMediumBusiness }: ProblemS
   const businessSize = isMediumBusiness ? "Medium" : "Small";
   return <section id="problem" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-foreground mb-4 text-center">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground mb-4 text-center">
           <span className="block">Unlock Massive Growth.</span>
           <span className="block">Book <strong>+220% More Appointments</strong> Now.</span>
         </h2>
         
-        <p className="text-xl text-muted-foreground mb-3 text-center max-w-3xl mx-auto">
+        <p className="text-lg sm:text-xl text-muted-foreground mb-3 text-center max-w-3xl mx-auto">
           <strong>62% of your missed callers</strong> go to a competitor.
         </p>
         
-        <p className="text-xl text-muted-foreground mb-12 text-center max-w-3xl mx-auto">
+        <p className="text-lg sm:text-xl text-muted-foreground mb-12 text-center max-w-3xl mx-auto">
           Our 24/7 Voice AI Receptionist guarantees <strong>100% call answer rate</strong>.
         </p>
         

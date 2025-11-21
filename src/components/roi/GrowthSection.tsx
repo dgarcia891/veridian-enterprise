@@ -41,28 +41,28 @@ const GrowthSection = () => {
   return (
     <section id="growth" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-foreground mb-6 text-center">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground mb-6 text-center">
           From <strong>Saving Money</strong> to <strong>Making Money</strong>
         </h2>
         
-        <p className="text-xl text-muted-foreground mb-3 text-center max-w-3xl mx-auto">
+        <p className="text-lg sm:text-xl text-muted-foreground mb-3 text-center max-w-3xl mx-auto">
           An AI agent isn't just a cost-saver.
         </p>
         
-        <p className="text-xl text-muted-foreground mb-12 text-center max-w-3xl mx-auto">
+        <p className="text-lg sm:text-xl text-muted-foreground mb-12 text-center max-w-3xl mx-auto">
           It's a <strong>growth engine</strong> that converts leads at higher rates.
         </p>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Conversion Chart */}
-          <div className="glass-card p-8 rounded-lg">
-            <h3 className="text-2xl font-bold text-foreground mb-4 text-center">
+          <div className="glass-card p-4 sm:p-6 md:p-8 rounded-lg">
+            <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-4 text-center">
               <strong>Lead Conversion: Before vs. After AI</strong>
             </h3>
-            <p className="text-center text-muted-foreground mb-6">
+            <p className="text-sm sm:text-base text-center text-muted-foreground mb-6">
               Instant follow-up increases conversions.
             </p>
-            <div className="w-full" style={{ height: "300px" }}>
+            <div className="w-full" style={{ height: "250px" }}>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={conversionData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -100,8 +100,8 @@ const GrowthSection = () => {
           {/* Conversion Proof Cards */}
           <div className="space-y-6">
             <div className="flex items-center gap-2 mb-8">
-              <DollarSign className="w-6 h-6 text-primary" />
-              <h3 className="text-2xl font-bold text-foreground">
+              <DollarSign className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+              <h3 className="text-xl sm:text-2xl font-bold text-foreground">
                 <strong>Conversion Proof: How AI Makes You Money</strong>
               </h3>
             </div>
@@ -111,7 +111,7 @@ const GrowthSection = () => {
               return (
                 <div
                   key={index}
-                  className="glass-card p-6 rounded-lg border-l-4 border-primary hover:shadow-lg transition-all duration-200"
+                  className="glass-card p-4 sm:p-6 rounded-lg border-l-4 border-primary hover:shadow-lg transition-all duration-200"
                 >
                   <div className="flex items-start gap-4">
                     <div className="flex-shrink-0">
@@ -121,20 +121,20 @@ const GrowthSection = () => {
                     </div>
                     
                     <div className="flex-1">
-                      <div className="flex items-baseline gap-3 mb-2">
-                        <span className="text-4xl font-extrabold text-primary">
+                      <div className="flex items-baseline gap-2 sm:gap-3 mb-2">
+                        <span className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-primary">
                           <strong>{stat.metric}</strong>
                         </span>
-                        <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                        <span className="text-xs sm:text-sm font-medium text-muted-foreground uppercase tracking-wide">
                           {stat.statLabel}
                         </span>
                       </div>
                       
-                      <h4 className="text-xl font-bold text-foreground mb-2">
+                      <h4 className="text-lg sm:text-xl font-bold text-foreground mb-2">
                         {stat.headline}
                       </h4>
                       
-                      <p className="text-base text-muted-foreground mb-2">
+                      <p className="text-sm sm:text-base text-muted-foreground mb-2">
                         {stat.benefit}
                       </p>
                       

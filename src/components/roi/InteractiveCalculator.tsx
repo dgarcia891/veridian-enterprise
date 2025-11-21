@@ -54,24 +54,24 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
   return (
     <section id="calculator" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16 bg-gradient-to-br from-background to-accent/20">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-foreground mb-6 text-center">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground mb-6 text-center">
           Your Personal <strong>ROI</strong>
         </h2>
         
-        <p className="text-xl text-muted-foreground mb-3 text-center max-w-3xl mx-auto">
+        <p className="text-lg sm:text-xl text-muted-foreground mb-3 text-center max-w-3xl mx-auto">
           Don't guess. <strong>See the real numbers.</strong>
         </p>
         
-        <p className="text-xl text-muted-foreground mb-12 text-center max-w-3xl mx-auto">
+        <p className="text-lg sm:text-xl text-muted-foreground mb-12 text-center max-w-3xl mx-auto">
           A human receptionist costs over <strong>$50,000/year</strong>. AI does more for less.
         </p>
         
         {/* Interactive Calculator */}
-        <div className="glass-card p-8 rounded-lg mb-12">
-          <h3 className="text-2xl font-bold text-foreground mb-2 text-center">
+        <div className="glass-card p-4 sm:p-6 md:p-8 rounded-lg mb-12">
+          <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2 text-center">
             <strong>Interactive Cost Calculator</strong>
           </h3>
-          <p className="text-center text-muted-foreground mb-8">
+          <p className="text-sm sm:text-base text-center text-muted-foreground mb-8">
             Drag the sliders to see your numbers.
           </p>
           
@@ -83,7 +83,7 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
                   <label className="text-sm font-medium text-foreground">
                     Missed Calls Per Week:
                   </label>
-                  <span className="text-2xl font-bold text-primary">
+                  <span className="text-xl sm:text-2xl font-bold text-primary">
                     {missedCalls[0]}
                   </span>
                 </div>
@@ -102,7 +102,7 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
                   <label className="text-sm font-medium text-foreground">
                     Average Profit Per Customer:
                   </label>
-                  <span className="text-2xl font-bold text-primary">
+                  <span className="text-xl sm:text-2xl font-bold text-primary">
                     {formatCurrency(customerValue)}
                   </span>
                 </div>
@@ -118,15 +118,15 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
             </div>
             
             {/* Result Display */}
-            <div className="bg-gradient-to-br from-destructive/10 to-destructive/20 rounded-lg p-8 text-center border-2 border-destructive/40">
-              <DollarSign className="w-12 h-12 text-destructive mx-auto mb-3" />
-              <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
+            <div className="bg-gradient-to-br from-destructive/10 to-destructive/20 rounded-lg p-4 sm:p-6 md:p-8 text-center border-2 border-destructive/40">
+              <DollarSign className="w-10 h-10 sm:w-12 sm:h-12 text-destructive mx-auto mb-3" />
+              <div className="text-xs sm:text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
                 Potential Annual Revenue Lost
               </div>
-              <div className="text-4xl sm:text-6xl font-extrabold text-destructive mb-3">
+              <div className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-destructive mb-3">
                 {formatCurrency(annualLoss)}
               </div>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs sm:text-sm text-muted-foreground">
                 (Based on 85% of missed callers never calling back)
               </p>
             </div>
@@ -136,11 +136,11 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
         {/* Cost Comparison & ROI */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Cost Comparison Chart */}
-          <div className="glass-card p-8 rounded-lg">
-            <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
+          <div className="glass-card p-4 sm:p-6 md:p-8 rounded-lg">
+            <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-6 text-center">
               <strong>Annual Cost: AI vs. Human</strong>
             </h3>
-            <div className="w-full" style={{ height: "300px" }}>
+            <div className="w-full" style={{ height: "250px" }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={costComparisonData}>
                   <XAxis 
@@ -173,14 +173,14 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
           </div>
           
           {/* ROI Card */}
-          <div className="glass-card p-8 rounded-lg flex flex-col justify-center text-center border-t-4 border-primary">
-            <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
+          <div className="glass-card p-4 sm:p-6 md:p-8 rounded-lg flex flex-col justify-center text-center border-t-4 border-primary">
+            <div className="text-xs sm:text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
               <strong>Average 1st Year ROI</strong>
             </div>
-            <div className="text-4xl sm:text-6xl font-extrabold text-primary mb-4">
+            <div className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-primary mb-4">
               <strong>300%+</strong>
             </div>
-            <p className="text-lg text-muted-foreground mb-3">
+            <p className="text-base sm:text-lg text-muted-foreground mb-3">
               AI adopters capture lost leads and cut costs.
             </p>
             <p className="text-lg text-muted-foreground">
