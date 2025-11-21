@@ -49,6 +49,55 @@ const Consultation = () => {
                 title="Schedule Consultation"
               />
             </div>
+
+            <div className="mt-12 grid md:grid-cols-2 gap-8">
+              <div className="bg-card rounded-xl p-6 shadow-md">
+                <h2 className="text-2xl font-bold mb-4 text-foreground">What We'll Cover</h2>
+                <ul className="space-y-3 text-muted-foreground">
+                  <li className="flex items-start gap-3">
+                    <span className="text-primary mt-1">✓</span>
+                    <span>Your current call handling process and pain points</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-primary mt-1">✓</span>
+                    <span>How an AI receptionist would work specifically for your business</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-primary mt-1">✓</span>
+                    <span>Live demo of AI handling customer calls in your industry</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-primary mt-1">✓</span>
+                    <span>Estimated revenue recovery and ROI for your business</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-primary mt-1">✓</span>
+                    <span>Implementation timeline and next steps</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-card rounded-xl p-6 shadow-md">
+                <h2 className="text-2xl font-bold mb-4 text-foreground">Why This Call Matters</h2>
+                <p className="text-muted-foreground mb-4">
+                  This isn't a sales pitch. It's a strategy session focused on understanding your unique business challenges and showing you exactly how AI automation can help.
+                </p>
+                <div className="space-y-3 text-muted-foreground">
+                  <div className="flex items-start gap-3">
+                    <span className="text-primary font-bold">15 min</span>
+                    <span>Quick, focused conversation - no fluff</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-primary font-bold">$0</span>
+                    <span>Completely free, no obligation</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-primary font-bold">Real demos</span>
+                    <span>See actual AI conversations, not just theory</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </main>
         
