@@ -2,12 +2,15 @@ import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import RoofingSimplifiedForm from "@/components/audit/RoofingSimplifiedForm";
 import RoofingQuickResults from "@/components/audit/RoofingQuickResults";
 import BookCallCTA from "@/components/audit/BookCallCTA";
 import RoofingUpsellSection from "@/components/audit/RoofingUpsellSection";
+import QuickAssessmentForm, { QuickAssessmentData } from "@/components/audit/QuickAssessmentForm";
+import DeepDiveInvitation from "@/components/audit/DeepDiveInvitation";
 import EnhancedBusinessMetricsForm from "@/components/audit/EnhancedBusinessMetricsForm";
 import EnhancedResultsPage from "@/components/audit/EnhancedResultsPage";
 import ProcessingScreen from "@/components/audit/ProcessingScreen";
@@ -17,7 +20,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import confetti from "canvas-confetti";
 
-type ViewState = "simplified-form" | "quick-results" | "full-audit" | "processing" | "final-results";
+type ViewState = "simplified-form" | "quick-results" | "quick-assessment" | "deep-dive-invitation" | "deep-dive-form" | "processing" | "final-results";
 
 interface SimplifiedFormData {
   businessName: string;
@@ -34,6 +37,7 @@ interface UtmParams {
 const RoofingAudit = () => {
   const [viewState, setViewState] = useState<ViewState>("simplified-form");
   const [simplifiedData, setSimplifiedData] = useState<SimplifiedFormData | null>(null);
+  const [quickAssessmentData, setQuickAssessmentData] = useState<QuickAssessmentData | null>(null);
   const [calculation, setCalculation] = useState<RoofingCalculation | null>(null);
   const [utmParams, setUtmParams] = useState<UtmParams>({});
   const [submissionId, setSubmissionId] = useState<string | null>(null);
@@ -110,8 +114,83 @@ const RoofingAudit = () => {
   };
 
   const handleUpgradeToFull = () => {
-    setViewState("full-audit");
+    setViewState("quick-assessment");
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleQuickAssessmentSubmit = (data: QuickAssessmentData) => {
+    setQuickAssessmentData(data);
+    setViewState("deep-dive-invitation");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleAcceptDeepDive = () => {
+    setViewState("deep-dive-form");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleDeclineDeepDive = async () => {
+    // Generate report with quick assessment data only
+    setViewState("processing");
+    
+    try {
+      // Use quick assessment data to generate basic report
+      const metrics: Partial<EnhancedBusinessMetrics> = {
+        industry: quickAssessmentData?.industry || "Unknown",
+        websiteUrl: quickAssessmentData?.websiteUrl || "",
+        monthlyWebsiteVisits: 0,
+        monthlyWebsiteLeads: 0,
+        totalCustomersPerMonth: 0,
+        customerSourceSplit: { 
+          website: quickAssessmentData?.communicationPreference || 50, 
+          phone: 100 - (quickAssessmentData?.communicationPreference || 50),
+          other: 0 
+        },
+        customersFromWebsite: 0,
+        customersFromPhone: 0,
+        customersFromOther: 0,
+        textPreference: 100 - (quickAssessmentData?.communicationPreference || 50),
+        phonePreference: quickAssessmentData?.communicationPreference || 50,
+        avgProfitPerCustomer: calculation ? (calculation.avgJobValueLow + calculation.avgJobValueHigh) / 2 : 1000,
+        websiteKnowledge: "no-idea",
+        visitorLeadConversion: quickAssessmentData?.responseTime || "longer",
+        speedOfFollowup: quickAssessmentData?.afterHoursImportance || "moderate",
+        followupCompletionRate: 50,
+        messagingPreferenceRate: 50,
+        afterHoursImportance: quickAssessmentData?.afterHoursImportance || "moderate",
+        missedCallsPerWeek: calculation?.missedCallsPerWeek || 10,
+        currentCallMethod: "unknown",
+      };
+
+      const analysis = { 
+        opportunities: [], 
+        experienceGaps: [], 
+        contentInsights: [], 
+        contactScore: 70, 
+        contentScore: 70 
+      };
+      
+      setWebsiteAnalysis(analysis);
+      const results = getEnhancedAuditResults(metrics as EnhancedBusinessMetrics, analysis);
+      setAuditResults(results);
+
+      toast({ 
+        title: "Report Generated!", 
+        description: "Your AI opportunity report is ready." 
+      });
+      
+      setTimeout(() => {
+        setViewState("final-results");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 3000);
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleEmailOnly = async (email: string) => {
@@ -267,21 +346,63 @@ const RoofingAudit = () => {
               </div>
             )}
 
-            {viewState === "full-audit" && (
-              <div className="max-w-4xl mx-auto">
+            {viewState === "quick-assessment" && simplifiedData && (
+              <div className="animate-fade-in">
                 <button
                   onClick={() => setViewState("quick-results")}
-                  className="mb-6 flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+                  className="mb-6 flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors max-w-3xl mx-auto"
                 >
                   <ArrowLeft className="h-4 w-4" />
                   Back to Quick Results
                 </button>
+                {simplifiedData && calculation && (
+                  <div className="mb-6 max-w-3xl mx-auto">
+                    <Card className="bg-primary/5 border-primary/20">
+                      <CardContent className="p-4">
+                        <p className="text-sm">
+                          Based on your call analysis, we already know <span className="font-semibold">{simplifiedData.businessName}</span> is losing{" "}
+                          <span className="font-bold text-destructive">
+                            ${calculation.monthlyRevenueLostLow.toLocaleString()}-${calculation.monthlyRevenueLostHigh.toLocaleString()}/month
+                          </span>{" "}
+                          in missed calls. Let's find what else you're missing...
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
+                <QuickAssessmentForm 
+                  onSubmit={handleQuickAssessmentSubmit}
+                  prefilledIndustry="Roofing"
+                  businessName={simplifiedData.businessName}
+                />
+              </div>
+            )}
+
+            {viewState === "deep-dive-invitation" && (
+              <div className="animate-fade-in">
+                <DeepDiveInvitation
+                  onAccept={handleAcceptDeepDive}
+                  onDecline={handleDeclineDeepDive}
+                  industry={quickAssessmentData?.industry}
+                />
+              </div>
+            )}
+
+            {viewState === "deep-dive-form" && (
+              <div className="max-w-4xl mx-auto animate-fade-in">
+                <button
+                  onClick={() => setViewState("deep-dive-invitation")}
+                  className="mb-6 flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Back
+                </button>
                 <div className="mb-8 text-center">
                   <h2 className="text-3xl font-bold mb-2">
-                    Great! Let's Get Your Complete Analysis
+                    Almost Done! Help Us Get Even More Specific
                   </h2>
                   <p className="text-muted-foreground">
-                    Just a few more details to generate your comprehensive AI opportunity report
+                    Section 2 of 2 - All questions optional
                   </p>
                 </div>
                 <EnhancedBusinessMetricsForm 
