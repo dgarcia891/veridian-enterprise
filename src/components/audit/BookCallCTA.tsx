@@ -89,14 +89,14 @@ const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: B
 
       {/* Calendar Dialog */}
       <Dialog open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-6xl h-[95vh] overflow-hidden flex flex-col">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">Schedule My Free Strategy Call</DialogTitle>
           </DialogHeader>
-          <div className="mt-4">
+          <div className="flex-1 overflow-hidden">
             <iframe 
               src="https://api.leadconnectorhq.com/widget/booking/keoOUVa8k9FPAFUedUxS" 
-              style={{ width: '100%', border: 'none', overflow: 'hidden', minHeight: '600px' }} 
+              style={{ width: '100%', height: '100%', border: 'none', overflow: 'hidden' }} 
               scrolling="no" 
               id="keoOUVa8k9FPAFUedUxS_1763689889122"
               title="Schedule Strategy Call"
