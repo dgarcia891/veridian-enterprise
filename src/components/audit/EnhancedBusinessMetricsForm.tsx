@@ -3,56 +3,56 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { EnhancedBusinessMetrics } from "@/hooks/useEnhancedAuditCalculation";
-import { CustomerSourceSliders } from "./CustomerSourceSliders";
-import { CommunicationPreferenceSlider } from "./CommunicationPreferenceSlider";
-import { Save, RotateCcw, HelpCircle } from "lucide-react";
+import { Save, HelpCircle, Sparkles } from "lucide-react";
+import { QuickAssessmentData } from "./QuickAssessmentForm";
 
 interface EnhancedBusinessMetricsFormProps {
   onSubmit: (metrics: EnhancedBusinessMetrics) => void;
   onBackgroundAnalysis?: (analysis: any) => void;
+  quickAssessmentData?: QuickAssessmentData;
+  prefilledMissedCalls?: number;
+  prefilledIndustry?: string;
 }
 
 const STORAGE_KEY = 'audit-form-progress';
 const STORAGE_EXPIRY = 24 * 60 * 60 * 1000; // 24 hours
 
-const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: EnhancedBusinessMetricsFormProps) => {
-  // New simplified fields
+const EnhancedBusinessMetricsForm = ({ 
+  onSubmit, 
+  onBackgroundAnalysis,
+  quickAssessmentData,
+  prefilledMissedCalls,
+  prefilledIndustry
+}: EnhancedBusinessMetricsFormProps) => {
+  // Priority fields
+  const [websiteUrl, setWebsiteUrl] = useState(quickAssessmentData?.websiteUrl || "");
   const [totalCustomersPerMonth, setTotalCustomersPerMonth] = useState("");
-  const [customerSourceSplit, setCustomerSourceSplit] = useState({
-    website: 33,
-    phone: 33,
-    other: 34
-  });
-  const sliderVariant = "option-c";
-  const [websiteKnowledge, setWebsiteKnowledge] = useState("");
-  const [textPhonePreference, setTextPhonePreference] = useState(60);
-  const [lastSaved, setLastSaved] = useState<Date | null>(null);
-
-  // Original fields
-  const [missedCallsPerWeek, setMissedCallsPerWeek] = useState(10);
   const [avgProfitPerCustomer, setAvgProfitPerCustomer] = useState("");
-  const [industry, setIndustry] = useState("");
-  const [currentCallMethod, setCurrentCallMethod] = useState("");
-  const [websiteUrl, setWebsiteUrl] = useState("");
-
-  // Conditional website fields
+  
+  // Website analytics
+  const [websiteKnowledge, setWebsiteKnowledge] = useState("");
   const [websiteVisitsPerMonth, setWebsiteVisitsPerMonth] = useState("");
   const [monthlyWebsiteLeads, setMonthlyWebsiteLeads] = useState("");
-  const [leadCloseRate, setLeadCloseRate] = useState(30);
   const [visitorLeadConversion, setVisitorLeadConversion] = useState("");
-
-  // Follow-up fields
-  const [speedOfFollowup, setSpeedOfFollowup] = useState("");
+  
+  // Call handling
+  const [missedCallsPerWeek, setMissedCallsPerWeek] = useState(prefilledMissedCalls || 10);
   const [followupCompletionRate, setFollowupCompletionRate] = useState(70);
-  const [afterHoursImportance, setAfterHoursImportance] = useState("");
+  const [currentCallMethod, setCurrentCallMethod] = useState("");
+  
+  // Customer sources - simplified to buttons
+  const [customerSource, setCustomerSource] = useState<"mostly-website" | "mostly-phone" | "about-even" | "not-sure" | "">("");
+  
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [hasTriggeredBackgroundScan, setHasTriggeredBackgroundScan] = useState(false);
 
   const showWebsiteQuestions = websiteKnowledge === "exactly" || websiteKnowledge === "kind-of";
+  const hasWebsite = quickAssessmentData?.hasWebsite === "yes";
+  const industry = prefilledIndustry || quickAssessmentData?.industry || "";
 
   // Load saved progress on mount
   useEffect(() => {
@@ -61,26 +61,18 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
       try {
         const data = JSON.parse(saved);
         if (Date.now() - data.timestamp < STORAGE_EXPIRY) {
-          // Restore all fields
-          if (data.totalCustomersPerMonth) setTotalCustomersPerMonth(data.totalCustomersPerMonth);
-          if (data.customerSourceSplit) setCustomerSourceSplit(data.customerSourceSplit);
-          
-          if (data.websiteKnowledge) setWebsiteKnowledge(data.websiteKnowledge);
-          if (data.textPhonePreference !== undefined) setTextPhonePreference(data.textPhonePreference);
-          if (data.missedCallsPerWeek !== undefined) setMissedCallsPerWeek(data.missedCallsPerWeek);
-          if (data.avgProfitPerCustomer) setAvgProfitPerCustomer(data.avgProfitPerCustomer);
-          if (data.industry) setIndustry(data.industry);
-          if (data.currentCallMethod) setCurrentCallMethod(data.currentCallMethod);
           if (data.websiteUrl) setWebsiteUrl(data.websiteUrl);
+          if (data.totalCustomersPerMonth) setTotalCustomersPerMonth(data.totalCustomersPerMonth);
+          if (data.avgProfitPerCustomer) setAvgProfitPerCustomer(data.avgProfitPerCustomer);
+          if (data.websiteKnowledge) setWebsiteKnowledge(data.websiteKnowledge);
           if (data.websiteVisitsPerMonth) setWebsiteVisitsPerMonth(data.websiteVisitsPerMonth);
           if (data.monthlyWebsiteLeads) setMonthlyWebsiteLeads(data.monthlyWebsiteLeads);
-          if (data.leadCloseRate !== undefined) setLeadCloseRate(data.leadCloseRate);
           if (data.visitorLeadConversion) setVisitorLeadConversion(data.visitorLeadConversion);
-          if (data.speedOfFollowup) setSpeedOfFollowup(data.speedOfFollowup);
+          if (data.missedCallsPerWeek !== undefined) setMissedCallsPerWeek(data.missedCallsPerWeek);
           if (data.followupCompletionRate !== undefined) setFollowupCompletionRate(data.followupCompletionRate);
-          if (data.afterHoursImportance) setAfterHoursImportance(data.afterHoursImportance);
+          if (data.currentCallMethod) setCurrentCallMethod(data.currentCallMethod);
+          if (data.customerSource) setCustomerSource(data.customerSource);
         } else {
-          // Expired, clear it
           localStorage.removeItem(STORAGE_KEY);
         }
       } catch (error) {
@@ -93,22 +85,17 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
   useEffect(() => {
     const timer = setTimeout(() => {
       const formData = {
-        totalCustomersPerMonth,
-        customerSourceSplit,
-        websiteKnowledge,
-        textPhonePreference,
-        missedCallsPerWeek,
-        avgProfitPerCustomer,
-        industry,
-        currentCallMethod,
         websiteUrl,
+        totalCustomersPerMonth,
+        avgProfitPerCustomer,
+        websiteKnowledge,
         websiteVisitsPerMonth,
         monthlyWebsiteLeads,
-        leadCloseRate,
         visitorLeadConversion,
-        speedOfFollowup,
+        missedCallsPerWeek,
         followupCompletionRate,
-        afterHoursImportance,
+        currentCallMethod,
+        customerSource,
         timestamp: Date.now(),
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
@@ -117,19 +104,12 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
 
     return () => clearTimeout(timer);
   }, [
-    totalCustomersPerMonth, customerSourceSplit, websiteKnowledge, 
-    textPhonePreference, missedCallsPerWeek, avgProfitPerCustomer, industry, 
-    currentCallMethod, websiteUrl, websiteVisitsPerMonth, monthlyWebsiteLeads, 
-    leadCloseRate, visitorLeadConversion, speedOfFollowup, followupCompletionRate, 
-    afterHoursImportance
+    websiteUrl, totalCustomersPerMonth, avgProfitPerCustomer, websiteKnowledge,
+    websiteVisitsPerMonth, monthlyWebsiteLeads, visitorLeadConversion,
+    missedCallsPerWeek, followupCompletionRate, currentCallMethod, customerSource
   ]);
 
-  const clearProgress = () => {
-    localStorage.removeItem(STORAGE_KEY);
-    window.location.reload();
-  };
-
-  // Trigger background website analysis when URL and industry are both filled
+  // Trigger background website analysis when URL is filled
   useEffect(() => {
     const triggerBackgroundAnalysis = async () => {
       if (websiteUrl && industry && !hasTriggeredBackgroundScan && onBackgroundAnalysis) {
@@ -171,19 +151,31 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    const totalCustomers = parseInt(totalCustomersPerMonth);
+    // Convert customer source to percentages
+    const customerSourceSplit = (() => {
+      switch (customerSource) {
+        case "mostly-website": return { website: 70, phone: 20, other: 10 };
+        case "mostly-phone": return { website: 20, phone: 70, other: 10 };
+        case "about-even": return { website: 45, phone: 45, other: 10 };
+        case "not-sure": return { website: 33, phone: 33, other: 34 };
+        default: return { website: 33, phone: 33, other: 34 };
+      }
+    })();
+    
+    const totalCustomers = parseInt(totalCustomersPerMonth) || 0;
     const customersFromWebsite = Math.round(totalCustomers * (customerSourceSplit.website / 100));
     const customersFromPhone = Math.round(totalCustomers * (customerSourceSplit.phone / 100));
     const customersFromOther = Math.round(totalCustomers * (customerSourceSplit.other / 100));
     
-    const textPreference = textPhonePreference;
-    const phonePreference = 100 - textPhonePreference;
+    // Get pre-filled data from quick assessment
+    const textPreference = 100 - (quickAssessmentData?.communicationPreference || 50);
+    const phonePreference = quickAssessmentData?.communicationPreference || 50;
 
     onSubmit({
       // NEW fields
       totalCustomersPerMonth: totalCustomers,
       customerSourceSplit,
-      websiteKnowledge: websiteKnowledge as "exactly" | "kind-of" | "no-idea",
+      websiteKnowledge: websiteKnowledge as "exactly" | "kind-of" | "no-idea" || "no-idea",
       textPreference,
       phonePreference,
       
@@ -195,530 +187,365 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
       
       // Conditional website fields
       monthlyWebsiteVisits: showWebsiteQuestions ? (websiteVisitsPerMonth ? parseInt(websiteVisitsPerMonth) : undefined) : undefined,
-      monthlyWebsiteLeads: showWebsiteQuestions ? parseInt(monthlyWebsiteLeads) : 0,
-      leadCloseRate: showWebsiteQuestions ? leadCloseRate : 30,
-      visitorLeadConversion: showWebsiteQuestions ? visitorLeadConversion : "medium",
+      monthlyWebsiteLeads: showWebsiteQuestions ? (monthlyWebsiteLeads ? parseInt(monthlyWebsiteLeads) : 0) : 0,
+      leadCloseRate: 30, // Default value
+      visitorLeadConversion: showWebsiteQuestions ? (visitorLeadConversion || "medium") : "medium",
       
       // Other fields
       missedCallsPerWeek,
-      avgProfitPerCustomer: parseFloat(avgProfitPerCustomer),
+      avgProfitPerCustomer: parseFloat(avgProfitPerCustomer) || 0,
       industry,
-      currentCallMethod,
+      currentCallMethod: currentCallMethod || "Unknown",
       websiteUrl: normalizeUrl(websiteUrl),
-      speedOfFollowup,
+      speedOfFollowup: quickAssessmentData?.responseTime || "24hrs",
       followupCompletionRate,
-      afterHoursImportance,
+      afterHoursImportance: quickAssessmentData?.afterHoursImportance || "moderate",
     });
     
     // Clear saved progress after successful submit
     localStorage.removeItem(STORAGE_KEY);
   };
 
-  const isValid = 
-    totalCustomersPerMonth && 
-    customerSourceSplit.website + customerSourceSplit.phone + customerSourceSplit.other === 100 &&
-    avgProfitPerCustomer && 
-    industry && 
-    currentCallMethod && 
-    websiteUrl && 
-    websiteKnowledge && 
-    (!showWebsiteQuestions || (monthlyWebsiteLeads && visitorLeadConversion)) &&
-    speedOfFollowup && 
-    afterHoursImportance;
-
-  const totalCustomers = parseInt(totalCustomersPerMonth) || 0;
-  const completionPercent = Math.round(
-    ([
-      totalCustomersPerMonth,
-      avgProfitPerCustomer,
-      websiteKnowledge,
-      industry,
-      currentCallMethod,
-      websiteUrl,
-      speedOfFollowup,
-      afterHoursImportance,
-      !showWebsiteQuestions || (monthlyWebsiteLeads && visitorLeadConversion),
-    ].filter(Boolean).length / 9) * 100
-  );
-
   return (
     <TooltipProvider>
       <Card className="glass-card">
-      <CardHeader className="text-center">
-        <CardTitle className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-          AI Website ROI Audit
-        </CardTitle>
-        <CardDescription className="text-lg mt-2">
-          Discover your AI opportunity in under 3 minutes
-        </CardDescription>
+        <CardHeader className="text-center space-y-3">
+          <CardTitle className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            Almost Done! These Details Will Make Your Report Even More Accurate
+          </CardTitle>
+          <CardDescription className="text-base">
+            All questions optional - we'll estimate anything you skip
+          </CardDescription>
+          
+          {lastSaved && (
+            <div className="flex items-center justify-center gap-2 mt-2 text-xs text-muted-foreground">
+              <Save className="w-3 h-3" />
+              <span>Progress saved {lastSaved.toLocaleTimeString()}</span>
+            </div>
+          )}
+          
+          <div className="flex items-center justify-center gap-2 text-sm font-medium text-primary">
+            <Sparkles className="w-4 h-4" />
+            <span>Final Section - Skip any you don't know</span>
+          </div>
+        </CardHeader>
         
-        {lastSaved && (
-          <div className="flex items-center justify-center gap-2 mt-2 text-xs text-muted-foreground">
-            <Save className="w-3 h-3" />
-            <span>Progress saved {lastSaved.toLocaleTimeString()}</span>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={clearProgress}
-              className="h-6 px-2 text-xs"
-            >
-              <RotateCcw className="w-3 h-3 mr-1" />
-              Clear
-            </Button>
-          </div>
-        )}
-      </CardHeader>
-      
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-8">
-          {/* Section 1: Business Overview */}
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold flex items-center gap-2">
-              📊 Business Overview
-            </h3>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {/* Section 1: Revenue & Scale */}
+            <div className="space-y-6">
+              <h3 className="text-xl font-semibold flex items-center gap-2">
+                📊 Revenue & Scale
+              </h3>
 
-            <div className="space-y-2">
-              <Label htmlFor="website" className="text-base">
-                Your website URL *
-              </Label>
-              <Input
-                id="website"
-                type="text"
-                placeholder="yourwebsite.com"
-                value={websiteUrl}
-                onChange={(e) => setWebsiteUrl(e.target.value)}
-                required
-              />
-              <p className="text-sm text-muted-foreground">
-                We'll analyze your website to provide personalized AI recommendations
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="total-customers" className="text-base flex items-center gap-2">
-                How many new customers do you get each month? *
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
-                    <p>This includes all new paying customers who sign up or purchase from your business each month, regardless of how they found you.</p>
-                  </TooltipContent>
-                </Tooltip>
-              </Label>
-              <Input
-                id="total-customers"
-                type="number"
-                placeholder="e.g., 30"
-                value={totalCustomersPerMonth}
-                onChange={(e) => setTotalCustomersPerMonth(e.target.value)}
-                min="0"
-                step="1"
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-base flex items-center gap-2">
-                Where do your customers come from?
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
-                    <p>Estimate what percentage of your customers find you through your website, phone calls, or other sources (referrals, walk-ins, social media, etc.)</p>
-                  </TooltipContent>
-                </Tooltip>
-              </Label>
-              <CustomerSourceSliders
-                value={customerSourceSplit}
-                onChange={setCustomerSourceSplit}
-                totalCustomers={totalCustomers}
-                variant={sliderVariant}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="profit" className="text-base flex items-center gap-2">
-                What's the average you make per customer? *
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
-                    <p>The average total revenue (in dollars) you earn from each customer. This helps us calculate your potential lost revenue.</p>
-                  </TooltipContent>
-                </Tooltip>
-              </Label>
-              <Input
-                id="profit"
-                type="number"
-                placeholder="e.g., 2500"
-                value={avgProfitPerCustomer}
-                onChange={(e) => setAvgProfitPerCustomer(e.target.value)}
-                min="0"
-                step="0.01"
-                required
-              />
-            </div>
-          </div>
-
-          {/* Section 2: Website Performance */}
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold flex items-center gap-2">
-              🌐 Website Performance
-            </h3>
-
-            <div className="space-y-3">
-              <Label className="text-base flex items-center gap-2">
-                Do you track your website numbers? (Number of visits, inquiries, etc.) *
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
-                    <p>Do you know things like how many people visit your site and how many contact you? This helps us give you more accurate recommendations.</p>
-                  </TooltipContent>
-                </Tooltip>
-              </Label>
-              <RadioGroup value={websiteKnowledge} onValueChange={setWebsiteKnowledge}>
-                <div className="flex items-start space-x-3 p-4 rounded-lg border-2 hover:border-primary cursor-pointer transition-colors">
-                  <RadioGroupItem value="exactly" id="exactly" className="mt-1" />
-                  <Label htmlFor="exactly" className="flex-1 cursor-pointer">
-                    <p className="font-medium">I know exactly</p>
-                    <p className="text-sm text-muted-foreground">I have analytics data</p>
-                  </Label>
-                </div>
-                <div className="flex items-start space-x-3 p-4 rounded-lg border-2 hover:border-primary cursor-pointer transition-colors">
-                  <RadioGroupItem value="kind-of" id="kind-of" className="mt-1" />
-                  <Label htmlFor="kind-of" className="flex-1 cursor-pointer">
-                    <p className="font-medium">I know kind of</p>
-                    <p className="text-sm text-muted-foreground">I have rough estimates</p>
-                  </Label>
-                </div>
-                <div className="flex items-start space-x-3 p-4 rounded-lg border-2 hover:border-primary cursor-pointer transition-colors">
-                  <RadioGroupItem value="no-idea" id="no-idea" className="mt-1" />
-                  <Label htmlFor="no-idea" className="flex-1 cursor-pointer">
-                    <p className="font-medium">I have no idea</p>
-                    <p className="text-sm text-muted-foreground">Skip these questions</p>
-                  </Label>
-                </div>
-              </RadioGroup>
-            </div>
-
-            {showWebsiteQuestions && (
-              <div className="space-y-4 animate-fade-in pl-4 border-l-2 border-primary">
+              {hasWebsite && (
                 <div className="space-y-2">
-                  <Label htmlFor="website-visits" className="text-base flex items-center gap-2">
-                    How many people visit your website each month? *
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                      </TooltipTrigger>
-                      <TooltipContent className="max-w-xs">
-                        <p>The total number of visits to your website per month. You can find this in Google Analytics or similar tools.</p>
-                      </TooltipContent>
-                    </Tooltip>
+                  <Label htmlFor="website" className="text-base">
+                    Website URL
                   </Label>
                   <Input
-                    id="website-visits"
-                    type="number"
-                    placeholder="e.g., 1000"
-                    value={websiteVisitsPerMonth}
-                    onChange={(e) => setWebsiteVisitsPerMonth(e.target.value)}
-                    min="0"
-                    step="1"
+                    id="website"
+                    type="text"
+                    placeholder="yourwebsite.com"
+                    value={websiteUrl}
+                    onChange={(e) => setWebsiteUrl(e.target.value)}
                   />
+                  <p className="text-sm text-muted-foreground">
+                    So we can find AI opportunities specific to your site
+                  </p>
                 </div>
+              )}
 
-                <div className="space-y-2">
-                  <Label htmlFor="website-leads" className="text-base flex items-center gap-2">
-                    How many people contact you from your website each month? *
+              <div className="space-y-2">
+                <Label htmlFor="total-customers" className="text-base flex items-center gap-2">
+                  New customers per month
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-xs">
+                      <p>Your best guess is fine - helps us calculate ROI</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </Label>
+                <Input
+                  id="total-customers"
+                  type="number"
+                  placeholder="e.g., 30"
+                  value={totalCustomersPerMonth}
+                  onChange={(e) => setTotalCustomersPerMonth(e.target.value)}
+                  min="0"
+                  step="1"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="profit" className="text-base flex items-center gap-2">
+                  Average revenue per customer
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-xs">
+                      <p>Helps us calculate your ROI - or skip if you prefer</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </Label>
+                <Input
+                  id="profit"
+                  type="number"
+                  placeholder="e.g., 2500"
+                  value={avgProfitPerCustomer}
+                  onChange={(e) => setAvgProfitPerCustomer(e.target.value)}
+                  min="0"
+                  step="0.01"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-base flex items-center gap-2">
+                  Where do customers come from?
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-xs">
+                      <p>Your best estimate - helps us prioritize recommendations</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </Label>
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { value: "mostly-website" as const, label: "Mostly Website", icon: "🌐" },
+                    { value: "mostly-phone" as const, label: "Mostly Phone", icon: "📞" },
+                    { value: "about-even" as const, label: "About Even", icon: "⚖️" },
+                    { value: "not-sure" as const, label: "Not Sure", icon: "🤷" },
+                  ].map((option) => (
+                    <Button
+                      key={option.value}
+                      type="button"
+                      variant={customerSource === option.value ? "default" : "outline"}
+                      className="h-auto py-4 flex flex-col items-center gap-2"
+                      onClick={() => setCustomerSource(option.value)}
+                    >
+                      <span className="text-2xl">{option.icon}</span>
+                      <span className="text-sm">{option.label}</span>
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center text-sm text-muted-foreground py-2">
+              <Sparkles className="w-4 h-4 inline mr-2" />
+              Great! Almost there...
+            </div>
+
+            {/* Section 2: Website Analytics */}
+            {hasWebsite && (
+              <div className="space-y-6">
+                <h3 className="text-xl font-semibold flex items-center gap-2">
+                  🌐 Website Analytics
+                </h3>
+
+                <div className="space-y-3">
+                  <Label className="text-base flex items-center gap-2">
+                    Do you track website numbers?
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
                       </TooltipTrigger>
                       <TooltipContent className="max-w-xs">
-                        <p>Count all inquiries: form submissions, chat messages, phone calls, or emails from website visitors wanting more information.</p>
+                        <p>Helps us give more accurate recommendations</p>
                       </TooltipContent>
                     </Tooltip>
                   </Label>
-                  <Input
-                    id="website-leads"
-                    type="number"
-                    placeholder="e.g., 50"
-                    value={monthlyWebsiteLeads}
-                    onChange={(e) => setMonthlyWebsiteLeads(e.target.value)}
-                    min="0"
-                    step="1"
-                    required={showWebsiteQuestions}
-                  />
+                  <RadioGroup value={websiteKnowledge} onValueChange={setWebsiteKnowledge}>
+                    <div className="flex items-start space-x-3 p-4 rounded-lg border-2 hover:border-primary cursor-pointer transition-colors">
+                      <RadioGroupItem value="exactly" id="exactly" className="mt-1" />
+                      <Label htmlFor="exactly" className="flex-1 cursor-pointer">
+                        <p className="font-medium">I know exactly</p>
+                        <p className="text-sm text-muted-foreground">I have analytics data</p>
+                      </Label>
+                    </div>
+                    <div className="flex items-start space-x-3 p-4 rounded-lg border-2 hover:border-primary cursor-pointer transition-colors">
+                      <RadioGroupItem value="kind-of" id="kind-of" className="mt-1" />
+                      <Label htmlFor="kind-of" className="flex-1 cursor-pointer">
+                        <p className="font-medium">I know kind of</p>
+                        <p className="text-sm text-muted-foreground">I have rough estimates</p>
+                      </Label>
+                    </div>
+                    <div className="flex items-start space-x-3 p-4 rounded-lg border-2 hover:border-primary cursor-pointer transition-colors">
+                      <RadioGroupItem value="no-idea" id="no-idea" className="mt-1" />
+                      <Label htmlFor="no-idea" className="flex-1 cursor-pointer">
+                        <p className="font-medium">I have no idea</p>
+                        <p className="text-sm text-muted-foreground">Skip these questions</p>
+                      </Label>
+                    </div>
+                  </RadioGroup>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="close-rate" className="text-base flex items-center gap-2">
-                    What percentage of inquiries become paying customers?
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                      </TooltipTrigger>
-                      <TooltipContent className="max-w-xs">
-                        <p>Of all the people who inquire about your service, what percentage actually become customers? For example, if 10 people ask about your service and 3 buy, that's 30%.</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </Label>
-                  <div className="space-y-4">
-                    <Slider
-                      id="close-rate"
-                      value={[leadCloseRate]}
-                      onValueChange={(value) => setLeadCloseRate(value[0])}
-                      min={0}
-                      max={100}
-                      step={1}
-                      className="w-full"
-                    />
-                    <div className="text-center">
-                      <span className="text-2xl font-bold text-primary">{leadCloseRate}%</span>
-                      <p className="text-sm text-muted-foreground">You convert {leadCloseRate}% of inquiries into customers</p>
+                {showWebsiteQuestions && (
+                  <div className="space-y-4 animate-fade-in pl-4 border-l-2 border-primary">
+                    <div className="space-y-2">
+                      <Label htmlFor="website-visits" className="text-base">
+                        Monthly website visitors
+                      </Label>
+                      <Input
+                        id="website-visits"
+                        type="number"
+                        placeholder="e.g., 1000"
+                        value={websiteVisitsPerMonth}
+                        onChange={(e) => setWebsiteVisitsPerMonth(e.target.value)}
+                        min="0"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="website-leads" className="text-base">
+                        Monthly inquiries from website
+                      </Label>
+                      <Input
+                        id="website-leads"
+                        type="number"
+                        placeholder="e.g., 50"
+                        value={monthlyWebsiteLeads}
+                        onChange={(e) => setMonthlyWebsiteLeads(e.target.value)}
+                        min="0"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-base">
+                        How well does your website convert visitors?
+                      </Label>
+                      <RadioGroup value={visitorLeadConversion} onValueChange={setVisitorLeadConversion}>
+                        <div className="space-y-2">
+                          {[
+                            { value: "high", label: "High", desc: "Most visitors contact us" },
+                            { value: "medium", label: "Medium", desc: "Some contact us" },
+                            { value: "low", label: "Low", desc: "Few contact us" },
+                            { value: "very-low", label: "Very Low", desc: "Almost none contact us" },
+                          ].map((option) => (
+                            <div key={option.value} className="flex items-start space-x-3 p-3 rounded-lg border-2 hover:border-primary cursor-pointer transition-colors">
+                              <RadioGroupItem value={option.value} id={`conv-${option.value}`} className="mt-1" />
+                              <Label htmlFor={`conv-${option.value}`} className="flex-1 cursor-pointer">
+                                <p className="font-medium">{option.label}</p>
+                                <p className="text-sm text-muted-foreground">{option.desc}</p>
+                              </Label>
+                            </div>
+                          ))}
+                        </div>
+                      </RadioGroup>
                     </div>
                   </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="conversion-quality" className="text-base flex items-center gap-2">
-                    How well does your website turn visitors into contacts? *
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                      </TooltipTrigger>
-                      <TooltipContent className="max-w-xs">
-                        <p>Of all your website visitors, what percentage actually contact you? High means 5+ out of every 100 visitors reach out.</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </Label>
-                  <Select value={visitorLeadConversion} onValueChange={setVisitorLeadConversion} required={showWebsiteQuestions}>
-                    <SelectTrigger id="conversion-quality">
-                      <SelectValue placeholder="Select how well your website converts" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="high">High (5+ out of 100 visitors contact you)</SelectItem>
-                      <SelectItem value="medium">Medium (2-5 out of 100 contact you)</SelectItem>
-                      <SelectItem value="low">Low (1-2 out of 100 contact you)</SelectItem>
-                      <SelectItem value="very-low">Very Low (less than 1 out of 100)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                )}
               </div>
             )}
 
-            {websiteKnowledge === "no-idea" && (
-              <div className="p-4 rounded-lg bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 animate-fade-in">
-                <p className="text-sm text-green-700 dark:text-green-300">
-                  ✓ No problem! We'll estimate based on industry standards.
-                </p>
-              </div>
-            )}
-          </div>
+            {/* Section 3: Call Handling Details */}
+            <div className="space-y-6">
+              <h3 className="text-xl font-semibold flex items-center gap-2">
+                ⚡ Call Handling Details
+              </h3>
 
-          {/* Section 3: Response & Follow-up */}
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold flex items-center gap-2">
-              ⚡ Response & Follow-up
-            </h3>
-
-            <div className="space-y-2">
-              <Label htmlFor="missed-calls" className="text-base flex items-center gap-2">
-                Missed calls per week
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
-                    <p>How many phone calls do you typically miss each week because you're busy, closed, or can't answer the phone?</p>
-                  </TooltipContent>
-                </Tooltip>
-              </Label>
-              <div className="space-y-4">
-                <Slider
+              <div className="space-y-2">
+                <Label htmlFor="missed-calls" className="text-base flex items-center gap-2">
+                  Missed calls per week
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-xs">
+                      <p>Your best guess is fine</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </Label>
+                <Input
                   id="missed-calls"
-                  value={[missedCallsPerWeek]}
-                  onValueChange={(value) => setMissedCallsPerWeek(value[0])}
-                  min={0}
-                  max={50}
-                  step={1}
-                  className="w-full"
+                  type="number"
+                  placeholder="e.g., 10"
+                  value={missedCallsPerWeek}
+                  onChange={(e) => setMissedCallsPerWeek(parseInt(e.target.value) || 0)}
+                  min="0"
                 />
-                <div className="text-center">
-                  <span className="text-2xl font-bold text-primary">{missedCallsPerWeek}</span>
-                  <span className="text-muted-foreground ml-2">calls/week</span>
+                {prefilledMissedCalls && (
+                  <p className="text-sm text-muted-foreground">
+                    Based on your earlier answer, we estimate ~{prefilledMissedCalls} calls/week. Adjust if needed.
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-base">
+                  Follow-up completion rate
+                </Label>
+                <p className="text-sm text-muted-foreground">Your best guess is fine</p>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between text-sm font-medium px-1">
+                    <span>Never</span>
+                    <span className="text-primary font-bold">{followupCompletionRate}%</span>
+                    <span>Always</span>
+                  </div>
+                  <Slider
+                    value={[followupCompletionRate]}
+                    onValueChange={(value) => setFollowupCompletionRate(value[0])}
+                    max={100}
+                    step={5}
+                    className="py-4"
+                  />
                 </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-base">
+                  How do you currently handle calls?
+                </Label>
+                <RadioGroup value={currentCallMethod} onValueChange={setCurrentCallMethod}>
+                  <div className="space-y-2">
+                    {[
+                      { value: "Owner", label: "I answer everything myself" },
+                      { value: "Staff", label: "Staff answers calls" },
+                      { value: "Answering Service", label: "Answering service" },
+                      { value: "Voicemail", label: "Voicemail only" },
+                      { value: "Other", label: "Other / Mixed" },
+                    ].map((option) => (
+                      <div key={option.value} className="flex items-center space-x-3 p-3 rounded-lg border-2 hover:border-primary cursor-pointer transition-colors">
+                        <RadioGroupItem value={option.value} id={`method-${option.value}`} />
+                        <Label htmlFor={`method-${option.value}`} className="flex-1 cursor-pointer">
+                          {option.label}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                </RadioGroup>
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="followup-speed" className="text-base flex items-center gap-2">
-                How quickly do you respond to new inquiries? *
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
-                    <p>When someone reaches out (calls, emails, or fills out a form), how fast do you typically get back to them?</p>
-                  </TooltipContent>
-                </Tooltip>
-              </Label>
-              <Select value={speedOfFollowup} onValueChange={setSpeedOfFollowup} required>
-                <SelectTrigger id="followup-speed">
-                  <SelectValue placeholder="Select your typical response time" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="within-5min">Within 5 minutes</SelectItem>
-                  <SelectItem value="within-1hr">Within 1 hour</SelectItem>
-                  <SelectItem value="within-4hrs">Within 4 hours</SelectItem>
-                  <SelectItem value="within-24hrs">Within 24 hours</SelectItem>
-                  <SelectItem value="slower">Slower than 24 hours</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            {/* Submit Button */}
+            <div className="pt-6 space-y-4">
+              <div className="text-center text-sm text-muted-foreground mb-4">
+                <Sparkles className="w-4 h-4 inline mr-2" />
+                You're about to see exactly how much revenue AI could recover
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="followup-rate" className="text-base flex items-center gap-2">
-                How often do you follow up with everyone who contacts you?
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
-                    <p>What percentage of people who reach out actually get a response from you? 100% means everyone gets followed up with.</p>
-                  </TooltipContent>
-                </Tooltip>
-              </Label>
-              <div className="space-y-4">
-                <Slider
-                  id="followup-rate"
-                  value={[followupCompletionRate]}
-                  onValueChange={(value) => setFollowupCompletionRate(value[0])}
-                  min={0}
-                  max={100}
-                  step={1}
-                  className="w-full"
-                />
-                <div className="text-center">
-                  <span className="text-2xl font-bold text-primary">{followupCompletionRate}%</span>
-                  <p className="text-sm text-muted-foreground">You respond to {followupCompletionRate}% of all inquiries</p>
-                </div>
+              <Button 
+                type="submit" 
+                size="lg"
+                className="w-full text-lg h-14 font-semibold"
+              >
+                Generate My Complete AI Report
+              </Button>
+              
+              <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
+                <span>✓ Instant results</span>
+                <span>✓ No credit card</span>
+                <span>✓ 100% free</span>
               </div>
             </div>
-          </div>
-
-          {/* Section 4: Customer Preferences */}
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold flex items-center gap-2">
-              💬 Customer Preferences
-            </h3>
-
-            <CommunicationPreferenceSlider
-              value={textPhonePreference}
-              onChange={setTextPhonePreference}
-            />
-
-            <div className="space-y-2">
-              <Label htmlFor="after-hours" className="text-base flex items-center gap-2">
-                How important is it to respond outside business hours? *
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
-                    <p>Do you lose potential customers if you can't respond to inquiries in the evenings, weekends, or holidays?</p>
-                  </TooltipContent>
-                </Tooltip>
-              </Label>
-              <Select value={afterHoursImportance} onValueChange={setAfterHoursImportance} required>
-                <SelectTrigger id="after-hours">
-                  <SelectValue placeholder="How much does this matter?" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="critical">Critical - I lose many potential customers</SelectItem>
-                  <SelectItem value="important">Important - I lose some potential customers</SelectItem>
-                  <SelectItem value="moderate">Moderate - It matters but not a deal-breaker</SelectItem>
-                  <SelectItem value="minimal">Minimal - Most customers can wait</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {/* Section 5: Company Details */}
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold flex items-center gap-2">
-              🏢 Company Details
-            </h3>
-
-            <div className="space-y-2">
-              <Label htmlFor="industry" className="text-base">
-                Industry *
-              </Label>
-              <Select value={industry} onValueChange={setIndustry} required>
-                <SelectTrigger id="industry">
-                  <SelectValue placeholder="Select your industry" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="construction">Construction</SelectItem>
-                  <SelectItem value="home-services">Home Services</SelectItem>
-                  <SelectItem value="medical">Medical/Healthcare</SelectItem>
-                  <SelectItem value="legal">Legal Services</SelectItem>
-                  <SelectItem value="real-estate">Real Estate</SelectItem>
-                  <SelectItem value="restaurants">Restaurants</SelectItem>
-                  <SelectItem value="retail">Retail</SelectItem>
-                  <SelectItem value="professional-services">Professional Services</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="call-method" className="text-base">
-                How do you currently handle calls? *
-              </Label>
-              <Select value={currentCallMethod} onValueChange={setCurrentCallMethod} required>
-                <SelectTrigger id="call-method">
-                  <SelectValue placeholder="Select your method" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="answer-myself">Answer all calls myself</SelectItem>
-                  <SelectItem value="receptionist">Have a receptionist</SelectItem>
-                  <SelectItem value="voicemail">Voicemail only</SelectItem>
-                  <SelectItem value="mix">Mix of methods</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {/* Progress indicator */}
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Form completion</span>
-              <span className="font-medium text-primary">{completionPercent}%</span>
-            </div>
-            <div className="h-2 rounded-full bg-secondary overflow-hidden">
-              <div 
-                className="h-full bg-primary transition-all duration-300"
-                style={{ width: `${completionPercent}%` }}
-              />
-            </div>
-          </div>
-
-          <Button 
-            type="submit" 
-            size="lg" 
-            className="w-full"
-            disabled={!isValid}
-          >
-            Continue to Results
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+          </form>
+        </CardContent>
+      </Card>
     </TooltipProvider>
   );
 };
