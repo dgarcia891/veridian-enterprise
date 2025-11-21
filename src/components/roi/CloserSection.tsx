@@ -88,11 +88,12 @@ const CloserSection = ({ isMediumBusiness }: CloserSectionProps) => {
           <div className="mb-8">
             <Button 
               onClick={handleCTAClick}
-              size="lg"
-              className="bg-primary text-primary-foreground rounded-full px-12 py-7 text-xl font-bold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group shadow-lg"
+              size="default"
+              className="bg-primary text-primary-foreground rounded-full px-6 sm:px-10 md:px-12 py-4 sm:py-6 md:py-7 text-base sm:text-lg md:text-xl font-bold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group shadow-lg w-full sm:w-auto"
             >
-              Book My Free AI Audit
-              <ArrowRight size={24} className="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
+              <span className="hidden sm:inline">Book My Free AI Audit</span>
+              <span className="sm:hidden">Book Free Audit</span>
+              <ArrowRight size={20} className="sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform duration-200 flex-shrink-0" aria-hidden="true" />
             </Button>
           </div>
 
