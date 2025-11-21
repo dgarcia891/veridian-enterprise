@@ -16,8 +16,8 @@ import { Calculator, DollarSign, Phone, TrendingUp, Mail, Video, Calendar, Check
 import { industries } from "@/data/industries";
 
 const formSchema = z.object({
-  averageCallValue: z.number().min(1, "Average call value must be at least $1").max(100000, "Please enter a realistic value"),
-  missedCallsPerWeek: z.number().min(0, "Cannot be negative").max(250, "Please enter a realistic number"),
+  averageCallValue: z.coerce.number().min(1, "Average call value must be at least $1").max(100000, "Please enter a realistic value"),
+  missedCallsPerWeek: z.coerce.number().min(1, "Must be at least 1").max(250, "Please enter a realistic number"),
   businessType: z.string().min(1, "Please select a business type"),
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
   email: z.string().trim().email("Invalid email address").max(255, "Email must be less than 255 characters"),
@@ -41,22 +41,18 @@ const LostRevenueCalculator = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const { toast } = useToast();
 
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    mode: "onChange",
+  });
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
     setValue,
-  } = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      averageCallValue: 0,
-      missedCallsPerWeek: 0,
-      businessType: "",
-      name: "",
-      email: "",
-    },
-  });
+  } = form;
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -168,7 +164,7 @@ const LostRevenueCalculator = () => {
                       <Input
                         id="averageCallValue"
                         type="number"
-                        {...register("averageCallValue", { valueAsNumber: true })}
+                        {...register("averageCallValue")}
                         placeholder="250"
                         className="bg-background"
                         min="1"
@@ -184,10 +180,10 @@ const LostRevenueCalculator = () => {
                       <Input
                         id="missedCallsPerWeek"
                         type="number"
-                        {...register("missedCallsPerWeek", { valueAsNumber: true })}
+                        {...register("missedCallsPerWeek")}
                         placeholder="15"
                         className="bg-background"
-                        min="0"
+                        min="1"
                         step="1"
                       />
                       {errors.missedCallsPerWeek && (
