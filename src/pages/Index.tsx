@@ -102,9 +102,11 @@ const Index = () => {
             </button>
             <Button 
               onClick={() => navigate("/signup")}
-              size="lg"
+              size="sm"
+              className="md:px-6 md:py-2 md:text-base"
             >
-              Get 100% Lead Capture Now
+              <span className="hidden sm:inline">Get 100% Lead Capture Now</span>
+              <span className="sm:hidden">Get Started</span>
             </Button>
           </div>
         </nav>
