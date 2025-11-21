@@ -39,13 +39,13 @@ const CloserSection = ({ isMediumBusiness }: CloserSectionProps) => {
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary/10 via-background to-primary/5">
       <div className="max-w-5xl mx-auto">
-        <div className="glass-card rounded-3xl p-8 sm:p-12 text-center">
+        <div className="glass-card rounded-3xl p-4 sm:p-8 md:p-12 text-center">
           {/* Headline */}
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6 text-foreground">
             Can You Afford to <strong>Miss Another Call?</strong>
           </h2>
           
-          <p className="text-xl sm:text-2xl text-muted-foreground mb-3">
+          <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-3">
             Stop losing <strong>
               <a 
                 href="#calculator"
@@ -60,7 +60,7 @@ const CloserSection = ({ isMediumBusiness }: CloserSectionProps) => {
             </strong>.
           </p>
           
-          <p className="text-xl sm:text-2xl text-muted-foreground mb-12">
+          <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-12">
             Start converting <strong>100% of your calls</strong>.
           </p>
 
