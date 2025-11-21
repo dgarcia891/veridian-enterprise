@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import RoofingSimplifiedForm from "@/components/audit/RoofingSimplifiedForm";
@@ -261,6 +262,13 @@ const RoofingAudit = () => {
 
             {viewState === "full-audit" && (
               <div className="max-w-4xl mx-auto">
+                <button
+                  onClick={() => setViewState("quick-results")}
+                  className="mb-6 flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to Quick Results
+                </button>
                 <div className="mb-8 text-center">
                   <h2 className="text-3xl font-bold mb-2">
                     Great! Let's Get Your Complete Analysis
