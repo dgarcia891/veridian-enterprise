@@ -168,7 +168,7 @@ const LostRevenueCalculator = () => {
                       <Input
                         id="averageCallValue"
                         type="number"
-                        {...register("averageCallValue")}
+                        {...register("averageCallValue", { valueAsNumber: true })}
                         placeholder="250"
                         className="bg-background"
                         min="1"
@@ -184,7 +184,7 @@ const LostRevenueCalculator = () => {
                       <Input
                         id="missedCallsPerWeek"
                         type="number"
-                        {...register("missedCallsPerWeek")}
+                        {...register("missedCallsPerWeek", { valueAsNumber: true })}
                         placeholder="15"
                         className="bg-background"
                         min="0"
