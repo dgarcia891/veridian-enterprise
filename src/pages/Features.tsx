@@ -144,12 +144,12 @@ const Features = () => {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link to="/lost-revenue-calculator">
-                    <Button size="lg">
+                    <Button size="default" className="w-full sm:w-auto">
                       Calculate Your Lost Revenue
                     </Button>
                   </Link>
                   <Link to="/contact">
-                    <Button size="lg" variant="outline">
+                    <Button size="default" variant="outline" className="w-full sm:w-auto">
                       Contact Us
                     </Button>
                   </Link>

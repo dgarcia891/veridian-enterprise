@@ -127,7 +127,7 @@ export const AIInsightGenerator: React.FC<AIInsightGeneratorProps> = ({
             <p className="text-muted-foreground">Generated for {reportData.business.name}</p>
           </div>
           {!showPaywall && (
-            <Button onClick={handleDownloadPDF} disabled={isDownloading} size="lg">
+            <Button onClick={handleDownloadPDF} disabled={isDownloading} size="default" className="w-full sm:w-auto">
               {isDownloading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -277,15 +277,15 @@ export const AIInsightGenerator: React.FC<AIInsightGeneratorProps> = ({
             </div>
           </div>
 
-          <Button type="submit" size="lg" className="w-full text-lg py-6" disabled={isGenerating}>
+          <Button type="submit" size="default" className="w-full sm:text-base py-4 sm:py-6" disabled={isGenerating}>
             {isGenerating ? (
               <>
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                <Loader2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
                 Generating Your Report...
               </>
             ) : (
               <>
-                <Sparkles className="mr-2 h-5 w-5" />
+                <Sparkles className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 Generate Free Report
               </>
             )}

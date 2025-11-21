@@ -95,7 +95,7 @@ const AIAgentDemos = () => {
               <p className="text-lg text-muted-foreground mb-8">
                 See how VoiceOwl AI can transform your customer service with custom AI agents.
               </p>
-              <Button asChild size="lg">
+              <Button asChild size="default" className="w-full sm:w-auto">
                 <Link to="/schedule-consultation">
                   Schedule a Consultation
                 </Link>
