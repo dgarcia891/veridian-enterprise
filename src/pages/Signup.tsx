@@ -61,11 +61,21 @@ const Signup = () => {
         average_calls_per_day: contactValues.averageCallsPerDay ? parseInt(contactValues.averageCallsPerDay) : null,
         current_phone_system: contactValues.currentPhoneSystem || null,
         plan_type: selectedPlan,
-        wants_call_first: false
+        wants_call_first: contactValues.wantsCallFirst || false
       }).select().single();
       if (signupError) throw signupError;
 
-      // Process payment
+      // If user wants call first, redirect to consultation booking
+      if (contactValues.wantsCallFirst) {
+        toast({
+          title: "Thank you!",
+          description: "We'll contact you within 24 hours to schedule your consultation.",
+        });
+        navigate("/consultation-booked");
+        return;
+      }
+
+      // Process payment for immediate enrollment
       const {
         data: checkoutData,
         error: checkoutError
