@@ -1,5 +1,7 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Phone, ArrowRight, CheckCircle2 } from "lucide-react";
 
 interface BookCallCTAProps {
@@ -10,10 +12,22 @@ interface BookCallCTAProps {
 }
 
 const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: BookCallCTAProps) => {
-  // Placeholder GHL calendar URL - will be replaced with actual URL
-  const GHL_CALENDAR_URL = "https://calendly.com/placeholder-url";
-  
-  const bookingUrl = `${GHL_CALENDAR_URL}?contact_name=${encodeURIComponent(businessName)}&contact_phone=${encodeURIComponent(phone)}&notes=${encodeURIComponent(`Losing $${lostRevenueLow}-${lostRevenueHigh}/mo in calls`)}`;
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
+  // Load GHL form embed script
+  useEffect(() => {
+    if (isCalendarOpen) {
+      const script = document.createElement('script');
+      script.src = 'https://link.msgsndr.com/js/form_embed.js';
+      script.type = 'text/javascript';
+      script.async = true;
+      document.body.appendChild(script);
+
+      return () => {
+        document.body.removeChild(script);
+      };
+    }
+  }, [isCalendarOpen]);
 
   const handleBookCallClick = () => {
     console.log('[Analytics] CTA Click: Book Strategy Call', {
@@ -22,7 +36,7 @@ const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: B
       lostRevenueRange: `${lostRevenueLow}-${lostRevenueHigh}`,
       timestamp: new Date().toISOString()
     });
-    window.location.href = bookingUrl;
+    setIsCalendarOpen(true);
   };
 
   return (
@@ -72,6 +86,24 @@ const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: B
           </div>
         </CardContent>
       </Card>
+
+      {/* Calendar Dialog */}
+      <Dialog open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold">Schedule My Free Strategy Call</DialogTitle>
+          </DialogHeader>
+          <div className="mt-4">
+            <iframe 
+              src="https://api.leadconnectorhq.com/widget/booking/keoOUVa8k9FPAFUedUxS" 
+              style={{ width: '100%', border: 'none', overflow: 'hidden', minHeight: '600px' }} 
+              scrolling="no" 
+              id="keoOUVa8k9FPAFUedUxS_1763689889122"
+              title="Schedule Strategy Call"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
