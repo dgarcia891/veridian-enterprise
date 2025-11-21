@@ -24,6 +24,7 @@ export type Database = {
           avg_profit_per_customer: number
           clients_per_month: number
           company_name: string
+          completed_full_audit: boolean | null
           contact_accessibility_grade: string | null
           created_at: string | null
           current_call_method: string
@@ -31,6 +32,7 @@ export type Database = {
           customer_source_split: Json | null
           daily_loss: number
           email: string
+          entry_path: string | null
           first_name: string
           followup_completion_rate: number | null
           ghl_sent: boolean | null
@@ -50,6 +52,7 @@ export type Database = {
           percent_from_website: number | null
           phone: string
           phone_preference: number | null
+          quick_result_shown: boolean | null
           recommended_solutions: string[]
           recovery_calculations: Json | null
           roi_metrics: Json | null
@@ -58,6 +61,9 @@ export type Database = {
           text_preference: number | null
           total_customers_per_month: number | null
           traffic_estimate: number | null
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
           visitor_lead_conversion: string | null
           website_analysis: Json | null
           website_knowledge: string | null
@@ -73,6 +79,7 @@ export type Database = {
           avg_profit_per_customer: number
           clients_per_month?: number
           company_name: string
+          completed_full_audit?: boolean | null
           contact_accessibility_grade?: string | null
           created_at?: string | null
           current_call_method: string
@@ -80,6 +87,7 @@ export type Database = {
           customer_source_split?: Json | null
           daily_loss: number
           email: string
+          entry_path?: string | null
           first_name: string
           followup_completion_rate?: number | null
           ghl_sent?: boolean | null
@@ -99,6 +107,7 @@ export type Database = {
           percent_from_website?: number | null
           phone: string
           phone_preference?: number | null
+          quick_result_shown?: boolean | null
           recommended_solutions: string[]
           recovery_calculations?: Json | null
           roi_metrics?: Json | null
@@ -107,6 +116,9 @@ export type Database = {
           text_preference?: number | null
           total_customers_per_month?: number | null
           traffic_estimate?: number | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
           visitor_lead_conversion?: string | null
           website_analysis?: Json | null
           website_knowledge?: string | null
@@ -122,6 +134,7 @@ export type Database = {
           avg_profit_per_customer?: number
           clients_per_month?: number
           company_name?: string
+          completed_full_audit?: boolean | null
           contact_accessibility_grade?: string | null
           created_at?: string | null
           current_call_method?: string
@@ -129,6 +142,7 @@ export type Database = {
           customer_source_split?: Json | null
           daily_loss?: number
           email?: string
+          entry_path?: string | null
           first_name?: string
           followup_completion_rate?: number | null
           ghl_sent?: boolean | null
@@ -148,6 +162,7 @@ export type Database = {
           percent_from_website?: number | null
           phone?: string
           phone_preference?: number | null
+          quick_result_shown?: boolean | null
           recommended_solutions?: string[]
           recovery_calculations?: Json | null
           roi_metrics?: Json | null
@@ -156,6 +171,9 @@ export type Database = {
           text_preference?: number | null
           total_customers_per_month?: number | null
           traffic_estimate?: number | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
           visitor_lead_conversion?: string | null
           website_analysis?: Json | null
           website_knowledge?: string | null
