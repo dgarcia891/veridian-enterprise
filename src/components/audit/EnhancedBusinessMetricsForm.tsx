@@ -28,7 +28,7 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
     phone: 33,
     other: 34
   });
-  const [sliderVariant, setSliderVariant] = useState<"option-a" | "option-b" | "option-c">("option-a");
+  const sliderVariant = "option-c";
   const [websiteKnowledge, setWebsiteKnowledge] = useState("");
   const [textPhonePreference, setTextPhonePreference] = useState(60);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
@@ -64,7 +64,7 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
           // Restore all fields
           if (data.totalCustomersPerMonth) setTotalCustomersPerMonth(data.totalCustomersPerMonth);
           if (data.customerSourceSplit) setCustomerSourceSplit(data.customerSourceSplit);
-          if (data.sliderVariant) setSliderVariant(data.sliderVariant);
+          
           if (data.websiteKnowledge) setWebsiteKnowledge(data.websiteKnowledge);
           if (data.textPhonePreference !== undefined) setTextPhonePreference(data.textPhonePreference);
           if (data.missedCallsPerWeek !== undefined) setMissedCallsPerWeek(data.missedCallsPerWeek);
@@ -95,7 +95,6 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
       const formData = {
         totalCustomersPerMonth,
         customerSourceSplit,
-        sliderVariant,
         websiteKnowledge,
         textPhonePreference,
         missedCallsPerWeek,
@@ -118,7 +117,7 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
 
     return () => clearTimeout(timer);
   }, [
-    totalCustomersPerMonth, customerSourceSplit, sliderVariant, websiteKnowledge, 
+    totalCustomersPerMonth, customerSourceSplit, websiteKnowledge, 
     textPhonePreference, missedCallsPerWeek, avgProfitPerCustomer, industry, 
     currentCallMethod, websiteUrl, websiteVisitsPerMonth, monthlyWebsiteLeads, 
     leadCloseRate, visitorLeadConversion, speedOfFollowup, followupCompletionRate, 
@@ -272,37 +271,6 @@ const EnhancedBusinessMetricsForm = ({ onSubmit, onBackgroundAnalysis }: Enhance
       
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-8">
-          {/* Dev Tool: Slider Variant Switcher */}
-          <div className="p-4 bg-muted/50 rounded-lg border border-border">
-            <Label className="text-sm font-medium mb-2 block">Test Slider Variants:</Label>
-            <div className="flex gap-2">
-              <Button
-                type="button"
-                variant={sliderVariant === "option-a" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSliderVariant("option-a")}
-              >
-                Option A
-              </Button>
-              <Button
-                type="button"
-                variant={sliderVariant === "option-b" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSliderVariant("option-b")}
-              >
-                Option B
-              </Button>
-              <Button
-                type="button"
-                variant={sliderVariant === "option-c" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSliderVariant("option-c")}
-              >
-                Option C
-              </Button>
-            </div>
-          </div>
-
           {/* Section 1: Business Overview */}
           <div className="space-y-6">
             <h3 className="text-xl font-semibold flex items-center gap-2">
