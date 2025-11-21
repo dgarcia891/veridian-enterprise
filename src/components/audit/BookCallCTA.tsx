@@ -27,20 +27,20 @@ const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: B
 
   return (
     <div className="max-w-4xl mx-auto">
-      <Card className="border-primary/40 bg-gradient-to-br from-primary/10 via-accent to-background shadow-lg">
+      <Card className="border-primary/30 bg-card shadow-lg">
         <CardContent className="p-10 md:p-12 text-center">
           {/* Icon */}
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/20 mb-6">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-6">
             <Phone className="h-10 w-10 text-primary" />
           </div>
 
           {/* Headline */}
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
             Ready to Stop Losing Money?
           </h2>
 
           {/* Subtext */}
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-lg text-foreground/80 mb-8 max-w-2xl mx-auto">
             Book a free 15-minute strategy call and see exactly how an AI receptionist 
             would work for <span className="font-semibold text-foreground">{businessName}</span>
           </p>
@@ -56,7 +56,7 @@ const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: B
           </Button>
 
           {/* Trust Indicators */}
-          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-sm text-muted-foreground mt-6">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-sm text-foreground/70 mt-6">
             <span className="flex items-center gap-1.5">
               <CheckCircle2 className="h-4 w-4 text-primary" />
               No obligation
