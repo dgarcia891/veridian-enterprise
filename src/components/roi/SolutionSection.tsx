@@ -77,11 +77,12 @@ const SolutionSection = () => {
         <div className="mt-8 text-center">
           <Button 
             onClick={() => navigate("/signup")}
-            size="lg"
-            className="rounded-full px-10 py-6 text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group bg-primary-foreground text-primary"
+            size="default"
+            className="rounded-full px-6 sm:px-10 py-4 sm:py-6 text-base sm:text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group bg-primary-foreground text-primary w-full sm:w-auto"
           >
-            Calculate My Lost Revenue
-            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
+            <span className="hidden sm:inline">Calculate My Lost Revenue</span>
+            <span className="sm:hidden">Calculate Now</span>
+            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-200 flex-shrink-0" aria-hidden="true" />
           </Button>
           <p className="text-sm opacity-80 mt-3">
             See exactly how much you're losing • Free calculator
