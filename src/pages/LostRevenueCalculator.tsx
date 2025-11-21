@@ -244,9 +244,9 @@ const LostRevenueCalculator = () => {
 
                   <Button
                     type="submit"
-                    size="lg"
+                    size="default"
                     disabled={isSubmitting}
-                    className="w-full"
+                    className="w-full sm:text-base"
                   >
                     {isSubmitting ? "Calculating..." : "Calculate My Lost Revenue"}
                   </Button>
@@ -265,7 +265,7 @@ const LostRevenueCalculator = () => {
                 </p>
                 <div className="pt-4">
                   <Link to="/features">
-                    <Button size="lg">
+                    <Button size="default" className="w-full sm:w-auto">
                       Learn How Our Automation Works
                     </Button>
                   </Link>

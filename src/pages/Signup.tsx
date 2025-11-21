@@ -370,7 +370,7 @@ const Signup = () => {
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 Join hundreds of businesses that have transformed their customer service with AI
               </p>
-              <Button size="lg" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              <Button size="default" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
                 Go Back to Enrollment
               </Button>
             </div>
