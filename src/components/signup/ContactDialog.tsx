@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { ContactInfoForm } from "./ContactInfoForm";
 import { BusinessDetailsForm } from "./BusinessDetailsForm";
+import { ProceedOptionsForm } from "./ProceedOptionsForm";
 import { Loader2 } from "lucide-react";
 
 const dialogFormSchema = z.object({
@@ -22,6 +23,7 @@ const dialogFormSchema = z.object({
   industry: z.string().optional(),
   averageCallsPerDay: z.string().optional(),
   currentPhoneSystem: z.string().optional(),
+  wantsCallFirst: z.boolean().default(false),
 });
 
 type DialogFormValues = z.infer<typeof dialogFormSchema>;
@@ -34,9 +36,9 @@ interface ContactDialogProps {
 }
 
 export const ContactDialog = ({ open, onOpenChange, onSubmit, isSubmitting }: ContactDialogProps) => {
-  const form = useForm<DialogFormValues>({
+  const form = useForm({
     resolver: zodResolver(dialogFormSchema),
-    mode: "onTouched",
+    mode: "onTouched" as const,
     defaultValues: {
       contactName: "",
       email: "",
@@ -44,6 +46,7 @@ export const ContactDialog = ({ open, onOpenChange, onSubmit, isSubmitting }: Co
       industry: "",
       averageCallsPerDay: "",
       currentPhoneSystem: "",
+      wantsCallFirst: false,
     },
   });
 
@@ -63,7 +66,11 @@ export const ContactDialog = ({ open, onOpenChange, onSubmit, isSubmitting }: Co
         
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
-            <ContactInfoForm control={form.control} />
+            <ProceedOptionsForm control={form.control} />
+            
+            <div className="border-t pt-6">
+              <ContactInfoForm control={form.control} />
+            </div>
             
             <div className="border-t pt-6">
               <h3 className="font-semibold mb-4">Business Details (Optional)</h3>
@@ -82,7 +89,7 @@ export const ContactDialog = ({ open, onOpenChange, onSubmit, isSubmitting }: Co
                   Processing...
                 </>
               ) : (
-                "Continue to Payment"
+                form.watch("wantsCallFirst") ? "Schedule My Consultation" : "Continue to Payment"
               )}
             </Button>
           </form>
