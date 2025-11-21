@@ -123,12 +123,15 @@ const RoofingUpsellSection = ({ onUpgradeClick, onEmailOnly }: RoofingUpsellSect
   return (
     <>
       <div className="max-w-4xl mx-auto">
-        <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-background">
+        <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-background">
           <CardContent className="p-8 md:p-12">
             {/* Headline */}
             <div className="text-center mb-8">
+              <p className="text-sm text-muted-foreground mb-2">
+                Prefer a detailed analysis first?
+              </p>
               <h2 className="text-3xl md:text-4xl font-bold mb-3">
-                Want to See What <span className="text-primary">ELSE</span> You're Missing?
+                Or Get Your Complete <span className="text-primary">AI Opportunity Report</span>
               </h2>
               <p className="text-lg text-muted-foreground">
                 That's just missed calls. Most roofing businesses are also losing revenue from:

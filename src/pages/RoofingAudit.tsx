@@ -6,6 +6,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import RoofingSimplifiedForm from "@/components/audit/RoofingSimplifiedForm";
 import RoofingQuickResults from "@/components/audit/RoofingQuickResults";
+import BookCallCTA from "@/components/audit/BookCallCTA";
 import RoofingUpsellSection from "@/components/audit/RoofingUpsellSection";
 import EnhancedBusinessMetricsForm from "@/components/audit/EnhancedBusinessMetricsForm";
 import EnhancedResultsPage from "@/components/audit/EnhancedResultsPage";
@@ -252,6 +253,12 @@ const RoofingAudit = () => {
                 <RoofingQuickResults 
                   calculation={calculation}
                   businessName={simplifiedData.businessName}
+                />
+                <BookCallCTA
+                  businessName={simplifiedData.businessName}
+                  phone={simplifiedData.phone}
+                  lostRevenueLow={calculation.monthlyRevenueLostLow}
+                  lostRevenueHigh={calculation.monthlyRevenueLostHigh}
                 />
                 <RoofingUpsellSection
                   onUpgradeClick={handleUpgradeToFull}
