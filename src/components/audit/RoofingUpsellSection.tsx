@@ -15,6 +15,15 @@ import {
   Mail
 } from "lucide-react";
 
+interface Opportunity {
+  icon: any;
+  text: string;
+  color: string;
+  title: string;
+  description: string;
+  solutions: string[];
+}
+
 interface RoofingUpsellSectionProps {
   onUpgradeClick: () => void;
   onEmailOnly: (email: string) => void;
@@ -24,14 +33,81 @@ const RoofingUpsellSection = ({ onUpgradeClick, onEmailOnly }: RoofingUpsellSect
   const [showEmailDialog, setShowEmailDialog] = useState(false);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [selectedOpportunity, setSelectedOpportunity] = useState<number | null>(null);
 
-  const opportunities = [
-    { icon: Clock, text: "Slow response times costing jobs", color: "text-orange-500" },
-    { icon: Moon, text: "No after-hours communication", color: "text-blue-500" },
-    { icon: Calendar, text: "Missing online scheduling", color: "text-purple-500" },
-    { icon: Globe, text: "Poor website experience", color: "text-green-500" },
-    { icon: MessageSquare, text: "No automated follow-ups", color: "text-pink-500" },
-    { icon: CheckCircle2, text: "And 4+ other revenue gaps", color: "text-cyan-500" },
+  const opportunities: Opportunity[] = [
+    {
+      icon: Clock,
+      text: "Slow response times costing jobs",
+      color: "text-orange-500",
+      title: "Instant Response AI",
+      description: "Customers call 3-5 roofers. First to respond wins the job.",
+      solutions: [
+        "AI answers every call in under 10 seconds",
+        "Responds to texts instantly, 24/7",
+        "Books estimates while competitors sleep"
+      ]
+    },
+    {
+      icon: Moon,
+      text: "No after-hours communication",
+      color: "text-blue-500",
+      title: "24/7 AI Receptionist",
+      description: "Storm damage happens at midnight. Emergency calls go to voicemail.",
+      solutions: [
+        "Handle emergency calls any time",
+        "Prioritize urgent jobs automatically",
+        "Wake up to scheduled appointments"
+      ]
+    },
+    {
+      icon: Calendar,
+      text: "Missing online scheduling",
+      color: "text-purple-500",
+      title: "Self-Service Booking",
+      description: "Modern customers expect instant booking, not phone tag.",
+      solutions: [
+        "Let customers book online 24/7",
+        "Automatic calendar integration",
+        "Reduce no-shows by 60%"
+      ]
+    },
+    {
+      icon: Globe,
+      text: "Poor website experience",
+      color: "text-green-500",
+      title: "AI Chat Assistant",
+      description: "Visitors leave if they can't get instant answers.",
+      solutions: [
+        "Answer questions in real-time",
+        "Pre-qualify leads automatically",
+        "Book estimates from website chat"
+      ]
+    },
+    {
+      icon: MessageSquare,
+      text: "No automated follow-ups",
+      color: "text-pink-500",
+      title: "Smart Follow-Up System",
+      description: "You give a quote, then silence. Competitors who follow up win.",
+      solutions: [
+        "Auto-send personalized follow-ups",
+        "Check-in at perfect intervals",
+        "Recover 'dead' leads automatically"
+      ]
+    },
+    {
+      icon: CheckCircle2,
+      text: "And 4+ other revenue gaps",
+      color: "text-cyan-500",
+      title: "Complete Business Analysis",
+      description: "Most businesses have hidden inefficiencies they don't even see.",
+      solutions: [
+        "Identify YOUR specific gaps",
+        "Custom AI roadmap & ROI projections",
+        "Prioritized by biggest impact"
+      ]
+    },
   ];
 
   const handleEmailSubmit = () => {
@@ -64,10 +140,15 @@ const RoofingUpsellSection = ({ onUpgradeClick, onEmailOnly }: RoofingUpsellSect
               {opportunities.map((item, index) => (
                 <div 
                   key={index}
-                  className="flex items-center gap-3 p-4 bg-background rounded-lg border"
+                  onClick={() => setSelectedOpportunity(index)}
+                  className="flex items-center gap-3 p-4 bg-background rounded-lg border 
+                    cursor-pointer transition-all duration-200 
+                    hover:scale-105 hover:shadow-lg hover:bg-accent hover:border-primary/50
+                    active:scale-100 group"
                 >
-                  <item.icon className={`h-5 w-5 ${item.color} flex-shrink-0`} />
-                  <span className="text-sm font-medium">{item.text}</span>
+                  <item.icon className={`h-5 w-5 ${item.color} flex-shrink-0 transition-transform group-hover:scale-110`} />
+                  <span className="text-sm font-medium flex-1">{item.text}</span>
+                  <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
               ))}
             </div>
@@ -106,7 +187,7 @@ const RoofingUpsellSection = ({ onUpgradeClick, onEmailOnly }: RoofingUpsellSect
               <Button 
                 size="lg" 
                 onClick={onUpgradeClick}
-                className="w-full text-lg h-14 font-semibold group"
+                className="w-full text-lg h-14 font-semibold group hover:scale-[1.02] hover:shadow-xl transition-all"
               >
                 Get My Complete AI Opportunity Report
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -166,6 +247,55 @@ const RoofingUpsellSection = ({ onUpgradeClick, onEmailOnly }: RoofingUpsellSect
               </Button>
             </div>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Opportunity Details Dialog */}
+      <Dialog open={selectedOpportunity !== null} onOpenChange={() => setSelectedOpportunity(null)}>
+        <DialogContent className="max-w-md">
+          {selectedOpportunity !== null && (
+            <>
+              <DialogHeader>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className={`p-3 rounded-full bg-accent`}>
+                    {(() => {
+                      const Icon = opportunities[selectedOpportunity].icon;
+                      return <Icon className={`h-6 w-6 ${opportunities[selectedOpportunity].color}`} />;
+                    })()}
+                  </div>
+                  <DialogTitle className="text-xl">
+                    {opportunities[selectedOpportunity].title}
+                  </DialogTitle>
+                </div>
+                <DialogDescription className="text-base">
+                  {opportunities[selectedOpportunity].description}
+                </DialogDescription>
+              </DialogHeader>
+              
+              <div className="py-4">
+                <h4 className="font-semibold mb-3 text-sm text-muted-foreground">How AI Solves This:</h4>
+                <ul className="space-y-2">
+                  {opportunities[selectedOpportunity].solutions.map((solution, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-sm">{solution}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <Button
+                onClick={() => {
+                  setSelectedOpportunity(null);
+                  onUpgradeClick();
+                }}
+                className="w-full"
+              >
+                See Full Report
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </>
