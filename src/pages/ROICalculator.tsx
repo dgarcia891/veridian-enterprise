@@ -1,68 +1,49 @@
-import ROINavigation from "@/components/roi/ROINavigation";
-import ProblemStatsSection from "@/components/roi/ProblemStatsSection";
-import PASSection from "@/components/roi/PASSection";
-import SolutionSection from "@/components/roi/SolutionSection";
-import InteractiveCalculator from "@/components/roi/InteractiveCalculator";
-import GrowthSection from "@/components/roi/GrowthSection";
-import CloserSection from "@/components/roi/CloserSection";
+import QuickStatsBar from "@/components/roi/QuickStatsBar";
+import EnhancedCalculator from "@/components/roi/EnhancedCalculator";
 import Footer from "@/components/Footer";
 import { Helmet } from "react-helmet";
 import { ArrowRight } from "lucide-react";
-import { useState } from "react";
-import { ROIProvider } from "@/contexts/ROIContext";
 
 const ROICalculator = () => {
-  const [isMediumBusiness, setIsMediumBusiness] = useState(false);
   return (
-    <ROIProvider>
-      <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground">
       <Helmet>
-        <title>AI Receptionist ROI Calculator | Stop Losing $126k/Year</title>
+        <title>AI Receptionist ROI Calculator | Calculate Your Revenue Loss</title>
         <meta 
           name="description" 
-          content="Calculate how much revenue your business loses from missed calls. See the real ROI of 24/7 AI receptionists vs human staff. Free interactive calculator." 
+          content="Calculate exactly how much revenue your business loses from missed calls. Free interactive calculator shows daily, monthly, and annual impact plus ROI comparison." 
         />
       </Helmet>
 
       <a 
-        href="#problem" 
+        href="#main-calculator" 
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
       >
-        Skip to main content
+        Skip to calculator
       </a>
       
-      <ROINavigation />
-      
-      <main>
-        <ProblemStatsSection 
-          isMediumBusiness={isMediumBusiness}
-          setIsMediumBusiness={setIsMediumBusiness}
-        />
-        <PASSection isMediumBusiness={isMediumBusiness} />
-        <SolutionSection />
-        <InteractiveCalculator isMediumBusiness={isMediumBusiness} />
-        <GrowthSection />
-        <CloserSection isMediumBusiness={isMediumBusiness} />
+      <main id="main-calculator">
+        <QuickStatsBar />
+        <EnhancedCalculator />
         
-        <section className="py-12 px-4 sm:px-6 lg:px-8 bg-card border-t border-border">
+        <section className="py-12 px-4 sm:px-6 lg:px-8 bg-card/50 border-t border-border">
           <div className="max-w-4xl mx-auto text-center">
             <a 
               href="/faq"
               className="inline-flex items-center gap-2 text-lg font-semibold text-primary hover:underline transition-all group"
             >
-              Want to Know More About AI Agents?
+              Questions About AI Receptionists?
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </a>
             <p className="text-sm text-muted-foreground mt-2">
-              Explore our comprehensive FAQ covering capabilities, integrations, and more
+              Visit our FAQ for detailed answers
             </p>
           </div>
         </section>
       </main>
       
       <Footer />
-      </div>
-    </ROIProvider>
+    </div>
   );
 };
 
