@@ -397,16 +397,11 @@ const RoofingAudit = () => {
                   <ArrowLeft className="h-4 w-4" />
                   Back
                 </button>
-                <div className="mb-8 text-center">
-                  <h2 className="text-3xl font-bold mb-2">
-                    Almost Done! Help Us Get Even More Specific
-                  </h2>
-                  <p className="text-muted-foreground">
-                    Section 2 of 2 - All questions optional
-                  </p>
-                </div>
                 <EnhancedBusinessMetricsForm 
                   onSubmit={handleFullAuditSubmit}
+                  quickAssessmentData={quickAssessmentData || undefined}
+                  prefilledMissedCalls={calculation?.missedCallsPerWeek}
+                  prefilledIndustry={quickAssessmentData?.industry || 'Roofing'}
                 />
               </div>
             )}
