@@ -364,7 +364,7 @@ const LostRevenueCalculator = () => {
                                 id="phone"
                                 name="phone"
                                 type="tel"
-                                placeholder="+1 661 263 4388"
+                                placeholder="+1 661 523 0269"
                                 className="bg-card"
                                 required
                               />
@@ -477,7 +477,7 @@ const LostRevenueCalculator = () => {
 
                       {/* View Live Demo */}
                       <a 
-                        href="tel:+16612634388"
+                        href="tel:+16615230269"
                         className="block border border-border rounded-lg p-4 bg-background hover:bg-accent/50 transition-colors"
                       >
                         <div className="flex items-start gap-3">
@@ -487,7 +487,7 @@ const LostRevenueCalculator = () => {
                               View a Live Demo
                             </div>
                             <p className="text-sm text-muted-foreground mt-1">
-                              Call +1 (661) 263-4388 to see our Voice AI in action
+                              Call +1 (661) 523-0269 to see our Voice AI in action
                             </p>
                           </div>
                         </div>
