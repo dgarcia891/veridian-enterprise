@@ -21,7 +21,7 @@ const ServiceCTA = ({
       buttonText,
       timestamp: new Date().toISOString() 
     });
-    navigate("/signup");
+    navigate("/schedule-consultation");
   };
 
   return (

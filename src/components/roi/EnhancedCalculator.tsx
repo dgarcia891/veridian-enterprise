@@ -257,7 +257,7 @@ const EnhancedCalculator = () => {
         {/* CTA */}
         <div className="text-center">
           <Button 
-            onClick={() => navigate("/signup")}
+            onClick={() => navigate("/schedule-consultation")}
             size="lg"
             className="bg-primary text-primary-foreground rounded-full px-12 py-6 text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group shadow-lg"
           >

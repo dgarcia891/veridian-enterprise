@@ -156,7 +156,7 @@ const CaseStudySection = () => {
               Ready to Achieve <strong>The Same Results?</strong>
             </p>
             
-            <Button onClick={() => navigate("/signup")} size="lg" className="bg-primary text-primary-foreground rounded-full px-6 sm:px-10 py-4 sm:py-6 text-base sm:text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group w-full sm:w-auto">
+            <Button onClick={() => navigate("/schedule-consultation")} size="lg" className="bg-primary text-primary-foreground rounded-full px-6 sm:px-10 py-4 sm:py-6 text-base sm:text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group w-full sm:w-auto">
               <span className="hidden sm:inline">Get 100% Lead Capture Now</span>
               <span className="sm:hidden">Get Started</span>
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-200 flex-shrink-0" aria-hidden="true" />

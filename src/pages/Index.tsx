@@ -101,7 +101,7 @@ const Index = () => {
               AI Agents 3000
             </button>
             <Button 
-              onClick={() => navigate("/signup")}
+              onClick={() => navigate("/schedule-consultation")}
               size="sm"
               className="md:px-6 md:py-2 md:text-base"
             >

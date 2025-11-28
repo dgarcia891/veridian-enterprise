@@ -22,8 +22,6 @@ const ServiceDetail = lazy(() => import("./pages/ServiceDetail"));
 const Contact = lazy(() => import("./pages/Contact"));
 const LostRevenueCalculator = lazy(() => import("./pages/LostRevenueCalculator"));
 const Features = lazy(() => import("./pages/Features"));
-const Signup = lazy(() => import("./pages/Signup"));
-const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 const ScheduleConsultation = lazy(() => import("./pages/ScheduleConsultation"));
 const ConsultationBooked = lazy(() => import("./pages/ConsultationBooked"));
 const FAQ = lazy(() => import("./pages/FAQ"));
@@ -73,8 +71,6 @@ const AppContent = () => {
           <Route path="/audit/calls" element={<RoofingAudit />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/consultation" element={<Consultation />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/schedule-consultation" element={<ScheduleConsultation />} />
           <Route path="/consultation-booked" element={<ConsultationBooked />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />

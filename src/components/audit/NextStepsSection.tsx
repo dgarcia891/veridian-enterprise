@@ -17,7 +17,7 @@ const NextStepsSection = ({ contactInfo }: NextStepsSectionProps) => {
   const navigate = useNavigate();
 
   const handleSignup = () => {
-    navigate("/signup");
+    navigate("/schedule-consultation");
   };
 
   const handleSchedule = () => {

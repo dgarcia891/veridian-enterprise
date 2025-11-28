@@ -19,8 +19,8 @@ const Pricing = ({
       location: 'pricing', 
       timestamp: new Date().toISOString() 
     });
-    // Navigate to signup or open contact
-    window.location.href = '/signup';
+    // Navigate to consultation booking
+    window.location.href = '/schedule-consultation';
   };
 
   return (
