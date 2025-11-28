@@ -56,7 +56,7 @@ export const RetellChatInterface = ({ agentId, title = "AI Assistant", minimized
 
   if (!isChatActive) {
     return (
-      <Card className="p-8">
+      <Card className={`p-8 ${minimized ? 'fixed bottom-6 right-6 w-96 shadow-2xl z-50' : ''}`}>
         <div className="text-center">
           <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
             <MessageCircle className="w-8 h-8 text-primary" />
