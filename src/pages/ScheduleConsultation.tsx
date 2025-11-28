@@ -1,9 +1,21 @@
-import Cal from '@calcom/embed-react';
+import { useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { Helmet } from 'react-helmet';
 
 const ScheduleConsultation = () => {
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://link.msgsndr.com/js/form_embed.js';
+    script.type = 'text/javascript';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -26,13 +38,12 @@ const ScheduleConsultation = () => {
             </div>
             
             <div className="bg-card rounded-2xl shadow-lg p-6 min-h-[700px]">
-              <Cal 
-                calLink="david-garcia-89/ai-agents-customer-onboarding"
-                style={{width:"100%",height:"100%",overflow:"scroll"}}
-                config={{
-                  theme:"dark",
-                  successRedirectUrl: `${window.location.origin}/consultation-booked`
-                }}
+              <iframe 
+                src="https://api.leadconnectorhq.com/widget/booking/keoOUVa8k9FPAFUedUxS" 
+                style={{width:"100%",height:"100%",overflow:"hidden"}}
+                scrolling="no" 
+                id="keoOUVa8k9FPAFUedUxS_schedule_consultation"
+                title="Schedule Consultation"
               />
             </div>
           </div>
