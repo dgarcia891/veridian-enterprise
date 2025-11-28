@@ -26,18 +26,18 @@ const ScheduleConsultation = () => {
       <div className="min-h-screen bg-background flex flex-col">
         <Navigation />
         
-        <main className="flex-1 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+        <main className="flex-1 pt-20 pb-8 px-4 sm:px-6 lg:px-8">
           <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-8">
-              <h1 className="text-4xl sm:text-5xl font-bold mb-4">
+            <div className="text-center mb-6">
+              <h1 className="text-3xl sm:text-4xl font-bold mb-3">
                 Schedule Your Consultation
               </h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-base text-muted-foreground max-w-2xl mx-auto">
                 Book a time to discuss how AI Agents 3000 can help your business never miss another call.
               </p>
             </div>
             
-            <div className="bg-card rounded-2xl shadow-lg p-6 min-h-[700px]">
+            <div className="bg-card rounded-2xl shadow-lg p-4 min-h-[650px]">
               <iframe 
                 src="https://api.leadconnectorhq.com/widget/booking/keoOUVa8k9FPAFUedUxS" 
                 style={{width:"100%",height:"100%",overflow:"hidden"}}
