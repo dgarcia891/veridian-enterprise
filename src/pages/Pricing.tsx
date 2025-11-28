@@ -12,57 +12,22 @@ const Pricing = () => {
 
   const plans = [
     {
-      name: "Starter",
-      price: "$400",
-      period: "month",
-      description: "Perfect for small businesses getting started with AI",
-      popular: false,
-      features: [
-        "AI Voice Receptionist (24/7)",
-        "Basic call handling & routing",
-        "Appointment scheduling",
-        "Email notifications",
-        "Up to 500 calls/month",
-        "SMS follow-up (100/month)",
-        "Basic analytics dashboard",
-        "Email support",
-      ],
-    },
-    {
-      name: "Professional",
+      name: "AI Agent",
       price: "$600",
       period: "month",
-      description: "Most popular for growing businesses",
+      description: "Core AI Voice & Chat Agent - Integrations Extra",
       popular: true,
       features: [
-        "Everything in Starter, plus:",
-        "AI Chat Widget for website",
-        "Advanced lead qualification",
-        "CRM integration (basic)",
-        "Up to 1,500 calls/month",
-        "SMS follow-up (500/month)",
-        "Custom voice & personality",
-        "Priority phone support",
-        "Monthly optimization call",
-      ],
-    },
-    {
-      name: "Enterprise",
-      price: "$1,200",
-      period: "month",
-      description: "For high-volume businesses and franchises",
-      popular: false,
-      features: [
-        "Everything in Professional, plus:",
-        "Unlimited calls",
-        "Unlimited SMS follow-ups",
-        "Advanced CRM integration",
+        "AI Voice Receptionist (24/7)",
+        "Unlimited call handling",
+        "Natural conversation AI",
         "Multi-language support",
-        "Dedicated account manager",
-        "Custom AI training",
-        "API access",
-        "White-label options",
-        "24/7 priority support",
+        "Lead qualification",
+        "Appointment booking",
+        "Email notifications",
+        "Basic analytics dashboard",
+        "Email & phone support",
+        "Integrations available for additional cost",
       ],
     },
   ];
@@ -87,17 +52,15 @@ const Pricing = () => {
                 Simple, Transparent Pricing
               </h1>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Choose the plan that fits your business. No hidden fees, no surprises.
+                $600/month for AI Agent base. Integrations & add-ons available.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
+            <div className="flex justify-center mb-12">
               {plans.map((plan) => (
                 <Card 
                   key={plan.name}
-                  className={`glass-card relative ${
-                    plan.popular ? 'border-primary/50 shadow-xl' : ''
-                  }`}
+                  className="glass-card relative border-primary/50 shadow-xl max-w-md w-full"
                 >
                   {plan.popular && (
                     <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground">

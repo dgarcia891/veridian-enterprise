@@ -104,53 +104,24 @@ export const services: Service[] = [
     ],
     pricing: [
       {
-        name: "Monthly",
+        name: "AI Agent",
         price: "$600",
         period: "/month",
-        description: "Perfect for trying out the service with no long-term commitment",
+        description: "Core AI Voice & Chat Agent - Integrations Extra",
         features: [
+          "AI Voice Receptionist (24/7)",
           "Unlimited call handling",
-          "24/7 availability",
+          "Natural conversation AI",
+          "Multi-language support",
           "Lead qualification",
           "Appointment booking",
-          "Calendar integration",
-          "Email support"
-        ],
-        ctaText: "Start Monthly"
-      },
-      {
-        name: "Annual",
-        price: "$300",
-        period: "/month",
-        description: "Save $3,600/year with annual billing - our most popular plan",
-        features: [
-          "Everything in Monthly, plus:",
-          "50% off (billed $3,600/year)",
-          "Priority support",
-          "Advanced customization",
-          "Dedicated account manager",
-          "Custom integrations",
-          "Quarterly strategy calls"
+          "Email notifications",
+          "Basic analytics",
+          "CRM integrations available for additional cost",
+          "Advanced features available for additional cost"
         ],
         popular: true,
-        ctaText: "Start Annual"
-      },
-      {
-        name: "Medical/Healthcare",
-        price: "$850",
-        period: "/month",
-        description: "HIPAA-compliant solution for dentists, doctors, veterinarians, and medical practices",
-        features: [
-          "Everything in Annual, plus:",
-          "HIPAA compliance available",
-          "Secure patient data handling",
-          "PHI protection protocols",
-          "BAA (Business Associate Agreement)",
-          "Enhanced security measures",
-          "Healthcare-specific workflows",
-          "24/7 priority support"
-        ],
-        ctaText: "Contact for Medical Plan"
+        ctaText: "Get Started"
       }
     ],
     active: true
@@ -223,54 +194,22 @@ export const services: Service[] = [
     ],
     pricing: [
       {
-        name: "Monthly",
-        price: "$100",
+        name: "AI Chat Widget",
+        price: "$150",
         period: "/month",
-        description: "Perfect for businesses wanting flexibility",
+        description: "Add-on to AI Agent - Includes Website Chat",
         features: [
+          "Requires AI Agent ($600/month)",
+          "Website chat widget",
           "Up to 2,500 conversations/month",
           "All 95+ languages included",
           "Advanced customization",
-          "Priority support",
-          "Advanced analytics & reports",
           "CRM integrations",
-          "Custom training documents"
-        ],
-        ctaText: "Start Monthly Plan"
-      },
-      {
-        name: "Bundle Deal",
-        price: "FREE",
-        period: "",
-        description: "Free with Voice AI Receptionist Annual Plan",
-        features: [
-          "Everything in Monthly, plus:",
-          "FREE when bundled with Voice AI Receptionist 1-year package",
-          "Unlimited conversations",
-          "Priority setup & onboarding",
-          "Dedicated account manager",
-          "Quarterly optimization sessions",
-          "Advanced integrations included"
+          "Custom training documents",
+          "Analytics & reports"
         ],
         popular: true,
-        ctaText: "Get Bundle Deal"
-      },
-      {
-        name: "Enterprise",
-        price: "Custom",
-        period: "",
-        description: "Unlimited scale with white-glove service",
-        features: [
-          "Unlimited conversations",
-          "All languages + custom dialects",
-          "Full white-label customization",
-          "Custom AI training & optimization",
-          "Advanced security & compliance",
-          "Multi-site deployment",
-          "SLA guarantees",
-          "24/7 priority support"
-        ],
-        ctaText: "Contact Sales"
+        ctaText: "Add Chat Widget"
       }
     ],
     active: true

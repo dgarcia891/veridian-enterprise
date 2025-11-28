@@ -11,7 +11,7 @@ interface PricingProps {
 const Pricing = ({ 
   plans,
   title = "Simple, Transparent Pricing",
-  subtitle = "One recovered call pays for months of service"
+  subtitle = "$600/month for AI Agent - Integrations & Add-ons Extra"
 }: PricingProps) => {
   const handlePlanClick = (planName: string) => {
     console.log('[Analytics] Plan Select:', { 
@@ -85,7 +85,7 @@ const Pricing = ({
 
         <div className="mt-12 text-center space-y-2">
           <p className="text-sm text-muted-foreground">
-            HIPAA compliance available with Medical/Healthcare plan - includes Business Associate Agreement (BAA) and enhanced security protocols
+            Base AI Agent pricing: $600/month. CRM integrations, chat widget, and advanced features available for additional cost.
           </p>
           <p className="text-muted-foreground">
             All plans include unlimited call handling, 24/7 availability, and no setup fees
