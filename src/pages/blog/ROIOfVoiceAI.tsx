@@ -130,7 +130,7 @@ const ROIOfVoiceAI = () => {
             <div className="bg-accent/50 p-6 rounded-lg mb-6">
               <h4 className="font-bold text-lg mb-2">Restaurant Chain (5 locations)</h4>
               <ul className="space-y-1 text-sm">
-                <li>Monthly Cost: $600</li>
+                <li>Monthly Cost: $600 (AI Agent base)</li>
                 <li>Calls Captured: 450 additional reservations/month</li>
                 <li>Average Check: $85</li>
                 <li>Monthly Revenue Increase: $38,250</li>
@@ -141,22 +141,22 @@ const ROIOfVoiceAI = () => {
             <div className="bg-accent/50 p-6 rounded-lg mb-6">
               <h4 className="font-bold text-lg mb-2">Auto Repair Shop</h4>
               <ul className="space-y-1 text-sm">
-                <li>Monthly Cost: $300</li>
+                <li>Monthly Cost: $600 (AI Agent base)</li>
                 <li>Additional Appointments: 35/month</li>
                 <li>Average Job Value: $650</li>
                 <li>Monthly Revenue Increase: $22,750</li>
-                <li>ROI: 7,483%</li>
+                <li>ROI: 3,692%</li>
               </ul>
             </div>
 
             <div className="bg-accent/50 p-6 rounded-lg mb-6">
               <h4 className="font-bold text-lg mb-2">Legal Practice</h4>
               <ul className="space-y-1 text-sm">
-                <li>Monthly Cost: $500</li>
+                <li>Monthly Cost: $600 (AI Agent base)</li>
                 <li>New Client Consultations: 12/month</li>
                 <li>Average Case Value: $3,500</li>
                 <li>Monthly Revenue Increase: $42,000</li>
-                <li>ROI: 8,300%</li>
+                <li>ROI: 6,900%</li>
               </ul>
             </div>
 
