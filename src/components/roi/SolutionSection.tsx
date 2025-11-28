@@ -76,7 +76,7 @@ const SolutionSection = () => {
         {/* CTA Button */}
         <div className="mt-8 text-center">
           <Button 
-            onClick={() => navigate("/signup")}
+            onClick={() => navigate("/schedule-consultation")}
             size="default"
             className="rounded-full px-6 sm:px-10 py-4 sm:py-6 text-base sm:text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group bg-primary-foreground text-primary w-full sm:w-auto"
           >

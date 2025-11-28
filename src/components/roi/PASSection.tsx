@@ -18,7 +18,7 @@ const PASSection = ({ isMediumBusiness }: PASSectionProps) => {
       location: 'pas-section', 
       timestamp: new Date().toISOString() 
     });
-    navigate("/signup");
+    navigate("/schedule-consultation");
   };
 
   return (

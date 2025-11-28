@@ -18,7 +18,7 @@ const CloserSection = ({ isMediumBusiness }: CloserSectionProps) => {
       location: 'closer-section', 
       timestamp: new Date().toISOString() 
     });
-    navigate("/signup");
+    navigate("/schedule-consultation");
   };
 
   const finalValueProps = [

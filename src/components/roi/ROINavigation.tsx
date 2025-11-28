@@ -88,7 +88,7 @@ const ROINavigation = () => {
               </button>
             ))}
             <Button 
-              onClick={() => navigate("/signup")}
+              onClick={() => navigate("/schedule-consultation")}
               className="ml-4"
             >
               Get Started
@@ -113,7 +113,7 @@ const ROINavigation = () => {
               </button>
             ))}
             <Button 
-              onClick={() => navigate("/signup")}
+              onClick={() => navigate("/schedule-consultation")}
               className="w-full mt-2"
             >
               Get Started

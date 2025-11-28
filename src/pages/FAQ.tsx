@@ -279,7 +279,7 @@ const FAQ = () => {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
               <a 
-                href="/signup"
+                href="/schedule-consultation"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-background text-foreground rounded-lg font-semibold hover:opacity-90 transition-opacity"
               >
                 Get Started

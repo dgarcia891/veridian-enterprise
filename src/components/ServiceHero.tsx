@@ -45,7 +45,7 @@ const ServiceHero = ({
         </p>
 
         <div className="mt-12 flex flex-col sm:flex-row flex-wrap gap-4 justify-center animate-fade-in [animation-delay:400ms] opacity-0 [animation-fill-mode:forwards]">
-          <Link to="/signup" onClick={handlePrimaryCTAClick}>
+          <Link to="/schedule-consultation" onClick={handlePrimaryCTAClick}>
             <Button 
               size="lg"
               className="bg-primary text-primary-foreground rounded-full px-8 py-6 text-base font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 group"

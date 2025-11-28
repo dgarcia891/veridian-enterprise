@@ -74,7 +74,7 @@ const Restaurants = () => {
                 <Button 
                   size="lg" 
                   className="text-lg px-8 py-6"
-                  onClick={() => navigate("/signup")}
+                  onClick={() => navigate("/schedule-consultation")}
                 >
                   Yes, Show Me How to Book More Tables
                 </Button>
@@ -175,7 +175,7 @@ const Restaurants = () => {
                   <Button 
                     size="lg" 
                     className="w-full mt-8"
-                    onClick={() => navigate("/signup")}
+                    onClick={() => navigate("/schedule-consultation")}
                   >
                     Calculate Your Lost Revenue
                   </Button>
@@ -239,7 +239,7 @@ const Restaurants = () => {
                 <Button 
                   size="lg" 
                   className="text-lg px-12 py-6"
-                  onClick={() => navigate("/signup")}
+                  onClick={() => navigate("/schedule-consultation")}
                 >
                   Book Your Free Demo
                 </Button>
