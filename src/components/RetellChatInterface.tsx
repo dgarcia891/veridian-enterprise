@@ -20,6 +20,8 @@ export const RetellChatInterface = ({ agentId, title = "AI Assistant", minimized
     agentId,
   });
 
+  console.log('RetellChatInterface state:', { minimized, isExpanded, isChatActive });
+
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -43,9 +45,13 @@ export const RetellChatInterface = ({ agentId, title = "AI Assistant", minimized
 
   // Minimized widget view
   if (minimized && !isExpanded) {
+    console.log('Rendering floating button');
     return (
       <button
-        onClick={() => setIsExpanded(true)}
+        onClick={() => {
+          console.log('Floating button clicked, setting isExpanded to true');
+          setIsExpanded(true);
+        }}
         className="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg flex items-center justify-center transition-transform hover:scale-110 z-50"
         aria-label="Open chat"
       >
@@ -55,6 +61,7 @@ export const RetellChatInterface = ({ agentId, title = "AI Assistant", minimized
   }
 
   if (!isChatActive) {
+    console.log('Rendering Start Chat card', { minimized });
     return (
       <Card className={`p-8 ${minimized ? 'fixed bottom-6 right-6 w-96 shadow-2xl z-50' : ''}`}>
         <div className="text-center">
