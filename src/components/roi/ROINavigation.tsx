@@ -48,12 +48,12 @@ const ROINavigation = () => {
           {/* Mobile: Phone + Menu Button */}
           <div className="md:hidden flex items-center gap-2">
             <a 
-              href="tel:661-263-4388"
+              href="tel:661-523-0269"
               className="flex items-center gap-1 text-foreground hover:opacity-80 transition-opacity"
-              aria-label="Call us at 661-263-4388"
+              aria-label="Call us at 661-523-0269"
             >
               <Phone size={16} aria-hidden="true" />
-              <span className="text-xs font-medium">661-263-4388</span>
+              <span className="text-xs font-medium">661-523-0269</span>
             </a>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -67,12 +67,12 @@ const ROINavigation = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
             <a 
-              href="tel:661-263-4388"
+              href="tel:661-523-0269"
               className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors px-3 py-2"
-              aria-label="Call us at 661-263-4388"
+              aria-label="Call us at 661-523-0269"
             >
               <Phone size={16} aria-hidden="true" />
-              <span className="text-sm font-medium">661-263-4388</span>
+              <span className="text-sm font-medium">661-523-0269</span>
             </a>
             {sections.map((section) => (
               <button
