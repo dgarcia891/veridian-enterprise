@@ -26,12 +26,9 @@ const ScheduleConsultation = lazy(() => import("./pages/ScheduleConsultation"));
 const ConsultationBooked = lazy(() => import("./pages/ConsultationBooked"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const Blog = lazy(() => import("./pages/Blog"));
-const TransformingCustomerService = lazy(() => import("./pages/blog/TransformingCustomerService"));
-const ROIOfVoiceAI = lazy(() => import("./pages/blog/ROIOfVoiceAI"));
-const SignsYouNeedAI = lazy(() => import("./pages/blog/SignsYouNeedAI"));
-const SettingUpFirstAI = lazy(() => import("./pages/blog/SettingUpFirstAI"));
-const WhyLocalBusinesses = lazy(() => import("./pages/blog/WhyLocalBusinesses"));
-const FutureOfCommunication = lazy(() => import("./pages/blog/FutureOfCommunication"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
+const BlogAdmin = lazy(() => import("./pages/admin/BlogAdmin"));
+const BlogPostForm = lazy(() => import("./pages/admin/BlogPostForm"));
 const AIAgentDemos = lazy(() => import("./pages/AIAgentDemos"));
 const SunsetOnLyons = lazy(() => import("./pages/demos/SunsetOnLyons"));
 const AIInsightReport = lazy(() => import("./pages/AIInsightReport"));
@@ -77,12 +74,10 @@ const AppContent = () => {
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/cookie-policy" element={<CookiePolicy />} />
           <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/roi-of-voice-ai" element={<ROIOfVoiceAI />} />
-          <Route path="/blog/transforming-customer-service" element={<TransformingCustomerService />} />
-          <Route path="/blog/why-local-businesses" element={<WhyLocalBusinesses />} />
-          <Route path="/blog/signs-you-need-ai" element={<SignsYouNeedAI />} />
-          <Route path="/blog/setting-up-first-ai" element={<SettingUpFirstAI />} />
-          <Route path="/blog/future-of-communication" element={<FutureOfCommunication />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/admin/blog" element={<BlogAdmin />} />
+          <Route path="/admin/blog/new" element={<BlogPostForm />} />
+          <Route path="/admin/blog/edit/:id" element={<BlogPostForm />} />
           <Route path="/demos/ai-agent-demos" element={<AIAgentDemos />} />
           <Route path="/demos/sunset-on-lyons" element={<SunsetOnLyons />} />
           <Route path="/restaurants" element={<Restaurants />} />
