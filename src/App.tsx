@@ -29,6 +29,7 @@ const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const BlogAdmin = lazy(() => import("./pages/admin/BlogAdmin"));
 const BlogPostForm = lazy(() => import("./pages/admin/BlogPostForm"));
+const AdminAuth = lazy(() => import("./pages/admin/AdminAuth"));
 const AIAgentDemos = lazy(() => import("./pages/AIAgentDemos"));
 const SunsetOnLyons = lazy(() => import("./pages/demos/SunsetOnLyons"));
 const AIInsightReport = lazy(() => import("./pages/AIInsightReport"));
@@ -75,6 +76,7 @@ const AppContent = () => {
           <Route path="/cookie-policy" element={<CookiePolicy />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/admin" element={<AdminAuth />} />
           <Route path="/admin/blog" element={<BlogAdmin />} />
           <Route path="/admin/blog/new" element={<BlogPostForm />} />
           <Route path="/admin/blog/edit/:id" element={<BlogPostForm />} />
