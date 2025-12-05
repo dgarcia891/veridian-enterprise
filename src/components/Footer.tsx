@@ -42,8 +42,8 @@ const Footer = () => {
           </nav>
         </div>
 
-        {/* DAG Networks Credit */}
-        <div className="text-center pt-6 border-t border-border/50 mt-6">
+        {/* DAG Networks Credit & Admin */}
+        <div className="flex flex-col items-center gap-2 pt-6 border-t border-border/50 mt-6">
           <a 
             href="https://www.dagnetworks.com" 
             target="_blank" 
@@ -53,6 +53,12 @@ const Footer = () => {
           >
             Created by DAG Networks
           </a>
+          <Link
+            to="/admin/login"
+            className="text-muted-foreground/30 hover:text-muted-foreground/50 transition-colors duration-300 text-xs focus:outline-none focus:ring-2 focus:ring-primary rounded-sm"
+          >
+            Admin
+          </Link>
         </div>
       </div>
     </footer>
