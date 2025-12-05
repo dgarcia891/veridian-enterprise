@@ -60,31 +60,40 @@ const Navigation = () => {
           {navItems.map((item, idx) => {
             if (item.type === "dropdown") {
               return (
-                <Popover key={idx}>
-                  <PopoverTrigger asChild>
-                    <button 
-                      className="text-muted-foreground hover:text-foreground transition-colors duration-200 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-primary rounded-sm px-2 py-1"
-                      aria-haspopup="true"
-                    >
-                      {item.label}
-                      <ChevronDown size={16} className="transition-transform duration-200" aria-hidden="true" />
-                    </button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-64 p-0 bg-card border-border" align="start">
-                    <div className="overflow-hidden">
-                      {item.items?.map((service) => (
-                        <Link
-                          key={service.id}
-                          to={`/services/${service.slug}`}
-                          className="block px-4 py-3 text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
-                        >
-                          <div className="font-semibold">{service.name}</div>
-                          <div className="text-xs text-muted-foreground mt-1">{service.tagline}</div>
-                        </Link>
-                      ))}
-                    </div>
-                  </PopoverContent>
-                </Popover>
+                <div key={idx} className="flex items-center">
+                  <Link
+                    to="/services"
+                    className="text-muted-foreground hover:text-foreground transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary rounded-sm px-2 py-1"
+                    role="menuitem"
+                  >
+                    {item.label}
+                  </Link>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button 
+                        className="text-muted-foreground hover:text-foreground transition-colors duration-200 p-1 focus:outline-none focus:ring-2 focus:ring-primary rounded-sm"
+                        aria-haspopup="true"
+                        aria-label="View services menu"
+                      >
+                        <ChevronDown size={16} className="transition-transform duration-200" aria-hidden="true" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-64 p-0 bg-card border-border" align="start">
+                      <div className="overflow-hidden">
+                        {item.items?.map((service) => (
+                          <Link
+                            key={service.id}
+                            to={`/services/${service.slug}`}
+                            className="block px-4 py-3 text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+                          >
+                            <div className="font-semibold">{service.name}</div>
+                            <div className="text-xs text-muted-foreground mt-1">{service.tagline}</div>
+                          </Link>
+                        ))}
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
               );
             }
             
@@ -149,7 +158,14 @@ const Navigation = () => {
               if (item.type === "dropdown") {
                 return (
                   <div key={idx} className="space-y-2">
-                    <div className="text-muted-foreground font-semibold text-sm">{item.label}</div>
+                    <Link
+                      to="/services"
+                      className="text-muted-foreground font-semibold text-sm hover:text-foreground transition-colors"
+                      onClick={() => setIsOpen(false)}
+                      role="menuitem"
+                    >
+                      {item.label}
+                    </Link>
                     {item.items?.map((service) => (
                       <Link
                         key={service.id}
