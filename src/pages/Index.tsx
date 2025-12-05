@@ -6,15 +6,13 @@ import GrowthSection from "@/components/roi/GrowthSection";
 import CaseStudySection from "@/components/roi/CaseStudySection";
 import CloserSection from "@/components/roi/CloserSection";
 import Footer from "@/components/Footer";
+import Navigation from "@/components/Navigation";
 import { Helmet } from "react-helmet";
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ROIProvider } from "@/contexts/ROIContext";
 
 const Index = () => {
-  const navigate = useNavigate();
   const [isMediumBusiness, setIsMediumBusiness] = useState(false);
   
   return (
@@ -91,26 +89,7 @@ const Index = () => {
         Skip to main content
       </a>
       
-      <header className="bg-background/90 backdrop-blur-md shadow-md sticky top-0 z-50 border-b border-border">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <button 
-              onClick={() => navigate("/")}
-              className="flex-shrink-0 text-xl font-bold text-cyan-500 hover:opacity-80 transition-opacity"
-            >
-              AI Agents 3000
-            </button>
-            <Button 
-              onClick={() => navigate("/schedule-consultation")}
-              size="sm"
-              className="md:px-6 md:py-2 md:text-base"
-            >
-              <span className="hidden sm:inline">Get 100% Lead Capture Now</span>
-              <span className="sm:hidden">Get Started</span>
-            </Button>
-          </div>
-        </nav>
-      </header>
+      <Navigation />
       
       <main>
         <ProblemStatsSection 
