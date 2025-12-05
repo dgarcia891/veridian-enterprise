@@ -6,6 +6,69 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-api-key',
 };
 
+// Convert HTML to Markdown
+function htmlToMarkdown(html: string): string {
+  let markdown = html;
+  
+  // Remove h1 tags (we use h2 for article headers since title is separate)
+  markdown = markdown.replace(/<h1[^>]*>(.*?)<\/h1>/gi, '## $1\n\n');
+  
+  // Convert h2 to markdown
+  markdown = markdown.replace(/<h2[^>]*>(.*?)<\/h2>/gi, '## $1\n\n');
+  
+  // Convert h3 to markdown
+  markdown = markdown.replace(/<h3[^>]*>(.*?)<\/h3>/gi, '### $1\n\n');
+  
+  // Convert h4 to markdown
+  markdown = markdown.replace(/<h4[^>]*>(.*?)<\/h4>/gi, '#### $1\n\n');
+  
+  // Convert paragraphs
+  markdown = markdown.replace(/<p[^>]*>(.*?)<\/p>/gi, '$1\n\n');
+  
+  // Convert bold
+  markdown = markdown.replace(/<strong[^>]*>(.*?)<\/strong>/gi, '**$1**');
+  markdown = markdown.replace(/<b[^>]*>(.*?)<\/b>/gi, '**$1**');
+  
+  // Convert italic
+  markdown = markdown.replace(/<em[^>]*>(.*?)<\/em>/gi, '*$1*');
+  markdown = markdown.replace(/<i[^>]*>(.*?)<\/i>/gi, '*$1*');
+  
+  // Convert links
+  markdown = markdown.replace(/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/gi, '[$2]($1)');
+  
+  // Convert unordered lists
+  markdown = markdown.replace(/<ul[^>]*>(.*?)<\/ul>/gis, (match, content) => {
+    return content.replace(/<li[^>]*>(.*?)<\/li>/gi, '- $1\n') + '\n';
+  });
+  
+  // Convert ordered lists
+  let listIndex = 0;
+  markdown = markdown.replace(/<ol[^>]*>(.*?)<\/ol>/gis, (match, content) => {
+    listIndex = 0;
+    return content.replace(/<li[^>]*>(.*?)<\/li>/gi, () => {
+      listIndex++;
+      return `${listIndex}. ` + arguments[1] + '\n';
+    }) + '\n';
+  });
+  
+  // Convert line breaks
+  markdown = markdown.replace(/<br\s*\/?>/gi, '\n');
+  
+  // Remove any remaining HTML tags
+  markdown = markdown.replace(/<[^>]+>/g, '');
+  
+  // Clean up extra whitespace
+  markdown = markdown.replace(/\n{3,}/g, '\n\n');
+  markdown = markdown.trim();
+  
+  return markdown;
+}
+
+// Check if content contains HTML tags
+function containsHtml(content: string): boolean {
+  return /<[a-z][\s\S]*>/i.test(content);
+}
+
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -45,12 +108,19 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
+    // Convert HTML to Markdown if needed
+    let processedContent = body.content;
+    if (containsHtml(body.content)) {
+      console.log('HTML detected in content, converting to Markdown');
+      processedContent = htmlToMarkdown(body.content);
+    }
+
     // Prepare blog post data
     const postData = {
       title: body.title,
       slug: body.slug,
       excerpt: body.excerpt,
-      content: body.content,
+      content: processedContent,
       category: body.category || 'AI Technology',
       read_time: body.read_time || '5 min read',
       image_url: body.image_url || null,
