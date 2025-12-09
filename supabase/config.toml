@@ -32,3 +32,6 @@ verify_jwt = false
 
 [functions.upload-blog-image]
 verify_jwt = false
+
+[functions.generate-sms-flow-image]
+verify_jwt = false
