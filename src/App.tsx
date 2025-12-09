@@ -41,6 +41,7 @@ const AIAudit = lazy(() => import("./pages/AIAudit"));
 const RoofingAudit = lazy(() => import("./pages/RoofingAudit"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const Consultation = lazy(() => import("./pages/Consultation"));
+const SMSOptInGuide = lazy(() => import("./pages/SMSOptInGuide"));
 
 const queryClient = new QueryClient();
 
@@ -87,6 +88,7 @@ const AppContent = () => {
           <Route path="/site-content" element={<SiteContent />} />
           <Route path="/opt-in" element={<OptIn />} />
           <Route path="/qualification" element={<Qualification />} />
+          <Route path="/sms-opt-in-guide" element={<SMSOptInGuide />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
