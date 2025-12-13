@@ -35,6 +35,7 @@ const SunsetOnLyons = lazy(() => import("./pages/demos/SunsetOnLyons"));
 const AIInsightReport = lazy(() => import("./pages/AIInsightReport"));
 const SiteContent = lazy(() => import("./pages/SiteContent"));
 const Restaurants = lazy(() => import("./pages/Restaurants"));
+const Plumbers = lazy(() => import("./pages/Plumbers"));
 const OptIn = lazy(() => import("./pages/OptIn"));
 const Qualification = lazy(() => import("./pages/Qualification"));
 const AIAudit = lazy(() => import("./pages/AIAudit"));
@@ -84,6 +85,7 @@ const AppContent = () => {
           <Route path="/demos/ai-agent-demos" element={<AIAgentDemos />} />
           <Route path="/demos/sunset-on-lyons" element={<SunsetOnLyons />} />
           <Route path="/restaurants" element={<Restaurants />} />
+          <Route path="/plumbers" element={<Plumbers />} />
           <Route path="/ai-insight" element={<AIInsightReport />} />
           <Route path="/site-content" element={<SiteContent />} />
           <Route path="/opt-in" element={<OptIn />} />

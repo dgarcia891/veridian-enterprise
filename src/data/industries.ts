@@ -1,4 +1,4 @@
-import { LucideIcon, Utensils, Stethoscope, Wrench, Briefcase, Home, Scale, Scissors, Car } from "lucide-react";
+import { LucideIcon, Utensils, Stethoscope, Wrench, Briefcase, Home, Scale, Scissors, Car, Droplets } from "lucide-react";
 
 export interface Industry {
   id: string;
@@ -25,6 +25,12 @@ export const industries: Industry[] = [
     name: "Contractors",
     icon: Wrench,
     description: "Qualify leads and book estimate calls"
+  },
+  {
+    id: "plumbers",
+    name: "Plumbing",
+    icon: Droplets,
+    description: "Capture emergency calls and book service appointments"
   },
   {
     id: "professional",

@@ -268,6 +268,43 @@ export const aiOpportunitiesByIndustry: Record<string, AIOpportunity[]> = {
       roi: 3600
     }
   ],
+  plumbers: [
+    {
+      icon: Phone,
+      title: "Emergency Call Capture",
+      description: "24/7 emergency call handling routes urgent plumbing jobs to on-call crews instantly while filtering non-emergencies.",
+      impact: "Never miss an emergency job",
+      roi: 8400
+    },
+    {
+      icon: Users,
+      title: "Lead Qualification",
+      description: "AI screens incoming calls, qualifies leads based on job type, location, and urgency - filtering serious prospects from tire kickers.",
+      impact: "Save 10+ hours per week",
+      roi: 6000
+    },
+    {
+      icon: Calendar,
+      title: "Estimate Scheduling",
+      description: "Automatically book service appointments, collect job details like issue type and location, and sync with your calendar.",
+      impact: "Never miss an estimate request",
+      roi: 4800
+    },
+    {
+      icon: MessageSquare,
+      title: "Follow-up Automation",
+      description: "Automated follow-ups on quotes and estimates to convert more prospects into booked jobs.",
+      impact: "30% higher quote conversion",
+      roi: 3600
+    },
+    {
+      icon: FileText,
+      title: "Review Collection",
+      description: "Post-job satisfaction calls and automated review requests to build your online reputation.",
+      impact: "More 5-star reviews",
+      roi: 2400
+    }
+  ],
   automotive: [
     {
       icon: Calendar,
