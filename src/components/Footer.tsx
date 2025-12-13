@@ -54,7 +54,7 @@ const Footer = () => {
             Created by DAG Networks
           </a>
           <Link
-            to="/admin/login"
+            to="/admin"
             className="text-muted-foreground/30 hover:text-muted-foreground/50 transition-colors duration-300 text-xs focus:outline-none focus:ring-2 focus:ring-primary rounded-sm"
           >
             Admin
