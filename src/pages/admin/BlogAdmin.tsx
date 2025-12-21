@@ -182,7 +182,12 @@ const BlogAdmin = () => {
                   posts.map((post) => (
                     <TableRow key={post.id}>
                       <TableCell className="font-medium max-w-xs truncate">
-                        {post.title}
+                        <Link 
+                          to={`/admin/blog/edit/${post.id}`}
+                          className="hover:text-primary hover:underline transition-colors"
+                        >
+                          {post.title}
+                        </Link>
                       </TableCell>
                       <TableCell>{post.category}</TableCell>
                       <TableCell>
