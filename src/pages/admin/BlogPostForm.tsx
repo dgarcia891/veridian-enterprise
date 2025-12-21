@@ -41,6 +41,7 @@ const BlogPostForm = () => {
     read_time: "5 min read",
     image_url: "",
     author_name: "Voice AI Team",
+    source_url: "",
     status: "draft" as "draft" | "published",
   });
 
@@ -63,6 +64,7 @@ const BlogPostForm = () => {
         read_time: existingPost.read_time,
         image_url: existingPost.image_url || "",
         author_name: existingPost.author_name || "Voice AI Team",
+        source_url: existingPost.source_url || "",
         status: existingPost.status,
       });
     }
@@ -112,6 +114,7 @@ const BlogPostForm = () => {
     const postData: BlogPostInsert = {
       ...formData,
       image_url: formData.image_url || null,
+      source_url: formData.source_url || null,
       published_at: formData.status === "published" ? new Date().toISOString() : null,
     };
 
@@ -281,6 +284,21 @@ const BlogPostForm = () => {
                 onChange={(e) => setFormData((prev) => ({ ...prev, author_name: e.target.value }))}
                 placeholder="Voice AI Team"
               />
+            </div>
+
+            {/* Source URL */}
+            <div className="space-y-2">
+              <Label htmlFor="source_url">Source Article URL</Label>
+              <Input
+                id="source_url"
+                type="url"
+                value={formData.source_url}
+                onChange={(e) => setFormData((prev) => ({ ...prev, source_url: e.target.value }))}
+                placeholder="https://example.com/original-article"
+              />
+              <p className="text-sm text-muted-foreground">
+                Link to the original source article (optional)
+              </p>
             </div>
 
             {/* Publish Status */}
