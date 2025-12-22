@@ -32,6 +32,7 @@ import {
   Loader2,
   ArrowLeft,
   LogOut,
+  BarChart3,
 } from "lucide-react";
 
 const BlogAdmin = () => {
@@ -131,6 +132,12 @@ const BlogAdmin = () => {
             <h1 className="text-3xl font-bold">Blog Management</h1>
           </div>
           <div className="flex items-center gap-4">
+            <Button asChild variant="outline">
+              <Link to="/admin/analytics">
+                <BarChart3 className="w-4 h-4 mr-2" />
+                Analytics
+              </Link>
+            </Button>
             <Button asChild>
               <Link to="/admin/blog/new">
                 <Plus className="w-4 h-4 mr-2" />

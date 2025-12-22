@@ -43,6 +43,7 @@ const RoofingAudit = lazy(() => import("./pages/RoofingAudit"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const Consultation = lazy(() => import("./pages/Consultation"));
 const SMSOptInGuide = lazy(() => import("./pages/SMSOptInGuide"));
+const Analytics = lazy(() => import("./pages/admin/Analytics"));
 
 const queryClient = new QueryClient();
 
@@ -82,6 +83,7 @@ const AppContent = () => {
           <Route path="/admin/blog" element={<BlogAdmin />} />
           <Route path="/admin/blog/new" element={<BlogPostForm />} />
           <Route path="/admin/blog/edit/:id" element={<BlogPostForm />} />
+          <Route path="/admin/analytics" element={<Analytics />} />
           <Route path="/demos/ai-agent-demos" element={<AIAgentDemos />} />
           <Route path="/demos/sunset-on-lyons" element={<SunsetOnLyons />} />
           <Route path="/restaurants" element={<Restaurants />} />
