@@ -2,12 +2,15 @@ import { useParams, Link, Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { ArrowLeft, Calendar, Clock, User, Loader2 } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, User, Loader2, Pencil } from "lucide-react";
 import { usePostBySlug } from "@/hooks/useBlogPosts";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
+import { Button } from "@/components/ui/button";
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const { data: post, isLoading, error } = usePostBySlug(slug || "");
+  const { isAdmin } = useIsAdmin();
 
   if (isLoading) {
     return (
@@ -85,14 +88,25 @@ const BlogPost = () => {
 
         <main className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
           <article className="max-w-4xl mx-auto">
-            {/* Back Link */}
-            <Link
-              to="/blog"
-              className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-8"
-            >
-              <ArrowLeft size={20} />
-              Back to Blog
-            </Link>
+            {/* Back Link & Admin Edit */}
+            <div className="flex items-center justify-between mb-8">
+              <Link
+                to="/blog"
+                className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+              >
+                <ArrowLeft size={20} />
+                Back to Blog
+              </Link>
+              
+              {isAdmin && (
+                <Button asChild variant="outline" size="sm">
+                  <Link to={`/admin/blog/edit/${post.id}`}>
+                    <Pencil size={16} className="mr-2" />
+                    Edit Post
+                  </Link>
+                </Button>
+              )}
+            </div>
 
             {/* Article Header */}
             <header className="mb-8">
