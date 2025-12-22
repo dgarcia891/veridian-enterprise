@@ -2,8 +2,8 @@ import { useCallback, useEffect, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Json } from "@/integrations/supabase/types";
 
-// GA4 Measurement ID - set this to enable Google Analytics
-const GA4_MEASUREMENT_ID = ""; // Add your GA4 ID here, e.g., "G-XXXXXXXXXX"
+// GA4 Measurement ID
+const GA4_MEASUREMENT_ID = "G-Z6B8376C8G";
 
 // Generate a session ID for grouping events
 const getSessionId = () => {
