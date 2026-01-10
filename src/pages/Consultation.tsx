@@ -1,19 +1,20 @@
-import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import Cal, { getCalApi } from "@calcom/embed-react";
+import { useEffect } from "react";
+import { CALCOM_CONFIG, CALCOM_THEME } from "@/config/calcom";
 
 const Consultation = () => {
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://link.msgsndr.com/js/form_embed.js';
-    script.type = 'text/javascript';
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
+    (async function () {
+      const cal = await getCalApi();
+      cal("ui", {
+        theme: CALCOM_THEME.theme,
+        hideEventTypeDetails: CALCOM_THEME.hideEventTypeDetails,
+        layout: CALCOM_THEME.layout,
+      });
+    })();
   }, []);
 
   return (
@@ -41,12 +42,13 @@ const Consultation = () => {
             </div>
             
             <div className="bg-card rounded-2xl shadow-lg p-6 min-h-[700px]">
-              <iframe 
-                src="https://api.leadconnectorhq.com/widget/booking/keoOUVa8k9FPAFUedUxS" 
-                style={{width:"100%",height:"100%",overflow:"hidden"}}
-                scrolling="no" 
-                id="keoOUVa8k9FPAFUedUxS_1763706660855"
-                title="Schedule Consultation"
+              <Cal
+                calLink={CALCOM_CONFIG.bookingLink}
+                style={{ width: "100%", height: "100%", minHeight: "650px" }}
+                config={{
+                  theme: CALCOM_THEME.theme,
+                  layout: CALCOM_THEME.layout,
+                }}
               />
             </div>
 

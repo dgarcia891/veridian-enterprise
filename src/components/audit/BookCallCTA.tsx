@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Phone, ArrowRight, CheckCircle2 } from "lucide-react";
+import Cal, { getCalApi } from "@calcom/embed-react";
+import { CALCOM_CONFIG, CALCOM_THEME } from "@/config/calcom";
 
 interface BookCallCTAProps {
   businessName: string;
@@ -14,20 +16,16 @@ interface BookCallCTAProps {
 const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: BookCallCTAProps) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
-  // Load GHL form embed script
   useEffect(() => {
-    if (isCalendarOpen) {
-      const script = document.createElement('script');
-      script.src = 'https://link.msgsndr.com/js/form_embed.js';
-      script.type = 'text/javascript';
-      script.async = true;
-      document.body.appendChild(script);
-
-      return () => {
-        document.body.removeChild(script);
-      };
-    }
-  }, [isCalendarOpen]);
+    (async function () {
+      const cal = await getCalApi();
+      cal("ui", {
+        theme: CALCOM_THEME.theme,
+        hideEventTypeDetails: CALCOM_THEME.hideEventTypeDetails,
+        layout: CALCOM_THEME.layout,
+      });
+    })();
+  }, []);
 
   const handleBookCallClick = () => {
     console.log('[Analytics] CTA Click: Book Strategy Call', {
@@ -89,17 +87,18 @@ const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: B
 
       {/* Calendar Dialog */}
       <Dialog open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
-        <DialogContent className="max-w-6xl h-[95vh] overflow-hidden flex flex-col">
+        <DialogContent className="max-w-4xl h-[85vh] overflow-hidden flex flex-col">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">Schedule My Free Strategy Call</DialogTitle>
           </DialogHeader>
-          <div className="flex-1 overflow-hidden">
-            <iframe 
-              src="https://api.leadconnectorhq.com/widget/booking/keoOUVa8k9FPAFUedUxS" 
-              style={{ width: '100%', height: '100%', border: 'none', overflow: 'hidden' }} 
-              scrolling="no" 
-              id="keoOUVa8k9FPAFUedUxS_1763689889122"
-              title="Schedule Strategy Call"
+          <div className="flex-1 overflow-auto">
+            <Cal
+              calLink={CALCOM_CONFIG.bookingLink}
+              style={{ width: "100%", height: "100%", minHeight: "500px" }}
+              config={{
+                theme: CALCOM_THEME.theme,
+                layout: CALCOM_THEME.layout,
+              }}
             />
           </div>
         </DialogContent>
