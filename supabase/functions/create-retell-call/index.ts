@@ -47,7 +47,7 @@ serve(async (req) => {
   } catch (error) {
     console.error('Voice call creation failed');
     return new Response(
-      JSON.stringify({ error: error.message || 'Failed to create voice call' }),
+      JSON.stringify({ error: error instanceof Error ? error.message : 'Failed to create voice call' }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500,

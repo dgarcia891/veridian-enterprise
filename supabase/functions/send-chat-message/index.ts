@@ -47,7 +47,7 @@ serve(async (req) => {
   } catch (error) {
     console.error('Message send failed');
     return new Response(
-      JSON.stringify({ error: error.message || 'Failed to send message' }),
+      JSON.stringify({ error: error instanceof Error ? error.message : 'Failed to send message' }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500,

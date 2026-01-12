@@ -213,7 +213,7 @@ serve(async (req) => {
   } catch (error) {
     console.error("GA4 fetch error:", error);
     return new Response(
-      JSON.stringify({ error: error.message, configured: false }),
+      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error', configured: false }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }

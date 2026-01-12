@@ -62,12 +62,14 @@ serve(async (req) => {
       status: 200,
     });
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorStack = error instanceof Error ? error.stack : undefined;
     console.error('Chat session creation failed', { 
-      message: error.message,
-      stack: error.stack 
+      message: errorMessage,
+      stack: errorStack 
     });
     return new Response(
-      JSON.stringify({ error: error.message || 'Failed to create chat session' }),
+      JSON.stringify({ error: errorMessage || 'Failed to create chat session' }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500,

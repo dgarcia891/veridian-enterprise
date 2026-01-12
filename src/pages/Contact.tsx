@@ -100,10 +100,10 @@ const Contact = () => {
     <>
       <Helmet>
         <title>Contact Us - Schedule Free Demo | AI Agents 3000</title>
-        <meta name="description" content="Contact AI Agents 3000 for a free demo of our AI voice receptionist service. Call +1 661-523-0269 or email sales@aiagents3000.com. Santa Clarita, CA." />
+        <meta name="description" content="Contact AI Agents 3000 for a free demo of our AI voice receptionist service. Call +1 661-263-4388 or email sales@aiagents3000.com. Santa Clarita, CA." />
         <link rel="canonical" href="https://veridian.lovable.app/contact" />
         <meta property="og:title" content="Contact Us - Schedule Free Demo | AI Agents 3000" />
-        <meta property="og:description" content="Get started with AI voice receptionist. Schedule a free demo today. Call +1 661-523-0269." />
+        <meta property="og:description" content="Get started with AI voice receptionist. Schedule a free demo today. Call +1 661-263-4388." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://veridian.lovable.app/contact" />
         <meta name="twitter:card" content="summary_large_image" />
