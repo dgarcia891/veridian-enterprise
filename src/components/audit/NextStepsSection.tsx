@@ -109,7 +109,7 @@ const NextStepsSection = ({ contactInfo }: NextStepsSectionProps) => {
         </div>
 
         <div className="text-center text-sm text-muted-foreground pt-4">
-          Questions? Call us at <a href="tel:661-523-0269" className="text-primary hover:underline">661-523-0269</a> or email <a href="mailto:support@aiagents3000.com" className="text-primary hover:underline">support@aiagents3000.com</a>
+          Questions? Call us at <a href="tel:661-263-4388" className="text-primary hover:underline">661-263-4388</a> or email <a href="mailto:support@aiagents3000.com" className="text-primary hover:underline">support@aiagents3000.com</a>
         </div>
       </CardContent>
     </Card>

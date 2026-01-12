@@ -215,11 +215,11 @@ const FAQ = () => {
               Everything you need to know about AI voice agents, integrations, and how they can transform your business
             </p>
             <a 
-              href="tel:6615230269"
+              href="tel:6612634388"
               className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90 transition-opacity"
             >
               <Phone className="w-5 h-5" />
-              Call Us: 661-523-0269
+              Call Us: 661-263-4388
             </a>
           </div>
         </section>
@@ -270,11 +270,11 @@ const FAQ = () => {
             
             {/* Phone Number */}
             <a 
-              href="tel:6615230269"
+              href="tel:6612634388"
               className="inline-flex items-center gap-2 text-2xl font-bold mb-8 hover:opacity-80 transition-opacity"
             >
               <Phone className="w-6 h-6" />
-              661-523-0269
+              661-263-4388
             </a>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
