@@ -98,6 +98,11 @@ serve(async (req) => {
     const { startDate = "30daysAgo", endDate = "today" } = await req.json().catch(() => ({}));
 
     // Fetch multiple metrics in one request
+    console.log("Fetching GA4 data for property:", propertyId);
+    console.log("Date range:", startDate, "to", endDate);
+    console.log("Service account email:", credentials.client_email);
+
+    // Fetch multiple metrics in one request
     const reportResponse = await fetch(
       `https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`,
       {
@@ -123,6 +128,8 @@ serve(async (req) => {
     );
 
     const reportData = await reportResponse.json();
+    console.log("GA4 Report Response Status:", reportResponse.status);
+    console.log("GA4 Report Data:", JSON.stringify(reportData));
 
     // Fetch top pages
     const pagesResponse = await fetch(
