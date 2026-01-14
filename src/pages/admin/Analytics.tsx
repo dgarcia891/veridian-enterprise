@@ -26,52 +26,223 @@ interface EventCount {
   event_name: string;
   count: number;
 }
-// ... (existing interfaces)
+
+interface GA4Data {
+  configured: boolean;
+  error?: string;
+  totals?: {
+    activeUsers: number;
+    sessions: number;
+    pageViews: number;
+    newUsers: number;
+  };
+  dailyData?: {
+    date: string;
+    activeUsers: number;
+    sessions: number;
+    pageViews: number;
+    bounceRate: number;
+    avgSessionDuration: number;
+    newUsers: number;
+  }[];
+  topPages?: { path: string; pageViews: number; users: number }[];
+  trafficSources?: { source: string; sessions: number; users: number }[];
+}
 
 const Analytics = () => {
-  // ... (existing hook calls)
+  const navigate = useNavigate();
+  const { isAdmin, isLoading: adminLoading } = useIsAdmin();
+  const [isLoading, setIsLoading] = useState(true);
+  const [eventCounts, setEventCounts] = useState<EventCount[]>([]);
+  const [topPages, setTopPages] = useState<{ path: string; count: number }[]>([]);
+  const [totalEvents, setTotalEvents] = useState(0);
+  const [dateRange, setDateRange] = useState<"7d" | "30d" | "all">("7d");
+  const [ga4Data, setGa4Data] = useState<GA4Data | null>(null);
+  const [ga4Loading, setGa4Loading] = useState(true);
+
+  useEffect(() => {
+    if (!adminLoading && !isAdmin) {
+      navigate("/admin");
+    }
+  }, [isAdmin, adminLoading, navigate]);
+
+  useEffect(() => {
+    if (isAdmin) {
+      fetchAnalytics();
+      fetchGA4Analytics();
+    }
+  }, [isAdmin, dateRange]);
+
+  const getDateFilter = () => {
+    const now = new Date();
+    if (dateRange === "7d") {
+      now.setDate(now.getDate() - 7);
+    } else if (dateRange === "30d") {
+      now.setDate(now.getDate() - 30);
+    } else {
+      return null;
+    }
+    return now.toISOString();
+  };
+
+  const getGA4DateRange = () => {
+    if (dateRange === "7d") return { startDate: "7daysAgo", endDate: "today" };
+    if (dateRange === "30d") return { startDate: "30daysAgo", endDate: "today" };
+    return { startDate: "365daysAgo", endDate: "today" };
+  };
+
+  const fetchGA4Analytics = async () => {
+    setGa4Loading(true);
+    try {
+      const { startDate, endDate } = getGA4DateRange();
+      const response = await supabase.functions.invoke("fetch-ga4-analytics", {
+        body: { startDate, endDate },
+      });
+
+      if (response.error) {
+        setGa4Data({ configured: false, error: response.error.message });
+      } else {
+        setGa4Data(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching GA4 data:", error);
+      setGa4Data({ configured: false, error: "Failed to fetch GA4 data" });
+    } finally {
+      setGa4Loading(false);
+    }
+  };
+
+  const fetchAnalytics = async () => {
+    setIsLoading(true);
+    try {
+      const dateFilter = getDateFilter();
+
+      let query = supabase
+        .from("analytics_events")
+        .select("event_name, event_category, page_path, created_at");
+
+      if (dateFilter) {
+        query = query.gte("created_at", dateFilter);
+      }
+
+      const { data: events, error } = await query;
+
+      if (error) throw error;
+
+      if (events) {
+        setTotalEvents(events.length);
+
+        const counts: Record<string, number> = {};
+        events.forEach((e) => {
+          counts[e.event_name] = (counts[e.event_name] || 0) + 1;
+        });
+        setEventCounts(
+          Object.entries(counts)
+            .map(([event_name, count]) => ({ event_name, count }))
+            .sort((a, b) => b.count - a.count)
+        );
+
+        const pageCounts: Record<string, number> = {};
+        events
+          .filter((e) => e.page_path)
+          .forEach((e) => {
+            pageCounts[e.page_path!] = (pageCounts[e.page_path!] || 0) + 1;
+          });
+        setTopPages(
+          Object.entries(pageCounts)
+            .map(([path, count]) => ({ path, count }))
+            .sort((a, b) => b.count - a.count)
+            .slice(0, 10)
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching analytics:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (adminLoading || isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  const getEventIcon = (eventName: string) => {
+    switch (eventName) {
+      case "page_view":
+        return <Users className="w-4 h-4" />;
+      case "cta_click":
+        return <MousePointerClick className="w-4 h-4" />;
+      case "blog_view":
+        return <FileText className="w-4 h-4" />;
+      case "consultation_booked":
+        return <Calendar className="w-4 h-4" />;
+      case "roi_calculator_used":
+        return <Calculator className="w-4 h-4" />;
+      default:
+        return <TrendingUp className="w-4 h-4" />;
+    }
+  };
+
+  const formatEventName = (name: string) => {
+    return name
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
+
+  const formatDuration = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}m ${secs}s`;
+  };
+
+  const conversions = eventCounts.find((e) => e.event_name === "consultation_booked")?.count || 0;
+  const calculatorUses = eventCounts.find((e) => e.event_name === "roi_calculator_used")?.count || 0;
+  const blogViews = eventCounts.find((e) => e.event_name === "blog_view")?.count || 0;
+  const ctaClicks = eventCounts.find((e) => e.event_name === "cta_click")?.count || 0;
 
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="flex flex-col gap-6 mb-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button variant="ghost" size="icon" onClick={() => navigate("/admin/blog")}>
-                <ArrowLeft className="w-5 h-5" />
-              </Button>
-              <div>
-                <h1 className="text-2xl font-bold">Analytics Dashboard</h1>
-                <p className="text-muted-foreground">Track your key metrics</p>
-              </div>
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="icon" onClick={() => navigate("/admin/blog")}>
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+            <div>
+              <h1 className="text-2xl font-bold">Analytics Dashboard</h1>
+              <p className="text-muted-foreground">Track your key metrics</p>
             </div>
-
-            <div className="flex gap-2">
-              <Button
-                variant={dateRange === "7d" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setDateRange("7d")}
-              >
-                7 Days
-              </Button>
-              <Button
-                variant={dateRange === "30d" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setDateRange("30d")}
-              >
-                30 Days
-              </Button>
-              <Button
-                variant={dateRange === "all" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setDateRange("all")}
-              >
-                All Time
-              </Button>
-              <div className="ml-4">
-                <AnalyticsToggle />
-              </div>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              variant={dateRange === "7d" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setDateRange("7d")}
+            >
+              7 Days
+            </Button>
+            <Button
+              variant={dateRange === "30d" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setDateRange("30d")}
+            >
+              30 Days
+            </Button>
+            <Button
+              variant={dateRange === "all" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setDateRange("all")}
+            >
+              All Time
+            </Button>
+            <div className="ml-4">
+              <AnalyticsToggle />
             </div>
           </div>
         </div>
