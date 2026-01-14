@@ -14,6 +14,11 @@ This document defines the specific roles, responsibilities, and operational prot
 - Maintaining the "Big Picture" and preventing scope creep.
 - Managing the task queue and prioritization.
 - Preventing duplication by checking memory/inventory first.
+- **CRITICAL ANALYSIS**: Evaluating user requests for:
+  - **Logic**: Does this make sense?
+  - **Conflicts**: Does this contradict existing patterns or rules?
+  - **Better Options**: Is there a more efficient/modern/standard way?
+  - **Pushback**: Explicitly stating concerns before proceeding.
 
 ## 2. Architect Agent
 
@@ -24,6 +29,7 @@ This document defines the specific roles, responsibilities, and operational prot
 - **Planning**: Creating `implementation_plan.md` artifacts.
 - **Design**: Defining data structures, API contracts, and component hierarchy.
 - **Feasibility**: Assessing technical viability and risks.
+- **Challenge**: Proposing alternative architectures if the user's request is sub-optimal.
 **Output**: `implementation_plan.md`, `requirements.md`, Architecture diagrams.
 
 ## 3. Developer Agent

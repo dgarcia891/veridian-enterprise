@@ -1,0 +1,21 @@
+-- Add new fields to ai_audit_submissions table for enhanced ROI auditor
+ALTER TABLE ai_audit_submissions 
+ADD COLUMN IF NOT EXISTS new_customers_per_month INTEGER,
+ADD COLUMN IF NOT EXISTS percent_from_website DECIMAL,
+ADD COLUMN IF NOT EXISTS monthly_website_leads INTEGER,
+ADD COLUMN IF NOT EXISTS lead_close_rate DECIMAL,
+ADD COLUMN IF NOT EXISTS visitor_lead_conversion TEXT,
+ADD COLUMN IF NOT EXISTS speed_of_followup TEXT,
+ADD COLUMN IF NOT EXISTS followup_completion_rate DECIMAL,
+ADD COLUMN IF NOT EXISTS messaging_preference_rate DECIMAL,
+ADD COLUMN IF NOT EXISTS after_hours_importance TEXT,
+ADD COLUMN IF NOT EXISTS traffic_estimate INTEGER,
+ADD COLUMN IF NOT EXISTS lead_conversion_grade TEXT,
+ADD COLUMN IF NOT EXISTS contact_accessibility_grade TEXT,
+ADD COLUMN IF NOT EXISTS automation_readiness_grade TEXT,
+ADD COLUMN IF NOT EXISTS customer_experience_grade TEXT,
+ADD COLUMN IF NOT EXISTS ai_impact_potential_grade TEXT,
+ADD COLUMN IF NOT EXISTS overall_grade TEXT,
+ADD COLUMN IF NOT EXISTS lost_revenue_breakdown JSONB,
+ADD COLUMN IF NOT EXISTS recovery_calculations JSONB,
+ADD COLUMN IF NOT EXISTS roi_metrics JSONB;
