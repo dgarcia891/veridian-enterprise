@@ -119,7 +119,7 @@ const Analytics = () => {
 
       let query = supabase
         .from("analytics_events")
-        .select("event_name, event_category, page_path, created_at");
+        .select("event_name, event_category, page_path, created_at, ip_address");
 
       if (dateFilter) {
         query = query.gte("created_at", dateFilter);
@@ -130,10 +130,27 @@ const Analytics = () => {
       if (error) throw error;
 
       if (events) {
-        setTotalEvents(events.length);
+        // Filter out my IP if ignored
+        const isIgnored = localStorage.getItem("ignore_analytics") === "true";
+        let filteredEvents = events;
+
+        if (isIgnored) {
+          try {
+            const ipResponse = await fetch('https://api.ipify.org?format=json');
+            const ipData = await ipResponse.json();
+            const myIp = ipData.ip;
+
+            // @ts-ignore
+            filteredEvents = events.filter(e => e.ip_address !== myIp);
+          } catch (e) {
+            console.error("Failed to filter by IP:", e);
+          }
+        }
+
+        setTotalEvents(filteredEvents.length);
 
         const counts: Record<string, number> = {};
-        events.forEach((e) => {
+        filteredEvents.forEach((e) => {
           counts[e.event_name] = (counts[e.event_name] || 0) + 1;
         });
         setEventCounts(
@@ -143,7 +160,7 @@ const Analytics = () => {
         );
 
         const pageCounts: Record<string, number> = {};
-        events
+        filteredEvents
           .filter((e) => e.page_path)
           .forEach((e) => {
             pageCounts[e.page_path!] = (pageCounts[e.page_path!] || 0) + 1;

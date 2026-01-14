@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Json } from "@/integrations/supabase/types";
 
@@ -21,11 +21,25 @@ interface TrackEventOptions {
 }
 
 export const useAnalytics = () => {
+  const [ipAddress, setIpAddress] = useState<string | null>(null);
   const initialized = useRef(false);
 
-  // Initialize GA4 on mount
+  // Initialize GA4 and fetch IP on mount
   useEffect(() => {
     const isIgnored = localStorage.getItem("ignore_analytics") === "true";
+
+    // Fetch IP address
+    const fetchIp = async () => {
+      try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        setIpAddress(data.ip);
+      } catch (error) {
+        console.error('Failed to fetch IP:', error);
+      }
+    };
+    fetchIp();
+
     if (!initialized.current && GA4_MEASUREMENT_ID && !isIgnored) {
       // @ts-ignore
       window.gtagConfig?.(GA4_MEASUREMENT_ID);
@@ -62,12 +76,13 @@ export const useAnalytics = () => {
           user_agent: navigator.userAgent,
           session_id: getSessionId(),
           metadata: metadata as Json,
+          ip_address: ipAddress,
         }]);
       } catch (error) {
         console.error("Failed to track event:", error);
       }
     },
-    []
+    [ipAddress]
   );
 
   const trackPageView = useCallback(
