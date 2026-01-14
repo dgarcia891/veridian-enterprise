@@ -1,0 +1,24 @@
+name: Code Quality Standards
+description: Automated quality checks on every file change
+rules:
+  - name: Test Coverage Minimum
+    condition: test_coverage < 80%
+    action: block
+    message: "Test coverage must be ≥80%. Current: {test_coverage}%"
+    
+  - name: No Code Duplication
+    condition: duplicate_code_blocks > 10 lines
+    action: block
+    message: "Code duplication detected: {duplicate_blocks}. Refactor to shared utility."
+    
+  - name: Security Scan
+    condition: file_change
+    action: run_command
+    command: "npm audit"
+    block_if: critical_vulnerabilities > 0
+    
+  - name: Linting
+    condition: file_change
+    action: run_command
+    command: "npm run lint"
+    block_if: linting_errors > 0

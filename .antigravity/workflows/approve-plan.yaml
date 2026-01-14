@@ -1,0 +1,27 @@
+name: approve-plan
+description: Approve implementation plan and begin development
+trigger: manual
+parameters:
+  - plan_artifact: string
+steps:
+  - name: validate_plan
+    agent: architect
+    prompt: |
+      Validate implementation plan completeness:
+      - All files identified
+      - Test strategy defined
+      - Rollback plan documented
+      - Dependencies mapped
+    
+  - name: create_branch
+    action: git_command
+    command: "git checkout -b feature/{feature_name}"
+    
+  - name: begin_implementation
+    agent: developer
+    workflow: /implement-plan
+    input: "{plan_artifact}"
+    
+  - name: track_progress
+    action: create_progress_tracker
+    checklist: "{plan_acceptance_criteria}"

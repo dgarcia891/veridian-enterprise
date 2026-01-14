@@ -1,0 +1,35 @@
+{
+  "week_of": "2026-01-14",
+  "code_quality": {
+    "duplication_percentage": 0,
+    "test_coverage": 0,
+    "critical_vulnerabilities": 0,
+    "medium_vulnerabilities": 0
+  },
+  "process_metrics": {
+    "plans_created_before_coding": 0,
+    "plan_adherence_rate": 100,
+    "artifacts_generated": 0,
+    "first_pass_review_rate": 0
+  },
+  "efficiency": {
+    "avg_feature_completion_hours": 0,
+    "rework_cycles_avg": 0,
+    "agent_handoff_failures": 0,
+    "deployment_success_rate": 0
+  },
+  "learning": {
+    "duplicate_component_incidents": 0,
+    "pattern_bugs": 0,
+    "lessons_learned_added": 0,
+    "workflows_created": 7,
+    "rules_added": 5
+  },
+  "workflow_usage": {
+    "new_feature_invocations": 0,
+    "bug_fix_invocations": 0,
+    "deploy_invocations": 0,
+    "auto_invocations": 0,
+    "manual_invocations": 0
+  }
+}

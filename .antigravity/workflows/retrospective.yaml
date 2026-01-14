@@ -1,0 +1,54 @@
+name: retrospective
+description: Weekly retrospective and metrics update
+trigger: scheduled  # weekly
+steps:
+  - name: collect_metrics
+    action: analyze_metrics
+    source: ".antigravity/metrics.json"
+    
+  - name: analyze_patterns
+    agent: manager
+    prompt: |
+      Analyze week's work:
+      - Code duplication incidents
+      - Rework cycles
+      - Test coverage trends
+      - Deployment success rate
+      - Recurring issues
+      Generate artifact: retrospective_[date].md
+    
+  - name: identify_gaps
+    agent: manager
+    prompt: |
+      Process gaps identified:
+      - Agent role confusion
+      - Skipped workflow steps
+      - Documentation gaps
+      - Recurring mistakes
+    
+  - name: update_directives
+    agent: documenter
+    prompt: |
+      Update directives based on gaps:
+      - sub_agent_protocols.md
+      - architecture_guidelines.md
+      - code_review_checklist.md
+      - lessons_learned.md
+    
+  - name: create_workflows
+    agent: manager
+    condition: if_recurring_task
+    prompt: |
+      Identified recurring task: {task_description}
+      Create new AntiGravity workflow to automate it.
+    
+  - name: improvement_plan
+    agent: manager
+    prompt: |
+      Create 3 specific improvements for next week.
+      Assign owners and deadlines.
+    
+  - name: store_insights
+    action: save_memory
+    tags: ["retrospective", "week_{week_number}"]
+    content: "{insights}"

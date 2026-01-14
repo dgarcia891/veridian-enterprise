@@ -1,0 +1,37 @@
+name: review-code
+description: Comprehensive automated code review
+trigger: manual
+parameters:
+  - files_changed: array
+steps:
+  - name: run_linter
+    action: shell_command
+    command: "npm run lint"  # or your linter
+    
+  - name: check_tests
+    action: shell_command
+    command: "npm run test:coverage"
+    
+  - name: security_scan
+    action: shell_command
+    command: "npm audit"
+    
+  - name: duplication_check
+    action: shell_command
+    command: "npx jscpd app_source/"
+    
+  - name: manual_review
+    agent: reviewer
+    prompt: |
+      Review against code_review_checklist.md:
+      - Plan adherence
+      - Security vulnerabilities
+      - Error handling
+      - Performance concerns
+      Generate artifact: review_report_[feature].md
+    
+  - name: approval_decision
+    agent: reviewer
+    prompt: |
+      DECISION: APPROVE or REQUEST_CHANGES
+      If REQUEST_CHANGES, provide specific line-by-line feedback

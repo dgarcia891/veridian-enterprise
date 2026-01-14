@@ -1,0 +1,21 @@
+name: Duplication Prevention
+description: Prevent component and logic duplication
+rules:
+  - name: Check Component Inventory
+    condition: new_file in "components/" || "hooks/" || "utils/"
+    action: require_check
+    check: component_inventory_searched
+    message: "Must search component_inventory.md before creating new component"
+    
+  - name: Similar Component Detection
+    condition: new_component
+    action: run_analysis
+    analysis: find_similar_components
+    block_if: similar_components_found && !justification_provided
+    message: "Similar components exist: {similar_list}. Provide reuse justification."
+    
+  - name: Update Inventory
+    condition: new_reusable_component_created
+    action: require_update
+    file: "directives/component_inventory.md"
+    message: "New reusable component must be added to inventory"

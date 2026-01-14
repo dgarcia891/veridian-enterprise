@@ -1,0 +1,43 @@
+name: discover-components
+description: Multi-layered component discovery and reuse analysis
+trigger: manual
+parameters:
+  - requirements: string
+steps:
+  - name: check_inventory
+    action: search_file
+    file: "directives/component_inventory.md"
+    query: "{feature_keywords}"
+    
+  - name: grep_codebase
+    action: shell_command
+    command: "grep -r '{search_pattern}' app_source/"
+    
+  - name: check_packages
+    action: search_npm
+    query: "{feature_type}"
+    
+  - name: query_memory
+    action: query_memory
+    query: "similar components for {feature_type}"
+    
+  - name: analyze_findings
+    agent: architect
+    prompt: |
+      Analyze all discovery results.
+      Create comparison artifact:
+      - Exact matches found
+      - Partial matches (can be extended)
+      - Similar patterns in codebase
+      - External packages available
+      - Recommendation: reuse vs. build
+      Generate artifact: component_discovery_[feature].md
+    
+  - name: calculate_savings
+    agent: architect
+    prompt: |
+      Calculate reuse savings:
+      - Lines of code saved
+      - Maintenance burden avoided
+      - Testing requirements reduced
+      Add to comparison artifact

@@ -1,0 +1,12 @@
+name: Test Requirements
+description: Enforcement of testing standards
+rules:
+  - name: Unit Tests Required
+    condition: new_function_created
+    action: require_test
+    message: "New function must have unit test"
+
+  - name: Regression Test Required
+    condition: bug_fix
+    action: require_test
+    message: "Bug fix must include regression test case"

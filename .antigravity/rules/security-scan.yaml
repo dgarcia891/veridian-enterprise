@@ -1,0 +1,30 @@
+name: Security Validation
+description: Automated security checks
+rules:
+  - name: No Hardcoded Secrets
+    condition: file_change
+    action: scan_pattern
+    patterns:
+      - "api_key\\s*=\\s*['\"]\\w+"
+      - "password\\s*=\\s*['\"]\\w+"
+      - "secret\\s*=\\s*['\"]\\w+"
+    block_if: pattern_found
+    message: "Hardcoded secrets detected. Use environment variables."
+    
+  - name: SQL Injection Prevention
+    condition: file_contains_sql
+    action: scan_pattern
+    patterns:
+      - "\\$\\{.*\\}.*SELECT"
+      - "\\+.*SELECT.*FROM"
+    block_if: pattern_found
+    message: "Potential SQL injection. Use parameterized queries."
+    
+  - name: XSS Prevention
+    condition: file_contains_html_render
+    action: scan_pattern
+    patterns:
+      - "innerHTML\\s*="
+      - "dangerouslySetInnerHTML"
+    block_if: pattern_found && !sanitization_found
+    message: "Potential XSS vulnerability. Sanitize user input."

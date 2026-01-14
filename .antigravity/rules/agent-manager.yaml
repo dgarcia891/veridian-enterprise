@@ -1,0 +1,31 @@
+name: Agent Manager Core Rules
+description: Core operating rules for Agent Manager
+rules:
+  - name: No Direct Implementation
+    condition: agent_role == "manager" && action == "write_code"
+    action: block
+    message: "Agent Manager must delegate to Developer Agent, not implement directly"
+    
+  - name: Require Plan Artifact
+    condition: file_modification && !plan_artifact_exists
+    action: block
+    message: "Implementation plan artifact required before file modifications"
+    
+  - name: Component Discovery Required
+    condition: new_component && !discovery_artifact_exists
+    action: block
+    message: "Must run /discover-components before creating new UI components"
+    
+  - name: Pattern Detection
+    condition: similar_issues >= 3
+    action: trigger_workflow
+    workflow: /create-prevention-system
+    message: "Pattern detected. Triggering prevention system creation."
+    
+  - name: Auto-Invoke Workflows
+    conditions:
+      - user_input contains "new feature" -> /new-feature
+      - user_input contains "bug" || "error" || "broken" -> /bug-fix
+      - user_input contains "deploy" || "release" -> /deploy
+      - plan_approved -> /approve-plan
+    action: auto_trigger

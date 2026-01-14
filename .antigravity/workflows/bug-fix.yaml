@@ -1,0 +1,56 @@
+name: bug-fix
+description: Systematic bug triage and fix workflow
+trigger: manual
+steps:
+  - name: triage
+    agent: manager
+    prompt: |
+      TRIAGE ANALYSIS:
+      1. Is this a PATTERN (3+ similar) or ONE-OFF?
+      2. Root cause: code, config, data, or environment?
+      3. Severity: critical, high, medium, low
+      4. Blast radius: how many users affected?
+      
+      Generate artifact: triage_[bug_id].md
+    
+  - name: check_history
+    action: query_memory
+    query: "similar bugs to {bug_description}"
+    
+  - name: pattern_check
+    agent: manager
+    condition: if_pattern
+    prompt: |
+      PATTERN DETECTED. Creating prevention system.
+      1. Design validation rules
+      2. Create automated tests
+      3. Update code_review_checklist.md
+      Generate artifact: bug_postmortem_[pattern_name].md
+    
+  - name: assign_fix
+    agent: developer
+    prompt: |
+      Fix bug according to triage analysis.
+      Add regression test.
+      Update relevant validation.
+    
+  - name: verify_fix
+    agent: tester
+    prompt: |
+      Verify bug is fixed.
+      Test regression scenarios.
+      Verify no side effects.
+    
+  - name: update_prevention
+    agent: documenter
+    condition: if_pattern
+    prompt: |
+      Update prevention systems:
+      - Add to code_review_checklist.md
+      - Create .antigravity/rules/ if systemic
+      - Update lessons_learned.md
+    
+  - name: store_solution
+    action: save_memory
+    tags: ["bug", "solution", "{bug_type}"]
+    content: "{fix_description}"

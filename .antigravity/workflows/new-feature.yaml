@@ -1,0 +1,69 @@
+name: new-feature
+description: Full feature development pipeline with component discovery
+trigger: manual
+steps:
+  - name: capture_requirements
+    agent: architect
+    prompt: |
+      Capture feature requirements from user input.
+      Ask clarifying questions if needed.
+      Generate artifact: requirements_[feature_name].md
+    
+  - name: check_memory
+    action: query_memory
+    query: "similar features to {feature_name}"
+    
+  - name: discover_components
+    agent: architect
+    workflow: /discover-components
+    input: "{requirements}"
+    
+  - name: create_plan
+    agent: architect
+    prompt: |
+      Based on component discovery and requirements,
+      create detailed implementation plan.
+      Generate artifact: implementation_plan_[feature_name].md
+    requires_approval: true
+    
+  - name: implement
+    agent: developer
+    workflow: /implement-plan
+    input: "{approved_plan}"
+    trigger: after_approval
+    
+  - name: self_critique
+    agent: developer
+    prompt: |
+      Generate self-critique artifact covering:
+      - 5 edge cases not tested
+      - Security considerations
+      - Performance concerns
+      Generate artifact: self_critique_[feature_name].md
+    
+  - name: review
+    agent: reviewer
+    workflow: /review-code
+    input: "{implementation_files}"
+    
+  - name: test
+    agent: tester
+    prompt: |
+      Execute test suite and verify functionality.
+      Test edge cases from self-critique.
+      Generate artifact: test_report_[feature_name].md
+    
+  - name: update_docs
+    agent: documenter
+    prompt: |
+      Update component_inventory.md, lessons_learned.md
+      Sync with code changes
+    
+  - name: ready_for_deploy
+    action: notify
+    message: "Feature {feature_name} ready. Run /deploy when ready."
+    
+  - name: store_pattern
+    action: save_memory
+    tags: ["feature", "pattern", "{feature_name}"]
+    content: "{lessons_learned}"

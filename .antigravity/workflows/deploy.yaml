@@ -1,0 +1,66 @@
+name: deploy
+description: Full deployment pipeline with safety checks
+trigger: manual
+parameters:
+  - environment: string  # staging, production
+steps:
+  - name: pre_deploy_check
+    agent: deployment
+    prompt: |
+      Pre-deployment verification:
+      - All tests passing?
+      - Code review approved?
+      - Breaking changes documented?
+      - Database migrations ready?
+      Generate artifact: pre_deploy_checklist_[version].md
+    
+  - name: run_tests
+    action: shell_command
+    command: "npm test"  # or your test command
+    
+  - name: build
+    action: shell_command
+    command: "npm run build"  # or your build command
+    
+  - name: staging_deploy
+    condition: if_production
+    agent: deployment
+    prompt: |
+      Deploy to staging first.
+      Run smoke tests.
+      Verify functionality.
+    
+  - name: version_bump
+    action: shell_command
+    command: "npm version {patch|minor|major}"
+    
+  - name: tag_release
+    action: git_command
+    command: "git tag -a v{version} -m '{changelog}'"
+    
+  - name: deploy_production
+    agent: deployment
+    requires_confirmation: true
+    prompt: "Deploy version {version} to production"
+    
+  - name: post_deploy_verify
+    agent: tester
+    prompt: |
+      Post-deployment verification:
+      - Health check endpoints responding
+      - Key features functional
+      - No error spikes in logs
+    
+  - name: update_deployment_log
+    agent: documenter
+    prompt: |
+      Update deployment log with:
+      - Version deployed
+      - Timestamp
+      - Changes included
+      - Rollback procedure
+    
+  - name: store_deployment
+    action: save_memory
+    tags: ["deployment", "v{version}"]
+    content: "{deployment_report}"
