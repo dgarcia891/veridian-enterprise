@@ -25,7 +25,8 @@ export const useAnalytics = () => {
 
   // Initialize GA4 on mount
   useEffect(() => {
-    if (!initialized.current && GA4_MEASUREMENT_ID) {
+    const isIgnored = localStorage.getItem("ignore_analytics") === "true";
+    if (!initialized.current && GA4_MEASUREMENT_ID && !isIgnored) {
       // @ts-ignore
       window.gtagConfig?.(GA4_MEASUREMENT_ID);
       initialized.current = true;
@@ -34,6 +35,12 @@ export const useAnalytics = () => {
 
   const trackEvent = useCallback(
     async (eventName: string, options: TrackEventOptions = {}) => {
+      const isIgnored = localStorage.getItem("ignore_analytics") === "true";
+      if (isIgnored) {
+        console.log(`[Analytics Ignored] ${eventName}`, options);
+        return;
+      }
+
       const { category = "general", metadata = {} } = options;
 
       // Send to GA4 if configured

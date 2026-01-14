@@ -33,6 +33,7 @@ steps:
   - name: version_bump
     action: shell_command
     command: "npm version {patch|minor|major}"
+    description: "Follow Protocol: directives/deployment_protocol.md for versioning."
     
   - name: tag_release
     action: git_command
