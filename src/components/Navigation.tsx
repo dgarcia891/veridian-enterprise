@@ -48,7 +48,17 @@ const Navigation = () => {
   ];
 
   if (isAdmin) {
-    navItems.push({ href: "/admin/blog", label: "Admin", type: "link" });
+    navItems.push({
+      label: "Admin",
+      type: "dropdown",
+      href: "/admin/blog",
+      items: [
+        { id: "blog", name: "Blog Management", href: "/admin/blog", tagline: "Manage posts & content" },
+        { id: "ai", name: "AI Config", href: "/admin/ai-settings", tagline: "Pipeline & Verification" },
+        { id: "analytics", name: "Analytics", href: "/admin/analytics", tagline: "View site performance" }
+        // @ts-expect-error - Casting to match Service type structure
+      ] as unknown as any
+    });
   }
   return <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 glass-card" role="navigation" aria-label="Main navigation">
     <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -88,7 +98,7 @@ const Navigation = () => {
             return (
               <div key={idx} className="flex items-center">
                 <Link
-                  to="/services"
+                  to={item.href || "/services"}
                   className="text-muted-foreground hover:text-foreground transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary rounded-sm px-2 py-1"
                   role="menuitem"
                 >
@@ -99,7 +109,7 @@ const Navigation = () => {
                     <button
                       className="text-muted-foreground hover:text-foreground transition-colors duration-200 p-1 focus:outline-none focus:ring-2 focus:ring-primary rounded-sm"
                       aria-haspopup="true"
-                      aria-label="View services menu"
+                      aria-label={`View ${item.label} menu`}
                     >
                       <ChevronDown size={16} className="transition-transform duration-200" aria-hidden="true" />
                     </button>
@@ -109,7 +119,7 @@ const Navigation = () => {
                       {item.items?.map((service) => (
                         <Link
                           key={service.id}
-                          to={`/services/${service.slug}`}
+                          to={service.href || `/services/${service.slug}`}
                           className="block px-4 py-3 text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
                         >
                           <div className="font-semibold">{service.name}</div>
@@ -188,7 +198,7 @@ const Navigation = () => {
             return (
               <div key={idx} className="space-y-2">
                 <Link
-                  to="/services"
+                  to={item.href || "/services"}
                   className="text-muted-foreground font-semibold text-sm hover:text-foreground transition-colors"
                   onClick={() => setIsOpen(false)}
                   role="menuitem"
@@ -198,7 +208,7 @@ const Navigation = () => {
                 {item.items?.map((service) => (
                   <Link
                     key={service.id}
-                    to={`/services/${service.slug}`}
+                    to={service.href || `/services/${service.slug}`}
                     className="block pl-4 py-2 text-foreground/80 hover:text-foreground transition-colors"
                     onClick={() => setIsOpen(false)}
                     role="menuitem"

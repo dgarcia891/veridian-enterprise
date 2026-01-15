@@ -33,6 +33,7 @@ export interface Service {
   benefits: Benefit[];
   pricing: PricingPlan[];
   active: boolean;
+  href?: string;
 }
 
 export const services: Service[] = [

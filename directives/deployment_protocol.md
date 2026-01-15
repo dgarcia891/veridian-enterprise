@@ -13,8 +13,8 @@ Before running any git commands, the Agent MUST:
 1. **Verify Repository**: Ensure the current working directory is inside a valid git repo (`git status`).
 2. **Check Remote**: Confirm where code will be pushed (`git remote -v`).
 3. **Safety Check**:
-    - Are there any critical errors in the files just edited?
-    - (Optional) Run `npm run build` or `npm test` if the project requires it.
+    - Are there there any critical errors in the files just edited?
+    - **MANDATORY**: Run `npm run build` (or `tsc --noEmit`) to verify compilation integrity. **Do not push if the build fails.**
 
 ## 3. Deployment Workflow
 
