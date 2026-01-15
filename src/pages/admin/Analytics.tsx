@@ -66,6 +66,7 @@ const Analytics = () => {
   const [rawEvents, setRawEvents] = useState<AnalyticsEvent[]>([]);
   const [ignoreUpdate, setIgnoreUpdate] = useState(0);
   const [activeTab, setActiveTab] = useState("combined");
+  const [adminIp, setAdminIp] = useState<string | null>(null);
   const ledgerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -73,6 +74,19 @@ const Analytics = () => {
       navigate("/admin");
     }
   }, [isAdmin, adminLoading, navigate]);
+
+  useEffect(() => {
+    const fetchMyIp = async () => {
+      try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        setAdminIp(data.ip);
+      } catch (e) {
+        console.error("Failed to fetch admin IP:", e);
+      }
+    };
+    fetchMyIp();
+  }, []);
 
   const getDateFilter = useCallback(() => {
     const now = new Date();
@@ -137,10 +151,8 @@ const Analytics = () => {
 
         if (isIgnored) {
           try {
-            const ipResponse = await fetch('https://api.ipify.org?format=json');
-            const ipData = await ipResponse.json();
-            const myIp = ipData.ip;
-
+            const myIp = adminIp || (await fetch('https://api.ipify.org?format=json').then(res => res.json())).ip;
+            if (!adminIp) setAdminIp(myIp);
             filteredEvents = events.filter(e => e.ip_address !== myIp);
           } catch (e) {
             console.error("Failed to filter by IP:", e);
@@ -178,7 +190,7 @@ const Analytics = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [getDateFilter]);
+  }, [getDateFilter, adminIp]);
 
   useEffect(() => {
     if (isAdmin) {
@@ -871,24 +883,36 @@ const Analytics = () => {
                         {rawEvents
                           .filter(e => !selectedEvent || e.event_name === selectedEvent)
                           .slice(0, 50)
-                          .map((event, i) => (
-                            <tr key={i} className="border-b hover:bg-muted/30 transition-colors">
-                              <td className="p-2 text-muted-foreground whitespace-nowrap">
-                                {new Date(event.created_at).toLocaleString()}
-                              </td>
-                              <td className="p-2 font-medium">
-                                <div className="flex items-center gap-2">
-                                  {getEventIcon(event.event_name)}
-                                  {formatEventName(event.event_name)}
-                                </div>
-                              </td>
-                              <td className="p-2 font-mono text-xs">{event.ip_address || "hidden"}</td>
-                              <td className="p-2 truncate max-w-[150px]">{event.page_path}</td>
-                              <td className="p-2 text-xs text-muted-foreground">
-                                {JSON.stringify(event.metadata)}
-                              </td>
-                            </tr>
-                          ))}
+                          .map((event, i) => {
+                            const isMyAdmin = adminIp && event.ip_address === adminIp;
+                            return (
+                              <tr
+                                key={i}
+                                className={`border-b hover:bg-muted/30 transition-colors ${isMyAdmin ? "bg-primary/10 border-l-4 border-l-primary" : ""
+                                  }`}
+                              >
+                                <td className="p-2 text-muted-foreground whitespace-nowrap">
+                                  {new Date(event.created_at).toLocaleString()}
+                                </td>
+                                <td className="p-2 font-medium">
+                                  <div className="flex items-center gap-2">
+                                    {getEventIcon(event.event_name)}
+                                    {formatEventName(event.event_name)}
+                                    {isMyAdmin && (
+                                      <span className="text-[10px] bg-primary/20 text-primary px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
+                                        Your Activity
+                                      </span>
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="p-2 font-mono text-xs">{event.ip_address || "hidden"}</td>
+                                <td className="p-2 truncate max-w-[150px]">{event.page_path}</td>
+                                <td className="p-2 text-xs text-muted-foreground">
+                                  {JSON.stringify(event.metadata)}
+                                </td>
+                              </tr>
+                            );
+                          })}
                       </tbody>
                     </table>
                     {rawEvents.length === 0 && (
