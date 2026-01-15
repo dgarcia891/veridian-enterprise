@@ -860,6 +860,9 @@ const Analytics = () => {
                         ? `Showing detailed logs for: ${formatEventName(selectedEvent)}`
                         : "Recent custom events from all users"}
                     </p>
+                    <p className="text-[10px] text-primary/70 mt-1 font-medium italic">
+                      * Highlighted rows indicate your own activity (detecting: {adminIp || "..."})
+                    </p>
                   </div>
                   {selectedEvent && (
                     <Button variant="outline" size="sm" onClick={() => setSelectedEvent(null)}>
@@ -897,12 +900,16 @@ const Analytics = () => {
                                 <td className="p-2 font-medium">
                                   <div className="flex items-center gap-2">
                                     {getEventIcon(event.event_name)}
-                                    {formatEventName(event.event_name)}
-                                    {isMyAdmin && (
-                                      <span className="text-[10px] bg-primary/20 text-primary px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
-                                        Your Activity
-                                      </span>
-                                    )}
+                                    <a
+                                      href={event.page_path || "/"}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="hover:text-primary hover:underline underline-offset-4 cursor-help transition-all flex items-center gap-1"
+                                      title={`Click to view page: ${event.page_path}`}
+                                    >
+                                      {formatEventName(event.event_name)}
+                                      <ExternalLink className="w-3 h-3 opacity-30 group-hover:opacity-100" />
+                                    </a>
                                   </div>
                                 </td>
                                 <td className="p-2 font-mono text-xs">{event.ip_address || "hidden"}</td>
