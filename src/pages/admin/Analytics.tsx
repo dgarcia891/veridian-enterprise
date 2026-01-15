@@ -60,7 +60,7 @@ const Analytics = () => {
   const [ga4Data, setGa4Data] = useState<GA4Data | null>(null);
   const [ga4Loading, setGa4Loading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
-  const [rawEvents, setRawEvents] = useState<Record<string, any>[]>([]);
+  const [rawEvents, setRawEvents] = useState<AnalyticsEvent[]>([]);
   const [ignoreUpdate, setIgnoreUpdate] = useState(0);
   const ledgerRef = useRef<HTMLDivElement>(null);
 
