@@ -65,6 +65,7 @@ const Analytics = () => {
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
   const [rawEvents, setRawEvents] = useState<AnalyticsEvent[]>([]);
   const [ignoreUpdate, setIgnoreUpdate] = useState(0);
+  const [activeTab, setActiveTab] = useState("combined");
   const ledgerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -246,11 +247,12 @@ const Analytics = () => {
     const newEvent = selectedEvent === eventName ? null : eventName;
     setSelectedEvent(newEvent);
 
-    // Auto-scroll to ledger if selecting an event
+    // Switch to Custom Events tab and scroll to ledger
     if (newEvent) {
+      setActiveTab("custom");
       setTimeout(() => {
         ledgerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 100);
+      }, 150);
     }
   };
 
@@ -296,7 +298,7 @@ const Analytics = () => {
           </div>
         </div>
 
-        <Tabs defaultValue="combined" className="space-y-6">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="grid w-full max-w-md grid-cols-3">
             <TabsTrigger value="combined">Combined</TabsTrigger>
             <TabsTrigger value="ga4">Google Analytics</TabsTrigger>
