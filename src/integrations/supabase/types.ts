@@ -219,6 +219,7 @@ export type Database = {
           error_message: string | null
           id: string
           processed_at: string | null
+          prompt_id: string | null
           source_content: string | null
           source_id: string | null
           source_title: string | null
@@ -231,6 +232,7 @@ export type Database = {
           error_message?: string | null
           id?: string
           processed_at?: string | null
+          prompt_id?: string | null
           source_content?: string | null
           source_id?: string | null
           source_title?: string | null
@@ -243,6 +245,7 @@ export type Database = {
           error_message?: string | null
           id?: string
           processed_at?: string | null
+          prompt_id?: string | null
           source_content?: string | null
           source_id?: string | null
           source_title?: string | null
@@ -255,6 +258,13 @@ export type Database = {
             columns: ["blog_post_id"]
             isOneToOne: false
             referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_blog_queue_prompt_id_fkey"
+            columns: ["prompt_id"]
+            isOneToOne: false
+            referencedRelation: "ai_blog_config"
             referencedColumns: ["id"]
           },
           {
@@ -321,6 +331,7 @@ export type Database = {
           status: string
           title: string
           updated_at: string
+          verification_notes: string | null
         }
         Insert: {
           author_name?: string | null
@@ -337,6 +348,7 @@ export type Database = {
           status?: string
           title: string
           updated_at?: string
+          verification_notes?: string | null
         }
         Update: {
           author_name?: string | null
@@ -353,6 +365,7 @@ export type Database = {
           status?: string
           title?: string
           updated_at?: string
+          verification_notes?: string | null
         }
         Relationships: []
       }
