@@ -3,6 +3,7 @@ import { ArrowRight, CheckCircle, Shield, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useROI } from "@/contexts/ROIContext";
 import { formatCurrency } from "@/hooks/useROICalculation";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 interface CloserSectionProps {
   isMediumBusiness: boolean;
@@ -10,14 +11,12 @@ interface CloserSectionProps {
 
 const CloserSection = ({ isMediumBusiness }: CloserSectionProps) => {
   const navigate = useNavigate();
+  const { trackCTAClick } = useAnalytics();
   const { annualLoss: annualLossValue } = useROI();
   const annualLoss = formatCurrency(annualLossValue);
 
   const handleCTAClick = () => {
-    console.log('[Analytics] CTA Click: Final Closer', { 
-      location: 'closer-section', 
-      timestamp: new Date().toISOString() 
-    });
+    trackCTAClick("Book My Free AI Audit", "Closer Section");
     navigate("/schedule-consultation");
   };
 
@@ -44,14 +43,15 @@ const CloserSection = ({ isMediumBusiness }: CloserSectionProps) => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6 text-foreground">
             Can You Afford to <strong>Miss Another Call?</strong>
           </h2>
-          
+
           <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-3">
             Stop losing <strong>
-              <a 
+              <a
                 href="#calculator"
                 className="text-destructive hover:underline cursor-pointer transition-all"
                 onClick={(e) => {
                   e.preventDefault();
+                  trackCTAClick("Lost Revenue Scroll Link", "Closer Section");
                   document.getElementById('calculator')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }}
               >
@@ -59,7 +59,7 @@ const CloserSection = ({ isMediumBusiness }: CloserSectionProps) => {
               </a>
             </strong>.
           </p>
-          
+
           <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-12">
             Start converting <strong>100% of your calls</strong>.
           </p>
@@ -69,7 +69,7 @@ const CloserSection = ({ isMediumBusiness }: CloserSectionProps) => {
             {finalValueProps.map((prop, index) => {
               const Icon = prop.icon;
               return (
-                <div 
+                <div
                   key={index}
                   className="flex flex-col items-center gap-3 p-6 rounded-xl bg-background/50 border border-border hover:border-primary transition-all duration-200"
                 >
@@ -86,7 +86,7 @@ const CloserSection = ({ isMediumBusiness }: CloserSectionProps) => {
 
           {/* CTA Button */}
           <div className="mb-8">
-            <Button 
+            <Button
               onClick={handleCTAClick}
               size="default"
               className="bg-primary text-primary-foreground rounded-full px-6 sm:px-10 md:px-12 py-4 sm:py-6 md:py-7 text-base sm:text-lg md:text-xl font-bold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group shadow-lg w-full sm:w-auto"
@@ -102,11 +102,11 @@ const CloserSection = ({ isMediumBusiness }: CloserSectionProps) => {
             <p className="text-base text-muted-foreground">
               <strong className="text-foreground">No Risk.</strong> 60-Day Money Back Guarantee.
             </p>
-            
+
             <p className="text-base text-muted-foreground">
               <strong className="text-foreground">No Contract.</strong> Cancel anytime.
             </p>
-            
+
             <p className="text-base text-muted-foreground">
               <strong className="text-foreground">No Complex Setup.</strong> Live in 24 hours.
             </p>

@@ -8,8 +8,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormDescription } fr
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
-import { ArrowRight, Clock, Zap, Building2, Globe, MessageSquare } from "lucide-react";
-
+import { ArrowRight, Clock, Zap, Building2, Globe, MessageSquare, Save, HelpCircle, Sparkles, CheckCircle, AlertTriangle, Mail, User, Phone } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useAnalytics } from "@/hooks/useAnalytics";
+import { Label } from "@/components/ui/label";
 const quickAssessmentSchema = z.object({
   industry: z.string().min(1, "Please select your industry"),
   responseTime: z.string().min(1, "Please select response time"),
@@ -29,6 +31,7 @@ interface QuickAssessmentFormProps {
 
 const QuickAssessmentForm = ({ onSubmit, prefilledIndustry, businessName }: QuickAssessmentFormProps) => {
   const [showWebsiteUrl, setShowWebsiteUrl] = useState(false);
+  const { trackEvent, trackCTAClick } = useAnalytics();
 
   const form = useForm<QuickAssessmentData>({
     resolver: zodResolver(quickAssessmentSchema),
@@ -63,7 +66,33 @@ const QuickAssessmentForm = ({ onSubmit, prefilledIndustry, businessName }: Quic
 
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form
+              onSubmit={async (e) => {
+                // Track Intent
+                trackCTAClick("Generate My AI Opportunity Report", "Quick Assessment Form");
+
+                await form.handleSubmit((data) => {
+                  trackEvent("audit_step_success", {
+                    category: "engagement",
+                    metadata: { step: "quick_assessment", industry: data.industry }
+                  });
+                  onSubmit(data);
+                })(e);
+
+                // Check for errors after submission attempt
+                const errorFields = Object.keys(form.formState.errors);
+                if (errorFields.length > 0) {
+                  trackEvent("form_error", {
+                    category: "engagement",
+                    metadata: {
+                      form: "quick_assessment",
+                      errors: errorFields.join(", ")
+                    }
+                  });
+                }
+              }}
+              className="space-y-8"
+            >
               {/* 1. Industry */}
               <FormField
                 control={form.control}
@@ -211,7 +240,7 @@ const QuickAssessmentForm = ({ onSubmit, prefilledIndustry, businessName }: Quic
                         ))}
                       </div>
                     </FormControl>
-                    
+
                     {hasWebsiteValue === "yes" && (
                       <FormField
                         control={form.control}
@@ -223,8 +252,8 @@ const QuickAssessmentForm = ({ onSubmit, prefilledIndustry, businessName }: Quic
                               We'll analyze it for opportunities
                             </FormDescription>
                             <FormControl>
-                              <Input 
-                                placeholder="https://yourwebsite.com" 
+                              <Input
+                                placeholder="https://yourwebsite.com"
                                 {...field}
                                 className="h-11"
                               />
@@ -233,13 +262,13 @@ const QuickAssessmentForm = ({ onSubmit, prefilledIndustry, businessName }: Quic
                         )}
                       />
                     )}
-                    
+
                     {hasWebsiteValue === "no" && (
                       <p className="text-sm text-muted-foreground mt-2">
                         No problem - we'll show you why AI can help without one
                       </p>
                     )}
-                    
+
                     {hasWebsiteValue === "coming-soon" && (
                       <p className="text-sm text-muted-foreground mt-2">
                         Perfect timing to add AI from day one
@@ -284,15 +313,15 @@ const QuickAssessmentForm = ({ onSubmit, prefilledIndustry, businessName }: Quic
 
               {/* Submit Button */}
               <div className="pt-4 space-y-4">
-                <Button 
-                  type="submit" 
+                <Button
+                  type="submit"
                   size="lg"
                   className="w-full text-lg h-14 font-semibold group hover:scale-[1.02] transition-all"
                 >
                   Generate My AI Opportunity Report
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
-                
+
                 <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
                   <span className="flex items-center gap-1">
                     ✓ Instant results

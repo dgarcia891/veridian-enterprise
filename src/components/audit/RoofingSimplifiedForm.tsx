@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Phone, Building2, TrendingUp } from "lucide-react";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 interface RoofingSimplifiedFormProps {
   onSubmit: (data: {
@@ -18,6 +19,7 @@ const RoofingSimplifiedForm = ({ onSubmit }: RoofingSimplifiedFormProps) => {
   const [phone, setPhone] = useState("");
   const [callsPerWeek, setCallsPerWeek] = useState(50);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const { trackEvent, trackCTAClick } = useAnalytics();
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -41,11 +43,32 @@ const RoofingSimplifiedForm = ({ onSubmit }: RoofingSimplifiedFormProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Track Intent
+    trackCTAClick("Show Me What I'm Losing", "Roofing Simplified Form");
+
     if (validateForm()) {
+      trackEvent("audit_intent_success", {
+        category: "engagement",
+        metadata: { form: "roofing_simplified", businessName }
+      });
+
       onSubmit({
         businessName: businessName.trim(),
         phone: phone.trim(),
         callsPerWeek,
+      });
+    } else {
+      // Track Failure
+      const validationErrors = validateForm() ? {} : errors; // This is a bit redundant but safe
+      trackEvent("form_error", {
+        category: "engagement",
+        metadata: {
+          form: "roofing_simplified",
+          errors: Object.keys(errors).join(", "),
+          businessName_length: businessName.length,
+          has_phone: !!phone
+        }
       });
     }
   };
@@ -138,9 +161,9 @@ const RoofingSimplifiedForm = ({ onSubmit }: RoofingSimplifiedFormProps) => {
         </div>
 
         {/* Submit Button */}
-        <Button 
-          type="submit" 
-          size="lg" 
+        <Button
+          type="submit"
+          size="lg"
           className="w-full text-lg h-14 font-semibold"
         >
           Show Me What I'm Losing →

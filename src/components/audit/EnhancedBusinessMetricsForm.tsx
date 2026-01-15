@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { EnhancedBusinessMetrics } from "@/hooks/useEnhancedAuditCalculation";
-import { Save, HelpCircle, Sparkles } from "lucide-react";
+import { Save, HelpCircle, Sparkles, CheckCircle, AlertTriangle, ArrowRight, Mail, User, Phone } from "lucide-react";
 import { QuickAssessmentData } from "./QuickAssessmentForm";
+import { useAnalytics } from "@/hooks/useAnalytics";
+import { useToast } from "@/hooks/use-toast";
 
 interface EnhancedBusinessMetricsFormProps {
   onSubmit: (metrics: EnhancedBusinessMetrics) => void;
@@ -18,11 +20,16 @@ interface EnhancedBusinessMetricsFormProps {
   prefilledIndustry?: string;
 }
 
+interface ContactCaptureFormProps {
+  onSubmit: (data: { name: string; email: string; phone: string }) => void;
+  isLoading: boolean;
+}
+
 const STORAGE_KEY = 'audit-form-progress';
 const STORAGE_EXPIRY = 24 * 60 * 60 * 1000; // 24 hours
 
-const EnhancedBusinessMetricsForm = ({ 
-  onSubmit, 
+const EnhancedBusinessMetricsForm = ({
+  onSubmit,
   onBackgroundAnalysis,
   quickAssessmentData,
   prefilledMissedCalls,
@@ -32,23 +39,24 @@ const EnhancedBusinessMetricsForm = ({
   const [websiteUrl, setWebsiteUrl] = useState(quickAssessmentData?.websiteUrl || "");
   const [totalCustomersPerMonth, setTotalCustomersPerMonth] = useState("");
   const [avgProfitPerCustomer, setAvgProfitPerCustomer] = useState("");
-  
+
   // Website analytics
   const [websiteKnowledge, setWebsiteKnowledge] = useState("");
   const [websiteVisitsPerMonth, setWebsiteVisitsPerMonth] = useState("");
   const [monthlyWebsiteLeads, setMonthlyWebsiteLeads] = useState("");
   const [visitorLeadConversion, setVisitorLeadConversion] = useState("");
-  
+
   // Call handling
   const [missedCallsPerWeek, setMissedCallsPerWeek] = useState(prefilledMissedCalls || 10);
   const [followupCompletionRate, setFollowupCompletionRate] = useState(70);
   const [currentCallMethod, setCurrentCallMethod] = useState("");
-  
+
   // Customer sources - simplified to buttons
   const [customerSource, setCustomerSource] = useState<"mostly-website" | "mostly-phone" | "about-even" | "not-sure" | "">("");
-  
+
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [hasTriggeredBackgroundScan, setHasTriggeredBackgroundScan] = useState(false);
+  const { trackEvent, trackCTAClick } = useAnalytics();
 
   const showWebsiteQuestions = websiteKnowledge === "exactly" || websiteKnowledge === "kind-of";
   const hasWebsite = quickAssessmentData?.hasWebsite === "yes";
@@ -114,7 +122,7 @@ const EnhancedBusinessMetricsForm = ({
     const triggerBackgroundAnalysis = async () => {
       if (websiteUrl && industry && !hasTriggeredBackgroundScan && onBackgroundAnalysis) {
         setHasTriggeredBackgroundScan(true);
-        
+
         try {
           const normalizedUrl = normalizeUrl(websiteUrl);
           const response = await fetch(
@@ -125,7 +133,7 @@ const EnhancedBusinessMetricsForm = ({
               body: JSON.stringify({ websiteUrl: normalizedUrl, industry }),
             }
           );
-          
+
           if (response.ok) {
             const data = await response.json();
             onBackgroundAnalysis(data.analysis);
@@ -150,7 +158,7 @@ const EnhancedBusinessMetricsForm = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Convert customer source to percentages
     const customerSourceSplit = (() => {
       switch (customerSource) {
@@ -161,15 +169,24 @@ const EnhancedBusinessMetricsForm = ({
         default: return { website: 33, phone: 33, other: 34 };
       }
     })();
-    
+
     const totalCustomers = parseInt(totalCustomersPerMonth) || 0;
     const customersFromWebsite = Math.round(totalCustomers * (customerSourceSplit.website / 100));
     const customersFromPhone = Math.round(totalCustomers * (customerSourceSplit.phone / 100));
     const customersFromOther = Math.round(totalCustomers * (customerSourceSplit.other / 100));
-    
+
     // Get pre-filled data from quick assessment
     const textPreference = 100 - (quickAssessmentData?.communicationPreference || 50);
     const phonePreference = quickAssessmentData?.communicationPreference || 50;
+
+    // Track Intent
+    trackCTAClick("Generate My Complete AI Report", "Enhanced Metrics Form");
+
+    // Track Success
+    trackEvent("audit_step_success", {
+      category: "engagement",
+      metadata: { step: "enhanced_metrics", industry }
+    });
 
     onSubmit({
       // NEW fields
@@ -178,19 +195,19 @@ const EnhancedBusinessMetricsForm = ({
       websiteKnowledge: websiteKnowledge as "exactly" | "kind-of" | "no-idea" || "no-idea",
       textPreference,
       phonePreference,
-      
+
       // Calculated values
       customersFromWebsite,
       customersFromPhone,
       customersFromOther,
       messagingPreferenceRate: textPreference,
-      
+
       // Conditional website fields
       monthlyWebsiteVisits: showWebsiteQuestions ? (websiteVisitsPerMonth ? parseInt(websiteVisitsPerMonth) : undefined) : undefined,
       monthlyWebsiteLeads: showWebsiteQuestions ? (monthlyWebsiteLeads ? parseInt(monthlyWebsiteLeads) : 0) : 0,
       leadCloseRate: 30, // Default value
       visitorLeadConversion: showWebsiteQuestions ? (visitorLeadConversion || "medium") : "medium",
-      
+
       // Other fields
       missedCallsPerWeek,
       avgProfitPerCustomer: parseFloat(avgProfitPerCustomer) || 0,
@@ -201,7 +218,7 @@ const EnhancedBusinessMetricsForm = ({
       followupCompletionRate,
       afterHoursImportance: quickAssessmentData?.afterHoursImportance || "moderate",
     });
-    
+
     // Clear saved progress after successful submit
     localStorage.removeItem(STORAGE_KEY);
   };
@@ -216,20 +233,20 @@ const EnhancedBusinessMetricsForm = ({
           <CardDescription className="text-base">
             All questions optional - we'll estimate anything you skip
           </CardDescription>
-          
+
           {lastSaved && (
             <div className="flex items-center justify-center gap-2 mt-2 text-xs text-muted-foreground">
               <Save className="w-3 h-3" />
               <span>Progress saved {lastSaved.toLocaleTimeString()}</span>
             </div>
           )}
-          
+
           <div className="flex items-center justify-center gap-2 text-sm font-medium text-primary">
             <Sparkles className="w-4 h-4" />
             <span>Final Section - Skip any you don't know</span>
           </div>
         </CardHeader>
-        
+
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Section 1: Revenue & Scale */}
@@ -529,14 +546,14 @@ const EnhancedBusinessMetricsForm = ({
                 You're about to see exactly how much revenue AI could recover
               </div>
 
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 size="lg"
                 className="w-full text-lg h-14 font-semibold"
               >
                 Generate My Complete AI Report
               </Button>
-              
+
               <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
                 <span>✓ Instant results</span>
                 <span>✓ No credit card</span>

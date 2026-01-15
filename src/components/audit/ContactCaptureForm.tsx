@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -12,6 +14,7 @@ interface ContactCaptureFormProps {
 
 const ContactCaptureForm = ({ onSubmit }: ContactCaptureFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -20,10 +23,45 @@ const ContactCaptureForm = ({ onSubmit }: ContactCaptureFormProps) => {
     companyName: "",
   });
 
+  const { trackCTAClick, trackEvent } = useAnalytics();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Track Intent
+    trackCTAClick("Claim My Audit Results", "Contact Capture Form");
+
+    const isNameMissing = !formData.firstName.trim() || !formData.lastName.trim();
+    const isEmailMissing = !formData.email.trim();
+
+    if (isEmailMissing || isNameMissing) {
+      // Track Validation Failure
+      trackEvent("form_error", {
+        category: "engagement",
+        metadata: {
+          form: "contact_capture",
+          missing_fields: [
+            isNameMissing ? "name" : null,
+            isEmailMissing ? "email" : null
+          ].filter(Boolean).join(", ")
+        }
+      });
+
+      toast({
+        title: "Required Fields",
+        description: "Please enter your name and email to receive your report.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Track Success Intent (Pre-submit)
+    trackEvent("audit_intent_success", {
+      category: "engagement",
+      metadata: { form: "contact_capture", has_phone: !!formData.phone.trim() }
+    });
+
     setIsLoading(true);
-    
     try {
       await onSubmit(formData);
     } finally {
@@ -47,7 +85,7 @@ const ContactCaptureForm = ({ onSubmit }: ContactCaptureFormProps) => {
           Enter your details to receive your comprehensive analysis
         </CardDescription>
       </CardHeader>
-      
+
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -112,9 +150,9 @@ const ContactCaptureForm = ({ onSubmit }: ContactCaptureFormProps) => {
             />
           </div>
 
-          <Button 
-            type="submit" 
-            size="lg" 
+          <Button
+            type="submit"
+            size="lg"
             className="w-full"
             disabled={!isValid || isLoading}
           >
