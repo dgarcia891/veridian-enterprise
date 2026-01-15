@@ -207,6 +207,7 @@ export function AdminAISettings() {
 
     useEffect(() => {
         loadAllData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const loadAllData = async () => {
@@ -224,7 +225,7 @@ export function AdminAISettings() {
 
     // ========== RSS Sources ==========
     const loadRssSources = async () => {
-        // @ts-expect-error Types not generated yet
+
         const { data, error } = await supabase
             .from("ai_blog_config")
             .select("*")
@@ -243,7 +244,7 @@ export function AdminAISettings() {
         };
 
         if (editingRss) {
-            // @ts-expect-error Types not generated yet
+
             const { error } = await supabase
                 .from("ai_blog_config")
                 .update({ name: rssForm.name, value: configValue })
@@ -255,7 +256,7 @@ export function AdminAISettings() {
             }
             toast.success("RSS source updated");
         } else {
-            // @ts-expect-error Types not generated yet
+
             const { error } = await supabase
                 .from("ai_blog_config")
                 .insert({
@@ -279,7 +280,7 @@ export function AdminAISettings() {
     };
 
     const handleDeleteRss = async (id: string) => {
-        // @ts-expect-error Types not generated yet
+
         const { error } = await supabase
             .from("ai_blog_config")
             .delete()
@@ -294,7 +295,7 @@ export function AdminAISettings() {
     };
 
     const handleToggleRss = async (id: string, isActive: boolean) => {
-        // @ts-expect-error Types not generated yet
+
         const { error } = await supabase
             .from("ai_blog_config")
             .update({ is_active: !isActive })
@@ -307,7 +308,7 @@ export function AdminAISettings() {
 
     // ========== LLM Settings ==========
     const loadLlmSettings = async () => {
-        // @ts-expect-error Types not generated yet
+
         const { data, error } = await supabase
             .from("ai_blog_config")
             .select("*")
@@ -333,7 +334,7 @@ export function AdminAISettings() {
         };
 
         if (llmSettings) {
-            // @ts-expect-error Types not generated yet
+
             const { error } = await supabase
                 .from("ai_blog_config")
                 .update({ value: configValue })
@@ -344,7 +345,7 @@ export function AdminAISettings() {
                 return;
             }
         } else {
-            // @ts-expect-error Types not generated yet
+
             const { error } = await supabase
                 .from("ai_blog_config")
                 .insert({
@@ -366,7 +367,7 @@ export function AdminAISettings() {
 
     // ========== Prompt Templates ==========
     const loadPromptTemplates = async () => {
-        // @ts-expect-error Types not generated yet
+
         const { data, error } = await supabase
             .from("ai_blog_config")
             .select("*")
@@ -387,7 +388,7 @@ export function AdminAISettings() {
         };
 
         if (editingPrompt) {
-            // @ts-expect-error Types not generated yet
+
             const { error } = await supabase
                 .from("ai_blog_config")
                 .update({ name: promptForm.name, value: configValue })
@@ -399,7 +400,7 @@ export function AdminAISettings() {
             }
             toast.success("Prompt template updated");
         } else {
-            // @ts-expect-error Types not generated yet
+
             const { error } = await supabase
                 .from("ai_blog_config")
                 .insert({
@@ -423,7 +424,7 @@ export function AdminAISettings() {
     };
 
     const handleDeletePrompt = async (id: string) => {
-        // @ts-expect-error Types not generated yet
+
         const { error } = await supabase
             .from("ai_blog_config")
             .delete()
@@ -439,7 +440,7 @@ export function AdminAISettings() {
 
     // ========== Automation Rules ==========
     const loadRules = async () => {
-        // @ts-expect-error Types not generated yet
+
         const { data, error } = await supabase
             .from("ai_blog_config")
             .select("*")
@@ -459,7 +460,7 @@ export function AdminAISettings() {
         };
 
         if (editingRule) {
-            // @ts-expect-error Types not generated yet
+
             const { error } = await supabase
                 .from("ai_blog_config")
                 .update({ name: ruleForm.name, value: configValue })
@@ -471,7 +472,7 @@ export function AdminAISettings() {
             }
             toast.success("Rule updated");
         } else {
-            // @ts-expect-error Types not generated yet
+
             const { error } = await supabase
                 .from("ai_blog_config")
                 .insert({
@@ -495,7 +496,7 @@ export function AdminAISettings() {
     };
 
     const handleDeleteRule = async (id: string) => {
-        // @ts-expect-error Types not generated yet
+
         const { error } = await supabase
             .from("ai_blog_config")
             .delete()
@@ -510,7 +511,7 @@ export function AdminAISettings() {
     };
 
     const handleToggleRule = async (id: string, isActive: boolean) => {
-        // @ts-expect-error Types not generated yet
+
         const { error } = await supabase
             .from("ai_blog_config")
             .update({ is_active: !isActive })
@@ -523,7 +524,7 @@ export function AdminAISettings() {
 
     // ========== Verification Config ==========
     const loadVerificationConfig = async () => {
-        // @ts-expect-error Types not generated yet
+
         const { data, error } = await supabase
             .from("ai_blog_config")
             .select("*")
@@ -553,7 +554,7 @@ export function AdminAISettings() {
         };
 
         if (verificationConfig) {
-            // @ts-expect-error Types not generated yet
+
             const { error } = await supabase
                 .from("ai_blog_config")
                 .update({ value: configValue })
@@ -564,7 +565,7 @@ export function AdminAISettings() {
                 return;
             }
         } else {
-            // @ts-expect-error Types not generated yet
+
             const { error } = await supabase
                 .from("ai_blog_config")
                 .insert({
@@ -586,7 +587,7 @@ export function AdminAISettings() {
 
     // ========== Queue ==========
     const loadQueue = async () => {
-        // @ts-expect-error Types not generated yet
+
         const { data, error } = await supabase
             .from("ai_blog_queue")
             .select("*")
@@ -618,7 +619,7 @@ export function AdminAISettings() {
     };
 
     const handleSkipItem = async (queueId: string) => {
-        // @ts-expect-error Types not generated yet
+
         const { error } = await supabase
             .from("ai_blog_queue")
             .update({ status: "skipped" })
@@ -631,7 +632,7 @@ export function AdminAISettings() {
     };
 
     const handleRetryItem = async (queueId: string) => {
-        // @ts-expect-error Types not generated yet
+
         const { error } = await supabase
             .from("ai_blog_queue")
             .update({ status: "pending", error_message: null })
@@ -657,27 +658,27 @@ export function AdminAISettings() {
                 <TabsList className="grid w-full grid-cols-6 mb-4">
                     <TabsTrigger value="rss" className="flex items-center gap-2">
                         <Rss className="w-4 h-4" />
-                        Preview Sources
-                    </TabsTrigger>
-                    <TabsTrigger value="rules" className="flex items-center gap-2">
-                        <Workflow className="w-4 h-4" />
-                        Pipeline Rules
-                    </TabsTrigger>
-                    <TabsTrigger value="llm" className="flex items-center gap-2">
-                        <Bot className="w-4 h-4" />
-                        Generator
-                    </TabsTrigger>
-                    <TabsTrigger value="verification" className="flex items-center gap-2">
-                        <ShieldCheck className="w-4 h-4" />
-                        Verification
+                        1. Sources
                     </TabsTrigger>
                     <TabsTrigger value="prompts" className="flex items-center gap-2">
                         <FileText className="w-4 h-4" />
-                        Prompts
+                        2. Prompts
+                    </TabsTrigger>
+                    <TabsTrigger value="llm" className="flex items-center gap-2">
+                        <Bot className="w-4 h-4" />
+                        3. Generator
+                    </TabsTrigger>
+                    <TabsTrigger value="verification" className="flex items-center gap-2">
+                        <ShieldCheck className="w-4 h-4" />
+                        4. Reviewer
+                    </TabsTrigger>
+                    <TabsTrigger value="rules" className="flex items-center gap-2">
+                        <Workflow className="w-4 h-4" />
+                        5. Pipeline
                     </TabsTrigger>
                     <TabsTrigger value="queue" className="flex items-center gap-2">
                         <ListTodo className="w-4 h-4" />
-                        Queue
+                        6. Queue
                     </TabsTrigger>
                 </TabsList>
 
@@ -685,9 +686,9 @@ export function AdminAISettings() {
                 <TabsContent value="rss" className="space-y-4">
                     <div className="flex justify-between items-center">
                         <div>
-                            <h3 className="text-lg font-semibold">RSS Feed Sources</h3>
+                            <h3 className="text-lg font-semibold">Step 1: Define Content Sources</h3>
                             <p className="text-sm text-muted-foreground">
-                                Manage the raw RSS feeds available for your pipeline rules.
+                                Add RSS feeds from trusted industry blogs. These will be the raw input for your AI articles.
                             </p>
                         </div>
                         <Dialog open={rssDialogOpen} onOpenChange={setRssDialogOpen}>
@@ -820,13 +821,345 @@ export function AdminAISettings() {
                     </Card>
                 </TabsContent>
 
-                {/* Pipeline Rules Tab */}
+                {/* Prompts Tab (Moved to #2) */}
+                <TabsContent value="prompts" className="space-y-4">
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <h3 className="text-lg font-semibold">Step 2: Create Prompt Templates</h3>
+                            <p className="text-sm text-muted-foreground">
+                                Define how the AI should rewrite the content. Create different templates for different styles (e.g., News Summary, Deep Dive).
+                            </p>
+                        </div>
+                        <Dialog open={promptDialogOpen} onOpenChange={setPromptDialogOpen}>
+                            <DialogTrigger asChild>
+                                <Button onClick={() => {
+                                    setEditingPrompt(null);
+                                    setPromptForm({ name: "", description: "", system_prompt: "", user_prompt: "", word_count: 800 });
+                                }}>
+                                    <Plus className="w-4 h-4 mr-2" />
+                                    Add Template
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                                <DialogHeader>
+                                    <DialogTitle>{editingPrompt ? "Edit Template" : "Add Template"}</DialogTitle>
+                                    <DialogDescription>
+                                        Configure a prompt template for article generation.
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <div className="space-y-4 py-4">
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="prompt-name">Template Name</Label>
+                                            <Input
+                                                id="prompt-name"
+                                                value={promptForm.name}
+                                                onChange={(e) => setPromptForm({ ...promptForm, name: e.target.value })}
+                                                placeholder="News Summary"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="prompt-words">Target Word Count</Label>
+                                            <Input
+                                                id="prompt-words"
+                                                type="number"
+                                                value={promptForm.word_count}
+                                                onChange={(e) => setPromptForm({ ...promptForm, word_count: parseInt(e.target.value) || 800 })}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="prompt-desc">Description</Label>
+                                        <Input
+                                            id="prompt-desc"
+                                            value={promptForm.description}
+                                            onChange={(e) => setPromptForm({ ...promptForm, description: e.target.value })}
+                                            placeholder="Rewrite news articles in brand voice"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="prompt-system">System Prompt</Label>
+                                        <Textarea
+                                            id="prompt-system"
+                                            value={promptForm.system_prompt}
+                                            onChange={(e) => setPromptForm({ ...promptForm, system_prompt: e.target.value })}
+                                            placeholder="You are a professional blog writer..."
+                                            rows={4}
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="prompt-user">User Prompt</Label>
+                                        <Textarea
+                                            id="prompt-user"
+                                            value={promptForm.user_prompt}
+                                            onChange={(e) => setPromptForm({ ...promptForm, user_prompt: e.target.value })}
+                                            placeholder="Write about {{source_title}}..."
+                                            rows={6}
+                                        />
+                                        <p className="text-xs text-muted-foreground">
+                                            Available placeholders: {"{{source_title}}"}, {"{{source_content}}"}, {"{{source_url}}"}, {"{{target_word_count}}"}, {"{{category}}"}, {"{{company_name}}"}
+                                        </p>
+                                    </div>
+                                </div>
+                                <DialogFooter>
+                                    <Button variant="outline" onClick={() => setPromptDialogOpen(false)}>Cancel</Button>
+                                    <Button onClick={handleSavePrompt}>Save</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
+
+                    <div className="grid gap-4">
+                        {promptTemplates.length === 0 ? (
+                            <Card>
+                                <CardContent className="py-8 text-center text-muted-foreground">
+                                    No prompt templates configured. Add one to get started.
+                                </CardContent>
+                            </Card>
+                        ) : (
+                            promptTemplates.map((template) => (
+                                <Card key={template.id}>
+                                    <CardHeader className="flex flex-row items-start justify-between space-y-0">
+                                        <div>
+                                            <CardTitle className="text-base">{template.name}</CardTitle>
+                                            <CardDescription>{template.value.description}</CardDescription>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                onClick={() => {
+                                                    setEditingPrompt(template);
+                                                    setPromptForm({
+                                                        name: template.name,
+                                                        description: template.value.description,
+                                                        system_prompt: template.value.system_prompt,
+                                                        user_prompt: template.value.user_prompt,
+                                                        word_count: template.value.word_count,
+                                                    });
+                                                    setPromptDialogOpen(true);
+                                                }}
+                                            >
+                                                <Pencil className="w-4 h-4" />
+                                            </Button>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                onClick={() => handleDeletePrompt(template.id)}
+                                            >
+                                                <Trash2 className="w-4 h-4 text-destructive" />
+                                            </Button>
+                                        </div>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                                            <div className="flex items-center gap-1">
+                                                <FileText className="w-3 h-3" />
+                                                {template.value.word_count} words
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                                {template.is_active ? (
+                                                    <span className="flex items-center gap-1 text-green-600">
+                                                        <Check className="w-3 h-3" /> Active
+                                                    </span>
+                                                ) : (
+                                                    <span className="flex items-center gap-1 text-muted-foreground">
+                                                        <X className="w-3 h-3" /> Inactive
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            ))
+                        )}
+                    </div>
+                </TabsContent>
+
+                {/* LLM Settings Tab (#3) */}
+                <TabsContent value="llm" className="space-y-4">
+                    <div>
+                        <h3 className="text-lg font-semibold">Step 3: Configure Generator</h3>
+                        <p className="text-sm text-muted-foreground">
+                            Select the AI model that will write the initial draft of your articles.
+                        </p>
+                    </div>
+
+                    <Card>
+                        <CardContent className="pt-6 space-y-6">
+                            <div className="space-y-2">
+                                <Label htmlFor="llm-provider">Provider</Label>
+                                <Select
+                                    value={llmForm.provider}
+                                    onValueChange={(value: "lovable" | "openai" | "anthropic") => {
+                                        setLlmForm({
+                                            ...llmForm,
+                                            provider: value,
+                                            model: LLM_MODELS[value][0].value,
+                                        });
+                                    }}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="lovable">Lovable AI (Built-in)</SelectItem>
+                                        <SelectItem value="openai">OpenAI</SelectItem>
+                                        <SelectItem value="anthropic">Anthropic</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                {llmForm.provider === "lovable" && (
+                                    <p className="text-xs text-green-600">✓ Uses your existing Lovable credits. No API key needed.</p>
+                                )}
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="llm-model">Model</Label>
+                                <Select
+                                    value={llmForm.model}
+                                    onValueChange={(value) => setLlmForm({ ...llmForm, model: value })}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {LLM_MODELS[llmForm.provider].map((model) => (
+                                            <SelectItem key={model.value} value={model.value}>
+                                                {model.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            {llmForm.provider !== "lovable" && (
+                                <div className="space-y-2">
+                                    <Label htmlFor="llm-api-key">API Key</Label>
+                                    <Input
+                                        id="llm-api-key"
+                                        type="password"
+                                        value={llmForm.api_key}
+                                        onChange={(e) => setLlmForm({ ...llmForm, api_key: e.target.value })}
+                                        placeholder={llmForm.provider === "openai" ? "sk-..." : "sk-ant-..."}
+                                    />
+                                    <p className="text-xs text-muted-foreground">
+                                        Your API key is stored securely and used only for article generation.
+                                    </p>
+                                </div>
+                            )}
+
+                            <Button onClick={handleSaveLlm}>Save Settings</Button>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+
+                {/* Verification Tab (#4) */}
+                <TabsContent value="verification" className="space-y-4">
+                    <div>
+                        <h3 className="text-lg font-semibold">Step 4: Enable Verification (Reviewer)</h3>
+                        <p className="text-sm text-muted-foreground">
+                            Use a separate AI model to review and improve drafts before they are published.
+                        </p>
+                    </div>
+
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-base font-medium">
+                                Enable Verification Step
+                            </CardTitle>
+                            <Switch
+                                checked={verificationForm.enabled}
+                                onCheckedChange={(checked) => setVerificationForm({ ...verificationForm, enabled: checked })}
+                            />
+                        </CardHeader>
+                        <CardContent className="space-y-6 pt-6">
+                            {verificationForm.enabled ? (
+                                <>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="ver-provider">Reviewer Provider</Label>
+                                            <Select
+                                                value={verificationForm.provider}
+                                                onValueChange={(value: "lovable" | "openai" | "anthropic") => {
+                                                    setVerificationForm({
+                                                        ...verificationForm,
+                                                        provider: value,
+                                                        model: LLM_MODELS[value][0].value,
+                                                    });
+                                                }}
+                                            >
+                                                <SelectTrigger>
+                                                    <SelectValue />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="openai">OpenAI</SelectItem>
+                                                    <SelectItem value="anthropic">Anthropic</SelectItem>
+                                                    <SelectItem value="lovable">Lovable AI</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="ver-model">Reviewer Model</Label>
+                                            <Select
+                                                value={verificationForm.model}
+                                                onValueChange={(value) => setVerificationForm({ ...verificationForm, model: value })}
+                                            >
+                                                <SelectTrigger>
+                                                    <SelectValue />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {LLM_MODELS[verificationForm.provider].map((model) => (
+                                                        <SelectItem key={model.value} value={model.value}>
+                                                            {model.label}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                    </div>
+
+                                    {verificationForm.provider !== "lovable" && (
+                                        <div className="space-y-2">
+                                            <Label htmlFor="ver-api-key">API Key (if different)</Label>
+                                            <Input
+                                                id="ver-api-key"
+                                                type="password"
+                                                value={verificationForm.api_key}
+                                                onChange={(e) => setVerificationForm({ ...verificationForm, api_key: e.target.value })}
+                                                placeholder="Leave blank to use Generator key if same provider"
+                                            />
+                                        </div>
+                                    )}
+
+                                    <div className="space-y-2">
+                                        <Label htmlFor="ver-prompt">Reviewer Instructions</Label>
+                                        <Textarea
+                                            id="ver-prompt"
+                                            value={verificationForm.prompt}
+                                            onChange={(e) => setVerificationForm({ ...verificationForm, prompt: e.target.value })}
+                                            placeholder="You are a senior editor. Review the article for clarity, tone, and accuracy..."
+                                            rows={6}
+                                        />
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="text-center py-8 text-muted-foreground">
+                                    Verification is currently disabled. Enable it to have a second AI review your drafts.
+                                </div>
+                            )}
+
+                            <Button onClick={handleSaveVerification}>Save Verification Config</Button>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+
+                {/* Pipeline Rules Tab (#5 - Moved from #2) */}
                 <TabsContent value="rules" className="space-y-4">
                     <div className="flex justify-between items-center">
                         <div>
-                            <h3 className="text-lg font-semibold">Pipeline Rules</h3>
+                            <h3 className="text-lg font-semibold">Step 5: Connect Pipeline</h3>
                             <p className="text-sm text-muted-foreground">
-                                Connect RSS sources to prompts with specific schedules.
+                                Create a rule that connects a <strong>Source</strong> to a <strong>Prompt</strong> and sets a schedule.
                             </p>
                         </div>
                         <Dialog open={ruleDialogOpen} onOpenChange={setRuleDialogOpen}>
@@ -984,345 +1317,13 @@ export function AdminAISettings() {
                     </Card>
                 </TabsContent>
 
-                {/* LLM Settings Tab */}
-                <TabsContent value="llm" className="space-y-4">
-                    <div>
-                        <h3 className="text-lg font-semibold">Generator Configuration</h3>
-                        <p className="text-sm text-muted-foreground">
-                            Select the primary AI model used to write the rough drafts.
-                        </p>
-                    </div>
-
-                    <Card>
-                        <CardContent className="pt-6 space-y-6">
-                            <div className="space-y-2">
-                                <Label htmlFor="llm-provider">Provider</Label>
-                                <Select
-                                    value={llmForm.provider}
-                                    onValueChange={(value: "lovable" | "openai" | "anthropic") => {
-                                        setLlmForm({
-                                            ...llmForm,
-                                            provider: value,
-                                            model: LLM_MODELS[value][0].value,
-                                        });
-                                    }}
-                                >
-                                    <SelectTrigger>
-                                        <SelectValue />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="lovable">Lovable AI (Built-in)</SelectItem>
-                                        <SelectItem value="openai">OpenAI</SelectItem>
-                                        <SelectItem value="anthropic">Anthropic</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                {llmForm.provider === "lovable" && (
-                                    <p className="text-xs text-green-600">✓ Uses your existing Lovable credits. No API key needed.</p>
-                                )}
-                            </div>
-
-                            <div className="space-y-2">
-                                <Label htmlFor="llm-model">Model</Label>
-                                <Select
-                                    value={llmForm.model}
-                                    onValueChange={(value) => setLlmForm({ ...llmForm, model: value })}
-                                >
-                                    <SelectTrigger>
-                                        <SelectValue />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {LLM_MODELS[llmForm.provider].map((model) => (
-                                            <SelectItem key={model.value} value={model.value}>
-                                                {model.label}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            </div>
-
-                            {llmForm.provider !== "lovable" && (
-                                <div className="space-y-2">
-                                    <Label htmlFor="llm-api-key">API Key</Label>
-                                    <Input
-                                        id="llm-api-key"
-                                        type="password"
-                                        value={llmForm.api_key}
-                                        onChange={(e) => setLlmForm({ ...llmForm, api_key: e.target.value })}
-                                        placeholder={llmForm.provider === "openai" ? "sk-..." : "sk-ant-..."}
-                                    />
-                                    <p className="text-xs text-muted-foreground">
-                                        Your API key is stored securely and used only for article generation.
-                                    </p>
-                                </div>
-                            )}
-
-                            <Button onClick={handleSaveLlm}>Save Settings</Button>
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-
-                {/* Verification Tab */}
-                <TabsContent value="verification" className="space-y-4">
-                    <div>
-                        <h3 className="text-lg font-semibold">LLM Verification (Reviewer)</h3>
-                        <p className="text-sm text-muted-foreground">
-                            Configure a second AI agent to review and critique drafts before they are finalized.
-                        </p>
-                    </div>
-
-                    <Card>
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-base font-medium">
-                                Enable Verification Step
-                            </CardTitle>
-                            <Switch
-                                checked={verificationForm.enabled}
-                                onCheckedChange={(checked) => setVerificationForm({ ...verificationForm, enabled: checked })}
-                            />
-                        </CardHeader>
-                        <CardContent className="space-y-6 pt-6">
-                            {verificationForm.enabled ? (
-                                <>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="space-y-2">
-                                            <Label htmlFor="ver-provider">Reviewer Provider</Label>
-                                            <Select
-                                                value={verificationForm.provider}
-                                                onValueChange={(value: "lovable" | "openai" | "anthropic") => {
-                                                    setVerificationForm({
-                                                        ...verificationForm,
-                                                        provider: value,
-                                                        model: LLM_MODELS[value][0].value,
-                                                    });
-                                                }}
-                                            >
-                                                <SelectTrigger>
-                                                    <SelectValue />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="openai">OpenAI</SelectItem>
-                                                    <SelectItem value="anthropic">Anthropic</SelectItem>
-                                                    <SelectItem value="lovable">Lovable AI</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor="ver-model">Reviewer Model</Label>
-                                            <Select
-                                                value={verificationForm.model}
-                                                onValueChange={(value) => setVerificationForm({ ...verificationForm, model: value })}
-                                            >
-                                                <SelectTrigger>
-                                                    <SelectValue />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    {LLM_MODELS[verificationForm.provider].map((model) => (
-                                                        <SelectItem key={model.value} value={model.value}>
-                                                            {model.label}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
-                                    </div>
-
-                                    {verificationForm.provider !== "lovable" && (
-                                        <div className="space-y-2">
-                                            <Label htmlFor="ver-api-key">API Key (if different)</Label>
-                                            <Input
-                                                id="ver-api-key"
-                                                type="password"
-                                                value={verificationForm.api_key}
-                                                onChange={(e) => setVerificationForm({ ...verificationForm, api_key: e.target.value })}
-                                                placeholder="Leave blank to use Generator key if same provider"
-                                            />
-                                        </div>
-                                    )}
-
-                                    <div className="space-y-2">
-                                        <Label htmlFor="ver-prompt">Reviewer Instructions</Label>
-                                        <Textarea
-                                            id="ver-prompt"
-                                            value={verificationForm.prompt}
-                                            onChange={(e) => setVerificationForm({ ...verificationForm, prompt: e.target.value })}
-                                            placeholder="You are a senior editor. Review the article for clarity, tone, and accuracy..."
-                                            rows={6}
-                                        />
-                                    </div>
-                                </>
-                            ) : (
-                                <div className="text-center py-8 text-muted-foreground">
-                                    Verification is currently disabled. Enable it to have a second AI review your drafts.
-                                </div>
-                            )}
-
-                            <Button onClick={handleSaveVerification}>Save Verification Config</Button>
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-
-                {/* Prompt Templates Tab */}
-                <TabsContent value="prompts" className="space-y-4">
-                    <div className="flex justify-between items-center">
-                        <div>
-                            <h3 className="text-lg font-semibold">Prompt Templates</h3>
-                            <p className="text-sm text-muted-foreground">
-                                Customize prompts for different article types.
-                            </p>
-                        </div>
-                        <Dialog open={promptDialogOpen} onOpenChange={setPromptDialogOpen}>
-                            <DialogTrigger asChild>
-                                <Button onClick={() => {
-                                    setEditingPrompt(null);
-                                    setPromptForm({ name: "", description: "", system_prompt: "", user_prompt: "", word_count: 800 });
-                                }}>
-                                    <Plus className="w-4 h-4 mr-2" />
-                                    Add Template
-                                </Button>
-                            </DialogTrigger>
-                            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-                                <DialogHeader>
-                                    <DialogTitle>{editingPrompt ? "Edit Template" : "Add Template"}</DialogTitle>
-                                    <DialogDescription>
-                                        Configure a prompt template for article generation.
-                                    </DialogDescription>
-                                </DialogHeader>
-                                <div className="space-y-4 py-4">
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="space-y-2">
-                                            <Label htmlFor="prompt-name">Template Name</Label>
-                                            <Input
-                                                id="prompt-name"
-                                                value={promptForm.name}
-                                                onChange={(e) => setPromptForm({ ...promptForm, name: e.target.value })}
-                                                placeholder="News Summary"
-                                            />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor="prompt-words">Target Word Count</Label>
-                                            <Input
-                                                id="prompt-words"
-                                                type="number"
-                                                value={promptForm.word_count}
-                                                onChange={(e) => setPromptForm({ ...promptForm, word_count: parseInt(e.target.value) || 800 })}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="prompt-desc">Description</Label>
-                                        <Input
-                                            id="prompt-desc"
-                                            value={promptForm.description}
-                                            onChange={(e) => setPromptForm({ ...promptForm, description: e.target.value })}
-                                            placeholder="Rewrite news articles in brand voice"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="prompt-system">System Prompt</Label>
-                                        <Textarea
-                                            id="prompt-system"
-                                            value={promptForm.system_prompt}
-                                            onChange={(e) => setPromptForm({ ...promptForm, system_prompt: e.target.value })}
-                                            placeholder="You are a professional blog writer..."
-                                            rows={4}
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="prompt-user">User Prompt</Label>
-                                        <Textarea
-                                            id="prompt-user"
-                                            value={promptForm.user_prompt}
-                                            onChange={(e) => setPromptForm({ ...promptForm, user_prompt: e.target.value })}
-                                            placeholder="Write about {{source_title}}..."
-                                            rows={6}
-                                        />
-                                        <p className="text-xs text-muted-foreground">
-                                            Available placeholders: {"{{source_title}}"}, {"{{source_content}}"}, {"{{source_url}}"}, {"{{target_word_count}}"}, {"{{category}}"}, {"{{company_name}}"}
-                                        </p>
-                                    </div>
-                                </div>
-                                <DialogFooter>
-                                    <Button variant="outline" onClick={() => setPromptDialogOpen(false)}>Cancel</Button>
-                                    <Button onClick={handleSavePrompt}>Save</Button>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
-                    </div>
-
-                    <div className="grid gap-4">
-                        {promptTemplates.length === 0 ? (
-                            <Card>
-                                <CardContent className="py-8 text-center text-muted-foreground">
-                                    No prompt templates configured. Add one to get started.
-                                </CardContent>
-                            </Card>
-                        ) : (
-                            promptTemplates.map((template) => (
-                                <Card key={template.id}>
-                                    <CardHeader className="flex flex-row items-start justify-between space-y-0">
-                                        <div>
-                                            <CardTitle className="text-base">{template.name}</CardTitle>
-                                            <CardDescription>{template.value.description}</CardDescription>
-                                        </div>
-                                        <div className="flex gap-2">
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                onClick={() => {
-                                                    setEditingPrompt(template);
-                                                    setPromptForm({
-                                                        name: template.name,
-                                                        description: template.value.description,
-                                                        system_prompt: template.value.system_prompt,
-                                                        user_prompt: template.value.user_prompt,
-                                                        word_count: template.value.word_count,
-                                                    });
-                                                    setPromptDialogOpen(true);
-                                                }}
-                                            >
-                                                <Pencil className="w-4 h-4" />
-                                            </Button>
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                onClick={() => handleDeletePrompt(template.id)}
-                                            >
-                                                <Trash2 className="w-4 h-4 text-destructive" />
-                                            </Button>
-                                        </div>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                                            <div className="flex items-center gap-1">
-                                                <FileText className="w-3 h-3" />
-                                                {template.value.word_count} words
-                                            </div>
-                                            <div className="flex items-center gap-1">
-                                                {template.is_active ? (
-                                                    <span className="flex items-center gap-1 text-green-600">
-                                                        <Check className="w-3 h-3" /> Active
-                                                    </span>
-                                                ) : (
-                                                    <span className="flex items-center gap-1 text-muted-foreground">
-                                                        <X className="w-3 h-3" /> Inactive
-                                                    </span>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            ))
-                        )}
-                    </div>
-                </TabsContent>
-
-                {/* Queue Tab */}
+                {/* Queue Tab (#6) */}
                 <TabsContent value="queue" className="space-y-4">
                     <div className="flex justify-between items-center">
                         <div>
-                            <h3 className="text-lg font-semibold">Generation Queue</h3>
+                            <h3 className="text-lg font-semibold">Step 6: Monitor Queue</h3>
                             <p className="text-sm text-muted-foreground">
-                                Monitor and manage pending article generations.
+                                Watch your pipeline in action. See pending items, running generations, and completed articles.
                             </p>
                         </div>
                         <Button variant="outline" size="sm" onClick={loadQueue}>
