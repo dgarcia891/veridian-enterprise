@@ -137,7 +137,6 @@ const Analytics = () => {
             const ipData = await ipResponse.json();
             const myIp = ipData.ip;
 
-            // @ts-expect-error - ip_address might be missing from type but exists in DB
             filteredEvents = events.filter(e => e.ip_address !== myIp);
           } catch (e) {
             console.error("Failed to filter by IP:", e);
