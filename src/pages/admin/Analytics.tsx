@@ -59,6 +59,8 @@ const Analytics = () => {
   const [dateRange, setDateRange] = useState<"7d" | "30d" | "all">("7d");
   const [ga4Data, setGa4Data] = useState<GA4Data | null>(null);
   const [ga4Loading, setGa4Loading] = useState(true);
+  const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
+  const [rawEvents, setRawEvents] = useState<any[]>([]);
 
   useEffect(() => {
     if (!adminLoading && !isAdmin) {
@@ -148,6 +150,7 @@ const Analytics = () => {
         }
 
         setTotalEvents(filteredEvents.length);
+        setRawEvents(filteredEvents.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()));
 
         const counts: Record<string, number> = {};
         filteredEvents.forEach((e) => {
@@ -348,7 +351,10 @@ const Analytics = () => {
 
             {/* Custom Events Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <Card>
+              <Card
+                className={`cursor-pointer transition-all hover:ring-2 hover:ring-primary ${selectedEvent === "consultation_booked" ? "ring-2 ring-primary bg-primary/5" : ""}`}
+                onClick={() => setSelectedEvent(selectedEvent === "consultation_booked" ? null : "consultation_booked")}
+              >
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground">
                     Consultations Booked
@@ -361,12 +367,15 @@ const Analytics = () => {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card
+                className={`cursor-pointer transition-all hover:ring-2 hover:ring-primary ${selectedEvent === "roi_calculator_used" ? "ring-2 ring-primary bg-primary/5" : ""}`}
+                onClick={() => setSelectedEvent(selectedEvent === "roi_calculator_used" ? null : "roi_calculator_used")}
+              >
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground">
                     ROI Calculator Uses
                   </CardTitle>
-                  <Calculator className="w-4 h-4 text-primary" />
+                  <Calendar className="w-4 h-4 text-primary" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-3xl font-bold">{calculatorUses}</div>
@@ -374,7 +383,10 @@ const Analytics = () => {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card
+                className={`cursor-pointer transition-all hover:ring-2 hover:ring-primary ${selectedEvent === "cta_click" ? "ring-2 ring-primary bg-primary/5" : ""}`}
+                onClick={() => setSelectedEvent(selectedEvent === "cta_click" ? null : "cta_click")}
+              >
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground">
                     CTA Clicks
@@ -387,7 +399,10 @@ const Analytics = () => {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card
+                className={`cursor-pointer transition-all hover:ring-2 hover:ring-primary ${selectedEvent === "blog_view" ? "ring-2 ring-primary bg-primary/5" : ""}`}
+                onClick={() => setSelectedEvent(selectedEvent === "blog_view" ? null : "blog_view")}
+              >
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground">
                     Blog Views
@@ -753,6 +768,68 @@ const Analytics = () => {
             <div className="text-center text-muted-foreground">
               <p>Total events tracked: <span className="font-semibold text-foreground">{totalEvents}</span></p>
             </div>
+
+            {/* Event Ledger */}
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle>Recent Event Ledger</CardTitle>
+                  <p className="text-sm text-muted-foreground">
+                    {selectedEvent
+                      ? `Showing detailed logs for: ${formatEventName(selectedEvent)}`
+                      : "Recent custom events from all users"}
+                  </p>
+                </div>
+                {selectedEvent && (
+                  <Button variant="outline" size="sm" onClick={() => setSelectedEvent(null)}>
+                    Clear Filter
+                  </Button>
+                )}
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left p-2">Time</th>
+                        <th className="text-left p-2">Event</th>
+                        <th className="text-left p-2">IP Address</th>
+                        <th className="text-left p-2">Page</th>
+                        <th className="text-left p-2">Metadata</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rawEvents
+                        .filter(e => !selectedEvent || e.event_name === selectedEvent)
+                        .slice(0, 50)
+                        .map((event, i) => (
+                          <tr key={i} className="border-b hover:bg-muted/30 transition-colors">
+                            <td className="p-2 text-muted-foreground whitespace-nowrap">
+                              {new Date(event.created_at).toLocaleString()}
+                            </td>
+                            <td className="p-2 font-medium">
+                              <div className="flex items-center gap-2">
+                                {getEventIcon(event.event_name)}
+                                {formatEventName(event.event_name)}
+                              </div>
+                            </td>
+                            <td className="p-2 font-mono text-xs">{event.ip_address || "hidden"}</td>
+                            <td className="p-2 truncate max-w-[150px]">{event.page_path}</td>
+                            <td className="p-2 text-xs text-muted-foreground">
+                              {JSON.stringify(event.metadata)}
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                  {rawEvents.length === 0 && (
+                    <div className="text-center py-8 text-muted-foreground">
+                      No events found for this filter.
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>
