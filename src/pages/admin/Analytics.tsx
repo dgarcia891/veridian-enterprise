@@ -69,26 +69,6 @@ const Analytics = () => {
     }
   }, [isAdmin, adminLoading, navigate]);
 
-  useEffect(() => {
-    if (isAdmin) {
-      fetchAnalytics();
-      fetchGA4Analytics();
-    }
-
-    // Listen for analytics toggle changes from other components
-    const handleStorageChange = () => {
-      setIgnoreUpdate(prev => prev + 1);
-    };
-    window.addEventListener('storage', handleStorageChange);
-    // Custom event for same-window updates
-    window.addEventListener('analytics-ignore-change', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('analytics-ignore-change', handleStorageChange);
-    };
-  }, [isAdmin, dateRange, ignoreUpdate, fetchAnalytics, fetchGA4Analytics]);
-
   const getDateFilter = useCallback(() => {
     const now = new Date();
     if (dateRange === "7d") {
@@ -126,7 +106,7 @@ const Analytics = () => {
     } finally {
       setGa4Loading(false);
     }
-  }, [dateRange, getGA4DateRange]);
+  }, [getGA4DateRange]);
 
   const fetchAnalytics = useCallback(async () => {
     setIsLoading(true);
@@ -194,7 +174,27 @@ const Analytics = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [dateRange, getDateFilter]);
+  }, [getDateFilter]);
+
+  useEffect(() => {
+    if (isAdmin) {
+      fetchAnalytics();
+      fetchGA4Analytics();
+    }
+
+    // Listen for analytics toggle changes from other components
+    const handleStorageChange = () => {
+      setIgnoreUpdate(prev => prev + 1);
+    };
+    window.addEventListener('storage', handleStorageChange);
+    // Custom event for same-window updates
+    window.addEventListener('analytics-ignore-change', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('analytics-ignore-change', handleStorageChange);
+    };
+  }, [isAdmin, ignoreUpdate, fetchAnalytics, fetchGA4Analytics]);
 
   if (adminLoading || isLoading) {
     return (
