@@ -119,7 +119,7 @@ const Analytics = () => {
 
       let query = supabase
         .from("analytics_events")
-        .select("event_name, event_category, page_path, created_at, ip_address");
+        .select("*");
 
       if (dateFilter) {
         query = query.gte("created_at", dateFilter);
