@@ -254,6 +254,11 @@ const Analytics = () => {
   const calculatorUses = eventCounts.find((e) => e.event_name === "roi_calculator_used")?.count || 0;
   const blogViews = eventCounts.find((e) => e.event_name === "blog_view")?.count || 0;
   const ctaClicks = eventCounts.find((e) => e.event_name === "cta_click")?.count || 0;
+  const formErrors = eventCounts.find((e) => e.event_name === "form_error")?.count || 0;
+  const auditCompletions =
+    (eventCounts.find((e) => e.event_name === "audit_intent_success")?.count || 0) +
+    (eventCounts.find((e) => e.event_name === "audit_step_success")?.count || 0);
+  const formSuccesses = eventCounts.find((e) => e.event_name === "form_success")?.count || 0;
 
   const handleEventSelect = (eventName: string) => {
     const newEvent = selectedEvent === eventName ? null : eventName;
@@ -781,6 +786,63 @@ const Analytics = () => {
                   <div className="flex items-center justify-between mt-1">
                     <p className="text-xs text-muted-foreground">article reads</p>
                     {selectedEvent === "blog_view" && <span className="text-[10px] text-primary font-medium animate-pulse">Viewing Logs ↓</span>}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card
+                className={`cursor-pointer transition-all hover:ring-2 hover:ring-destructive h-full ${selectedEvent === "form_error" ? "ring-2 ring-destructive bg-destructive/5" : ""}`}
+                onClick={() => handleEventSelect("form_error")}
+              >
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">
+                    Form Errors
+                  </CardTitle>
+                  <AlertCircle className="w-4 h-4 text-destructive" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-3xl font-bold text-destructive">{formErrors}</div>
+                  <div className="flex items-center justify-between mt-1">
+                    <p className="text-xs text-muted-foreground">validation failures</p>
+                    {selectedEvent === "form_error" && <span className="text-[10px] text-destructive font-medium animate-pulse">Viewing Logs ↓</span>}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card
+                className={`cursor-pointer transition-all hover:ring-2 hover:ring-green-500 h-full ${selectedEvent === "audit_intent_success" ? "ring-2 ring-green-500 bg-green-500/5" : ""}`}
+                onClick={() => handleEventSelect("audit_intent_success")}
+              >
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">
+                    Audit Completions
+                  </CardTitle>
+                  <TrendingUp className="w-4 h-4 text-green-500" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-3xl font-bold text-green-500">{auditCompletions}</div>
+                  <div className="flex items-center justify-between mt-1">
+                    <p className="text-xs text-muted-foreground">form submissions</p>
+                    {selectedEvent === "audit_intent_success" && <span className="text-[10px] text-green-500 font-medium animate-pulse">Viewing Logs ↓</span>}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card
+                className={`cursor-pointer transition-all hover:ring-2 hover:ring-primary h-full ${selectedEvent === "form_success" ? "ring-2 ring-primary bg-primary/5" : ""}`}
+                onClick={() => handleEventSelect("form_success")}
+              >
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">
+                    Form Successes
+                  </CardTitle>
+                  <Calendar className="w-4 h-4 text-primary" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-3xl font-bold">{formSuccesses}</div>
+                  <div className="flex items-center justify-between mt-1">
+                    <p className="text-xs text-muted-foreground">valid submissions</p>
+                    {selectedEvent === "form_success" && <span className="text-[10px] text-primary font-medium animate-pulse">Viewing Logs ↓</span>}
                   </div>
                 </CardContent>
               </Card>
