@@ -830,8 +830,9 @@ const Analytics = () => {
               </Card>
             </div>
 
-            <div className="text-center text-muted-foreground">
+            <div className="text-center text-muted-foreground space-y-1">
               <p>Total events tracked: <span className="font-semibold text-foreground">{totalEvents}</span></p>
+              <p className="text-xs opacity-50">Build: 2026-01-15-v2</p>
             </div>
 
             {/* Event Ledger */}
