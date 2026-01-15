@@ -2,11 +2,11 @@
 // Update these values with your Cal.com account details
 export const CALCOM_CONFIG = {
   // Your Cal.com username (from your Cal.com URL: cal.com/YOUR_USERNAME)
-  username: "your-cal-username",
-  
+  username: "david-garcia-89",
+
   // Your event type slug (from the event URL: cal.com/username/EVENT_SLUG)
-  eventSlug: "consultation",
-  
+  eventSlug: "ai3kdemocall",
+
   // Full booking link (constructed automatically)
   get bookingLink() {
     return `${this.username}/${this.eventSlug}`;

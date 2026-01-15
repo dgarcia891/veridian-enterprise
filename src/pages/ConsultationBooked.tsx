@@ -5,13 +5,16 @@ import Footer from '@/components/Footer';
 import { Helmet } from 'react-helmet';
 import { Button } from '@/components/ui/button';
 import { CheckCircle2, Calendar, FileText, Phone, ArrowRight } from 'lucide-react';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 const ConsultationBooked = () => {
   const navigate = useNavigate();
+  const { trackConsultationBooked } = useAnalytics();
 
   useEffect(() => {
     document.title = "Consultation Booked - AI Agents 3000";
-  }, []);
+    trackConsultationBooked();
+  }, [trackConsultationBooked]);
 
   const preparationSteps = [
     {
@@ -45,10 +48,10 @@ const ConsultationBooked = () => {
         <title>Consultation Booked - AI Agents 3000</title>
         <meta name="description" content="Your consultation is confirmed. Here's what to expect and how to prepare for your AI Agents 3000 onboarding call." />
       </Helmet>
-      
+
       <div className="min-h-screen bg-background flex flex-col">
         <Navigation />
-        
+
         <main className="flex-1 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             {/* Success Header */}
@@ -151,7 +154,7 @@ const ConsultationBooked = () => {
             </div>
           </div>
         </main>
-        
+
         <Footer />
       </div>
     </>

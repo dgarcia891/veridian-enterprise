@@ -6,11 +6,20 @@ import { ArrowLeft, Calendar, Clock, User, Loader2, Pencil } from "lucide-react"
 import { usePostBySlug } from "@/hooks/useBlogPosts";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { Button } from "@/components/ui/button";
+import { useAnalytics } from "@/hooks/useAnalytics";
+import { useEffect } from "react";
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const { data: post, isLoading, error } = usePostBySlug(slug || "");
   const { isAdmin } = useIsAdmin();
+  const { trackBlogView, trackCTAClick } = useAnalytics();
+
+  useEffect(() => {
+    if (post) {
+      trackBlogView(post.slug, post.title);
+    }
+  }, [post, trackBlogView]);
 
   if (isLoading) {
     return (
@@ -97,7 +106,7 @@ const BlogPost = () => {
                 <ArrowLeft size={20} />
                 Back to Blog
               </Link>
-              
+
               {isAdmin && (
                 <Button asChild variant="outline" size="sm">
                   <Link to={`/admin/blog/edit/${post.id}`}>
@@ -118,10 +127,10 @@ const BlogPost = () => {
                   <Calendar size={14} />
                   {post.published_at
                     ? new Date(post.published_at).toLocaleDateString("en-US", {
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric",
-                      })
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })
                     : "Recently"}
                 </span>
                 <span className="flex items-center gap-1">
@@ -169,12 +178,14 @@ const BlogPost = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   to="/schedule-consultation"
+                  onClick={() => trackCTAClick("Schedule Demo", "Blog Post Bottom CTA")}
                   className="inline-flex items-center justify-center bg-primary text-primary-foreground px-6 py-3 rounded-full font-semibold hover:scale-105 transition-transform"
                 >
                   Schedule Demo
                 </Link>
                 <Link
                   to="/lost-revenue-calculator"
+                  onClick={() => trackCTAClick("Calculate ROI", "Blog Post Bottom CTA")}
                   className="inline-flex items-center justify-center glass-button px-6 py-3 rounded-full font-semibold hover:scale-105 transition-transform"
                 >
                   Calculate ROI

@@ -6,6 +6,7 @@ import { DollarSign, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useROI } from "@/contexts/ROIContext";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 interface InteractiveCalculatorProps {
   isMediumBusiness: boolean;
@@ -19,19 +20,20 @@ const costComparisonData = [
 const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps) => {
   const navigate = useNavigate();
   const { setAnnualLoss } = useROI();
-  
+  const { trackROICalculatorUsed, trackCTAClick } = useAnalytics();
+
   // Create custom value mapping for customer profit slider
   const customerValueMap = [
     ...Array.from({ length: 10 }, (_, i) => (i + 1) * 10), // 10, 20, 30...100
     ...Array.from({ length: 9 }, (_, i) => 100 + (i + 1) * 100) // 200, 300...1000
   ];
-  
+
   // Default values based on business size
   // Small: 10 calls per week, $40 (index 3)
   // Medium: 1 call per week, $800 (index 16)
   const [missedCalls, setMissedCalls] = useState([isMediumBusiness ? 1 : 10]);
   const [customerValueIndex, setCustomerValueIndex] = useState([isMediumBusiness ? 16 : 3]);
-  
+
   // Update values when business size changes
   useEffect(() => {
     if (isMediumBusiness) {
@@ -42,14 +44,23 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
       setCustomerValueIndex([3]); // $40
     }
   }, [isMediumBusiness]);
-  
+
   const customerValue = customerValueMap[customerValueIndex[0]];
   const { annualLoss } = useROICalculation(missedCalls[0], customerValue);
 
   // Update context whenever annualLoss changes
   useEffect(() => {
     setAnnualLoss(annualLoss);
-  }, [annualLoss, setAnnualLoss]);
+    // Track usage only if values are non-default (simplified check)
+    if (missedCalls[0] !== (isMediumBusiness ? 1 : 10) || customerValueIndex[0] !== (isMediumBusiness ? 16 : 3)) {
+      trackROICalculatorUsed({
+        missedCalls: missedCalls[0],
+        customerValue,
+        annualLoss,
+        businessSize: isMediumBusiness ? "Medium" : "Small"
+      });
+    }
+  }, [annualLoss, setAnnualLoss, missedCalls, customerValueIndex, isMediumBusiness, trackROICalculatorUsed, customerValue]);
 
   return (
     <section id="calculator" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16 bg-gradient-to-br from-background to-accent/20">
@@ -57,15 +68,15 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground mb-6 text-center">
           Your Personal <strong>ROI</strong>
         </h2>
-        
+
         <p className="text-lg sm:text-xl text-muted-foreground mb-3 text-center max-w-3xl mx-auto">
           Don't guess. <strong>See the real numbers.</strong>
         </p>
-        
+
         <p className="text-lg sm:text-xl text-muted-foreground mb-12 text-center max-w-3xl mx-auto">
           A human receptionist costs over <strong>$50,000/year</strong>. AI does more for less.
         </p>
-        
+
         {/* Interactive Calculator */}
         <div className="glass-card p-4 sm:p-6 md:p-8 rounded-lg mb-12">
           <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2 text-center">
@@ -74,7 +85,7 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
           <p className="text-sm sm:text-base text-center text-muted-foreground mb-8">
             Drag the sliders to see your numbers.
           </p>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             {/* Sliders */}
             <div className="space-y-8">
@@ -96,7 +107,7 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
                   className="w-full"
                 />
               </div>
-              
+
               <div>
                 <div className="flex justify-between items-center mb-3">
                   <label className="text-sm font-medium text-foreground">
@@ -116,7 +127,7 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
                 />
               </div>
             </div>
-            
+
             {/* Result Display */}
             <div className="bg-gradient-to-br from-destructive/10 to-destructive/20 rounded-lg p-4 sm:p-6 md:p-8 text-center border-2 border-destructive/40">
               <DollarSign className="w-10 h-10 sm:w-12 sm:h-12 text-destructive mx-auto mb-3" />
@@ -132,7 +143,7 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
             </div>
           </div>
         </div>
-        
+
         {/* Cost Comparison & ROI */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Cost Comparison Chart */}
@@ -143,21 +154,21 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
             <div className="w-full" style={{ height: "250px" }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={costComparisonData}>
-                  <XAxis 
-                    dataKey="name" 
+                  <XAxis
+                    dataKey="name"
                     tick={{ fill: 'hsl(var(--foreground))' }}
                     angle={-15}
                     textAnchor="end"
                     height={80}
                   />
-                  <YAxis 
+                  <YAxis
                     tick={{ fill: 'hsl(var(--foreground))' }}
                     tickFormatter={(value) => `$${value / 1000}k`}
                   />
-                  <Tooltip 
+                  <Tooltip
                     formatter={(value: number) => formatCurrency(value)}
-                    contentStyle={{ 
-                      backgroundColor: 'hsl(var(--card))', 
+                    contentStyle={{
+                      backgroundColor: 'hsl(var(--card))',
                       border: '1px solid hsl(var(--border))',
                       borderRadius: '8px'
                     }}
@@ -171,7 +182,7 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
               </ResponsiveContainer>
             </div>
           </div>
-          
+
           {/* ROI Card */}
           <div className="glass-card p-4 sm:p-6 md:p-8 rounded-lg flex flex-col justify-center text-center border-t-4 border-primary">
             <div className="text-xs sm:text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
@@ -188,11 +199,14 @@ const InteractiveCalculator = ({ isMediumBusiness }: InteractiveCalculatorProps)
             </p>
           </div>
         </div>
-        
+
         {/* CTA Button */}
         <div className="mt-12 text-center">
           <Button
-            onClick={() => navigate("/schedule-consultation")}
+            onClick={() => {
+              trackCTAClick("Calculator CTA", "Interactive Calculator Section");
+              navigate("/schedule-consultation");
+            }}
             size="lg"
             className="bg-primary text-primary-foreground rounded-full px-6 sm:px-10 py-4 sm:py-6 text-base sm:text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group w-full sm:w-auto"
           >

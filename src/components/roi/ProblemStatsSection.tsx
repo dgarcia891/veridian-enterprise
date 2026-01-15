@@ -7,6 +7,7 @@ import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useROI } from "@/contexts/ROIContext";
 import { formatCurrency } from "@/hooks/useROICalculation";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 interface ProblemStatsSectionProps {
   isMediumBusiness: boolean;
@@ -42,6 +43,7 @@ const ProblemStatsSection = ({ isMediumBusiness, setIsMediumBusiness }: ProblemS
   const { annualLoss: annualLossAmount } = useROI();
   const annualLossValue = formatCurrency(annualLossAmount);
   const businessSize = isMediumBusiness ? "Medium" : "Small";
+  const { trackCTAClick } = useAnalytics();
   return <section id="problem" className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 scroll-mt-16">
     <div className="max-w-7xl mx-auto">
       <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground mb-4 text-center">
@@ -85,6 +87,9 @@ const ProblemStatsSection = ({ isMediumBusiness, setIsMediumBusiness }: ProblemS
                   className="hover:underline cursor-pointer transition-all"
                   onClick={(e) => {
                     e.preventDefault();
+                    if (isAnnualLossCard) {
+                      trackCTAClick("Annual Loss Link", "Problem Stats Section");
+                    }
                     document.getElementById('calculator')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }}
                 >
@@ -106,7 +111,10 @@ const ProblemStatsSection = ({ isMediumBusiness, setIsMediumBusiness }: ProblemS
       {/* CTA Button */}
       <div className="mt-12 text-center">
         <Button
-          onClick={() => navigate("/schedule-consultation")}
+          onClick={() => {
+            trackCTAClick("Get 100% Lead Capture Now", "Problem Stats Section");
+            navigate("/schedule-consultation");
+          }}
           size="lg"
           className="bg-primary text-primary-foreground rounded-full px-6 sm:px-10 py-4 sm:py-6 text-base sm:text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 mx-auto group w-full sm:w-auto"
         >
