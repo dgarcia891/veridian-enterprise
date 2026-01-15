@@ -15,16 +15,17 @@ export const AnalyticsToggle = () => {
 
   const handleToggle = (checked: boolean) => {
     setIsIgnored(checked);
+    localStorage.setItem("ignore_analytics", checked.toString());
+
+    // Dispatch custom event for the dashboard to react immediately
+    window.dispatchEvent(new Event('analytics-ignore-change'));
+
     if (checked) {
-      localStorage.setItem("ignore_analytics", "true");
       toast.success("Analytics Ignored", {
         description: "Your activity will no longer be tracked in metrics.",
         icon: <EyeOff className="h-4 w-4" />,
       });
-      // Force reload to ensure GA scripts stop collecting immediately if page state was dirty
-      // But for better UX, we just let the hook handle future events.
     } else {
-      localStorage.removeItem("ignore_analytics");
       toast.success("Analytics Active", {
         description: "Your activity is now being tracked.",
         icon: <Eye className="h-4 w-4" />,

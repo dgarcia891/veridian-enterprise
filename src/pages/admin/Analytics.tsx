@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -61,6 +61,7 @@ const Analytics = () => {
   const [ga4Loading, setGa4Loading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
   const [rawEvents, setRawEvents] = useState<any[]>([]);
+  const [ignoreUpdate, setIgnoreUpdate] = useState(0);
 
   useEffect(() => {
     if (!adminLoading && !isAdmin) {
@@ -73,9 +74,22 @@ const Analytics = () => {
       fetchAnalytics();
       fetchGA4Analytics();
     }
-  }, [isAdmin, dateRange]);
 
-  const getDateFilter = () => {
+    // Listen for analytics toggle changes from other components
+    const handleStorageChange = () => {
+      setIgnoreUpdate(prev => prev + 1);
+    };
+    window.addEventListener('storage', handleStorageChange);
+    // Custom event for same-window updates
+    window.addEventListener('analytics-ignore-change', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('analytics-ignore-change', handleStorageChange);
+    };
+  }, [isAdmin, dateRange, ignoreUpdate, fetchAnalytics, fetchGA4Analytics]);
+
+  const getDateFilter = useCallback(() => {
     const now = new Date();
     if (dateRange === "7d") {
       now.setDate(now.getDate() - 7);
@@ -85,15 +99,15 @@ const Analytics = () => {
       return null;
     }
     return now.toISOString();
-  };
+  }, [dateRange]);
 
-  const getGA4DateRange = () => {
+  const getGA4DateRange = useCallback(() => {
     if (dateRange === "7d") return { startDate: "7daysAgo", endDate: "today" };
     if (dateRange === "30d") return { startDate: "30daysAgo", endDate: "today" };
     return { startDate: "365daysAgo", endDate: "today" };
-  };
+  }, [dateRange]);
 
-  const fetchGA4Analytics = async () => {
+  const fetchGA4Analytics = useCallback(async () => {
     setGa4Loading(true);
     try {
       const { startDate, endDate } = getGA4DateRange();
@@ -112,9 +126,9 @@ const Analytics = () => {
     } finally {
       setGa4Loading(false);
     }
-  };
+  }, [dateRange, getGA4DateRange]);
 
-  const fetchAnalytics = async () => {
+  const fetchAnalytics = useCallback(async () => {
     setIsLoading(true);
     try {
       const dateFilter = getDateFilter();
@@ -180,7 +194,7 @@ const Analytics = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [dateRange, getDateFilter]);
 
   if (adminLoading || isLoading) {
     return (
@@ -654,7 +668,10 @@ const Analytics = () => {
           {/* Custom Events Tab */}
           <TabsContent value="custom" className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <Card>
+              <Card
+                className={`cursor-pointer transition-all hover:ring-2 hover:ring-primary ${selectedEvent === "consultation_booked" ? "ring-2 ring-primary bg-primary/5" : ""}`}
+                onClick={() => setSelectedEvent(selectedEvent === "consultation_booked" ? null : "consultation_booked")}
+              >
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground">
                     Consultations Booked
@@ -667,12 +684,15 @@ const Analytics = () => {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card
+                className={`cursor-pointer transition-all hover:ring-2 hover:ring-primary ${selectedEvent === "roi_calculator_used" ? "ring-2 ring-primary bg-primary/5" : ""}`}
+                onClick={() => setSelectedEvent(selectedEvent === "roi_calculator_used" ? null : "roi_calculator_used")}
+              >
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground">
                     ROI Calculator Uses
                   </CardTitle>
-                  <Calculator className="w-4 h-4 text-primary" />
+                  <Calendar className="w-4 h-4 text-primary" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-3xl font-bold">{calculatorUses}</div>
@@ -680,7 +700,10 @@ const Analytics = () => {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card
+                className={`cursor-pointer transition-all hover:ring-2 hover:ring-primary ${selectedEvent === "cta_click" ? "ring-2 ring-primary bg-primary/5" : ""}`}
+                onClick={() => setSelectedEvent(selectedEvent === "cta_click" ? null : "cta_click")}
+              >
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground">
                     CTA Clicks
@@ -693,7 +716,10 @@ const Analytics = () => {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card
+                className={`cursor-pointer transition-all hover:ring-2 hover:ring-primary ${selectedEvent === "blog_view" ? "ring-2 ring-primary bg-primary/5" : ""}`}
+                onClick={() => setSelectedEvent(selectedEvent === "blog_view" ? null : "blog_view")}
+              >
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground">
                     Blog Views
