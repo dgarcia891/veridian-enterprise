@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Loader2, ArrowLeft, LogOut, BarChart3, Bot } from "lucide-react";
-import AdminAISettings from "@/components/admin/AdminAISettings";
+import { AdminAISettings } from "@/components/admin/AdminAISettings";
 
 const BlogAISettings = () => {
     const navigate = useNavigate();
