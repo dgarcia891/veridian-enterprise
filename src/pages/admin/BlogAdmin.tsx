@@ -33,6 +33,7 @@ import {
   ArrowLeft,
   LogOut,
   BarChart3,
+  Bot,
 } from "lucide-react";
 
 const BlogAdmin = () => {
@@ -49,7 +50,7 @@ const BlogAdmin = () => {
 
   const checkAdminAccess = async () => {
     const { data: { user } } = await supabase.auth.getUser();
-    
+
     if (!user) {
       setIsAdmin(false);
       return;
@@ -71,7 +72,7 @@ const BlogAdmin = () => {
 
   const handleDelete = async () => {
     if (!deleteId) return;
-    
+
     try {
       await deletePost.mutateAsync(deleteId);
       toast.success("Post deleted successfully");
@@ -85,7 +86,7 @@ const BlogAdmin = () => {
   const handleToggleStatus = async (id: string, currentStatus: string) => {
     const newStatus = currentStatus === "published" ? "draft" : "published";
     const published_at = newStatus === "published" ? new Date().toISOString() : null;
-    
+
     try {
       await updatePost.mutateAsync({ id, status: newStatus, published_at });
       toast.success(`Post ${newStatus === "published" ? "published" : "unpublished"}`);
@@ -132,6 +133,12 @@ const BlogAdmin = () => {
             <h1 className="text-3xl font-bold">Blog Management</h1>
           </div>
           <div className="flex items-center gap-4">
+            <Button asChild variant="outline">
+              <Link to="/admin/blog/ai-settings">
+                <Bot className="w-4 h-4 mr-2" />
+                AI Content
+              </Link>
+            </Button>
             <Button asChild variant="outline">
               <Link to="/admin/analytics">
                 <BarChart3 className="w-4 h-4 mr-2" />
@@ -189,7 +196,7 @@ const BlogAdmin = () => {
                   posts.map((post) => (
                     <TableRow key={post.id}>
                       <TableCell className="font-medium max-w-xs truncate">
-                        <Link 
+                        <Link
                           to={`/admin/blog/edit/${post.id}`}
                           className="hover:text-primary hover:underline transition-colors"
                         >

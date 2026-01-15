@@ -45,6 +45,7 @@ const Pricing = lazy(() => import("./pages/Pricing"));
 const Consultation = lazy(() => import("./pages/Consultation"));
 const SMSOptInGuide = lazy(() => import("./pages/SMSOptInGuide"));
 const Analytics = lazy(() => import("./pages/admin/Analytics"));
+const BlogAISettings = lazy(() => import("./pages/admin/BlogAISettings"));
 
 const queryClient = new QueryClient();
 
@@ -99,6 +100,7 @@ const AppContent = () => {
           <Route path="/admin/blog/new" element={<BlogPostForm />} />
           <Route path="/admin/blog/edit/:id" element={<BlogPostForm />} />
           <Route path="/admin/analytics" element={<Analytics />} />
+          <Route path="/admin/blog/ai-settings" element={<BlogAISettings />} />
           <Route path="/demos/ai-agent-demos" element={<AIAgentDemos />} />
           <Route path="/demos/sunset-on-lyons" element={<SunsetOnLyons />} />
           <Route path="/restaurants" element={<Restaurants />} />
@@ -111,10 +113,10 @@ const AppContent = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
-      
+
       {/* Show chat widget on all pages except demos */}
       {!isDemoPage && (
-        <RetellChatInterface 
+        <RetellChatInterface
           agentId="agent_2df66bc30b17e2cbf174bf2f3b"
           title={isAIInsightPage ? "AI Report Assistant" : "Chat with AI"}
           minimized={true}
