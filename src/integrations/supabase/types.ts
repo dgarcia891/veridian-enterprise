@@ -182,6 +182,90 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_blog_config: {
+        Row: {
+          config_type: string
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          updated_at: string | null
+          value: Json
+        }
+        Insert: {
+          config_type: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          updated_at?: string | null
+          value: Json
+        }
+        Update: {
+          config_type?: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          updated_at?: string | null
+          value?: Json
+        }
+        Relationships: []
+      }
+      ai_blog_queue: {
+        Row: {
+          blog_post_id: string | null
+          created_at: string | null
+          error_message: string | null
+          id: string
+          processed_at: string | null
+          source_content: string | null
+          source_id: string | null
+          source_title: string | null
+          source_url: string
+          status: string | null
+        }
+        Insert: {
+          blog_post_id?: string | null
+          created_at?: string | null
+          error_message?: string | null
+          id?: string
+          processed_at?: string | null
+          source_content?: string | null
+          source_id?: string | null
+          source_title?: string | null
+          source_url: string
+          status?: string | null
+        }
+        Update: {
+          blog_post_id?: string | null
+          created_at?: string | null
+          error_message?: string | null
+          id?: string
+          processed_at?: string | null
+          source_content?: string | null
+          source_id?: string | null
+          source_title?: string | null
+          source_url?: string
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_blog_queue_blog_post_id_fkey"
+            columns: ["blog_post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_blog_queue_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "ai_blog_config"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       analytics_events: {
         Row: {
           created_at: string
