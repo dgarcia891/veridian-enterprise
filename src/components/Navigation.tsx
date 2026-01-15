@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { Menu, X, ChevronDown, Phone } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Menu, X, ChevronDown, Phone, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { getActiveServices } from "@/data/services";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Popover,
   PopoverContent,
@@ -13,9 +14,28 @@ import logo from "@/assets/logo.png";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
   const activeServices = getActiveServices();
   const { trackCTAClick } = useAnalytics();
+
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: roles } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", user.id)
+          .eq("role", "admin");
+
+        if (roles && roles.length > 0) {
+          setIsAdmin(true);
+        }
+      }
+    };
+    checkAdminStatus();
+  }, []);
 
   const navItems = [
     { href: "/", label: "Home", type: "link" },
@@ -26,6 +46,10 @@ const Navigation = () => {
     { href: "/audit", label: "Free AI Audit", type: "link" },
     { href: "/contact", label: "Contact", type: "link" }
   ];
+
+  if (isAdmin) {
+    navItems.push({ href: "/admin/blog", label: "Admin", type: "link" });
+  }
   return <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 glass-card" role="navigation" aria-label="Main navigation">
     <div className="max-w-7xl mx-auto flex justify-between items-center">
       <Link

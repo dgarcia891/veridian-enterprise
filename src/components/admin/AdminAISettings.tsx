@@ -42,10 +42,13 @@ import {
     FileText,
     ListTodo,
     Loader2,
+    Settings2,
+    ShieldCheck,
     Play,
     SkipForward,
     RefreshCw,
     ExternalLink,
+    Workflow,
     Check,
     X,
 } from "lucide-react";
@@ -57,7 +60,8 @@ interface RssSource {
     value: {
         url: string;
         category: string;
-        schedule: "hourly" | "daily" | "weekly";
+        // Legacy schedule support, but prefer rules
+        schedule?: "hourly" | "daily" | "weekly";
     };
     is_active: boolean;
 }
@@ -81,6 +85,28 @@ interface PromptTemplate {
         word_count: number;
     };
     is_active: boolean;
+}
+
+interface AutomationRule {
+    id: string;
+    name: string; // "TechCrunch Daily Summary"
+    value: {
+        source_id: string;
+        prompt_id: string;
+        schedule: "hourly" | "daily" | "weekly";
+    };
+    is_active: boolean;
+}
+
+interface VerificationConfig {
+    id: string;
+    value: {
+        enabled: boolean;
+        provider: "lovable" | "openai" | "anthropic";
+        model: string;
+        prompt: string;
+        api_key: string | null;
+    };
 }
 
 interface QueueItem {
@@ -132,7 +158,6 @@ export function AdminAISettings() {
         name: "",
         url: "",
         category: "AI Technology",
-        schedule: "daily" as "hourly" | "daily" | "weekly",
     });
 
     // LLM Settings state
@@ -155,6 +180,27 @@ export function AdminAISettings() {
         word_count: 800,
     });
 
+    // Automation Rules state
+    const [rules, setRules] = useState<AutomationRule[]>([]);
+    const [ruleDialogOpen, setRuleDialogOpen] = useState(false);
+    const [editingRule, setEditingRule] = useState<AutomationRule | null>(null);
+    const [ruleForm, setRuleForm] = useState({
+        name: "",
+        source_id: "",
+        prompt_id: "",
+        schedule: "daily" as "hourly" | "daily" | "weekly",
+    });
+
+    // Verification Config state
+    const [verificationConfig, setVerificationConfig] = useState<VerificationConfig | null>(null);
+    const [verificationForm, setVerificationForm] = useState({
+        enabled: false,
+        provider: "openai" as "lovable" | "openai" | "anthropic",
+        model: "gpt-4o",
+        prompt: "",
+        api_key: "",
+    });
+
     // Queue state
     const [queueItems, setQueueItems] = useState<QueueItem[]>([]);
     const [processingId, setProcessingId] = useState<string | null>(null);
@@ -169,6 +215,8 @@ export function AdminAISettings() {
             loadRssSources(),
             loadLlmSettings(),
             loadPromptTemplates(),
+            loadRules(),
+            loadVerificationConfig(),
             loadQueue(),
         ]);
         setLoading(false);
@@ -176,6 +224,7 @@ export function AdminAISettings() {
 
     // ========== RSS Sources ==========
     const loadRssSources = async () => {
+        // @ts-expect-error Types not generated yet
         const { data, error } = await supabase
             .from("ai_blog_config")
             .select("*")
@@ -191,10 +240,10 @@ export function AdminAISettings() {
         const configValue = {
             url: rssForm.url,
             category: rssForm.category,
-            schedule: rssForm.schedule,
         };
 
         if (editingRss) {
+            // @ts-expect-error Types not generated yet
             const { error } = await supabase
                 .from("ai_blog_config")
                 .update({ name: rssForm.name, value: configValue })
@@ -206,6 +255,7 @@ export function AdminAISettings() {
             }
             toast.success("RSS source updated");
         } else {
+            // @ts-expect-error Types not generated yet
             const { error } = await supabase
                 .from("ai_blog_config")
                 .insert({
@@ -224,11 +274,12 @@ export function AdminAISettings() {
 
         setRssDialogOpen(false);
         setEditingRss(null);
-        setRssForm({ name: "", url: "", category: "AI Technology", schedule: "daily" });
+        setRssForm({ name: "", url: "", category: "AI Technology" });
         loadRssSources();
     };
 
     const handleDeleteRss = async (id: string) => {
+        // @ts-expect-error Types not generated yet
         const { error } = await supabase
             .from("ai_blog_config")
             .delete()
@@ -243,6 +294,7 @@ export function AdminAISettings() {
     };
 
     const handleToggleRss = async (id: string, isActive: boolean) => {
+        // @ts-expect-error Types not generated yet
         const { error } = await supabase
             .from("ai_blog_config")
             .update({ is_active: !isActive })
@@ -255,6 +307,7 @@ export function AdminAISettings() {
 
     // ========== LLM Settings ==========
     const loadLlmSettings = async () => {
+        // @ts-expect-error Types not generated yet
         const { data, error } = await supabase
             .from("ai_blog_config")
             .select("*")
@@ -280,6 +333,7 @@ export function AdminAISettings() {
         };
 
         if (llmSettings) {
+            // @ts-expect-error Types not generated yet
             const { error } = await supabase
                 .from("ai_blog_config")
                 .update({ value: configValue })
@@ -290,6 +344,7 @@ export function AdminAISettings() {
                 return;
             }
         } else {
+            // @ts-expect-error Types not generated yet
             const { error } = await supabase
                 .from("ai_blog_config")
                 .insert({
@@ -311,6 +366,7 @@ export function AdminAISettings() {
 
     // ========== Prompt Templates ==========
     const loadPromptTemplates = async () => {
+        // @ts-expect-error Types not generated yet
         const { data, error } = await supabase
             .from("ai_blog_config")
             .select("*")
@@ -331,6 +387,7 @@ export function AdminAISettings() {
         };
 
         if (editingPrompt) {
+            // @ts-expect-error Types not generated yet
             const { error } = await supabase
                 .from("ai_blog_config")
                 .update({ name: promptForm.name, value: configValue })
@@ -342,6 +399,7 @@ export function AdminAISettings() {
             }
             toast.success("Prompt template updated");
         } else {
+            // @ts-expect-error Types not generated yet
             const { error } = await supabase
                 .from("ai_blog_config")
                 .insert({
@@ -365,6 +423,7 @@ export function AdminAISettings() {
     };
 
     const handleDeletePrompt = async (id: string) => {
+        // @ts-expect-error Types not generated yet
         const { error } = await supabase
             .from("ai_blog_config")
             .delete()
@@ -378,8 +437,156 @@ export function AdminAISettings() {
         loadPromptTemplates();
     };
 
+    // ========== Automation Rules ==========
+    const loadRules = async () => {
+        // @ts-expect-error Types not generated yet
+        const { data, error } = await supabase
+            .from("ai_blog_config")
+            .select("*")
+            .eq("config_type", "automation_rule")
+            .order("created_at", { ascending: false });
+
+        if (!error && data) {
+            setRules(data as unknown as AutomationRule[]);
+        }
+    };
+
+    const handleSaveRule = async () => {
+        const configValue = {
+            source_id: ruleForm.source_id,
+            prompt_id: ruleForm.prompt_id,
+            schedule: ruleForm.schedule,
+        };
+
+        if (editingRule) {
+            // @ts-expect-error Types not generated yet
+            const { error } = await supabase
+                .from("ai_blog_config")
+                .update({ name: ruleForm.name, value: configValue })
+                .eq("id", editingRule.id);
+
+            if (error) {
+                toast.error("Failed to update rule");
+                return;
+            }
+            toast.success("Rule updated");
+        } else {
+            // @ts-expect-error Types not generated yet
+            const { error } = await supabase
+                .from("ai_blog_config")
+                .insert({
+                    config_type: "automation_rule",
+                    name: ruleForm.name,
+                    value: configValue,
+                    is_active: true,
+                });
+
+            if (error) {
+                toast.error("Failed to add rule");
+                return;
+            }
+            toast.success("Rule added");
+        }
+
+        setRuleDialogOpen(false);
+        setEditingRule(null);
+        setRuleForm({ name: "", source_id: "", prompt_id: "", schedule: "daily" });
+        loadRules();
+    };
+
+    const handleDeleteRule = async (id: string) => {
+        // @ts-expect-error Types not generated yet
+        const { error } = await supabase
+            .from("ai_blog_config")
+            .delete()
+            .eq("id", id);
+
+        if (error) {
+            toast.error("Failed to delete rule");
+            return;
+        }
+        toast.success("Rule deleted");
+        loadRules();
+    };
+
+    const handleToggleRule = async (id: string, isActive: boolean) => {
+        // @ts-expect-error Types not generated yet
+        const { error } = await supabase
+            .from("ai_blog_config")
+            .update({ is_active: !isActive })
+            .eq("id", id);
+
+        if (!error) {
+            loadRules();
+        }
+    };
+
+    // ========== Verification Config ==========
+    const loadVerificationConfig = async () => {
+        // @ts-expect-error Types not generated yet
+        const { data, error } = await supabase
+            .from("ai_blog_config")
+            .select("*")
+            .eq("config_type", "verification_config")
+            .single();
+
+        if (!error && data) {
+            const config = data as unknown as VerificationConfig;
+            setVerificationConfig(config);
+            setVerificationForm({
+                enabled: config.value.enabled,
+                provider: config.value.provider,
+                model: config.value.model,
+                prompt: config.value.prompt,
+                api_key: config.value.api_key || "",
+            });
+        }
+    };
+
+    const handleSaveVerification = async () => {
+        const configValue = {
+            enabled: verificationForm.enabled,
+            provider: verificationForm.provider,
+            model: verificationForm.model,
+            prompt: verificationForm.prompt,
+            api_key: verificationForm.provider !== "lovable" ? verificationForm.api_key : null,
+        };
+
+        if (verificationConfig) {
+            // @ts-expect-error Types not generated yet
+            const { error } = await supabase
+                .from("ai_blog_config")
+                .update({ value: configValue })
+                .eq("id", verificationConfig.id);
+
+            if (error) {
+                toast.error("Failed to update verification config");
+                return;
+            }
+        } else {
+            // @ts-expect-error Types not generated yet
+            const { error } = await supabase
+                .from("ai_blog_config")
+                .insert({
+                    config_type: "verification_config",
+                    name: "Reviewer LLM",
+                    value: configValue,
+                    is_active: true,
+                });
+
+            if (error) {
+                toast.error("Failed to save verification config");
+                return;
+            }
+        }
+
+        toast.success("Verification settings saved");
+        loadVerificationConfig();
+    };
+
     // ========== Queue ==========
     const loadQueue = async () => {
+        // @ts-expect-error Types not generated yet
         const { data, error } = await supabase
             .from("ai_blog_queue")
             .select("*")
@@ -411,6 +618,7 @@ export function AdminAISettings() {
     };
 
     const handleSkipItem = async (queueId: string) => {
+        // @ts-expect-error Types not generated yet
         const { error } = await supabase
             .from("ai_blog_queue")
             .update({ status: "skipped" })
@@ -423,6 +631,7 @@ export function AdminAISettings() {
     };
 
     const handleRetryItem = async (queueId: string) => {
+        // @ts-expect-error Types not generated yet
         const { error } = await supabase
             .from("ai_blog_queue")
             .update({ status: "pending", error_message: null })
@@ -445,14 +654,22 @@ export function AdminAISettings() {
     return (
         <div className="space-y-6">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-                <TabsList className="grid w-full grid-cols-4">
+                <TabsList className="grid w-full grid-cols-6 mb-4">
                     <TabsTrigger value="rss" className="flex items-center gap-2">
                         <Rss className="w-4 h-4" />
-                        RSS Sources
+                        Preview Sources
+                    </TabsTrigger>
+                    <TabsTrigger value="rules" className="flex items-center gap-2">
+                        <Workflow className="w-4 h-4" />
+                        Pipeline Rules
                     </TabsTrigger>
                     <TabsTrigger value="llm" className="flex items-center gap-2">
                         <Bot className="w-4 h-4" />
-                        LLM Settings
+                        Generator
+                    </TabsTrigger>
+                    <TabsTrigger value="verification" className="flex items-center gap-2">
+                        <ShieldCheck className="w-4 h-4" />
+                        Verification
                     </TabsTrigger>
                     <TabsTrigger value="prompts" className="flex items-center gap-2">
                         <FileText className="w-4 h-4" />
@@ -470,14 +687,14 @@ export function AdminAISettings() {
                         <div>
                             <h3 className="text-lg font-semibold">RSS Feed Sources</h3>
                             <p className="text-sm text-muted-foreground">
-                                Add RSS feeds to automatically pull content for article generation.
+                                Manage the raw RSS feeds available for your pipeline rules.
                             </p>
                         </div>
                         <Dialog open={rssDialogOpen} onOpenChange={setRssDialogOpen}>
                             <DialogTrigger asChild>
                                 <Button onClick={() => {
                                     setEditingRss(null);
-                                    setRssForm({ name: "", url: "", category: "AI Technology", schedule: "daily" });
+                                    setRssForm({ name: "", url: "", category: "AI Technology" });
                                 }}>
                                     <Plus className="w-4 h-4 mr-2" />
                                     Add Source
@@ -525,22 +742,6 @@ export function AdminAISettings() {
                                             </SelectContent>
                                         </Select>
                                     </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="rss-schedule">Pull Schedule</Label>
-                                        <Select
-                                            value={rssForm.schedule}
-                                            onValueChange={(value: "hourly" | "daily" | "weekly") => setRssForm({ ...rssForm, schedule: value })}
-                                        >
-                                            <SelectTrigger>
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="hourly">Hourly</SelectItem>
-                                                <SelectItem value="daily">Daily</SelectItem>
-                                                <SelectItem value="weekly">Weekly</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
                                 </div>
                                 <DialogFooter>
                                     <Button variant="outline" onClick={() => setRssDialogOpen(false)}>Cancel</Button>
@@ -557,7 +758,6 @@ export function AdminAISettings() {
                                     <TableHead>Name</TableHead>
                                     <TableHead>URL</TableHead>
                                     <TableHead>Category</TableHead>
-                                    <TableHead>Schedule</TableHead>
                                     <TableHead>Active</TableHead>
                                     <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
@@ -565,7 +765,7 @@ export function AdminAISettings() {
                             <TableBody>
                                 {rssSources.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                                        <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
                                             No RSS sources configured. Add one to get started.
                                         </TableCell>
                                     </TableRow>
@@ -580,7 +780,6 @@ export function AdminAISettings() {
                                                 </a>
                                             </TableCell>
                                             <TableCell>{source.value.category}</TableCell>
-                                            <TableCell className="capitalize">{source.value.schedule}</TableCell>
                                             <TableCell>
                                                 <Switch
                                                     checked={source.is_active}
@@ -598,7 +797,6 @@ export function AdminAISettings() {
                                                                 name: source.name,
                                                                 url: source.value.url,
                                                                 category: source.value.category,
-                                                                schedule: source.value.schedule,
                                                             });
                                                             setRssDialogOpen(true);
                                                         }}
@@ -622,12 +820,176 @@ export function AdminAISettings() {
                     </Card>
                 </TabsContent>
 
+                {/* Pipeline Rules Tab */}
+                <TabsContent value="rules" className="space-y-4">
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <h3 className="text-lg font-semibold">Pipeline Rules</h3>
+                            <p className="text-sm text-muted-foreground">
+                                Connect RSS sources to prompts with specific schedules.
+                            </p>
+                        </div>
+                        <Dialog open={ruleDialogOpen} onOpenChange={setRuleDialogOpen}>
+                            <DialogTrigger asChild>
+                                <Button onClick={() => {
+                                    setEditingRule(null);
+                                    setRuleForm({ name: "", source_id: "", prompt_id: "", schedule: "daily" });
+                                }}>
+                                    <Plus className="w-4 h-4 mr-2" />
+                                    Add Rule
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                                <DialogHeader>
+                                    <DialogTitle>{editingRule ? "Edit Rule" : "Add Pipeline Rule"}</DialogTitle>
+                                    <DialogDescription>
+                                        Define how and when to process content from a source.
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <div className="space-y-4 py-4">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="rule-name">Rule Name</Label>
+                                        <Input
+                                            id="rule-name"
+                                            value={ruleForm.name}
+                                            onChange={(e) => setRuleForm({ ...ruleForm, name: e.target.value })}
+                                            placeholder="Daily Tech Summary"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="rule-source">RSS Source</Label>
+                                        <Select
+                                            value={ruleForm.source_id}
+                                            onValueChange={(value) => setRuleForm({ ...ruleForm, source_id: value })}
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Select source..." />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {rssSources.map((source) => (
+                                                    <SelectItem key={source.id} value={source.id}>{source.name}</SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="rule-prompt">Prompt Template</Label>
+                                        <Select
+                                            value={ruleForm.prompt_id}
+                                            onValueChange={(value) => setRuleForm({ ...ruleForm, prompt_id: value })}
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Select prompt..." />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {promptTemplates.map((template) => (
+                                                    <SelectItem key={template.id} value={template.id}>{template.name}</SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="rule-schedule">Schedule</Label>
+                                        <Select
+                                            value={ruleForm.schedule}
+                                            onValueChange={(value: "hourly" | "daily" | "weekly") => setRuleForm({ ...ruleForm, schedule: value })}
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="hourly">Hourly</SelectItem>
+                                                <SelectItem value="daily">Daily</SelectItem>
+                                                <SelectItem value="weekly">Weekly</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                </div>
+                                <DialogFooter>
+                                    <Button variant="outline" onClick={() => setRuleDialogOpen(false)}>Cancel</Button>
+                                    <Button onClick={handleSaveRule}>Save Rule</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
+
+                    <Card>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Rule Name</TableHead>
+                                    <TableHead>Source</TableHead>
+                                    <TableHead>Prompt</TableHead>
+                                    <TableHead>Schedule</TableHead>
+                                    <TableHead>Active</TableHead>
+                                    <TableHead className="text-right">Actions</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {rules.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                                            No pipeline rules configured. Add a rule to automate content generation.
+                                        </TableCell>
+                                    </TableRow>
+                                ) : (
+                                    rules.map((rule) => {
+                                        const source = rssSources.find(s => s.id === rule.value.source_id);
+                                        const prompt = promptTemplates.find(p => p.id === rule.value.prompt_id);
+                                        return (
+                                            <TableRow key={rule.id}>
+                                                <TableCell className="font-medium">{rule.name}</TableCell>
+                                                <TableCell>{source?.name || "Unknown Source"}</TableCell>
+                                                <TableCell>{prompt?.name || "Unknown Prompt"}</TableCell>
+                                                <TableCell className="capitalize">{rule.value.schedule}</TableCell>
+                                                <TableCell>
+                                                    <Switch
+                                                        checked={rule.is_active}
+                                                        onCheckedChange={() => handleToggleRule(rule.id, rule.is_active)}
+                                                    />
+                                                </TableCell>
+                                                <TableCell className="text-right">
+                                                    <div className="flex justify-end gap-2">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            onClick={() => {
+                                                                setEditingRule(rule);
+                                                                setRuleForm({
+                                                                    name: rule.name,
+                                                                    source_id: rule.value.source_id,
+                                                                    prompt_id: rule.value.prompt_id,
+                                                                    schedule: rule.value.schedule,
+                                                                });
+                                                                setRuleDialogOpen(true);
+                                                            }}
+                                                        >
+                                                            <Pencil className="w-4 h-4" />
+                                                        </Button>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            onClick={() => handleDeleteRule(rule.id)}
+                                                        >
+                                                            <Trash2 className="w-4 h-4 text-destructive" />
+                                                        </Button>
+                                                    </div>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })
+                                )}
+                            </TableBody>
+                        </Table>
+                    </Card>
+                </TabsContent>
+
                 {/* LLM Settings Tab */}
                 <TabsContent value="llm" className="space-y-4">
                     <div>
-                        <h3 className="text-lg font-semibold">LLM Configuration</h3>
+                        <h3 className="text-lg font-semibold">Generator Configuration</h3>
                         <p className="text-sm text-muted-foreground">
-                            Select the AI model to use for article generation.
+                            Select the primary AI model used to write the rough drafts.
                         </p>
                     </div>
 
@@ -694,7 +1056,107 @@ export function AdminAISettings() {
                                 </div>
                             )}
 
-                            <Button onClick={handleSaveLlm}>Save LLM Settings</Button>
+                            <Button onClick={handleSaveLlm}>Save Settings</Button>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+
+                {/* Verification Tab */}
+                <TabsContent value="verification" className="space-y-4">
+                    <div>
+                        <h3 className="text-lg font-semibold">LLM Verification (Reviewer)</h3>
+                        <p className="text-sm text-muted-foreground">
+                            Configure a second AI agent to review and critique drafts before they are finalized.
+                        </p>
+                    </div>
+
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-base font-medium">
+                                Enable Verification Step
+                            </CardTitle>
+                            <Switch
+                                checked={verificationForm.enabled}
+                                onCheckedChange={(checked) => setVerificationForm({ ...verificationForm, enabled: checked })}
+                            />
+                        </CardHeader>
+                        <CardContent className="space-y-6 pt-6">
+                            {verificationForm.enabled ? (
+                                <>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="ver-provider">Reviewer Provider</Label>
+                                            <Select
+                                                value={verificationForm.provider}
+                                                onValueChange={(value: "lovable" | "openai" | "anthropic") => {
+                                                    setVerificationForm({
+                                                        ...verificationForm,
+                                                        provider: value,
+                                                        model: LLM_MODELS[value][0].value,
+                                                    });
+                                                }}
+                                            >
+                                                <SelectTrigger>
+                                                    <SelectValue />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="openai">OpenAI</SelectItem>
+                                                    <SelectItem value="anthropic">Anthropic</SelectItem>
+                                                    <SelectItem value="lovable">Lovable AI</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="ver-model">Reviewer Model</Label>
+                                            <Select
+                                                value={verificationForm.model}
+                                                onValueChange={(value) => setVerificationForm({ ...verificationForm, model: value })}
+                                            >
+                                                <SelectTrigger>
+                                                    <SelectValue />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {LLM_MODELS[verificationForm.provider].map((model) => (
+                                                        <SelectItem key={model.value} value={model.value}>
+                                                            {model.label}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                    </div>
+
+                                    {verificationForm.provider !== "lovable" && (
+                                        <div className="space-y-2">
+                                            <Label htmlFor="ver-api-key">API Key (if different)</Label>
+                                            <Input
+                                                id="ver-api-key"
+                                                type="password"
+                                                value={verificationForm.api_key}
+                                                onChange={(e) => setVerificationForm({ ...verificationForm, api_key: e.target.value })}
+                                                placeholder="Leave blank to use Generator key if same provider"
+                                            />
+                                        </div>
+                                    )}
+
+                                    <div className="space-y-2">
+                                        <Label htmlFor="ver-prompt">Reviewer Instructions</Label>
+                                        <Textarea
+                                            id="ver-prompt"
+                                            value={verificationForm.prompt}
+                                            onChange={(e) => setVerificationForm({ ...verificationForm, prompt: e.target.value })}
+                                            placeholder="You are a senior editor. Review the article for clarity, tone, and accuracy..."
+                                            rows={6}
+                                        />
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="text-center py-8 text-muted-foreground">
+                                    Verification is currently disabled. Enable it to have a second AI review your drafts.
+                                </div>
+                            )}
+
+                            <Button onClick={handleSaveVerification}>Save Verification Config</Button>
                         </CardContent>
                     </Card>
                 </TabsContent>
@@ -799,11 +1261,10 @@ export function AdminAISettings() {
                                 <Card key={template.id}>
                                     <CardHeader className="flex flex-row items-start justify-between space-y-0">
                                         <div>
-                                            <CardTitle className="text-lg">{template.name}</CardTitle>
+                                            <CardTitle className="text-base">{template.name}</CardTitle>
                                             <CardDescription>{template.value.description}</CardDescription>
                                         </div>
                                         <div className="flex gap-2">
-                                            <Badge variant="secondary">{template.value.word_count} words</Badge>
                                             <Button
                                                 variant="ghost"
                                                 size="icon"
@@ -830,6 +1291,25 @@ export function AdminAISettings() {
                                             </Button>
                                         </div>
                                     </CardHeader>
+                                    <CardContent>
+                                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                                            <div className="flex items-center gap-1">
+                                                <FileText className="w-3 h-3" />
+                                                {template.value.word_count} words
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                                {template.is_active ? (
+                                                    <span className="flex items-center gap-1 text-green-600">
+                                                        <Check className="w-3 h-3" /> Active
+                                                    </span>
+                                                ) : (
+                                                    <span className="flex items-center gap-1 text-muted-foreground">
+                                                        <X className="w-3 h-3" /> Inactive
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </CardContent>
                                 </Card>
                             ))
                         )}
@@ -842,10 +1322,10 @@ export function AdminAISettings() {
                         <div>
                             <h3 className="text-lg font-semibold">Generation Queue</h3>
                             <p className="text-sm text-muted-foreground">
-                                RSS items pending article generation.
+                                Monitor and manage pending article generations.
                             </p>
                         </div>
-                        <Button variant="outline" onClick={loadQueue}>
+                        <Button variant="outline" size="sm" onClick={loadQueue}>
                             <RefreshCw className="w-4 h-4 mr-2" />
                             Refresh
                         </Button>
@@ -855,8 +1335,7 @@ export function AdminAISettings() {
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Title</TableHead>
-                                    <TableHead>Source URL</TableHead>
+                                    <TableHead>Source / Title</TableHead>
                                     <TableHead>Status</TableHead>
                                     <TableHead>Created</TableHead>
                                     <TableHead className="text-right">Actions</TableHead>
@@ -865,58 +1344,68 @@ export function AdminAISettings() {
                             <TableBody>
                                 {queueItems.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
-                                            No items in queue. Add RSS sources to populate the queue.
+                                        <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                                            Queue is empty.
                                         </TableCell>
                                     </TableRow>
                                 ) : (
                                     queueItems.map((item) => (
                                         <TableRow key={item.id}>
-                                            <TableCell className="font-medium max-w-xs truncate">
-                                                {item.source_title || "Untitled"}
-                                            </TableCell>
-                                            <TableCell className="max-w-xs truncate">
-                                                <a href={item.source_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline flex items-center gap-1">
-                                                    {item.source_url.substring(0, 30)}...
-                                                    <ExternalLink className="w-3 h-3" />
-                                                </a>
+                                            <TableCell>
+                                                <div className="flex flex-col">
+                                                    <span className="font-medium line-clamp-1">
+                                                        {item.source_title || "Untitled"}
+                                                    </span>
+                                                    <a
+                                                        href={item.source_url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="text-xs text-muted-foreground hover:underline truncate max-w-[300px]"
+                                                    >
+                                                        {item.source_url}
+                                                    </a>
+                                                </div>
                                             </TableCell>
                                             <TableCell>
-                                                <Badge variant={
-                                                    item.status === "completed" ? "default" :
-                                                        item.status === "failed" ? "destructive" :
-                                                            item.status === "skipped" ? "secondary" :
-                                                                item.status === "processing" ? "default" :
-                                                                    "outline"
-                                                }>
-                                                    {item.status === "completed" && <Check className="w-3 h-3 mr-1" />}
-                                                    {item.status === "failed" && <X className="w-3 h-3 mr-1" />}
+                                                <Badge
+                                                    variant={
+                                                        item.status === "completed"
+                                                            ? "default"
+                                                            : item.status === "failed"
+                                                                ? "destructive"
+                                                                : item.status === "processing"
+                                                                    ? "secondary"
+                                                                    : "outline"
+                                                    }
+                                                >
+                                                    {item.status === "processing" && (
+                                                        <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                                                    )}
                                                     {item.status}
                                                 </Badge>
                                                 {item.error_message && (
-                                                    <p className="text-xs text-destructive mt-1">{item.error_message}</p>
+                                                    <p className="text-xs text-destructive mt-1 max-w-[200px] truncate" title={item.error_message}>
+                                                        {item.error_message}
+                                                    </p>
                                                 )}
                                             </TableCell>
-                                            <TableCell>{new Date(item.created_at).toLocaleString()}</TableCell>
+                                            <TableCell className="text-xs text-muted-foreground">
+                                                {new Date(item.created_at).toLocaleDateString()}
+                                            </TableCell>
                                             <TableCell className="text-right">
                                                 <div className="flex justify-end gap-2">
                                                     {item.status === "pending" && (
                                                         <>
                                                             <Button
-                                                                variant="ghost"
-                                                                size="icon"
+                                                                size="sm"
                                                                 onClick={() => handleGenerateArticle(item.id)}
-                                                                disabled={processingId === item.id}
+                                                                disabled={!!processingId}
                                                             >
-                                                                {processingId === item.id ? (
-                                                                    <Loader2 className="w-4 h-4 animate-spin" />
-                                                                ) : (
-                                                                    <Play className="w-4 h-4 text-green-600" />
-                                                                )}
+                                                                <Play className="w-4 h-4" />
                                                             </Button>
                                                             <Button
+                                                                size="sm"
                                                                 variant="ghost"
-                                                                size="icon"
                                                                 onClick={() => handleSkipItem(item.id)}
                                                             >
                                                                 <SkipForward className="w-4 h-4" />
@@ -925,17 +1414,17 @@ export function AdminAISettings() {
                                                     )}
                                                     {item.status === "failed" && (
                                                         <Button
-                                                            variant="ghost"
-                                                            size="icon"
+                                                            size="sm"
+                                                            variant="outline"
                                                             onClick={() => handleRetryItem(item.id)}
                                                         >
                                                             <RefreshCw className="w-4 h-4" />
                                                         </Button>
                                                     )}
                                                     {item.status === "completed" && item.blog_post_id && (
-                                                        <Button variant="ghost" size="icon" asChild>
-                                                            <a href={`/admin/blog/edit/${item.blog_post_id}`} target="_blank" rel="noopener noreferrer">
-                                                                <ExternalLink className="w-4 h-4" />
+                                                        <Button size="sm" variant="outline" asChild>
+                                                            <a href={`/blog/${item.blog_post_id}`} target="_blank" rel="noopener noreferrer">
+                                                                View
                                                             </a>
                                                         </Button>
                                                     )}
@@ -952,5 +1441,3 @@ export function AdminAISettings() {
         </div>
     );
 }
-
-export default AdminAISettings;

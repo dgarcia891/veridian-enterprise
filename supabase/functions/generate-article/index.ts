@@ -22,6 +22,66 @@ function replacePlaceholders(template: string, vars: Record<string, string>): st
     return result;
 }
 
+// Helper to call LLM
+async function callLLM(provider: 'lovable' | 'openai' | 'anthropic', model: string, apiKey: string, systemPrompt: string, userPrompt: string, jsonMode: boolean = true): Promise<string> {
+    console.log(`Calling LLM: ${provider} - ${model}`);
+
+    if (provider === 'anthropic') {
+        const response = await fetch(LLM_ENDPOINTS.anthropic, {
+            method: 'POST',
+            headers: {
+                'x-api-key': apiKey,
+                'Content-Type': 'application/json',
+                'anthropic-version': '2023-06-01',
+            },
+            body: JSON.stringify({
+                model: model,
+                max_tokens: 4096,
+                system: systemPrompt,
+                messages: [{ role: 'user', content: userPrompt }],
+            }),
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Anthropic API error: ${response.status} - ${errorText}`);
+        }
+
+        const data = await response.json();
+        return data.content[0].text;
+    } else {
+        // OpenAI-compatible format (Lovable and OpenAI)
+        const body: any = {
+            model: model,
+            messages: [
+                { role: 'system', content: systemPrompt },
+                { role: 'user', content: userPrompt },
+            ],
+        };
+
+        if (jsonMode) {
+            body.response_format = { type: 'json_object' };
+        }
+
+        const response = await fetch(LLM_ENDPOINTS[provider], {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${apiKey}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`LLM API error: ${response.status} - ${errorText}`);
+        }
+
+        const data = await response.json();
+        return data.choices[0].message.content;
+    }
+}
+
 // Parse JSON from AI response (handles markdown code blocks)
 function parseJsonResponse(text: string): { title: string; excerpt: string; content: string } {
     // Try to extract JSON from markdown code blocks
@@ -58,29 +118,36 @@ serve(async (req) => {
         const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
         const supabase = createClient(supabaseUrl, supabaseKey);
 
-        // Fetch LLM settings
-        const { data: llmConfig } = await supabase
-            .from('ai_blog_config')
-            .select('*')
-            .eq('config_type', 'llm_settings')
-            .single();
+        // Fetch configs (LLM + Verification) in parallel
+        const [llmConfigResult, verConfigResult] = await Promise.all([
+            supabase.from('ai_blog_config').select('*').eq('config_type', 'llm_settings').single(),
+            supabase.from('ai_blog_config').select('*').eq('config_type', 'verification_config').single()
+        ]);
 
-        if (!llmConfig) {
+        if (!llmConfigResult.data) {
             throw new Error('LLM settings not configured');
         }
 
-        const llmSettings = llmConfig.value as {
+        const llmSettings = llmConfigResult.data.value as {
             provider: 'lovable' | 'openai' | 'anthropic';
             model: string;
             api_key: string | null;
         };
 
-        // Determine API key based on provider
-        let apiKey: string;
+        const verificationSettings = verConfigResult.data?.value as {
+            enabled: boolean;
+            provider: 'lovable' | 'openai' | 'anthropic';
+            model: string;
+            prompt: string;
+            api_key: string | null;
+        } | undefined;
+
+        // Determine Generator API key
+        let generatorApiKey: string;
         if (llmSettings.provider === 'lovable') {
-            apiKey = Deno.env.get('LOVABLE_API_KEY') || '';
+            generatorApiKey = Deno.env.get('LOVABLE_API_KEY') || '';
         } else if (llmSettings.api_key) {
-            apiKey = llmSettings.api_key;
+            generatorApiKey = llmSettings.api_key;
         } else {
             throw new Error(`API key not configured for provider: ${llmSettings.provider}`);
         }
@@ -90,7 +157,9 @@ serve(async (req) => {
         let sourceContent = '';
         let sourceUrl = '';
         let targetCategory = category || 'AI Technology';
-        let queueItem = null;
+
+        // Also fetch prompt_id if linked in queue (Automation Rules)
+        let linkedPromptId: string | null = null;
 
         if (queue_id) {
             const { data: queueData, error: queueError } = await supabase
@@ -103,10 +172,14 @@ serve(async (req) => {
                 throw new Error('Queue item not found');
             }
 
-            queueItem = queueData;
             sourceTitle = queueData.source_title || '';
             sourceContent = queueData.source_content || '';
             sourceUrl = queueData.source_url || '';
+
+            // Check if this queue item has a linked prompt (from Automation Rules)
+            if (queueData.prompt_id) {
+                linkedPromptId = queueData.prompt_id;
+            }
 
             // Update queue status to processing
             await supabase
@@ -117,11 +190,13 @@ serve(async (req) => {
 
         // Fetch prompt template
         let promptTemplate = null;
-        if (template_id) {
+        const targetTemplateId = template_id || linkedPromptId; // Prioritize explicit arg, then queue link, then default
+
+        if (targetTemplateId) {
             const { data: templateData } = await supabase
                 .from('ai_blog_config')
                 .select('*')
-                .eq('id', template_id)
+                .eq('id', targetTemplateId)
                 .single();
             promptTemplate = templateData;
         } else {
@@ -136,7 +211,7 @@ serve(async (req) => {
         }
 
         // Default prompts if no template found
-        const defaultSystemPrompt = `You are a professional blog writer for AI Agents 3000, a company that provides AI voice receptionist services. Write engaging, informative articles that position the company as a thought leader. Use a conversational but professional tone.`;
+        const defaultSystemPrompt = `You are a professional blog writer for AI Agents 3000, a company that provides AI voice receptionist services. Write engaging, informative articles that position the company as a thought leader. Use a conversational but professional tone.}`;
 
         const defaultUserPrompt = `Write an article about the following topic. Create a unique title, write a 2-3 sentence excerpt, and produce an 800-word article.
 
@@ -170,66 +245,59 @@ Output as JSON with keys: title, excerpt, content (markdown format)`;
 
         const finalUserPrompt = replacePlaceholders(userPrompt, placeholders);
 
-        console.log('Using LLM:', llmSettings.provider, llmSettings.model);
-
-        // Call LLM
-        let aiResponse: string;
-
-        if (llmSettings.provider === 'anthropic') {
-            // Anthropic has a different API format
-            const response = await fetch(LLM_ENDPOINTS.anthropic, {
-                method: 'POST',
-                headers: {
-                    'x-api-key': apiKey,
-                    'Content-Type': 'application/json',
-                    'anthropic-version': '2023-06-01',
-                },
-                body: JSON.stringify({
-                    model: llmSettings.model,
-                    max_tokens: 4096,
-                    system: systemPrompt,
-                    messages: [{ role: 'user', content: finalUserPrompt }],
-                }),
-            });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`Anthropic API error: ${response.status} - ${errorText}`);
-            }
-
-            const data = await response.json();
-            aiResponse = data.content[0].text;
-        } else {
-            // OpenAI-compatible format (Lovable and OpenAI)
-            const response = await fetch(LLM_ENDPOINTS[llmSettings.provider], {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${apiKey}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    model: llmSettings.model,
-                    messages: [
-                        { role: 'system', content: systemPrompt },
-                        { role: 'user', content: finalUserPrompt },
-                    ],
-                    response_format: { type: 'json_object' },
-                }),
-            });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`LLM API error: ${response.status} - ${errorText}`);
-            }
-
-            const data = await response.json();
-            aiResponse = data.choices[0].message.content;
-        }
+        // 1. Generate Article
+        const aiResponse = await callLLM(
+            llmSettings.provider,
+            llmSettings.model,
+            generatorApiKey,
+            systemPrompt,
+            finalUserPrompt,
+            true
+        );
 
         console.log('AI response received, length:', aiResponse.length);
-
-        // Parse AI response
         const articleData = parseJsonResponse(aiResponse);
+
+        // 2. Verification Step (if enabled)
+        let verificationNotes: string | null = null;
+        if (verificationSettings?.enabled) {
+            console.log('Starting verification step...');
+            try {
+                // Determine Reviewer API Key
+                let reviewerApiKey: string;
+                if (verificationSettings.provider === 'lovable') {
+                    reviewerApiKey = Deno.env.get('LOVABLE_API_KEY') || '';
+                } else if (verificationSettings.api_key) {
+                    reviewerApiKey = verificationSettings.api_key;
+                } else {
+                    // Fallback to generator key if same provider, otherwise error
+                    if (verificationSettings.provider === llmSettings.provider) {
+                        reviewerApiKey = generatorApiKey;
+                    } else {
+                        console.warn('No API key for verification provider, using LOVABLE_API_KEY as fallback if lovable');
+                        reviewerApiKey = verificationSettings.provider === 'lovable' ? (Deno.env.get('LOVABLE_API_KEY') || '') : '';
+                        if (!reviewerApiKey) throw new Error('No API key for reviewer');
+                    }
+                }
+
+                const verSystemPrompt = "You are an expert editor.";
+                const verStats = `Original Topic: ${sourceTitle}\nTarget Category: ${targetCategory}\n`;
+                const verUserPrompt = `${verificationSettings.prompt || "Review this article."}\n\n${verStats}\n\nArticle Content:\n${articleData.content}`;
+
+                verificationNotes = await callLLM(
+                    verificationSettings.provider,
+                    verificationSettings.model,
+                    reviewerApiKey,
+                    verSystemPrompt,
+                    verUserPrompt,
+                    false // Not JSON mode, just text
+                );
+                console.log('Verification completed.');
+            } catch (vError) {
+                console.error('Verification failed:', vError);
+                verificationNotes = `Verification failed: ${vError instanceof Error ? vError.message : 'Unknown error'}`;
+            }
+        }
 
         // Generate slug from title
         const slug = articleData.title
@@ -251,6 +319,7 @@ Output as JSON with keys: title, excerpt, content (markdown format)`;
                 author_name: 'AI Content Team',
                 source_url: sourceUrl || null,
                 status: 'draft',
+                verification_notes: verificationNotes, // Save notes
             })
             .select()
             .single();
