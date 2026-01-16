@@ -204,6 +204,7 @@ export function AdminAISettings() {
     // Queue state
     const [queueItems, setQueueItems] = useState<QueueItem[]>([]);
     const [processingId, setProcessingId] = useState<string | null>(null);
+    const [runningRuleId, setRunningRuleId] = useState<string | null>(null);
 
     useEffect(() => {
         loadAllData();
@@ -519,6 +520,23 @@ export function AdminAISettings() {
 
         if (!error) {
             loadRules();
+        }
+    };
+
+    const handleRunRule = async (ruleId: string, sourceId: string) => {
+        setRunningRuleId(ruleId);
+        toast.info("Triggering rule execution...");
+        try {
+            const { error } = await supabase.functions.invoke("process-rss-queue", {
+                body: { source_id: sourceId }
+            });
+            if (error) throw error;
+            toast.success("Rule triggered successfully! Check Queue tab.");
+        } catch (err) {
+            console.error(err);
+            toast.error("Failed to trigger rule");
+        } finally {
+            setRunningRuleId(null);
         }
     };
 
@@ -1283,6 +1301,19 @@ export function AdminAISettings() {
                                                 </TableCell>
                                                 <TableCell className="text-right">
                                                     <div className="flex justify-end gap-2">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            onClick={() => handleRunRule(rule.id, rule.value.source_id)}
+                                                            disabled={!!runningRuleId}
+                                                            title="Run Now"
+                                                        >
+                                                            {runningRuleId === rule.id ? (
+                                                                <Loader2 className="w-4 h-4 animate-spin" />
+                                                            ) : (
+                                                                <Play className="w-4 h-4 text-green-600" />
+                                                            )}
+                                                        </Button>
                                                         <Button
                                                             variant="ghost"
                                                             size="icon"
