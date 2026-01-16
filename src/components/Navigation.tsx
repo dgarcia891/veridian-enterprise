@@ -56,7 +56,6 @@ const Navigation = () => {
         { id: "blog", name: "Blog Management", href: "/admin/blog", tagline: "Manage posts & content" },
         { id: "ai", name: "AI Config", href: "/admin/blog/ai-settings", tagline: "Pipeline & Verification" },
         { id: "analytics", name: "Analytics", href: "/admin/analytics", tagline: "View site performance" }
-        // @ts-expect-error - Casting to match Service type structure
       ] as unknown as any
     });
   }
