@@ -156,6 +156,7 @@ serve(async (req) => {
         let sourceTitle = topic || '';
         let sourceContent = '';
         let sourceUrl = '';
+        let sourceId = '';
         let targetCategory = category || 'AI Technology';
 
         // Also fetch prompt_id if linked in queue (Automation Rules)
@@ -175,6 +176,34 @@ serve(async (req) => {
             sourceTitle = queueData.source_title || '';
             sourceContent = queueData.source_content || '';
             sourceUrl = queueData.source_url || '';
+            sourceId = queueData.source_id || '';
+
+            // Check Daily Limit for this specific rule (source)
+            if (sourceId) {
+                const { data: ruleData } = await supabase
+                    .from('ai_blog_config')
+                    .select('*')
+                    .eq('config_type', 'automation_rule')
+                    .contains('value', { source_id: sourceId })
+                    .single();
+
+                const ruleLimit = (ruleData?.value as any)?.daily_limit;
+                if (ruleLimit) {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+
+                    const { count, error: countError } = await supabase
+                        .from('ai_blog_queue')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('source_id', sourceId)
+                        .eq('status', 'completed')
+                        .gte('processed_at', today.toISOString());
+
+                    if (!countError && count !== null && count >= ruleLimit) {
+                        throw new Error(`Daily limit of ${ruleLimit} articles reached for this pipeline.`);
+                    }
+                }
+            }
 
             // Check if this queue item has a linked prompt (from Automation Rules)
             if (queueData.prompt_id) {

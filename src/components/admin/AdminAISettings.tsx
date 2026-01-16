@@ -31,6 +31,12 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import {
@@ -94,6 +100,7 @@ interface AutomationRule {
         source_id: string;
         prompt_id: string;
         schedule: "hourly" | "daily" | "weekly";
+        daily_limit?: number;
     };
     is_active: boolean;
 }
@@ -114,7 +121,8 @@ interface QueueItem {
     source_id: string | null;
     source_url: string;
     source_title: string | null;
-    status: "pending" | "processing" | "completed" | "failed" | "skipped";
+    source_content: string | null;
+    status: "pending" | "processing" | "completed" | "failed" | "skipped" | "published" | "rejected";
     blog_post_id: string | null;
     error_message: string | null;
     created_at: string;
@@ -189,6 +197,7 @@ export function AdminAISettings() {
         source_id: "",
         prompt_id: "",
         schedule: "daily" as "hourly" | "daily" | "weekly",
+        daily_limit: 1,
     });
 
     // Verification Config state
@@ -205,6 +214,7 @@ export function AdminAISettings() {
     const [queueItems, setQueueItems] = useState<QueueItem[]>([]);
     const [processingId, setProcessingId] = useState<string | null>(null);
     const [runningRuleId, setRunningRuleId] = useState<string | null>(null);
+    const [viewingContent, setViewingContent] = useState<QueueItem | null>(null);
 
     useEffect(() => {
         loadAllData();
@@ -217,6 +227,9 @@ export function AdminAISettings() {
             loadRssSources(),
             loadLlmSettings(),
             loadPromptTemplates(),
+            loadRules(),
+            loadVerificationConfig(),
+            loadRules(),
             loadRules(),
             loadVerificationConfig(),
             loadQueue(),
@@ -458,6 +471,7 @@ export function AdminAISettings() {
             source_id: ruleForm.source_id,
             prompt_id: ruleForm.prompt_id,
             schedule: ruleForm.schedule,
+            daily_limit: ruleForm.daily_limit,
         };
 
         if (editingRule) {
@@ -492,7 +506,7 @@ export function AdminAISettings() {
 
         setRuleDialogOpen(false);
         setEditingRule(null);
-        setRuleForm({ name: "", source_id: "", prompt_id: "", schedule: "daily" });
+        setRuleForm({ name: "", source_id: "", prompt_id: "", schedule: "daily", daily_limit: 1 });
         loadRules();
     };
 
@@ -600,6 +614,7 @@ export function AdminAISettings() {
         }
 
         toast.success("Verification settings saved");
+        toast.success("Verification settings saved");
         loadVerificationConfig();
     };
 
@@ -661,6 +676,21 @@ export function AdminAISettings() {
             loadQueue();
         }
     };
+
+    const handleUpdateQueueStatus = async (queueId: string, status: string) => {
+        const { error } = await supabase
+            .from("ai_blog_queue")
+            .update({ status })
+            .eq("id", queueId);
+
+        if (!error) {
+            toast.success(`Item ${status}`);
+            loadQueue();
+        } else {
+            toast.error(`Failed to update status`);
+        }
+    };
+
 
     if (loading) {
         return (
@@ -1180,89 +1210,109 @@ export function AdminAISettings() {
                                 Create a rule that connects a <strong>Source</strong> to a <strong>Prompt</strong> and sets a schedule.
                             </p>
                         </div>
-                        <Dialog open={ruleDialogOpen} onOpenChange={setRuleDialogOpen}>
-                            <DialogTrigger asChild>
-                                <Button onClick={() => {
-                                    setEditingRule(null);
-                                    setRuleForm({ name: "", source_id: "", prompt_id: "", schedule: "daily" });
-                                }}>
-                                    <Plus className="w-4 h-4 mr-2" />
-                                    Add Rule
-                                </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                                <DialogHeader>
-                                    <DialogTitle>{editingRule ? "Edit Rule" : "Add Pipeline Rule"}</DialogTitle>
-                                    <DialogDescription>
-                                        Define how and when to process content from a source.
-                                    </DialogDescription>
-                                </DialogHeader>
-                                <div className="space-y-4 py-4">
-                                    <div className="space-y-2">
-                                        <Label htmlFor="rule-name">Rule Name</Label>
-                                        <Input
-                                            id="rule-name"
-                                            value={ruleForm.name}
-                                            onChange={(e) => setRuleForm({ ...ruleForm, name: e.target.value })}
-                                            placeholder="Daily Tech Summary"
-                                        />
+                        <div className="flex items-center gap-4">
+                            <Dialog open={ruleDialogOpen} onOpenChange={setRuleDialogOpen}>
+                                <DialogTrigger asChild>
+                                    <Button onClick={() => {
+                                        setEditingRule(null);
+                                        setRuleForm({ name: "", source_id: "", prompt_id: "", schedule: "daily", daily_limit: 1 });
+                                    }}>
+                                        <Plus className="w-4 h-4 mr-2" />
+                                        Add Rule
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogHeader>
+                                        <DialogTitle>{editingRule ? "Edit Rule" : "Add Pipeline Rule"}</DialogTitle>
+                                        <DialogDescription>
+                                            Define how and when to process content from a source.
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <div className="space-y-4 py-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="rule-name">Rule Name</Label>
+                                            <Input
+                                                id="rule-name"
+                                                value={ruleForm.name}
+                                                onChange={(e) => setRuleForm({ ...ruleForm, name: e.target.value })}
+                                                placeholder="Daily Tech Summary"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="rule-source">RSS Source</Label>
+                                            <Select
+                                                value={ruleForm.source_id}
+                                                onValueChange={(value) => setRuleForm({ ...ruleForm, source_id: value })}
+                                            >
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select source..." />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {rssSources.map((source) => (
+                                                        <SelectItem key={source.id} value={source.id}>{source.name}</SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="rule-prompt">Prompt Template</Label>
+                                            <Select
+                                                value={ruleForm.prompt_id}
+                                                onValueChange={(value) => setRuleForm({ ...ruleForm, prompt_id: value })}
+                                            >
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select prompt..." />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {promptTemplates.map((template) => (
+                                                        <SelectItem key={template.id} value={template.id}>{template.name}</SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <div className="flex gap-4">
+                                            <div className="space-y-2 flex-1">
+                                                <Label htmlFor="rule-schedule">Schedule</Label>
+                                                <Select
+                                                    value={ruleForm.schedule}
+                                                    onValueChange={(value: "hourly" | "daily" | "weekly") => setRuleForm({ ...ruleForm, schedule: value })}
+                                                >
+                                                    <SelectTrigger>
+                                                        <SelectValue />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="hourly">Hourly</SelectItem>
+                                                        <SelectItem value="daily">Daily</SelectItem>
+                                                        <SelectItem value="weekly">Weekly</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+                                            <div className="space-y-2 flex-1">
+                                                <Label htmlFor="rule-limit">Daily Limit</Label>
+                                                <Select
+                                                    value={ruleForm.daily_limit?.toString() || "1"}
+                                                    onValueChange={(value) => setRuleForm({ ...ruleForm, daily_limit: parseInt(value) })}
+                                                >
+                                                    <SelectTrigger>
+                                                        <SelectValue />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        {[1, 2, 3, 4, 5].map(num => (
+                                                            <SelectItem key={num} value={num.toString()}>{num}</SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="rule-source">RSS Source</Label>
-                                        <Select
-                                            value={ruleForm.source_id}
-                                            onValueChange={(value) => setRuleForm({ ...ruleForm, source_id: value })}
-                                        >
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Select source..." />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {rssSources.map((source) => (
-                                                    <SelectItem key={source.id} value={source.id}>{source.name}</SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="rule-prompt">Prompt Template</Label>
-                                        <Select
-                                            value={ruleForm.prompt_id}
-                                            onValueChange={(value) => setRuleForm({ ...ruleForm, prompt_id: value })}
-                                        >
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Select prompt..." />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {promptTemplates.map((template) => (
-                                                    <SelectItem key={template.id} value={template.id}>{template.name}</SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="rule-schedule">Schedule</Label>
-                                        <Select
-                                            value={ruleForm.schedule}
-                                            onValueChange={(value: "hourly" | "daily" | "weekly") => setRuleForm({ ...ruleForm, schedule: value })}
-                                        >
-                                            <SelectTrigger>
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="hourly">Hourly</SelectItem>
-                                                <SelectItem value="daily">Daily</SelectItem>
-                                                <SelectItem value="weekly">Weekly</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
-                                </div>
-                                <DialogFooter>
-                                    <Button variant="outline" onClick={() => setRuleDialogOpen(false)}>Cancel</Button>
-                                    <Button onClick={handleSaveRule}>Save Rule</Button>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
-                    </div>
+                                    <DialogFooter>
+                                        <Button variant="outline" onClick={() => setRuleDialogOpen(false)}>Cancel</Button>
+                                        <Button onClick={handleSaveRule}>Save Rule</Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+                        </div>
+                    </div> {/* End of Pipeline Tab Header */}
 
                     <Card>
                         <Table>
@@ -1272,6 +1322,7 @@ export function AdminAISettings() {
                                     <TableHead>Source</TableHead>
                                     <TableHead>Prompt</TableHead>
                                     <TableHead>Schedule</TableHead>
+                                    <TableHead>Limit</TableHead>
                                     <TableHead>Active</TableHead>
                                     <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
@@ -1279,7 +1330,7 @@ export function AdminAISettings() {
                             <TableBody>
                                 {rules.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                                        <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
                                             No pipeline rules configured. Add a rule to automate content generation.
                                         </TableCell>
                                     </TableRow>
@@ -1293,6 +1344,7 @@ export function AdminAISettings() {
                                                 <TableCell>{source?.name || "Unknown Source"}</TableCell>
                                                 <TableCell>{prompt?.name || "Unknown Prompt"}</TableCell>
                                                 <TableCell className="capitalize">{rule.value.schedule}</TableCell>
+                                                <TableCell>{rule.value.daily_limit || 1}/day</TableCell>
                                                 <TableCell>
                                                     <Switch
                                                         checked={rule.is_active}
@@ -1324,6 +1376,7 @@ export function AdminAISettings() {
                                                                     source_id: rule.value.source_id,
                                                                     prompt_id: rule.value.prompt_id,
                                                                     schedule: rule.value.schedule,
+                                                                    daily_limit: rule.value.daily_limit || 1,
                                                                 });
                                                                 setRuleDialogOpen(true);
                                                             }}
@@ -1396,6 +1449,13 @@ export function AdminAISettings() {
                                                     >
                                                         {item.source_url}
                                                     </a>
+                                                    <Button
+                                                        variant="link"
+                                                        className="p-0 h-auto w-fit text-xs mt-1"
+                                                        onClick={() => setViewingContent(item)}
+                                                    >
+                                                        View Content
+                                                    </Button>
                                                 </div>
                                             </TableCell>
                                             <TableCell>
@@ -1428,30 +1488,93 @@ export function AdminAISettings() {
                                                 <div className="flex justify-end gap-2">
                                                     {item.status === "pending" && (
                                                         <>
-                                                            <Button
-                                                                size="sm"
-                                                                onClick={() => handleGenerateArticle(item.id)}
-                                                                disabled={!!processingId}
-                                                            >
-                                                                <Play className="w-4 h-4" />
-                                                            </Button>
-                                                            <Button
-                                                                size="sm"
-                                                                variant="ghost"
-                                                                onClick={() => handleSkipItem(item.id)}
-                                                            >
-                                                                <SkipForward className="w-4 h-4" />
-                                                            </Button>
+                                                            <TooltipProvider>
+                                                                <Tooltip>
+                                                                    <TooltipTrigger asChild>
+                                                                        <Button
+                                                                            size="sm"
+                                                                            variant="ghost"
+                                                                            className="text-primary"
+                                                                            onClick={() => handleGenerateArticle(item.id)}
+                                                                            disabled={!!processingId}
+                                                                        >
+                                                                            {processingId === item.id ? (
+                                                                                <Loader2 className="w-4 h-4 animate-spin" />
+                                                                            ) : (
+                                                                                <Play className="w-4 h-4" />
+                                                                            )}
+                                                                        </Button>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>Generate Article</TooltipContent>
+                                                                </Tooltip>
+                                                            </TooltipProvider>
+
+                                                            <TooltipProvider>
+                                                                <Tooltip>
+                                                                    <TooltipTrigger asChild>
+                                                                        <Button
+                                                                            size="sm"
+                                                                            variant="ghost"
+                                                                            onClick={() => handleSkipItem(item.id)}
+                                                                        >
+                                                                            <SkipForward className="w-4 h-4" />
+                                                                        </Button>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>Skip Item</TooltipContent>
+                                                                </Tooltip>
+                                                            </TooltipProvider>
                                                         </>
                                                     )}
-                                                    {item.status === "failed" && (
-                                                        <Button
-                                                            size="sm"
-                                                            variant="outline"
-                                                            onClick={() => handleRetryItem(item.id)}
-                                                        >
-                                                            <RefreshCw className="w-4 h-4" />
-                                                        </Button>
+                                                    {item.status === "completed" && (
+                                                        <>
+                                                            <TooltipProvider>
+                                                                <Tooltip>
+                                                                    <TooltipTrigger asChild>
+                                                                        <Button
+                                                                            size="sm"
+                                                                            variant="ghost"
+                                                                            className="text-green-600 hover:text-green-700 hover:bg-green-50"
+                                                                            onClick={() => handleUpdateQueueStatus(item.id, "published")}
+                                                                        >
+                                                                            <Check className="w-4 h-4" />
+                                                                        </Button>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>Publish to Blog</TooltipContent>
+                                                                </Tooltip>
+                                                            </TooltipProvider>
+
+                                                            <TooltipProvider>
+                                                                <Tooltip>
+                                                                    <TooltipTrigger asChild>
+                                                                        <Button
+                                                                            size="sm"
+                                                                            variant="ghost"
+                                                                            className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                                                                            onClick={() => handleUpdateQueueStatus(item.id, "rejected")}
+                                                                        >
+                                                                            <X className="w-4 h-4" />
+                                                                        </Button>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>Reject & Archive</TooltipContent>
+                                                                </Tooltip>
+                                                            </TooltipProvider>
+                                                        </>
+                                                    )}
+                                                    {(item.status === "failed" || item.status === "rejected") && (
+                                                        <TooltipProvider>
+                                                            <Tooltip>
+                                                                <TooltipTrigger asChild>
+                                                                    <Button
+                                                                        size="sm"
+                                                                        variant="outline"
+                                                                        onClick={() => handleUpdateQueueStatus(item.id, "pending")}
+                                                                    >
+                                                                        <RefreshCw className="w-4 h-4" />
+                                                                    </Button>
+                                                                </TooltipTrigger>
+                                                                <TooltipContent>Retry / Rewrite</TooltipContent>
+                                                            </Tooltip>
+                                                        </TooltipProvider>
                                                     )}
                                                     {item.status === "completed" && item.blog_post_id && (
                                                         <Button size="sm" variant="outline" asChild>
@@ -1470,6 +1593,35 @@ export function AdminAISettings() {
                     </Card>
                 </TabsContent>
             </Tabs>
+
+            {/* Content View Dialog */}
+            <Dialog open={!!viewingContent} onOpenChange={(open) => !open && setViewingContent(null)}>
+                <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle>Content Preview</DialogTitle>
+                        <DialogDescription>
+                            Reviewing content for: {viewingContent?.source_title}
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                        <div>
+                            <h4 className="font-semibold mb-2">Original Source Content</h4>
+                            <div className="bg-muted p-4 rounded-md text-sm whitespace-pre-wrap max-h-[300px] overflow-y-auto">
+                                {viewingContent?.source_content || "No content scraped."}
+                            </div>
+                        </div>
+                        {viewingContent?.blog_post_id && (
+                            <div className="flex justify-end">
+                                <Button asChild>
+                                    <a href={`/blog/${viewingContent.blog_post_id}`} target="_blank" rel="noopener noreferrer">
+                                        View Generated Article <ExternalLink className="w-4 h-4 ml-2" />
+                                    </a>
+                                </Button>
+                            </div>
+                        )}
+                    </div>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
