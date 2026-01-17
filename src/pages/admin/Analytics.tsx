@@ -59,7 +59,7 @@ const Analytics = () => {
   const [eventCounts, setEventCounts] = useState<EventCount[]>([]);
   const [topPages, setTopPages] = useState<{ path: string; count: number }[]>([]);
   const [totalEvents, setTotalEvents] = useState(0);
-  const [dateRange, setDateRange] = useState<"today" | "7d" | "30d" | "all">("7d");
+  const [dateRange, setDateRange] = useState<"today" | "7d" | "30d" | "all">("today");
   const [ga4Data, setGa4Data] = useState<GA4Data | null>(null);
   const [ga4Loading, setGa4Loading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
