@@ -59,7 +59,7 @@ const Analytics = () => {
   const [eventCounts, setEventCounts] = useState<EventCount[]>([]);
   const [topPages, setTopPages] = useState<{ path: string; count: number }[]>([]);
   const [totalEvents, setTotalEvents] = useState(0);
-  const [dateRange, setDateRange] = useState<"today" | "7d" | "30d" | "all">("today");
+  const [dateRange, setDateRange] = useState<"today" | "yesterday" | "7d" | "30d" | "all">("today");
   const [ga4Data, setGa4Data] = useState<GA4Data | null>(null);
   const [ga4Loading, setGa4Loading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
@@ -92,6 +92,9 @@ const Analytics = () => {
     const now = new Date();
     if (dateRange === "today") {
       now.setHours(0, 0, 0, 0);
+    } else if (dateRange === "yesterday") {
+      now.setDate(now.getDate() - 1);
+      now.setHours(0, 0, 0, 0);
     } else if (dateRange === "7d") {
       now.setDate(now.getDate() - 7);
     } else if (dateRange === "30d") {
@@ -104,6 +107,7 @@ const Analytics = () => {
 
   const getGA4DateRange = useCallback(() => {
     if (dateRange === "today") return { startDate: "today", endDate: "today" };
+    if (dateRange === "yesterday") return { startDate: "yesterday", endDate: "yesterday" };
     if (dateRange === "7d") return { startDate: "7daysAgo", endDate: "today" };
     if (dateRange === "30d") return { startDate: "30daysAgo", endDate: "today" };
     return { startDate: "365daysAgo", endDate: "today" };
@@ -297,6 +301,13 @@ const Analytics = () => {
               onClick={() => setDateRange("today")}
             >
               Today
+            </Button>
+            <Button
+              variant={dateRange === "yesterday" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setDateRange("yesterday")}
+            >
+              Yesterday
             </Button>
             <Button
               variant={dateRange === "7d" ? "default" : "outline"}
