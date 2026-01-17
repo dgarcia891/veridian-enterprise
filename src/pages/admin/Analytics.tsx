@@ -59,7 +59,7 @@ const Analytics = () => {
   const [eventCounts, setEventCounts] = useState<EventCount[]>([]);
   const [topPages, setTopPages] = useState<{ path: string; count: number }[]>([]);
   const [totalEvents, setTotalEvents] = useState(0);
-  const [dateRange, setDateRange] = useState<"7d" | "30d" | "all">("7d");
+  const [dateRange, setDateRange] = useState<"today" | "7d" | "30d" | "all">("7d");
   const [ga4Data, setGa4Data] = useState<GA4Data | null>(null);
   const [ga4Loading, setGa4Loading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
@@ -90,7 +90,9 @@ const Analytics = () => {
 
   const getDateFilter = useCallback(() => {
     const now = new Date();
-    if (dateRange === "7d") {
+    if (dateRange === "today") {
+      now.setHours(0, 0, 0, 0);
+    } else if (dateRange === "7d") {
       now.setDate(now.getDate() - 7);
     } else if (dateRange === "30d") {
       now.setDate(now.getDate() - 30);
@@ -101,6 +103,7 @@ const Analytics = () => {
   }, [dateRange]);
 
   const getGA4DateRange = useCallback(() => {
+    if (dateRange === "today") return { startDate: "today", endDate: "today" };
     if (dateRange === "7d") return { startDate: "7daysAgo", endDate: "today" };
     if (dateRange === "30d") return { startDate: "30daysAgo", endDate: "today" };
     return { startDate: "365daysAgo", endDate: "today" };
@@ -288,6 +291,13 @@ const Analytics = () => {
             </div>
           </div>
           <div className="flex gap-2">
+            <Button
+              variant={dateRange === "today" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setDateRange("today")}
+            >
+              Today
+            </Button>
             <Button
               variant={dateRange === "7d" ? "default" : "outline"}
               size="sm"
