@@ -1,5 +1,27 @@
 # Deployment Log
 
+## [2026-01-16] Analytics Date Filters 🚀
+
+### Status: Deployed (GitHub Push Complete)
+
+### Summary of Changes
+
+- Added **"Today"** filter option (default).
+- Added **"Yesterday"** filter option between Today and 7 Days.
+- Filter now shows: Today | Yesterday | 7 Days | 30 Days | All Time
+
+### Pre-Deployment Checks
+
+- [x] Linting passed for `Analytics.tsx`.
+- [x] Git Sync: Changes pushed to `main` branch (**Commits: 4e2404c, dc8d855, f185ecd**).
+
+### Deployment Method
+
+- Code pushed to `main`.
+- Sync Status: Ready for Lovable Publish.
+
+---
+
 ## [2026-01-15] Analytics & Calendar Fix
 
 ### Status: Pushed to GitHub (Deployment in progress via user interaction)
@@ -25,6 +47,32 @@
 - Final step: User to click "Share -> Publish" or "Sync" in Lovable dashboard.
 
 ---
+
+## [2026-01-15] Queue Enhancements & Per-Pipeline Limits 🚀
+
+### Status: Deployed (Edge Function Live)
+
+### Summary of Changes
+
+- **Per-Pipeline Limits**: Added `daily_limit` field to `automation_rule` config and enforced it in the backend.
+- **Enhanced Queue UI**:
+  - Added Action buttons (Publish, Reject, Retry) with tooltips.
+  - Added "Content Preview" dialog via clickable titles.
+  - Interactive status badges and loaders.
+- **Backend Logic**: Updated `generate-article` Edge Function with per-source daily limit checks.
+
+### Pre-Deployment Checks
+
+- [x] Linting: Fixed all `AdminAISettings.tsx` and `generate-article` lint errors.
+- [x] Verification: Successfully tested limit enforcement and UI actions locally.
+- [x] Git Sync: Changes pushed to `main` branch (**Commit: f4f6f38**).
+
+### Deployment Method
+
+- **GitHub**: Pushed to `main`.
+- **Supabase**: Edge Function deployment `generate-article` COMPLETE (via Lovable).
+- **Secrets**: GA4 Credentials (`GA4_PROPERTY_ID`, `GA4_SERVICE_ACCOUNT`) set in Supabase.
+- **Final Step**: User to run `supabase functions deploy generate-article` and sync with Lovable.
 
 ## [2026-01-15] Analytics UX & Detailed Tracking 🚀
 
