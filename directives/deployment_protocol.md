@@ -53,6 +53,21 @@ git push origin <current_branch>
 - Confirm it says "master -> master" (or similar) and not "error".
 - Notify the User: "Deployment complete. Changes Pushed to [Remote Name]."
 
+### Step 5: Log Deployment
+
+Update `directives/deployment_log.md` with a new entry:
+
+- **Date/Title**: e.g., `[2026-01-16] Feature Name`
+- **Status**: Deployed / Pushed
+- **Summary**: Bullet points of changes.
+- **Commit Hash**: Reference the commit from Step 2.
+
+### Step 6: Lovable Sync (Finalize)
+
+1. Open the Lovable Dashboard.
+2. Click **Sync** to pull the changes from GitHub.
+3. Click **Publish** to make them live.
+
 ## 4. Handling Errors
 
 - **Merge Conflicts**: If `git push` fails due to conflicts, DO NOT separate HEAD or force push. Stop and notify the user: "Remote contains work that I do not have. Please pull/merge manually or instruct me further."

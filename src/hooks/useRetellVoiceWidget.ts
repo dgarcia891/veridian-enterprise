@@ -7,10 +7,12 @@ interface UseRetellVoiceWidgetConfig {
   agentId: string;
 }
 
+// Explicit Connection States for better UI feedback
+export type ConnectionStatus = "idle" | "connecting" | "connected" | "error";
+
 export const useRetellVoiceWidget = (config: UseRetellVoiceWidgetConfig) => {
   const { toast } = useToast();
-  const [isCallActive, setIsCallActive] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState<ConnectionStatus>("idle");
   const retellClient = useRef<RetellWebClient | null>(null);
 
   useEffect(() => {
@@ -18,13 +20,12 @@ export const useRetellVoiceWidget = (config: UseRetellVoiceWidgetConfig) => {
 
     retellClient.current.on("call_started", () => {
       console.log("Voice call started");
-      setIsCallActive(true);
-      setIsLoading(false);
+      setStatus("connected");
     });
 
     retellClient.current.on("call_ended", () => {
       console.log("Voice call ended");
-      setIsCallActive(false);
+      setStatus("idle");
       toast({
         title: "Call Ended",
         description: "Thanks for chatting with us!",
@@ -33,8 +34,7 @@ export const useRetellVoiceWidget = (config: UseRetellVoiceWidgetConfig) => {
 
     retellClient.current.on("error", (error) => {
       console.error("Retell error:", error);
-      setIsCallActive(false);
-      setIsLoading(false);
+      setStatus("error");
       toast({
         title: "Call Failed",
         description: error.message || "Failed to connect",
@@ -51,26 +51,47 @@ export const useRetellVoiceWidget = (config: UseRetellVoiceWidgetConfig) => {
 
   const startCall = async () => {
     try {
-      console.log("Starting voice call for agent:", config.agentId);
-      setIsLoading(true);
+      // 1. Pre-Check Microphone Permissions
+      // This is a common failure point that isn't always caught by the SDK early enough
+      try {
+        await navigator.mediaDevices.getUserMedia({ audio: true });
+      } catch (micError) {
+        console.error("Microphone permission denied:", micError);
+        toast({
+          title: "Microphone Access Required",
+          description: "Please allow microphone access to start the voice call.",
+          variant: "destructive",
+        });
+        return;
+      }
 
+      console.log("Starting voice call for agent:", config.agentId);
+      setStatus("connecting");
+
+      // 2. Invoke Edge Function with hardened error handling
       const { data, error } = await supabase.functions.invoke('create-retell-call', {
         body: { agentId: config.agentId }
       });
 
-      if (error) throw error;
-      if (!data?.access_token) throw new Error('No access token received');
+      if (error) {
+        throw new Error(`Connection failed: ${error.message}`);
+      }
+
+      if (!data?.access_token) {
+        throw new Error('Server returned invalid configuration (no token)');
+      }
 
       console.log("Starting Retell web call with access token");
       await retellClient.current?.startCall({
         accessToken: data.access_token,
       });
+
     } catch (error) {
       console.error("Error starting voice call:", error);
-      setIsLoading(false);
+      setStatus("error");
       toast({
-        title: "Call Failed",
-        description: error instanceof Error ? error.message : "Failed to start call",
+        title: "Connection Failed",
+        description: error instanceof Error ? error.message : "Failed to establish secure connection",
         variant: "destructive",
       });
     }
@@ -78,13 +99,14 @@ export const useRetellVoiceWidget = (config: UseRetellVoiceWidgetConfig) => {
 
   const endCall = () => {
     retellClient.current?.stopCall();
-    setIsCallActive(false);
+    setStatus("idle");
   };
 
   return {
     startCall,
     endCall,
-    isCallActive,
-    isLoading,
+    isCallActive: status === "connected",
+    isLoading: status === "connecting",
+    status, // Export full status for UI
   };
 };
