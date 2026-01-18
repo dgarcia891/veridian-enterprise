@@ -37,6 +37,68 @@ const BlogPost = () => {
     return <Navigate to="/blog" replace />;
   }
 
+  // Parse inline markdown (links, bold, italic)
+  const parseInlineMarkdown = (text: string): React.ReactNode => {
+    const parts: React.ReactNode[] = [];
+    let remaining = text;
+    let keyIndex = 0;
+
+    while (remaining.length > 0) {
+      // Match markdown links [text](url)
+      const linkMatch = remaining.match(/\[([^\]]+)\]\(([^)]+)\)/);
+      // Match bold **text** or __text__
+      const boldMatch = remaining.match(/\*\*([^*]+)\*\*|__([^_]+)__/);
+      // Match italic *text* or _text_ (but not inside bold)
+      const italicMatch = remaining.match(/(?<!\*)\*([^*]+)\*(?!\*)|(?<!_)_([^_]+)_(?!_)/);
+
+      // Find the earliest match
+      const matches = [
+        linkMatch ? { type: 'link', match: linkMatch, index: remaining.indexOf(linkMatch[0]) } : null,
+        boldMatch ? { type: 'bold', match: boldMatch, index: remaining.indexOf(boldMatch[0]) } : null,
+        italicMatch ? { type: 'italic', match: italicMatch, index: remaining.indexOf(italicMatch[0]) } : null,
+      ].filter(Boolean).sort((a, b) => a!.index - b!.index);
+
+      if (matches.length === 0) {
+        parts.push(remaining);
+        break;
+      }
+
+      const earliest = matches[0]!;
+      
+      // Add text before the match
+      if (earliest.index > 0) {
+        parts.push(remaining.slice(0, earliest.index));
+      }
+
+      // Process the match
+      if (earliest.type === 'link') {
+        const [fullMatch, linkText, url] = earliest.match;
+        parts.push(
+          <a 
+            key={keyIndex++} 
+            href={url} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-primary hover:underline"
+          >
+            {linkText}
+          </a>
+        );
+        remaining = remaining.slice(earliest.index + fullMatch.length);
+      } else if (earliest.type === 'bold') {
+        const [fullMatch, text1, text2] = earliest.match;
+        parts.push(<strong key={keyIndex++}>{text1 || text2}</strong>);
+        remaining = remaining.slice(earliest.index + fullMatch.length);
+      } else if (earliest.type === 'italic') {
+        const [fullMatch, text1, text2] = earliest.match;
+        parts.push(<em key={keyIndex++}>{text1 || text2}</em>);
+        remaining = remaining.slice(earliest.index + fullMatch.length);
+      }
+    }
+
+    return parts.length === 1 && typeof parts[0] === 'string' ? parts[0] : parts;
+  };
+
   // Simple markdown to HTML conversion for basic formatting
   const renderContent = (content: string) => {
     return content
@@ -46,14 +108,14 @@ const BlogPost = () => {
         if (paragraph.startsWith("## ")) {
           return (
             <h2 key={index} className="text-2xl font-bold mt-8 mb-4">
-              {paragraph.replace("## ", "")}
+              {parseInlineMarkdown(paragraph.replace("## ", ""))}
             </h2>
           );
         }
         if (paragraph.startsWith("### ")) {
           return (
             <h3 key={index} className="text-xl font-bold mt-6 mb-3">
-              {paragraph.replace("### ", "")}
+              {parseInlineMarkdown(paragraph.replace("### ", ""))}
             </h3>
           );
         }
@@ -63,7 +125,7 @@ const BlogPost = () => {
           return (
             <ul key={index} className="list-disc list-inside space-y-2 my-4">
               {items.map((item, i) => (
-                <li key={i}>{item.replace("- ", "")}</li>
+                <li key={i}>{parseInlineMarkdown(item.replace("- ", ""))}</li>
               ))}
             </ul>
           );
@@ -71,7 +133,7 @@ const BlogPost = () => {
         // Regular paragraph
         return (
           <p key={index} className="mb-4 leading-relaxed">
-            {paragraph}
+            {parseInlineMarkdown(paragraph)}
           </p>
         );
       });
