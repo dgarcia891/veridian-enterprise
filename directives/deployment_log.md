@@ -1,5 +1,36 @@
 # Deployment Log
 
+## [2026-01-18] Retell Hardening & Blog SEO Automation 🚀
+
+### Status: Pushed to GitHub (Deployment ready for Lovable Sync/Publish)
+
+### Summary of Changes
+
+- **TD-001: Retell Hardening**:
+  - Implemented exponential backoff retry logic (3x) for all Retell Edge Functions.
+  - Added request ID tracing and structured logging for better observability.
+  - Hardened `create-retell-call`, `create-retell-chat`, and `send-chat-message`.
+- **FR-002: Enhanced Blog SEO**:
+  - **Database**: Added `seo_title`, `meta_description`, `seo_keywords`, and `faq_schema` to `blog_posts`.
+  - **AI Pipeline**: Updated `generate-article` with SEO expert prompts and FAQ generation logic.
+  - **Frontend**: Integrated SEO meta tags and FAQ Schema (JSON-LD) into `BlogPost.tsx`.
+- **FR-001**: Added Medical Office Agent demo and industry pages.
+- **TD-002**: Initialized regression test suite for routes.
+
+### Pre-Deployment Checks
+
+- [x] Build Success: `npm run build` passed successfully.
+- [x] Linting: Addressed critical lint errors in core components.
+- [x] Repository: Changes pushed to `main` branch (**Commit: a227ab4**).
+
+### Deployment Method
+
+- **GitHub**: Pushed to `main`.
+- **Supabase**: **ACTION REQUIRED** - Run `supabase db push` and `supabase functions deploy`.
+- **Final Step**: User to click "Sync" in Lovable dashboard.
+
+---
+
 ## [2026-01-16] Analytics Date Filters 🚀
 
 ### Status: Deployed (GitHub Push Complete)
