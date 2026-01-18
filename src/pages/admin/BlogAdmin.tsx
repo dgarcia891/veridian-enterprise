@@ -29,7 +29,8 @@ import {
   Pencil,
   Trash2,
   Eye,
-  EyeOff,
+  Globe,
+  GlobeLock,
   Loader2,
   ArrowLeft,
   LogOut,
@@ -228,6 +229,13 @@ const BlogAdmin = () => {
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex items-center justify-end gap-2">
+                          {post.status === "published" && (
+                            <Button variant="ghost" size="icon" asChild title="View live post">
+                              <a href={`/blog/${post.slug}`} target="_blank" rel="noopener noreferrer">
+                                <Eye className="w-4 h-4" />
+                              </a>
+                            </Button>
+                          )}
                           <Button
                             variant="ghost"
                             size="icon"
@@ -235,12 +243,12 @@ const BlogAdmin = () => {
                             title={post.status === "published" ? "Unpublish" : "Publish"}
                           >
                             {post.status === "published" ? (
-                              <EyeOff className="w-4 h-4" />
+                              <GlobeLock className="w-4 h-4" />
                             ) : (
-                              <Eye className="w-4 h-4" />
+                              <Globe className="w-4 h-4" />
                             )}
                           </Button>
-                          <Button variant="ghost" size="icon" asChild>
+                          <Button variant="ghost" size="icon" asChild title="Edit post">
                             <Link to={`/admin/blog/edit/${post.id}`}>
                               <Pencil className="w-4 h-4" />
                             </Link>
@@ -249,6 +257,7 @@ const BlogAdmin = () => {
                             variant="ghost"
                             size="icon"
                             onClick={() => setDeleteId(post.id)}
+                            title="Delete post"
                           >
                             <Trash2 className="w-4 h-4 text-destructive" />
                           </Button>
