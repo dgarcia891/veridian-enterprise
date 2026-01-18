@@ -35,3 +35,18 @@ verify_jwt = false
 
 [functions.generate-sms-flow-image]
 verify_jwt = false
+
+[functions.generate-article]
+verify_jwt = false
+
+[functions.scrape-article]
+verify_jwt = false
+
+[functions.crawlable-content]
+verify_jwt = false
+
+[functions.fetch-ga4-analytics]
+verify_jwt = false
+
+[functions.process-rss-queue]
+verify_jwt = false
