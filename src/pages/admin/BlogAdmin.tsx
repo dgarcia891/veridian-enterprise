@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAllPosts, useDeletePost, useUpdatePost } from "@/hooks/useBlogPosts";
+import { useBlogViewCounts } from "@/hooks/useBlogViewCounts";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -34,6 +35,7 @@ import {
   LogOut,
   BarChart3,
   Bot,
+  BarChart2,
 } from "lucide-react";
 
 const BlogAdmin = () => {
@@ -41,6 +43,7 @@ const BlogAdmin = () => {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const { data: posts, isLoading, error } = useAllPosts();
+  const { data: viewCounts } = useBlogViewCounts();
   const deletePost = useDeletePost();
   const updatePost = useUpdatePost();
 
@@ -180,6 +183,7 @@ const BlogAdmin = () => {
                 <TableRow>
                   <TableHead>Title</TableHead>
                   <TableHead>Category</TableHead>
+                  <TableHead>Views</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Date</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
@@ -188,7 +192,7 @@ const BlogAdmin = () => {
               <TableBody>
                 {posts.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center py-8">
+                    <TableCell colSpan={6} className="text-center py-8">
                       <p className="text-muted-foreground">No posts yet. Create your first post!</p>
                     </TableCell>
                   </TableRow>
@@ -204,6 +208,12 @@ const BlogAdmin = () => {
                         </Link>
                       </TableCell>
                       <TableCell>{post.category}</TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-1.5 text-muted-foreground">
+                          <BarChart2 className="w-4 h-4" />
+                          <span>{viewCounts?.[post.slug] || 0}</span>
+                        </div>
+                      </TableCell>
                       <TableCell>
                         <Badge
                           variant={post.status === "published" ? "default" : "secondary"}
