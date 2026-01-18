@@ -43,6 +43,10 @@ const BlogPostForm = () => {
     author_name: "Voice AI Team",
     source_url: "",
     status: "draft" as "draft" | "published",
+    seo_title: "",
+    meta_description: "",
+    seo_keywords: [] as string[],
+    faq_schema: null as any,
   });
 
   const { data: existingPost, isLoading: loadingPost } = usePostById(id || "");
@@ -65,7 +69,11 @@ const BlogPostForm = () => {
         image_url: existingPost.image_url || "",
         author_name: existingPost.author_name || "Voice AI Team",
         source_url: existingPost.source_url || "",
-        status: existingPost.status,
+        status: existingPost.status as "draft" | "published",
+        seo_title: existingPost.seo_title || "",
+        meta_description: existingPost.meta_description || "",
+        seo_keywords: existingPost.seo_keywords || [],
+        faq_schema: existingPost.faq_schema || null,
       });
     }
   }, [existingPost]);
@@ -112,10 +120,21 @@ const BlogPostForm = () => {
     }
 
     const postData: BlogPostInsert = {
-      ...formData,
+      title: formData.title,
+      slug: formData.slug,
+      excerpt: formData.excerpt,
+      content: formData.content,
+      category: formData.category,
+      read_time: formData.read_time,
+      author_name: formData.author_name,
+      status: formData.status,
       image_url: formData.image_url || null,
       source_url: formData.source_url || null,
       published_at: formData.status === "published" ? new Date().toISOString() : null,
+      seo_title: formData.seo_title || null,
+      meta_description: formData.meta_description || null,
+      seo_keywords: formData.seo_keywords.length > 0 ? formData.seo_keywords : null,
+      faq_schema: formData.faq_schema || null,
     };
 
     try {
