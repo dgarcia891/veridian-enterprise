@@ -20,19 +20,19 @@ const AIAgentDemos = () => {
   return (
     <>
       <Helmet>
-        <title>AI Agent Demos - Interactive Voice AI Examples | VoiceOwl AI</title>
-        <meta 
-          name="description" 
-          content="Try our interactive AI agent demos. Experience how voice AI can transform customer service for restaurants, medical offices, and businesses." 
+        <title>AI Agent Demos - Interactive Voice AI Examples | AI Agents 3000</title>
+        <meta
+          name="description"
+          content="Try our interactive AI agent demos. Experience how voice AI can transform customer service for restaurants, medical offices, and businesses."
         />
         <meta name="keywords" content="AI agent demo, voice AI demo, AI receptionist demo, conversational AI examples" />
-        <link rel="canonical" href="https://voiceowl.ai/ai-agent-demos" />
-        
-        <meta property="og:title" content="AI Agent Demos - Try Voice AI | VoiceOwl AI" />
+        <link rel="canonical" href="https://aiagents3000.com/ai-agent-demos" />
+
+        <meta property="og:title" content="AI Agent Demos - Try Voice AI | AI Agents 3000" />
         <meta property="og:description" content="Experience interactive AI agent demos. See how voice AI handles real customer interactions." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://voiceowl.ai/ai-agent-demos" />
-        
+        <meta property="og:url" content="https://aiagents3000.com/ai-agent-demos" />
+
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="AI Agent Demos - Try Voice AI" />
         <meta name="twitter:description" content="Experience interactive AI agent demos for businesses." />
@@ -40,7 +40,7 @@ const AIAgentDemos = () => {
 
       <div className="min-h-screen flex flex-col bg-background">
         <Navigation />
-        
+
         <main className="flex-grow">
           {/* Hero Section */}
           <section className="py-20 px-4 bg-gradient-to-b from-primary/5 to-background">
@@ -52,7 +52,7 @@ const AIAgentDemos = () => {
                 Try Our AI Agent Demos
               </h1>
               <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Experience firsthand how our voice AI agents handle real customer interactions. 
+                Experience firsthand how our voice AI agents handle real customer interactions.
                 Click on any demo below to start a conversation.
               </p>
             </div>
@@ -93,7 +93,7 @@ const AIAgentDemos = () => {
                 Ready to Build Your Own AI Agent?
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
-                See how VoiceOwl AI can transform your customer service with custom AI agents.
+                See how AI Agents 3000 can transform your customer service with custom AI agents.
               </p>
               <Button asChild size="default" className="w-full sm:w-auto">
                 <Link to="/schedule-consultation">
