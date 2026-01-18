@@ -176,7 +176,8 @@
                 "generate-article",
                 "scrape-article",
                 "create-blog-post",
-                "upload-blog-image"
+                "upload-blog-image",
+                "ai-blog-assistant"
             ],
             "analytics_reporting": [
                 "fetch-ga4-analytics",
@@ -215,13 +216,24 @@
             "id": "FR-002",
             "feature": "Enhanced Blog SEO automation",
             "status": "Complete"
+        },
+        {
+            "id": "FR-003",
+            "feature": "AI Blog Assistant Panel",
+            "status": "Complete"
+        },
+        {
+            "id": "FR-004",
+            "feature": "Remove Legacy AI Content Settings & RSS Scraper (Moved to external system)",
+            "status": "Planned"
         }
     ],
     "technical_debt": [
         {
             "id": "TD-001",
-            "issue": "Retell hardening code READY; awaiting deployment for final verification",
-            "priority": "High"
+            "issue": "Retell hardening code implementation",
+            "priority": "High",
+            "status": "Complete"
         },
         {
             "id": "TD-003",

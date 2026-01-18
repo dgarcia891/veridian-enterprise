@@ -6,7 +6,7 @@
 
 | Bug ID | Description | Severity | Found In |
 |--------|-------------|----------|----------|
-| | | | |
+| BUG-004 | AI Blog Assistant Panel and SEO fields missing from production /admin/blog/new despite code verify. | High | PROD-VERIFY |
 
 ## Fix History
 

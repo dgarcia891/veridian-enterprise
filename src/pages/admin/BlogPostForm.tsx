@@ -15,7 +15,8 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
-import { ArrowLeft, Loader2, Save } from "lucide-react";
+import { ArrowLeft, Loader2, Save, Globe } from "lucide-react";
+import { AIBlogAssistantPanel } from "@/components/admin/AIBlogAssistantPanel";
 
 const categories = [
   "AI Technology",
@@ -46,7 +47,7 @@ const BlogPostForm = () => {
     seo_title: "",
     meta_description: "",
     seo_keywords: [] as string[],
-    faq_schema: null as any,
+    faq_schema: [] as any[],
   });
 
   const { data: existingPost, isLoading: loadingPost } = usePostById(id || "");
@@ -73,14 +74,14 @@ const BlogPostForm = () => {
         seo_title: existingPost.seo_title || "",
         meta_description: existingPost.meta_description || "",
         seo_keywords: existingPost.seo_keywords || [],
-        faq_schema: existingPost.faq_schema || null,
+        faq_schema: (existingPost.faq_schema as any[]) || [],
       });
     }
   }, [existingPost]);
 
   const checkAdminAccess = async () => {
     const { data: { user } } = await supabase.auth.getUser();
-    
+
     if (!user) {
       setIsAdmin(false);
       return;
@@ -134,7 +135,7 @@ const BlogPostForm = () => {
       seo_title: formData.seo_title || null,
       meta_description: formData.meta_description || null,
       seo_keywords: formData.seo_keywords.length > 0 ? formData.seo_keywords : null,
-      faq_schema: formData.faq_schema || null,
+      faq_schema: formData.faq_schema.length > 0 ? formData.faq_schema : null,
     };
 
     try {
@@ -192,6 +193,28 @@ const BlogPostForm = () => {
             </h1>
           </div>
         </div>
+
+        {/* AI Assistant Panel */}
+        {!isEditing && (
+          <AIBlogAssistantPanel
+            onApply={(data) => {
+              setFormData((prev) => ({
+                ...prev,
+                title: data.title,
+                slug: generateSlug(data.title),
+                excerpt: data.excerpt,
+                content: data.content,
+                category: data.suggested_category,
+                read_time: data.read_time,
+                source_url: data.source_url || "",
+                seo_title: data.seo_title,
+                meta_description: data.meta_description,
+                seo_keywords: data.seo_keywords,
+                faq_schema: data.faq_schema,
+              }));
+            }}
+          />
+        )}
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -334,6 +357,68 @@ const BlogPostForm = () => {
                   setFormData((prev) => ({ ...prev, status: checked ? "published" : "draft" }))
                 }
               />
+            </div>
+          </div>
+
+          {/* SEO & Metadata */}
+          <div className="glass-card rounded-xl p-6 space-y-6 mt-8">
+            <div className="flex items-center gap-2 mb-2">
+              <Globe className="w-5 h-5 text-primary" />
+              <h2 className="text-xl font-bold">SEO & Metadata</h2>
+            </div>
+
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="seo_title">SEO Title</Label>
+                <Input
+                  id="seo_title"
+                  value={formData.seo_title}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, seo_title: e.target.value }))}
+                  placeholder="Optimized title for search engines"
+                  maxLength={60}
+                />
+                <p className="text-xs text-muted-foreground">Recommended: 50-60 characters</p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="meta_description">Meta Description</Label>
+                <Textarea
+                  id="meta_description"
+                  value={formData.meta_description}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, meta_description: e.target.value }))}
+                  placeholder="Compelling description for search results"
+                  rows={2}
+                  maxLength={160}
+                />
+                <p className="text-xs text-muted-foreground">Recommended: 150-160 characters</p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="seo_keywords">Keywords (comma separated)</Label>
+                <Input
+                  id="seo_keywords"
+                  value={formData.seo_keywords.join(", ")}
+                  onChange={(e) => setFormData((prev) => ({
+                    ...prev,
+                    seo_keywords: e.target.value.split(",").map(k => k.trim()).filter(k => k !== "")
+                  }))}
+                  placeholder="ai, voice agent, automation"
+                />
+              </div>
+
+              {formData.faq_schema.length > 0 && (
+                <div className="space-y-4 border-t pt-4">
+                  <Label>Generated FAQ Schema</Label>
+                  <div className="space-y-3">
+                    {formData.faq_schema.map((item, idx) => (
+                      <div key={idx} className="bg-muted/50 p-3 rounded-lg text-sm">
+                        <p className="font-bold mb-1">Q: {item.question}</p>
+                        <p className="text-muted-foreground">A: {item.answer}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 

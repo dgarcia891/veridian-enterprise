@@ -93,7 +93,10 @@
 - Image upload via Edge Function
 - Draft/Published status workflow
 
-### 3.4 AI Content Pipeline `(Legacy/Unverified)`
+### 3.4 AI Content Pipeline `(Pending Removal)`
+
+> [!NOTE]
+> This module is deprecated and planned for removal as functions have moved to an external system.
 
 **File:** `BlogAISettings.tsx`
 
@@ -120,7 +123,7 @@
 
 | Function | Purpose |
 |----------|---------|
-| `process-rss-queue` | Ingest RSS feeds, create queue items |
+| `process-rss-queue` | Ingest RSS feeds (Deprecated) |
 | `generate-article` | Call LLM to generate blog posts |
 | `scrape-article` | Extract full text from URLs |
 | `create-blog-post` | Programmatic blog creation |
@@ -171,7 +174,9 @@
 | ID | Feature | Status |
 |----|---------|--------|
 | FR-001 | Additional AI Demo Agents (e.g., Medical Office) | Not Started |
-| FR-002 | Enhanced Blog SEO automation | Not Started |
+| FR-002 | Enhanced Blog SEO automation | Complete |
+| FR-003 | AI Blog Assistant Panel | Complete |
+| FR-004 | Remove Legacy AI Content Settings & RSS Scraper | Planned |
 
 ---
 
