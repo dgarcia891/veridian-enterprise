@@ -80,17 +80,35 @@ const BlogPost = () => {
   return (
     <>
       <Helmet>
-        <title>{post.title} | AI Agents 3000 Blog</title>
-        <meta name="description" content={post.excerpt} />
+        <title>{post.seo_title || `${post.title} | AI Agents 3000 Blog`}</title>
+        <meta name="description" content={post.meta_description || post.excerpt} />
         <link rel="canonical" href={`https://veridian.lovable.app/blog/${post.slug}`} />
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.excerpt} />
+        <meta property="og:title" content={post.seo_title || post.title} />
+        <meta property="og:description" content={post.meta_description || post.excerpt} />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={`https://veridian.lovable.app/blog/${post.slug}`} />
         {post.image_url && <meta property="og:image" content={post.image_url} />}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={post.title} />
-        <meta name="twitter:description" content={post.excerpt} />
+        <meta name="twitter:title" content={post.seo_title || post.title} />
+        <meta name="twitter:description" content={post.meta_description || post.excerpt} />
+
+        {/* Structured Data: FAQ Schema */}
+        {post.faq_schema && Array.isArray(post.faq_schema) && (
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": post.faq_schema.map((item: any) => ({
+                "@type": "Question",
+                "name": item.question,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": item.answer
+                }
+              }))
+            })}
+          </script>
+        )}
       </Helmet>
       <div className="min-h-screen bg-background text-foreground">
         <Navigation />
@@ -166,6 +184,21 @@ const BlogPost = () => {
             <div className="prose prose-lg max-w-none text-foreground">
               {renderContent(post.content)}
             </div>
+
+            {/* AI Generated FAQ Section */}
+            {post.faq_schema && Array.isArray(post.faq_schema) && post.faq_schema.length > 0 && (
+              <section className="mt-12 pt-12 border-t">
+                <h2 className="text-2xl font-bold mb-6">Frequently Asked Questions</h2>
+                <div className="space-y-6">
+                  {post.faq_schema.map((item: any, index: number) => (
+                    <div key={index} className="bg-muted/30 rounded-xl p-6">
+                      <h3 className="text-lg font-semibold mb-2">{item.question}</h3>
+                      <p className="text-muted-foreground">{item.answer}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* CTA Section */}
             <div className="mt-16 glass-card p-8 rounded-2xl border border-primary/50 text-center bg-gradient-to-br from-primary/5 to-primary/10">

@@ -5,53 +5,104 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+const MAX_RETRIES = 3;
+const INITIAL_BACKOFF_MS = 500;
+
+async function delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
+  const requestId = crypto.randomUUID();
+
   try {
     const { chatId, content } = await req.json();
 
     if (!chatId || !content) {
-      throw new Error("Chat ID and message content are required");
+      return new Response(
+        JSON.stringify({ error: "Chat ID and message content are required" }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     const retellApiKey = Deno.env.get('RETELL_API_KEY');
     if (!retellApiKey) {
-      throw new Error('Service configuration error');
+      console.error(`[${requestId}] RETELL_API_KEY is not configured`);
+      return new Response(
+        JSON.stringify({ error: 'Service configuration error' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
-    const response = await fetch(`https://api.retellai.com/v2/send-chat-message/${chatId}`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${retellApiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        content: content,
-        role: 'user',
-      }),
-    });
+    let lastError;
+    let attempt = 0;
 
-    if (!response.ok) {
-      console.error('API call failed');
-      throw new Error('Unable to send message');
-    }
+    while (attempt < MAX_RETRIES) {
+      try {
+        attempt++;
+        if (attempt > 1) {
+          console.log(`[${requestId}] Retry attempt ${attempt}/${MAX_RETRIES}`);
+        }
 
-    const data = await response.json();
-    return new Response(JSON.stringify(data), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 200,
-    });
-  } catch (error) {
-    console.error('Message send failed');
-    return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Failed to send message' }),
-      {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 500,
+        const response = await fetch(`https://api.retellai.com/v2/send-chat-message/${chatId}`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${retellApiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            content: content,
+            role: 'user',
+          }),
+        });
+
+        if (response.status >= 400 && response.status < 500) {
+          const errorText = await response.text();
+          console.error(`[${requestId}] Retell Client Error (${response.status}): ${errorText}`);
+          throw new Error(`Retell API invalid request: ${errorText}`);
+        }
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.warn(`[${requestId}] Retell Server Error (${response.status}), attempting retry...`);
+          throw new Error(`Retell API error: ${response.status} ${errorText}`);
+        }
+
+        const data = await response.json();
+        console.log(`[${requestId}] Message sent successfully.`);
+
+        return new Response(JSON.stringify(data), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 200,
+        });
+
+      } catch (err) {
+        lastError = err;
+        console.error(`[${requestId}] Attempt ${attempt} failed:`, err);
+
+        if (attempt < MAX_RETRIES) {
+          const backoff = INITIAL_BACKOFF_MS * Math.pow(2, attempt - 1);
+          await delay(backoff);
+        }
       }
+    }
+
+    return new Response(
+      JSON.stringify({
+        error: lastError instanceof Error ? lastError.message : 'Failed to send message after multiple attempts'
+      }),
+      { status: 502, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+
+  } catch (error) {
+    console.error(`[${requestId}] Unexpected error:`, error);
+    return new Response(
+      JSON.stringify({ error: error instanceof Error ? error.message : 'Internal Server Error' }),
+      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }
 });

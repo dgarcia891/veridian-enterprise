@@ -6,11 +6,12 @@
 
 | Bug ID | Description | Severity | Found In |
 |--------|-------------|----------|----------|
-| **BUG-001** | `/ai-receptionist` redirects to `mivos.ai/login` (Admin/Private) instead of public demo. | High | QA-007 |
-| **BUG-002** | Menu link "Voice AI Receptionist" points to missing page `/services/voice-ai-receptionist` (404). | High | QA-007 |
-| **BUG-003** | No visible "Voice Demo" widget found on homepage or services page. | Medium | QA-008 |
+| | | | |
 
 ## Fix History
 
 | Bug ID | Attempt # | Outcome | Root Cause |
 |--------|-----------|---------|------------|
+| **BUG-001** | 1 | Fixed | Confusing/Incorrect Navigation Links causing user redirection |
+| **BUG-002** | 1 | Fixed | Missing `href` override in services data |
+| **BUG-003** | 1 | Fixed | `RetellVoiceWidget` not imported in `AIReceptionist.tsx` |

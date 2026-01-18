@@ -15,6 +15,13 @@ const AIAgentDemos = () => {
       industry: "Hospitality",
       slug: "/demos/sunset-on-lyons",
     },
+    {
+      id: "medical-office",
+      name: "Alpine Family Medicine",
+      description: "Experience an AI receptionist for a medical office. Ask about appointments, insurance, prescriptions, and office hours.",
+      industry: "Healthcare",
+      slug: "/demos/medical-office",
+    },
   ];
 
   return (

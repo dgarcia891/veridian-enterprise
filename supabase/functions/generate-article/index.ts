@@ -240,17 +240,28 @@ serve(async (req) => {
         }
 
         // Default prompts if no template found
-        const defaultSystemPrompt = `You are a professional blog writer for AI Agents 3000, a company that provides AI voice receptionist services. Write engaging, informative articles that position the company as a thought leader. Use a conversational but professional tone.}`;
+        const defaultSystemPrompt = `You are a professional blog writer and SEO expert for AI Agents 3000, a company that provides AI voice receptionist services. 
+Your goal is to write engaging, informative articles that position the company as a thought leader while being perfectly optimized for search engines. 
+Use a conversational but professional tone. 
+Always include SEO metadata and an FAQ section to improve search visibility.`;
 
-        const defaultUserPrompt = `Write an article about the following topic. Create a unique title, write a 2-3 sentence excerpt, and produce an 800-word article.
+        const defaultUserPrompt = `Write an optimized article about the following topic. 
 
 Topic: {{source_title}}
 Category: {{category}}
 
+Requirements:
+1. Title: Create a unique, catchy title.
+2. Content: Produce an approximately {{target_word_count}} word article in markdown format.
+3. SEO Title: An optimized title for search engines (max 60 characters).
+4. Meta Description: A compelling meta description that encourages clicks (max 160 characters).
+5. SEO Keywords: A list of 5-10 relevant keywords.
+6. FAQ Schema: Generate 3-5 frequently asked questions and answers based on the article content.
+
 Source Content (if any):
 {{source_content}}
 
-Output as JSON with keys: title, excerpt, content (markdown format)`;
+Output MUST be a JSON object with keys: title, excerpt, content, seo_title, meta_description, seo_keywords (array), faq_schema (array of {question, answer} objects).`;
 
         const templateValue = promptTemplate?.value as {
             system_prompt: string;
@@ -285,7 +296,20 @@ Output as JSON with keys: title, excerpt, content (markdown format)`;
         );
 
         console.log('AI response received, length:', aiResponse.length);
-        const articleData = parseJsonResponse(aiResponse);
+
+        // Robust JSON parsing
+        let articleData: any;
+        try {
+            articleData = JSON.parse(aiResponse);
+        } catch (e) {
+            console.warn('Direct JSON parse failed, attempting regex extraction:', e);
+            const jsonMatch = aiResponse.match(/\{[\s\S]*\}/);
+            if (jsonMatch) {
+                articleData = JSON.parse(jsonMatch[0]);
+            } else {
+                throw new Error('Failed to parse AI response as JSON');
+            }
+        }
 
         // 2. Verification Step (if enabled)
         let verificationNotes: string | null = null;
@@ -309,9 +333,9 @@ Output as JSON with keys: title, excerpt, content (markdown format)`;
                     }
                 }
 
-                const verSystemPrompt = "You are an expert editor.";
-                const verStats = `Original Topic: ${sourceTitle}\nTarget Category: ${targetCategory}\n`;
-                const verUserPrompt = `${verificationSettings.prompt || "Review this article."}\n\n${verStats}\n\nArticle Content:\n${articleData.content}`;
+                const verSystemPrompt = "You are an expert editor and SEO reviewer.";
+                const verStats = `Original Topic: ${sourceTitle}\nTarget Category: ${targetCategory}\nSEO Title: ${articleData.seo_title}\nMeta Description: ${articleData.meta_description}\n`;
+                const verUserPrompt = `${verificationSettings.prompt || "Review this article for flow, tone, and SEO effectiveness."}\n\n${verStats}\n\nArticle Content:\n${articleData.content}`;
 
                 verificationNotes = await callLLM(
                     verificationSettings.provider,
@@ -341,14 +365,18 @@ Output as JSON with keys: title, excerpt, content (markdown format)`;
             .insert({
                 title: articleData.title,
                 slug: slug,
-                excerpt: articleData.excerpt,
+                excerpt: articleData.excerpt || articleData.meta_description || '',
                 content: articleData.content,
                 category: targetCategory,
-                read_time: `${Math.ceil(articleData.content.split(/\s+/).length / 200)} min read`,
+                read_time: `${Math.ceil((articleData.content || '').split(/\s+/).length / 200)} min read`,
                 author_name: 'AI Content Team',
                 source_url: sourceUrl || null,
                 status: 'draft',
-                verification_notes: verificationNotes, // Save notes
+                verification_notes: verificationNotes,
+                seo_title: articleData.seo_title || null,
+                meta_description: articleData.meta_description || null,
+                seo_keywords: articleData.seo_keywords || null,
+                faq_schema: articleData.faq_schema || null,
             })
             .select()
             .single();

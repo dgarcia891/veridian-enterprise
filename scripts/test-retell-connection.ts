@@ -12,7 +12,7 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
 }
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-const TEST_AGENT_ID = "agent_244a5e2f9d1406830573130571";
+const TEST_AGENT_ID = "agent_2df66bc30b17e2cbf174bf2f3b"; // AI Receptionist Agent ID
 
 async function testRetellConnection() {
     console.log("🔍 Testing 'create-retell-call'...");
@@ -42,7 +42,7 @@ async function testRetellConnection() {
         }
 
         console.log("✅ Success!");
-        console.log("Access Token:", data?.access_token ? "Presnet" : "Missing");
+        console.log("Access Token:", data?.access_token ? "Present" : "Missing");
 
     } catch (err) {
         console.error("❌ Script Error:", err);

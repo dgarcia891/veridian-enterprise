@@ -8,6 +8,7 @@ import SocialProof from "@/components/SocialProof";
 import ServiceCTA from "@/components/ServiceCTA";
 import Footer from "@/components/Footer";
 import { services } from "@/data/services";
+import { RetellVoiceWidget } from "@/components/RetellVoiceWidget";
 import { Helmet } from "react-helmet";
 
 const AIReceptionist = () => {
@@ -61,6 +62,7 @@ const AIReceptionist = () => {
         </main>
 
         <Footer />
+        <RetellVoiceWidget agentId="agent_2df66bc30b17e2cbf174bf2f3b" />
       </div>
     </>
   );

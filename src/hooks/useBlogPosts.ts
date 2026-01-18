@@ -16,6 +16,10 @@ export interface BlogPost {
   published_at: string | null;
   created_at: string;
   updated_at: string;
+  seo_title: string | null;
+  meta_description: string | null;
+  seo_keywords: string[] | null;
+  faq_schema: any;
 }
 
 export type BlogPostInsert = Omit<BlogPost, "id" | "created_at" | "updated_at">;

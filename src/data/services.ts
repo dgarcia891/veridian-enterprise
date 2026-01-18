@@ -125,7 +125,8 @@ export const services: Service[] = [
         ctaText: "Get Started"
       }
     ],
-    active: true
+    active: true,
+    href: "/ai-receptionist"
   },
   {
     id: "ai-chat-widget",

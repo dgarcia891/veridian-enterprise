@@ -33,6 +33,7 @@ const BlogPostForm = lazy(() => import("./pages/admin/BlogPostForm"));
 const AdminAuth = lazy(() => import("./pages/admin/AdminAuth"));
 const AIAgentDemos = lazy(() => import("./pages/AIAgentDemos"));
 const SunsetOnLyons = lazy(() => import("./pages/demos/SunsetOnLyons"));
+const MedicalOffice = lazy(() => import("./pages/demos/MedicalOffice"));
 const AIInsightReport = lazy(() => import("./pages/AIInsightReport"));
 const SiteContent = lazy(() => import("./pages/SiteContent"));
 const Restaurants = lazy(() => import("./pages/Restaurants"));
@@ -49,7 +50,7 @@ const BlogAISettings = lazy(() => import("./pages/admin/BlogAISettings"));
 
 const queryClient = new QueryClient();
 
-const AppContent = () => {
+export const AppContent = () => {
   const location = useLocation();
   const { trackPageView } = useAnalytics();
   const lastTrackedPath = useRef<string | null>(null);
@@ -103,6 +104,7 @@ const AppContent = () => {
           <Route path="/admin/blog/ai-settings" element={<BlogAISettings />} />
           <Route path="/demos/ai-agent-demos" element={<AIAgentDemos />} />
           <Route path="/demos/sunset-on-lyons" element={<SunsetOnLyons />} />
+          <Route path="/demos/medical-office" element={<MedicalOffice />} />
           <Route path="/restaurants" element={<Restaurants />} />
           <Route path="/plumbers" element={<Plumbers />} />
           <Route path="/ai-insight" element={<AIInsightReport />} />
