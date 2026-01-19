@@ -41,7 +41,7 @@ const Navigation = () => {
     { href: "/", label: "Home", type: "link" },
     { href: "/about", label: "About", type: "link" },
     { label: "Services", type: "dropdown", items: activeServices },
-    { href: "/#pricing", label: "Pricing", type: "hash" },
+    { href: "/pricing", label: "Pricing", type: "link" },
     { href: "/blog", label: "Blog", type: "link" },
     { href: "/audit", label: "Free AI Audit", type: "link" },
     { href: "/contact", label: "Contact", type: "link" }
