@@ -12,7 +12,7 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
 }
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-const TEST_AGENT_ID = "agent_2df66bc30b17e2cbf174bf2f3b"; // AI Receptionist Agent ID
+const TEST_AGENT_ID = "agent_1ef5afe461594f65be72ab17db"; // Sunset On Lyons (Chat?)
 
 async function testRetellConnection() {
     console.log("🔍 Testing 'create-retell-call'...");

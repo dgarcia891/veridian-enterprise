@@ -137,12 +137,7 @@ const BlogAdmin = () => {
             <h1 className="text-3xl font-bold">Blog Management</h1>
           </div>
           <div className="flex items-center gap-4">
-            <Button asChild variant="outline">
-              <Link to="/admin/blog/ai-settings">
-                <Bot className="w-4 h-4 mr-2" />
-                AI Content
-              </Link>
-            </Button>
+
             <Button asChild variant="outline">
               <Link to="/admin/analytics">
                 <BarChart3 className="w-4 h-4 mr-2" />
