@@ -1,14 +1,10 @@
 ---
-description: How to handle a bug report
+description: 🐞 Fix a bug using the Strict Test-Driven Protocol.
 ---
-1.  **Classify and Log**
-    *   Add to `bug_log.md` with status "Open".
-2.  **Reproduction**
-    *   Create a reproduction test case.
-    *   Verify it fails.
-3.  **Fix**
-    *   Implement fix.
-    *   Verify test passes.
-4.  **Closure**
-    *   Update `bug_log.md` to "Fixed".
-    *   Add learned rule to `active_rules.md` if applicable.
+# 🐞 Bug Fix Protocol (v4.8)
+
+1. **Log:** Update docs/BUG_LOG.md.
+2. **Isolate:** Create tests/regression/BUG-[ID].test.ts.
+3. **Prove:** Run the test. **IT MUST FAIL**.
+4. **Fix:** Implement logic.
+5. **Verify:** Run test. It must PASS.

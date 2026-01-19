@@ -1,16 +1,9 @@
 ---
-description: How to implement a new feature
+description: ⚡ Implement a new feature strictly following Architecture.md
 ---
-1.  **Requirement**
-    *   Update `project_requirements_document.md`.
-    *   Add to `enhancement_log.md`.
-2.  **Plan**
-    *   Create implementation plan.
-3.  **Test**
-    *   Write feature tests.
-4.  **Implement**
-    *   Write code.
-    *   Pass tests.
-5.  **Verify**
-    *   Manual verification if needed.
-    *   Update logs.
+# ⚡ New Feature Protocol (v4.8)
+
+1. **Check Specs:** Read docs/project_state.json.
+2. **Conflict Check:** Is this UI? (If YES -> STOP. Use Lovable).
+3. **Test:** Write integration tests first.
+4. **Implement:** Write code to satisfy tests.

@@ -1,0 +1,10 @@
+{
+    "system": "Antigravity Orchestrator",
+    "version": "4.8",
+    "mode": "Native Infrastructure (Rules + Workflows)",
+    "protocols": {
+        "lovable_proxy": true,
+        "supabase_lock": "HARD",
+        "architecture_enforced": true
+    }
+}
