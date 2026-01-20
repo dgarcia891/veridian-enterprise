@@ -41,7 +41,7 @@ export const useAnalytics = () => {
     fetchIp();
 
     if (!initialized.current && GA4_MEASUREMENT_ID && !isIgnored) {
-      // @ts-ignore
+      // @ts-expect-error - gtag is defined globally by GA4
       window.gtagConfig?.(GA4_MEASUREMENT_ID);
       initialized.current = true;
     }
@@ -59,7 +59,7 @@ export const useAnalytics = () => {
 
       // Send to GA4 if configured
       if (GA4_MEASUREMENT_ID && typeof window !== "undefined") {
-        // @ts-ignore
+        // @ts-expect-error - gtag is defined globally by GA4
         window.gtag?.("event", eventName, {
           event_category: category,
           ...metadata,
@@ -138,6 +138,80 @@ export const useAnalytics = () => {
     [trackEvent]
   );
 
+  // =========================================
+  // Cal.com Booking Funnel Tracking (FR-005)
+  // =========================================
+
+  const trackCalendarOpened = useCallback(
+    (source: string) => {
+      trackEvent("calendar_opened", {
+        category: "booking_funnel",
+        metadata: { source },
+      });
+    },
+    [trackEvent]
+  );
+
+  const trackCalendarLoaded = useCallback(
+    (source: string) => {
+      trackEvent("calendar_loaded", {
+        category: "booking_funnel",
+        metadata: { source },
+      });
+    },
+    [trackEvent]
+  );
+
+  const trackCalendarClosed = useCallback(
+    (source: string) => {
+      trackEvent("calendar_closed", {
+        category: "booking_funnel",
+        metadata: { source },
+      });
+    },
+    [trackEvent]
+  );
+
+  const trackDateSelected = useCallback(
+    (date?: string) => {
+      trackEvent("date_selected", {
+        category: "booking_funnel",
+        metadata: { date: date || "unknown" },
+      });
+    },
+    [trackEvent]
+  );
+
+  const trackTimeSlotSelected = useCallback(
+    (timeSlot?: string) => {
+      trackEvent("time_slot_selected", {
+        category: "booking_funnel",
+        metadata: { time_slot: timeSlot || "unknown" },
+      });
+    },
+    [trackEvent]
+  );
+
+  const trackBookingFormOpened = useCallback(
+    () => {
+      trackEvent("booking_form_opened", {
+        category: "booking_funnel",
+        metadata: {},
+      });
+    },
+    [trackEvent]
+  );
+
+  const trackBookingCompleted = useCallback(
+    (bookingId?: string, email?: string) => {
+      trackEvent("booking_completed", {
+        category: "booking_funnel",
+        metadata: { booking_id: bookingId || "unknown", email: email || "unknown" },
+      });
+    },
+    [trackEvent]
+  );
+
   return {
     trackEvent,
     trackPageView,
@@ -145,5 +219,14 @@ export const useAnalytics = () => {
     trackROICalculatorUsed,
     trackBlogView,
     trackCTAClick,
+    // Cal.com Booking Funnel (FR-005)
+    trackCalendarOpened,
+    trackCalendarLoaded,
+    trackCalendarClosed,
+    trackDateSelected,
+    trackTimeSlotSelected,
+    trackBookingFormOpened,
+    trackBookingCompleted,
   };
 };
+

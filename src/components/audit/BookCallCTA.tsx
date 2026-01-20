@@ -5,6 +5,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Phone, ArrowRight, CheckCircle2 } from "lucide-react";
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { CALCOM_CONFIG, CALCOM_THEME } from "@/config/calcom";
+import { useAnalytics } from "@/hooks/useAnalytics";
+import { useNavigate } from "react-router-dom";
+import { useCalFallback } from "@/hooks/useCalFallback";
 
 interface BookCallCTAProps {
   businessName: string;
@@ -15,6 +18,18 @@ interface BookCallCTAProps {
 
 const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: BookCallCTAProps) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const navigate = useNavigate();
+  const { showFallback, onCalLoaded } = useCalFallback();
+  const {
+    trackCalendarOpened,
+    trackCalendarLoaded,
+    trackCalendarClosed,
+    trackDateSelected,
+    trackTimeSlotSelected,
+    trackBookingFormOpened,
+    trackBookingCompleted,
+    trackConsultationBooked,
+  } = useAnalytics();
 
   useEffect(() => {
     (async function () {
@@ -24,8 +39,33 @@ const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: B
         hideEventTypeDetails: CALCOM_THEME.hideEventTypeDetails,
         layout: CALCOM_THEME.layout,
       });
+
+      // Track Cal.com events for funnel analytics (FR-005)
+      cal("on", {
+        action: "linkReady",
+        callback: () => {
+          trackCalendarLoaded("book_call_cta");
+          onCalLoaded();
+        },
+      });
+
+      // Track successful bookings and redirect to confirmation
+      cal("on", {
+        action: "bookingSuccessful",
+        callback: (e) => {
+          // Extract booking data safely
+          const eventData = e.detail?.data as Record<string, unknown> | undefined;
+          const booking = eventData?.booking as Record<string, unknown> | undefined;
+          trackBookingCompleted(
+            String(booking?.uid || ""),
+            String(booking?.email || "")
+          );
+          trackConsultationBooked("book_call_cta");
+          navigate("/consultation-booked");
+        },
+      });
     })();
-  }, []);
+  }, [navigate, trackCalendarLoaded, trackBookingCompleted, trackConsultationBooked, onCalLoaded]);
 
   const handleBookCallClick = () => {
     console.log('[Analytics] CTA Click: Book Strategy Call', {
@@ -53,7 +93,7 @@ const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: B
 
           {/* Subtext */}
           <p className="text-lg text-foreground/80 mb-8 max-w-2xl mx-auto">
-            Book a free 15-minute strategy call and see exactly how an AI receptionist 
+            Book a free 15-minute strategy call and see exactly how an AI receptionist
             would work for <span className="font-semibold text-foreground">{businessName}</span>
           </p>
 
@@ -91,6 +131,14 @@ const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: B
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">Schedule My Free Strategy Call</DialogTitle>
           </DialogHeader>
+
+          {showFallback && (
+            <div className="bg-destructive/10 text-destructive p-4 rounded-md mb-4 text-center mx-6">
+              <p className="font-semibold">Having trouble loading the calendar?</p>
+              <p className="text-sm">Please call us directly at <a href={`tel:${phone}`} className="underline font-bold">{phone}</a> or try refreshing the page.</p>
+            </div>
+          )}
+
           <div className="flex-1 overflow-auto">
             <Cal
               calLink={CALCOM_CONFIG.bookingLink}
