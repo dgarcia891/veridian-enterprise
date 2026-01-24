@@ -58,7 +58,7 @@ function extractArticleContent(html: string): { title: string; content: string; 
         if (el) {
             // Remove script, style, nav, header, footer, aside elements
             const elementsToRemove = el.querySelectorAll('script, style, nav, header, footer, aside, .ad, .advertisement, .social-share, .comments');
-            elementsToRemove.forEach((node: Element) => node.remove());
+            elementsToRemove.forEach((node) => (node as Element).remove());
 
             // Get text content with some structure
             content = extractTextContent(el);
@@ -71,7 +71,7 @@ function extractArticleContent(html: string): { title: string; content: string; 
     // Fallback: get body content
     if (!content && doc.body) {
         const elementsToRemove = doc.body.querySelectorAll('script, style, nav, header, footer, aside');
-        elementsToRemove.forEach((node: Element) => node.remove());
+        elementsToRemove.forEach((node) => (node as Element).remove());
         content = extractTextContent(doc.body);
     }
 

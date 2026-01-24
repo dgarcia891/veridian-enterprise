@@ -318,7 +318,8 @@ Output MUST be a JSON object with keys: title, excerpt, content, seo_title, meta
             try {
                 // Determine Reviewer API Key
                 let reviewerApiKey: string;
-                if (verificationSettings.provider === 'lovable') {
+                const reviewerProvider = verificationSettings.provider as string;
+                if (reviewerProvider === 'lovable') {
                     reviewerApiKey = Deno.env.get('LOVABLE_API_KEY') || '';
                 } else if (verificationSettings.api_key) {
                     reviewerApiKey = verificationSettings.api_key;
@@ -328,7 +329,7 @@ Output MUST be a JSON object with keys: title, excerpt, content, seo_title, meta
                         reviewerApiKey = generatorApiKey;
                     } else {
                         console.warn('No API key for verification provider, using LOVABLE_API_KEY as fallback if lovable');
-                        reviewerApiKey = verificationSettings.provider === 'lovable' ? (Deno.env.get('LOVABLE_API_KEY') || '') : '';
+                        reviewerApiKey = reviewerProvider === 'lovable' ? (Deno.env.get('LOVABLE_API_KEY') || '') : '';
                         if (!reviewerApiKey) throw new Error('No API key for reviewer');
                     }
                 }
