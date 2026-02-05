@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { AppContent } from '@/App';
-import projectState from '../../docs/project_state.json';
+import projectState from '../../docs/logs/project_state_legacy.json';
 
 describe('Public Route Regression Tests', () => {
     const publicPages = projectState.features.public_facing.marketing_pages;

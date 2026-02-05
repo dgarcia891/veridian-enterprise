@@ -2,7 +2,7 @@
 // Update these values with your Cal.com account details
 export const CALCOM_CONFIG = {
   // Your Cal.com username (from your Cal.com URL: cal.com/YOUR_USERNAME)
-  username: "david-garcia-89",
+  username: "vesllc",
 
   // Your event type slug (from the event URL: cal.com/username/EVENT_SLUG)
   eventSlug: "ai3kdemocall",
