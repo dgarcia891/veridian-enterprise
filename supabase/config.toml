@@ -51,3 +51,6 @@ verify_jwt = false
 
 [functions.ai-blog-assistant]
 verify_jwt = false
+
+[functions.contentflow-webhook]
+verify_jwt = false
