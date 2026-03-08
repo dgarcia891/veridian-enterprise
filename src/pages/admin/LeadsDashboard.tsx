@@ -350,6 +350,8 @@ const LeadsDashboard = () => {
           Showing {filtered.length} of {leads.length} leads
         </p>
       </div>
+
+      <LeadDetailDialog lead={selectedLead} open={detailOpen} onOpenChange={setDetailOpen} />
     </div>
   );
 };
