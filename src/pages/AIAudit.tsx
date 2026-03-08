@@ -20,6 +20,11 @@ const AIAudit = () => {
   
   const { getEnhancedAuditResults, saveEnhancedAudit } = useEnhancedAuditCalculation();
   const { toast } = useToast();
+  const { trackPageVisit, trackAuditStarted, trackAuditCompleted } = useFunnelTracking();
+
+  useEffect(() => {
+    trackPageVisit("ai_audit");
+  }, [trackPageVisit]);
 
   const handleMetricsSubmit = async (metrics: EnhancedBusinessMetrics) => {
     setBusinessMetrics(metrics);
