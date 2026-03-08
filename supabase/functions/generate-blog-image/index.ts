@@ -68,12 +68,13 @@ serve(async (req) => {
     if (Array.isArray(images)) {
       for (const img of images) {
         if (img.type === "image_url" && img.image_url?.url) {
-          const match = img.image_url.url.match(
-            /^data:(image\/\w+);base64,(.+)$/s
-          );
-          if (match) {
-            mimeType = match[1];
-            base64Data = match[2];
+          const url = img.image_url.url as string;
+          const dataPrefix = "data:";
+          const base64Marker = ";base64,";
+          if (url.startsWith(dataPrefix) && url.includes(base64Marker)) {
+            const markerIndex = url.indexOf(base64Marker);
+            mimeType = url.substring(dataPrefix.length, markerIndex);
+            base64Data = url.substring(markerIndex + base64Marker.length);
           }
           break;
         }
