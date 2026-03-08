@@ -326,7 +326,7 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
   // Sync external content changes (e.g. AI assistant populating content)
   useEffect(() => {
     if (editor && content !== editor.getHTML()) {
-      editor.commands.setContent(content, false);
+      editor.commands.setContent(content, { emitUpdate: false });
       setHtmlSource(content);
     }
   }, [content, editor]);
