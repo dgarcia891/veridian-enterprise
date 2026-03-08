@@ -41,13 +41,13 @@ const Onboarding = () => {
       // Save onboarding data directly (no signup_id link for now — will be linked via admin)
       const { error } = await supabase.from("customer_onboarding").insert({
         business_name: profile.businessName,
-        business_hours: hours,
+        business_hours: hours as any,
         greeting_message: agentConfig.greetingMessage,
         services_offered: profile.servicesOffered,
-        faq_entries: agentConfig.faqEntries,
+        faq_entries: agentConfig.faqEntries as any,
         voicemail_enabled: voicemailEnabled,
         preferred_voice: agentConfig.preferredVoice,
-      });
+      } as any);
 
       if (error) throw error;
 
