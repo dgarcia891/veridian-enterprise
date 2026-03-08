@@ -7,6 +7,7 @@ import { usePostBySlug } from "@/hooks/useBlogPosts";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { Button } from "@/components/ui/button";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 import { useEffect } from "react";
 
 const BlogPost = () => {
@@ -14,12 +15,14 @@ const BlogPost = () => {
   const { data: post, isLoading, error } = usePostBySlug(slug || "");
   const { isAdmin } = useIsAdmin();
   const { trackBlogView, trackCTAClick } = useAnalytics();
+  const { trackBlogVisit } = useFunnelTracking();
 
   useEffect(() => {
     if (post) {
       trackBlogView(post.slug, post.title);
+      trackBlogVisit(post.slug, post.title);
     }
-  }, [post, trackBlogView]);
+  }, [post, trackBlogView, trackBlogVisit]);
 
   if (isLoading) {
     return (

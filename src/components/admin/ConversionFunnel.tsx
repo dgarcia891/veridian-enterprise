@@ -11,6 +11,7 @@ interface FunnelStageData {
 }
 
 const STAGE_ORDER = [
+  { key: "funnel_blog_visit", label: "Blog Visit" },
   { key: "funnel_page_visit", label: "Page Visit" },
   { key: "funnel_audit_started", label: "Audit Started" },
   { key: "funnel_audit_completed", label: "Audit Completed" },
