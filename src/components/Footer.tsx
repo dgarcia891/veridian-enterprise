@@ -28,6 +28,9 @@ const Footer = () => {
             <Link to="/compare/vs-my-ai-front-desk" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               AI Agents 3000 vs My AI Front Desk
             </Link>
+            <Link to="/compare/vs-dialzara" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              AI Agents 3000 vs Dialzara
+            </Link>
           </nav>
 
           {/* Legal Links */}

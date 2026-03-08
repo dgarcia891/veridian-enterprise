@@ -119,6 +119,7 @@ export const AppContent = () => {
           <Route path="/sms-opt-in-guide" element={<SMSOptInGuide />} />
           <Route path="/compare/vs-smith-ai" element={<VsSmithAI />} />
           <Route path="/compare/vs-my-ai-front-desk" element={<VsMyAIFrontDesk />} />
+          <Route path="/compare/vs-dialzara" element={<VsDialzara />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
