@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Phone, MessageCircle, Check, ArrowRight, Zap, Clock, Globe } from "lucide-react";
 import { Helmet } from "react-helmet";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { services } from "@/data/services";
 
 const Services = () => {
@@ -256,6 +256,11 @@ const Services = () => {
                 >
                   Calculate Your ROI
                 </Button>
+              </div>
+              <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm">
+                <span className="text-muted-foreground">See how we compare:</span>
+                <Link to="/compare/vs-smith-ai" className="text-primary hover:underline">vs Smith.ai</Link>
+                <Link to="/compare/vs-my-ai-front-desk" className="text-primary hover:underline">vs My AI Front Desk</Link>
               </div>
             </div>
           </section>

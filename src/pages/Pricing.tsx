@@ -3,9 +3,9 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Pricing = () => {
   const navigate = useNavigate();
@@ -194,6 +194,30 @@ const Pricing = () => {
                     <p className="text-sm text-muted-foreground">
                       The AI Chat Widget is available as an add-on starting at $150/month on any Voice AI plan.
                     </p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Comparison Links */}
+              <Card className="glass-card border-primary/20">
+                <CardHeader>
+                  <CardTitle>See How We Compare</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Not sure how we stack up? Check out our detailed competitor comparisons.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Link to="/compare/vs-smith-ai">
+                      <Button variant="outline" className="w-full sm:w-auto">
+                        vs Smith.ai <ArrowRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    </Link>
+                    <Link to="/compare/vs-my-ai-front-desk">
+                      <Button variant="outline" className="w-full sm:w-auto">
+                        vs My AI Front Desk <ArrowRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    </Link>
                   </div>
                 </CardContent>
               </Card>
