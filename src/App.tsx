@@ -46,6 +46,7 @@ const Pricing = lazy(() => import("./pages/Pricing"));
 const Consultation = lazy(() => import("./pages/Consultation"));
 const SMSOptInGuide = lazy(() => import("./pages/SMSOptInGuide"));
 const Analytics = lazy(() => import("./pages/admin/Analytics"));
+const MediaLibrary = lazy(() => import("./pages/admin/MediaLibrary"));
 
 
 const queryClient = new QueryClient();
