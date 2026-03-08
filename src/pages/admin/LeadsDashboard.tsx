@@ -80,6 +80,7 @@ const LeadsDashboard = () => {
           industry: a.industry || "",
           date: a.created_at || "",
           meta: { scoreTier: a.score_tier, annualLoss: a.annual_loss },
+          raw: a as unknown as Record<string, unknown>,
         });
       });
 
