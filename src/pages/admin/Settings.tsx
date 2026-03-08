@@ -272,7 +272,7 @@ const Settings = () => {
                   {logs.length === 0 && <p className="text-muted-foreground">No entries yet.</p>}
                   {logs.map((l, i) => (
                     <div key={i} className="flex items-start gap-2">
-                      {l.type === "success" ? <CheckCircle2 className="h-4 w-4 text-green-500 mt-0.5 shrink-0" /> : l.type === "error" ? <XCircle className="h-4 w-4 text-destructive mt-0.5 shrink-0" /> : <span className="h-4 w-4 mt-0.5 shrink-0" />}
+                      {l.type === "success" ? <CheckCircle2 className="h-4 w-4 text-primary mt-0.5 shrink-0" /> : l.type === "error" ? <XCircle className="h-4 w-4 text-destructive mt-0.5 shrink-0" /> : <span className="h-4 w-4 mt-0.5 shrink-0" />}
                       <span className="text-muted-foreground">{l.timestamp}</span>
                       <span className="text-foreground">{l.message}</span>
                     </div>

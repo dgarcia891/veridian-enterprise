@@ -110,6 +110,7 @@ export const AppContent = () => {
           <Route path="/admin/blog/edit/:id" element={<BlogPostForm />} />
           <Route path="/admin/analytics" element={<Analytics />} />
           <Route path="/admin/media" element={<MediaLibrary />} />
+          <Route path="/admin/settings" element={<AdminSettings />} />
 
           <Route path="/demos/ai-agent-demos" element={<AIAgentDemos />} />
           <Route path="/demos/sunset-on-lyons" element={<SunsetOnLyons />} />
