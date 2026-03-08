@@ -48,15 +48,15 @@ serve(async (req) => {
           console.log(`[${requestId}] Retry attempt ${attempt}/${MAX_RETRIES}`);
         }
 
-        const response = await fetch(`https://api.retellai.com/v2/send-chat-message/${chatId}`, {
+        const response = await fetch('https://api.retellai.com/create-chat-completion', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${retellApiKey}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
+            chat_id: chatId,
             content: content,
-            role: 'user',
           }),
         });
 
