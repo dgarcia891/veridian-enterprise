@@ -33,7 +33,7 @@ const PaymentSuccess = () => {
                   Thank you for choosing AI Agents 3000. Your plan is now active.
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Next, let's set up your AI voice agent so it's ready to handle calls for your business.
+                  Create your account to manage your AI agent, then we'll walk you through setup.
                 </p>
                 <Button
                   size="lg"
