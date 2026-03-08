@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="border-t border-border px-6 py-8 bg-card" role="contentinfo" aria-label="Footer">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           {/* Brand & Company Info */}
           <div className="flex flex-col items-center md:items-start gap-2">
             <img src={logo} alt="AI Agents 3000 Logo" className="h-12 w-auto" />
