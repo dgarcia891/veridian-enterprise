@@ -257,6 +257,11 @@ const Services = () => {
                   Calculate Your ROI
                 </Button>
               </div>
+              <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm">
+                <span className="text-muted-foreground">See how we compare:</span>
+                <Link to="/compare/vs-smith-ai" className="text-primary hover:underline">vs Smith.ai</Link>
+                <Link to="/compare/vs-my-ai-front-desk" className="text-primary hover:underline">vs My AI Front Desk</Link>
+              </div>
             </div>
           </section>
         </main>
