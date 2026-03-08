@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="border-t border-border px-6 py-8 bg-card" role="contentinfo" aria-label="Footer">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           {/* Brand & Company Info */}
           <div className="flex flex-col items-center md:items-start gap-2">
             <img src={logo} alt="AI Agents 3000 Logo" className="h-12 w-auto" />
@@ -18,6 +18,15 @@ const Footer = () => {
               <p className="text-xs text-muted-foreground">A Wyoming Limited Liability Company</p>
             </div>
           </div>
+
+          {/* Services */}
+          <nav className="flex flex-col items-center md:items-start gap-2" aria-label="Services">
+            <p className="text-sm font-semibold text-foreground mb-1">Services</p>
+            <Link to="/ai-receptionist" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Voice AI Receptionist</Link>
+            <Link to="/services/ai-chat-widget" className="text-sm text-muted-foreground hover:text-foreground transition-colors">AI Chat Widget</Link>
+            <Link to="/services" className="text-sm text-muted-foreground hover:text-foreground transition-colors">All Services</Link>
+            <Link to="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Pricing</Link>
+          </nav>
 
           {/* Industries */}
           <nav className="flex flex-col items-center md:items-start gap-2" aria-label="Industry pages">
