@@ -8,6 +8,7 @@ import ProcessingScreen from "@/components/audit/ProcessingScreen";
 import { useEnhancedAuditCalculation, EnhancedBusinessMetrics, EnhancedContactInfo } from "@/hooks/useEnhancedAuditCalculation";
 import { useToast } from "@/hooks/use-toast";
 import { useFunnelTracking } from "@/hooks/useFunnelTracking";
+import { notifyAdmin } from "@/lib/notifyAdmin";
 import confetti from "canvas-confetti";
 
 const AIAudit = () => {
