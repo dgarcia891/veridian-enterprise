@@ -17,6 +17,7 @@ import {
   ClipboardList, Mail, Phone, Building2, Calendar,
 } from "lucide-react";
 import { format } from "date-fns";
+import LeadDetailDialog, { type LeadDetail } from "@/components/admin/LeadDetailDialog";
 
 type SortField = "date" | "name" | "email" | "source";
 type SortDir = "asc" | "desc";
@@ -32,6 +33,7 @@ interface UnifiedLead {
   industry: string;
   date: string;
   meta: Record<string, string | number | null>;
+  raw: Record<string, unknown>;
 }
 
 const LeadsDashboard = () => {
@@ -43,6 +45,8 @@ const LeadsDashboard = () => {
   const [sourceFilter, setSourceFilter] = useState<string>("all");
   const [sortField, setSortField] = useState<SortField>("date");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
+  const [selectedLead, setSelectedLead] = useState<LeadDetail | null>(null);
+  const [detailOpen, setDetailOpen] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !isAdmin) navigate("/");
@@ -57,9 +61,9 @@ const LeadsDashboard = () => {
     setIsLoading(true);
     try {
       const [audits, quals, signups] = await Promise.all([
-        supabase.from("ai_audit_submissions").select("id, first_name, last_name, email, phone, company_name, industry, created_at, entry_path, score_tier, annual_loss").order("created_at", { ascending: false }).limit(500),
-        supabase.from("qualification_submissions").select("id, contact_name, email, phone, company_name, industry, created_at, is_qualified, is_high_value, annual_lost_revenue").order("created_at", { ascending: false }).limit(500),
-        supabase.from("customer_signups").select("id, contact_name, email, phone, company_name, industry, created_at, plan_type, payment_status").order("created_at", { ascending: false }).limit(500),
+        supabase.from("ai_audit_submissions").select("*").order("created_at", { ascending: false }).limit(500),
+        supabase.from("qualification_submissions").select("*").order("created_at", { ascending: false }).limit(500),
+        supabase.from("customer_signups").select("*").order("created_at", { ascending: false }).limit(500),
       ]);
 
       const unified: UnifiedLead[] = [];
@@ -76,6 +80,7 @@ const LeadsDashboard = () => {
           industry: a.industry || "",
           date: a.created_at || "",
           meta: { scoreTier: a.score_tier, annualLoss: a.annual_loss },
+          raw: a as unknown as Record<string, unknown>,
         });
       });
 
@@ -91,6 +96,7 @@ const LeadsDashboard = () => {
           industry: q.industry || "",
           date: q.created_at || "",
           meta: { qualified: q.is_qualified ? "Yes" : "No", highValue: q.is_high_value ? "Yes" : "No", annualLost: q.annual_lost_revenue },
+          raw: q as unknown as Record<string, unknown>,
         });
       });
 
@@ -106,6 +112,7 @@ const LeadsDashboard = () => {
           industry: s.industry || "",
           date: s.created_at,
           meta: { plan: s.plan_type, payment: s.payment_status },
+          raw: s as unknown as Record<string, unknown>,
         });
       });
 
@@ -296,7 +303,14 @@ const LeadsDashboard = () => {
                 </TableHeader>
                 <TableBody>
                   {filtered.map((lead) => (
-                    <TableRow key={`${lead.source}-${lead.id}`}>
+                    <TableRow
+                      key={`${lead.source}-${lead.id}`}
+                      className="cursor-pointer"
+                      onClick={() => {
+                        setSelectedLead({ id: lead.id, source: lead.source as "audit" | "qualification" | "signup", sourceLabel: lead.sourceLabel, raw: lead.raw });
+                        setDetailOpen(true);
+                      }}
+                    >
                       <TableCell className="text-sm text-muted-foreground whitespace-nowrap">
                         {lead.date ? format(new Date(lead.date), "MMM d, yyyy") : "—"}
                       </TableCell>
@@ -336,6 +350,8 @@ const LeadsDashboard = () => {
           Showing {filtered.length} of {leads.length} leads
         </p>
       </div>
+
+      <LeadDetailDialog lead={selectedLead} open={detailOpen} onOpenChange={setDetailOpen} />
     </div>
   );
 };
