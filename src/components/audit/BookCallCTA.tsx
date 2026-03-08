@@ -6,6 +6,7 @@ import { Phone, ArrowRight, CheckCircle2 } from "lucide-react";
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { CALCOM_CONFIG, CALCOM_THEME } from "@/config/calcom";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 import { useNavigate } from "react-router-dom";
 import { useCalFallback } from "@/hooks/useCalFallback";
 
@@ -30,6 +31,7 @@ const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: B
     trackBookingCompleted,
     trackConsultationBooked,
   } = useAnalytics();
+  const { trackCalendarOpened: trackFunnelCalendar, trackBookingCompleted: trackFunnelBooking } = useFunnelTracking();
 
   useEffect(() => {
     (async function () {
@@ -61,11 +63,12 @@ const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: B
             String(booking?.email || "")
           );
           trackConsultationBooked("book_call_cta");
+          trackFunnelBooking(String(booking?.uid || ""), String(booking?.email || ""));
           navigate("/consultation-booked");
         },
       });
     })();
-  }, [navigate, trackCalendarLoaded, trackBookingCompleted, trackConsultationBooked, onCalLoaded]);
+  }, [navigate, trackCalendarLoaded, trackBookingCompleted, trackConsultationBooked, onCalLoaded, trackFunnelBooking]);
 
   const handleBookCallClick = () => {
     console.log('[Analytics] CTA Click: Book Strategy Call', {
@@ -74,6 +77,7 @@ const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: B
       lostRevenueRange: `${lostRevenueLow}-${lostRevenueHigh}`,
       timestamp: new Date().toISOString()
     });
+    trackFunnelCalendar("book_call_cta");
     setIsCalendarOpen(true);
   };
 

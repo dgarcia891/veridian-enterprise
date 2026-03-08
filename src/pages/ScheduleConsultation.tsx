@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { CALCOM_CONFIG, CALCOM_THEME } from "@/config/calcom";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 import { useCalFallback } from "@/hooks/useCalFallback";
 
 const ScheduleConsultation = () => {
@@ -16,6 +17,11 @@ const ScheduleConsultation = () => {
     trackBookingCompleted,
     trackConsultationBooked
   } = useAnalytics();
+  const { trackCalendarOpened: trackFunnelCalendar, trackBookingCompleted: trackFunnelBooking } = useFunnelTracking();
+
+  useEffect(() => {
+    trackFunnelCalendar("schedule_consultation_page");
+  }, [trackFunnelCalendar]);
 
   useEffect(() => {
     (async function () {
@@ -46,11 +52,12 @@ const ScheduleConsultation = () => {
             String(booking?.email || "")
           );
           trackConsultationBooked("schedule_consultation_page");
+          trackFunnelBooking(String(booking?.uid || ""), String(booking?.email || ""));
           navigate("/consultation-booked");
         },
       });
     })();
-  }, [navigate, trackCalendarLoaded, trackBookingCompleted, trackConsultationBooked, onCalLoaded]);
+  }, [navigate, trackCalendarLoaded, trackBookingCompleted, trackConsultationBooked, onCalLoaded, trackFunnelBooking]);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -7,6 +7,7 @@ import EnhancedResultsPage from "@/components/audit/EnhancedResultsPage";
 import ProcessingScreen from "@/components/audit/ProcessingScreen";
 import { useEnhancedAuditCalculation, EnhancedBusinessMetrics, EnhancedContactInfo } from "@/hooks/useEnhancedAuditCalculation";
 import { useToast } from "@/hooks/use-toast";
+import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 import confetti from "canvas-confetti";
 
 const AIAudit = () => {
@@ -19,8 +20,14 @@ const AIAudit = () => {
   
   const { getEnhancedAuditResults, saveEnhancedAudit } = useEnhancedAuditCalculation();
   const { toast } = useToast();
+  const { trackPageVisit, trackAuditStarted, trackAuditCompleted } = useFunnelTracking();
+
+  useEffect(() => {
+    trackPageVisit("ai_audit");
+  }, [trackPageVisit]);
 
   const handleMetricsSubmit = async (metrics: EnhancedBusinessMetrics) => {
+    trackAuditStarted("enhanced_audit");
     setBusinessMetrics(metrics);
     setIsProcessing(true);
     
@@ -64,6 +71,7 @@ const AIAudit = () => {
         setTimeout(() => confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }), 500);
       }
 
+      trackAuditCompleted("enhanced_audit");
       toast({ title: "Analysis Complete!", description: "Your AI opportunity report is ready." });
     } catch (error) {
       console.error('Error:', error);

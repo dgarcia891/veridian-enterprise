@@ -18,6 +18,7 @@ import { useRoofingCalculation, RoofingCalculation } from "@/hooks/useRoofingCal
 import { useEnhancedAuditCalculation, EnhancedBusinessMetrics, EnhancedContactInfo } from "@/hooks/useEnhancedAuditCalculation";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 import confetti from "canvas-confetti";
 
 type ViewState = "simplified-form" | "quick-results" | "quick-assessment" | "deep-dive-invitation" | "deep-dive-form" | "processing" | "final-results";
@@ -49,17 +50,20 @@ const RoofingAudit = () => {
   const { getEnhancedAuditResults, saveEnhancedAudit } = useEnhancedAuditCalculation();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { trackPageVisit, trackAuditStarted, trackAuditCompleted } = useFunnelTracking();
 
-  // Capture UTM parameters on mount
+  // Capture UTM parameters and track page visit on mount
   useEffect(() => {
+    trackPageVisit("roofing_audit");
     setUtmParams({
       source: searchParams.get('utm_source') || undefined,
       campaign: searchParams.get('utm_campaign') || undefined,
       medium: searchParams.get('utm_medium') || undefined,
     });
-  }, [searchParams]);
+  }, [searchParams, trackPageVisit]);
 
   const handleSimplifiedSubmit = async (data: SimplifiedFormData) => {
+    trackAuditStarted("roofing_simplified");
     setSimplifiedData(data);
     
     // Calculate results
@@ -180,6 +184,7 @@ const RoofingAudit = () => {
       });
       
       setTimeout(() => {
+        trackAuditCompleted("roofing_quick");
         setViewState("final-results");
         window.scrollTo({ top: 0, behavior: "smooth" });
       }, 3000);
@@ -290,9 +295,10 @@ const RoofingAudit = () => {
       });
     }
     
-    setTimeout(() => {
-      setViewState("final-results");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => {
+        trackAuditCompleted("roofing_full");
+        setViewState("final-results");
+        window.scrollTo({ top: 0, behavior: "smooth" });
     }, 4000);
   };
 
