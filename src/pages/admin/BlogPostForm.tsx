@@ -305,16 +305,70 @@ const BlogPostForm = () => {
               </div>
             </div>
 
-            {/* Image URL */}
-            <div className="space-y-2">
-              <Label htmlFor="image_url">Featured Image URL</Label>
-              <Input
-                id="image_url"
-                type="url"
-                value={formData.image_url}
-                onChange={(e) => setFormData((prev) => ({ ...prev, image_url: e.target.value }))}
-                placeholder="https://example.com/image.jpg"
-              />
+            {/* Featured Image */}
+            <div className="space-y-3">
+              <Label>Featured Image</Label>
+              
+              {/* Image Preview */}
+              {formData.image_url && (
+                <div className="relative rounded-lg overflow-hidden border border-border bg-muted">
+                  <img
+                    src={formData.image_url}
+                    alt="Featured image preview"
+                    className="w-full h-48 object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
+
+              {/* URL Input + AI Generate */}
+              <div className="flex gap-2">
+                <div className="flex-1">
+                  <Input
+                    id="image_url"
+                    type="url"
+                    value={formData.image_url}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, image_url: e.target.value }))}
+                    placeholder="https://example.com/image.jpg"
+                  />
+                </div>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  disabled={isGeneratingImage || !formData.title}
+                  onClick={async () => {
+                    setIsGeneratingImage(true);
+                    try {
+                      const { data, error } = await supabase.functions.invoke("generate-blog-image", {
+                        body: { title: formData.title, excerpt: formData.excerpt, category: formData.category },
+                      });
+                      if (error) throw error;
+                      if (data?.error) throw new Error(data.error);
+                      if (data?.url) {
+                        setFormData((prev) => ({ ...prev, image_url: data.url }));
+                        toast.success("Image generated successfully");
+                      }
+                    } catch (err: unknown) {
+                      const msg = err instanceof Error ? err.message : "Failed to generate image";
+                      toast.error(msg);
+                    } finally {
+                      setIsGeneratingImage(false);
+                    }
+                  }}
+                >
+                  {isGeneratingImage ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Sparkles className="w-4 h-4 mr-2" />
+                  )}
+                  {isGeneratingImage ? "Generating..." : "AI Generate"}
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Paste a URL or generate an image with AI based on the post title & excerpt
+              </p>
             </div>
 
             {/* Author */}
