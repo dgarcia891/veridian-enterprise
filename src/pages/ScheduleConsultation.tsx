@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { CALCOM_CONFIG, CALCOM_THEME } from "@/config/calcom";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 import { useCalFallback } from "@/hooks/useCalFallback";
 
 const ScheduleConsultation = () => {
