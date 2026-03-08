@@ -35,23 +35,27 @@ const Onboarding = () => {
     preferredVoice: "professional-female",
   });
 
-  const handleFinish = async () => {
+  // Saves onboarding data, notifies admin, returns the new record ID (or null on error)
+  const handleFinish = async (): Promise<string | null> => {
     setSaving(true);
     try {
-      // Save onboarding data directly (no signup_id link for now — will be linked via admin)
-      const { error } = await supabase.from("customer_onboarding").insert({
-        business_name: profile.businessName,
-        business_hours: hours as any,
-        greeting_message: agentConfig.greetingMessage,
-        services_offered: profile.servicesOffered,
-        faq_entries: agentConfig.faqEntries as any,
-        voicemail_enabled: voicemailEnabled,
-        preferred_voice: agentConfig.preferredVoice,
-      } as any);
+      const { data: inserted, error } = await supabase
+        .from("customer_onboarding")
+        .insert({
+          business_name: profile.businessName,
+          business_hours: hours as any,
+          greeting_message: agentConfig.greetingMessage,
+          services_offered: profile.servicesOffered,
+          faq_entries: agentConfig.faqEntries as any,
+          voicemail_enabled: voicemailEnabled,
+          preferred_voice: agentConfig.preferredVoice,
+        } as any)
+        .select("id")
+        .single();
 
       if (error) throw error;
 
-      // Notify admin
+      // Notify admin (non-critical)
       try {
         await supabase.functions.invoke("notify-admin-email", {
           body: {
@@ -70,10 +74,10 @@ const Onboarding = () => {
         // Non-critical
       }
 
-      toast({ title: "Setup complete!", description: "We'll email you when your number is ready." });
-      navigate("/");
+      return (inserted as any)?.id || null;
     } catch (err: any) {
       toast({ title: "Error saving", description: err.message, variant: "destructive" });
+      return null;
     } finally {
       setSaving(false);
     }

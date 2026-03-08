@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Loader2, Save, Send, ChevronDown, CheckCircle2, XCircle, AlertTriangle, Eye, EyeOff } from "lucide-react";
+import TwilioConfigCard from "@/components/admin/TwilioConfigCard";
 
 interface SmtpConfig {
   smtpHost: string;
@@ -283,6 +284,9 @@ const Settings = () => {
             </Collapsible>
           </CardContent>
         </Card>
+        <div className="mt-8">
+          <TwilioConfigCard />
+        </div>
       </div>
       <Footer />
     </div>
