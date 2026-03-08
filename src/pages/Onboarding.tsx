@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
@@ -26,6 +26,16 @@ const Onboarding = () => {
     industry: "",
     servicesOffered: [] as string[],
   });
+
+  // Pre-fill company name from registration metadata
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      const companyName = user?.user_metadata?.company_name || "";
+      if (companyName) {
+        setProfile((prev) => ({ ...prev, businessName: companyName }));
+      }
+    });
+  }, []);
 
   const [hours, setHours] = useState<BusinessHoursData>(defaultSchedule());
   const [voicemailEnabled, setVoicemailEnabled] = useState(true);
