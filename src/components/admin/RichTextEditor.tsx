@@ -305,7 +305,7 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
       }),
       Image.configure({ inline: false, allowBase64: true }),
       Link.configure({ openOnClick: false, autolink: true }),
-      Underline,
+      Underline.configure(),
       Placeholder.configure({ placeholder: placeholder || "Start writing..." }),
       TextAlign.configure({ types: ["heading", "paragraph"] }),
     ],
