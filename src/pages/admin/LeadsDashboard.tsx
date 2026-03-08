@@ -139,7 +139,7 @@ const LeadsDashboard = () => {
     }
   };
 
-  const filtered = leads
+  const filtered = useMemo(() => leads
     .filter((l) => sourceFilter === "all" || l.source === sourceFilter)
     .filter((l) => {
       if (!search) return true;
@@ -160,7 +160,27 @@ const LeadsDashboard = () => {
         case "source": return dir * a.sourceLabel.localeCompare(b.sourceLabel);
         default: return 0;
       }
-    });
+    }), [leads, sourceFilter, search, sortField, sortDir]);
+
+  // Reset to page 1 when filters change
+  useEffect(() => { setCurrentPage(1); }, [search, sourceFilter, sortField, sortDir]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const paginated = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
+  const getPageNumbers = () => {
+    const pages: (number | "ellipsis")[] = [];
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      if (currentPage > 3) pages.push("ellipsis");
+      for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) pages.push(i);
+      if (currentPage < totalPages - 2) pages.push("ellipsis");
+      pages.push(totalPages);
+    }
+    return pages;
+  };
 
   const sourceBadge = (source: UnifiedLead["source"], label: string) => {
     const variants: Record<string, string> = {
