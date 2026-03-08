@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-export type PlanType = "monthly" | "annual" | "medical";
+export type PlanType = "starter" | "growth" | "professional" | "monthly" | "annual" | "medical";
 
 export interface PlanPricing {
   monthly: string;
@@ -9,6 +9,21 @@ export interface PlanPricing {
 }
 
 export const PLAN_PRICING: Record<PlanType, PlanPricing> = {
+  starter: {
+    monthly: "$99",
+    total: "$99/month",
+    setupFee: "$0",
+  },
+  growth: {
+    monthly: "$199",
+    total: "$199/month",
+    setupFee: "$0",
+  },
+  professional: {
+    monthly: "$600",
+    total: "$600/month",
+    setupFee: "$0",
+  },
   annual: { 
     monthly: "$600", 
     total: "$7,200/year", 
