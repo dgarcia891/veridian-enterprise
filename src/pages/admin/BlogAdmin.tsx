@@ -140,6 +140,12 @@ const BlogAdmin = () => {
           <div className="flex items-center gap-4">
 
             <Button asChild variant="outline">
+              <Link to="/admin/media">
+                <ImageIcon className="w-4 h-4 mr-2" />
+                Media
+              </Link>
+            </Button>
+            <Button asChild variant="outline">
               <Link to="/admin/analytics">
                 <BarChart3 className="w-4 h-4 mr-2" />
                 Analytics
