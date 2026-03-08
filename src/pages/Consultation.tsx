@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CALCOM_CONFIG, CALCOM_THEME } from "@/config/calcom";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 import { useCalFallback } from "@/hooks/useCalFallback";
 
 const Consultation = () => {
@@ -16,6 +17,11 @@ const Consultation = () => {
     trackBookingCompleted,
     trackConsultationBooked
   } = useAnalytics();
+  const { trackCalendarOpened: trackFunnelCalendar, trackBookingCompleted: trackFunnelBooking } = useFunnelTracking();
+
+  useEffect(() => {
+    trackFunnelCalendar("consultation_page");
+  }, [trackFunnelCalendar]);
 
   useEffect(() => {
     (async function () {
