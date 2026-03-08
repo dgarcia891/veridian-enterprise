@@ -17,6 +17,7 @@ import ProcessingScreen from "@/components/audit/ProcessingScreen";
 import { useRoofingCalculation, RoofingCalculation } from "@/hooks/useRoofingCalculation";
 import { useEnhancedAuditCalculation, EnhancedBusinessMetrics, EnhancedContactInfo } from "@/hooks/useEnhancedAuditCalculation";
 import { supabase } from "@/integrations/supabase/client";
+import { notifyAdmin } from "@/lib/notifyAdmin";
 import { useToast } from "@/hooks/use-toast";
 import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 import confetti from "canvas-confetti";
