@@ -52,6 +52,7 @@ const LeadsDashboard = () => {
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [selectedLead, setSelectedLead] = useState<LeadDetail | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     if (!authLoading && !isAdmin) navigate("/");
