@@ -5,6 +5,7 @@ import { usePostById, useCreatePost, useUpdatePost, BlogPostInsert } from "@/hoo
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { Label } from "@/components/ui/label";
 import {
   Select,
