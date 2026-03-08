@@ -103,39 +103,43 @@ const Onboarding = () => {
             <Card className="glass-card">
               <CardHeader>
                 <CardTitle className="text-xl">
-                  {step === 1 && "Business Profile"}
-                  {step === 2 && "Business Hours"}
-                  {step === 3 && "AI Agent Configuration"}
-                  {step === 4 && "Phone Number"}
+                  {step === 1 && "Welcome"}
+                  {step === 2 && "Business Profile"}
+                  {step === 3 && "Business Hours"}
+                  {step === 4 && "AI Agent Configuration"}
+                  {step === 5 && "Phone Number"}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 {step === 1 && (
-                  <BusinessProfileStep data={profile} onChange={setProfile} onNext={() => setStep(2)} />
+                  <WelcomeStep onNext={() => setStep(2)} />
                 )}
                 {step === 2 && (
+                  <BusinessProfileStep data={profile} onChange={setProfile} onNext={() => setStep(3)} />
+                )}
+                {step === 3 && (
                   <BusinessHoursStep
                     data={hours}
                     voicemailEnabled={voicemailEnabled}
                     onChange={setHours}
                     onVoicemailChange={setVoicemailEnabled}
-                    onNext={() => setStep(3)}
-                    onBack={() => setStep(1)}
-                  />
-                )}
-                {step === 3 && (
-                  <AgentConfigStep
-                    data={agentConfig}
-                    onChange={setAgentConfig}
                     onNext={() => setStep(4)}
                     onBack={() => setStep(2)}
                   />
                 )}
                 {step === 4 && (
+                  <AgentConfigStep
+                    data={agentConfig}
+                    onChange={setAgentConfig}
+                    onNext={() => setStep(5)}
+                    onBack={() => setStep(3)}
+                  />
+                )}
+                {step === 5 && (
                   <PhoneProvisioningStep
                     provisioningStatus="pending"
                     onFinish={handleFinish}
-                    onBack={() => setStep(3)}
+                    onBack={() => setStep(4)}
                     loading={saving}
                   />
                 )}
