@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
-import { ArrowLeft, Loader2, Save, Globe } from "lucide-react";
+import { ArrowLeft, Loader2, Save, Globe, ImageIcon, Sparkles } from "lucide-react";
 import { AIBlogAssistantPanel } from "@/components/admin/AIBlogAssistantPanel";
 
 const categories = [
