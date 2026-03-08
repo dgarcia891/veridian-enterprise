@@ -59,6 +59,11 @@ const MedicalOffices = lazy(() => import("./pages/MedicalOffices"));
 const Signup = lazy(() => import("./pages/Signup"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 const Onboarding = lazy(() => import("./pages/Onboarding"));
+const CustomerLogin = lazy(() => import("./pages/customer/Login"));
+const CustomerRegister = lazy(() => import("./pages/customer/Register"));
+const ForgotPassword = lazy(() => import("./pages/customer/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/customer/ResetPassword"));
+const CustomerDashboard = lazy(() => import("./pages/customer/Dashboard"));
 
 const queryClient = new QueryClient();
 
