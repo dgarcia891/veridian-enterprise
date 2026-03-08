@@ -19,6 +19,15 @@ const Footer = () => {
             </div>
           </div>
 
+          {/* Services */}
+          <nav className="flex flex-col items-center md:items-start gap-2" aria-label="Services">
+            <p className="text-sm font-semibold text-foreground mb-1">Services</p>
+            <Link to="/ai-receptionist" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Voice AI Receptionist</Link>
+            <Link to="/services/ai-chat-widget" className="text-sm text-muted-foreground hover:text-foreground transition-colors">AI Chat Widget</Link>
+            <Link to="/services" className="text-sm text-muted-foreground hover:text-foreground transition-colors">All Services</Link>
+            <Link to="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Pricing</Link>
+          </nav>
+
           {/* Industries */}
           <nav className="flex flex-col items-center md:items-start gap-2" aria-label="Industry pages">
             <p className="text-sm font-semibold text-foreground mb-1">Industries</p>
