@@ -109,6 +109,11 @@ export const AppContent = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/customer/login" element={<CustomerLogin />} />
+          <Route path="/customer/register" element={<CustomerRegister />} />
+          <Route path="/customer/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/dashboard" element={<CustomerDashboard />} />
           <Route path="/schedule-consultation" element={<ScheduleConsultation />} />
           <Route path="/consultation-booked" element={<ConsultationBooked />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
