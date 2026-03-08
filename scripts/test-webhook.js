@@ -2,7 +2,7 @@
 const crypto = require('crypto');
 
 const WEBHOOK_URL = "http://localhost:54321/functions/v1/contentflow-webhook";
-const WEBHOOK_SECRET = "test_secret"; // Matches default in function
+const WEBHOOK_SECRET = "test_secret";
 
 function generateSignature(timestamp, body, secret) {
     const dataToSign = `${timestamp}.${body}`;
@@ -17,19 +17,20 @@ async function testWebhook() {
     const payload = {
         event: "post.published",
         data: {
-            id: "123e4567-e89b-12d3-a456-426614174000", // Valid UUID
-            title: "Strict Test Blog Post",
-            slug: "strict-test-blog-post", // Required
-            content_html: "<p>This is strict content.</p>", // Required
-            author: "Test Author"
+            id: "cf-post-001",
+            title: "Test Blog Post from ContentFlow",
+            slug: "test-blog-post-contentflow",
+            content_html: "<p>This is test content from ContentFlow Studio.</p>",
+            excerpt: "A test excerpt",
+            author: "Test Author",
+            category: "AI Technology"
         }
     };
 
     const body = JSON.stringify(payload);
-    const timestamp = Math.floor(Date.now() / 1000); // Unix seconds
+    const timestamp = Math.floor(Date.now() / 1000);
     const signature = generateSignature(timestamp, body, WEBHOOK_SECRET);
 
-    console.log(`Sending POST request to ${WEBHOOK_URL}`);
     console.log(`Timestamp: ${timestamp}`);
     console.log(`Signature: ${signature}`);
 
@@ -53,9 +54,8 @@ async function testWebhook() {
         } else {
             console.error("❌ Failed: Webhook rejected valid request");
         }
-
     } catch (error) {
-        console.error("❌ Error sending request:", error);
+        console.error("❌ Error:", error);
     }
 }
 
@@ -83,7 +83,6 @@ async function testInvalidSignature() {
     }
 }
 
-// Run tests
 (async () => {
     await testWebhook();
     await testInvalidSignature();
