@@ -80,7 +80,7 @@ const Settings = () => {
         .eq("setting_key", "smtp_config")
         .maybeSingle();
       if (error) throw error;
-      if (data?.setting_value) {
+      if ((data as any)?.setting_value) {
         setConfig({ ...defaultConfig, ...(data.setting_value as any) });
       }
     } catch (err) {
