@@ -47,6 +47,7 @@ const Consultation = lazy(() => import("./pages/Consultation"));
 const SMSOptInGuide = lazy(() => import("./pages/SMSOptInGuide"));
 const Analytics = lazy(() => import("./pages/admin/Analytics"));
 const AdminSettings = lazy(() => import("./pages/admin/Settings"));
+const LeadsDashboard = lazy(() => import("./pages/admin/LeadsDashboard"));
 const MediaLibrary = lazy(() => import("./pages/admin/MediaLibrary"));
 const VsSmithAI = lazy(() => import("./pages/compare/VsSmithAI"));
 const VsMyAIFrontDesk = lazy(() => import("./pages/compare/VsMyAIFrontDesk"));
