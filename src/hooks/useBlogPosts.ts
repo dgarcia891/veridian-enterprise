@@ -12,7 +12,8 @@ export interface BlogPost {
   image_url: string | null;
   author_name: string | null;
   source_url: string | null;
-  status: "draft" | "published";
+  status: "draft" | "published" | "scheduled" | "archived";
+  scheduled_at: string | null;
   published_at: string | null;
   created_at: string;
   updated_at: string;

@@ -219,7 +219,13 @@ const BlogAdmin = () => {
                       </TableCell>
                       <TableCell>
                         <Badge
-                          variant={post.status === "published" ? "default" : "secondary"}
+                          variant={
+                            post.status === "published"
+                              ? "default"
+                              : post.status === "scheduled"
+                              ? "outline"
+                              : "secondary"
+                          }
                         >
                           {post.status}
                         </Badge>
