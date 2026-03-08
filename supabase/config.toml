@@ -57,3 +57,6 @@ verify_jwt = false
 
 [functions.generate-blog-image]
 verify_jwt = false
+
+[functions.publish-scheduled-posts]
+verify_jwt = false

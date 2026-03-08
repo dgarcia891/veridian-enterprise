@@ -14,10 +14,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
-import { ArrowLeft, Loader2, Save, Globe, ImageIcon, Sparkles } from "lucide-react";
+import { ArrowLeft, Loader2, Save, Globe, ImageIcon, Sparkles, Calendar, Clock } from "lucide-react";
 import { AIBlogAssistantPanel } from "@/components/admin/AIBlogAssistantPanel";
+import { format } from "date-fns";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 const categories = [
   "AI Technology",
