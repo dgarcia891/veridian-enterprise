@@ -13,6 +13,7 @@ import { Json } from "@/integrations/supabase/types";
  */
 
 export type FunnelStage =
+  | "blog_visit"
   | "page_visit"
   | "audit_started"
   | "audit_completed"
@@ -74,6 +75,12 @@ export const useFunnelTracking = () => {
     []
   );
 
+  const trackBlogVisit = useCallback(
+    (slug: string, title: string) =>
+      trackFunnelStage("blog_visit", { source: "blog", blog_slug: slug, blog_title: title }),
+    [trackFunnelStage]
+  );
+
   const trackPageVisit = useCallback(
     (source: string) => trackFunnelStage("page_visit", { source }),
     [trackFunnelStage]
@@ -120,6 +127,7 @@ export const useFunnelTracking = () => {
   return {
     setFunnelEmail,
     trackFunnelStage,
+    trackBlogVisit,
     trackPageVisit,
     trackAuditStarted,
     trackAuditCompleted,
