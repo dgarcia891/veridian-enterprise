@@ -127,6 +127,7 @@ export const useFunnelTracking = () => {
   return {
     setFunnelEmail,
     trackFunnelStage,
+    trackBlogVisit,
     trackPageVisit,
     trackAuditStarted,
     trackAuditCompleted,
