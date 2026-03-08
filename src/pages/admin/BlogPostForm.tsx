@@ -33,6 +33,7 @@ const BlogPostForm = () => {
   const isEditing = !!id;
 
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
