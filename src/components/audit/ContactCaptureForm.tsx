@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ContactInfo } from "@/types/audit";
 import { Loader2 } from "lucide-react";
+import { notifyAdmin } from "@/lib/notifyAdmin";
 
 interface ContactCaptureFormProps {
   onSubmit: (contact: ContactInfo) => Promise<void>;
