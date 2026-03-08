@@ -261,6 +261,7 @@ const Services = () => {
                 <span className="text-muted-foreground">See how we compare:</span>
                 <Link to="/compare/vs-smith-ai" className="text-primary hover:underline">vs Smith.ai</Link>
                 <Link to="/compare/vs-my-ai-front-desk" className="text-primary hover:underline">vs My AI Front Desk</Link>
+                <Link to="/compare/vs-dialzara" className="text-primary hover:underline">vs Dialzara</Link>
               </div>
             </div>
           </section>
