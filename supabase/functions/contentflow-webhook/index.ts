@@ -144,6 +144,14 @@ serve(async (req) => {
             }
         }
 
+        // Log successful delivery
+        await supabase.from("edge_function_errors").insert({
+            function_name: "contentflow-webhook",
+            error_type: "success",
+            error_message: `Successfully processed ${event} for external_id: ${data?.id || "unknown"}`,
+            metadata: { event, external_id: data?.id, slug: data?.slug }
+        });
+
         return new Response(JSON.stringify({ success: true }), {
             status: 200,
             headers: { "Content-Type": "application/json" }
