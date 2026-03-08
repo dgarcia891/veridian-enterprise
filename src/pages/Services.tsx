@@ -171,53 +171,91 @@ const Services = () => {
 
           {/* Combined Package Section */}
           <section className="py-16 md:py-24 bg-muted/30">
-            <div className="max-w-4xl mx-auto px-6 text-center">
+            <div className="max-w-6xl mx-auto px-6 text-center">
               <Badge variant="outline" className="mb-6 border-primary/30 text-primary">
-                Complete Solution
+                Bundle & Save
               </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                Get Both for Maximum Coverage
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                Add Chat Widget to Any Plan
               </h2>
-              <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Combine Voice AI Receptionist with AI Chat Widget for complete customer 
-                coverage across phone and web channels.
+              <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
+                Get complete coverage across phone and web channels by adding our AI Chat Widget to your Voice AI plan.
               </p>
               
-              <div className="bg-card rounded-2xl border border-border p-8 mb-8">
-                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                      <Phone className="w-6 h-6" />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                {/* Starter + Chat */}
+                <div className="bg-card rounded-2xl border border-border p-6 text-left">
+                  <p className="text-sm font-medium text-muted-foreground mb-1">Starter + Chat</p>
+                  <div className="flex items-baseline gap-1 mb-4">
+                    <span className="text-3xl font-bold">$249</span>
+                    <span className="text-muted-foreground">/month</span>
+                  </div>
+                  <div className="space-y-2 mb-6">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Phone className="w-4 h-4 text-primary flex-shrink-0" />
+                      <span>100 calls/month</span>
                     </div>
-                    <span className="font-semibold">Voice AI</span>
-                  </div>
-                  <span className="text-2xl font-bold text-primary">+</span>
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                      <MessageCircle className="w-6 h-6" />
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <MessageCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                      <span>2,500 chats/month</span>
                     </div>
-                    <span className="font-semibold">Chat Widget</span>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Clock className="w-4 h-4 text-primary flex-shrink-0" />
+                      <span>Business hours voice</span>
+                    </div>
                   </div>
-                  <span className="text-2xl font-bold text-muted-foreground">=</span>
-                  <div className="text-left">
-                    <p className="text-sm text-muted-foreground">Total</p>
-                    <p className="text-2xl font-bold">$249<span className="text-sm font-normal text-muted-foreground">/month</span></p>
-                  </div>
+                  <p className="text-xs text-muted-foreground">Best for small businesses getting started</p>
                 </div>
-                
-                <div className="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground mb-6">
-                  <span className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-primary" />
-                    Phone coverage
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-primary" />
-                    Website coverage
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-primary" />
-                    Unified dashboard
-                  </span>
+
+                {/* Growth + Chat */}
+                <div className="bg-card rounded-2xl border-2 border-primary p-6 text-left relative">
+                  <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground">
+                    Most Popular
+                  </Badge>
+                  <p className="text-sm font-medium text-muted-foreground mb-1">Growth + Chat</p>
+                  <div className="flex items-baseline gap-1 mb-4">
+                    <span className="text-3xl font-bold">$349</span>
+                    <span className="text-muted-foreground">/month</span>
+                  </div>
+                  <div className="space-y-2 mb-6">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Phone className="w-4 h-4 text-primary flex-shrink-0" />
+                      <span>500 calls/month</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <MessageCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                      <span>2,500 chats/month</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Zap className="w-4 h-4 text-primary flex-shrink-0" />
+                      <span>24/7 + lead qualification</span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Best for growing businesses needing full coverage</p>
+                </div>
+
+                {/* Professional + Chat */}
+                <div className="bg-card rounded-2xl border border-border p-6 text-left">
+                  <p className="text-sm font-medium text-muted-foreground mb-1">Professional + Chat</p>
+                  <div className="flex items-baseline gap-1 mb-4">
+                    <span className="text-3xl font-bold">$750</span>
+                    <span className="text-muted-foreground">/month</span>
+                  </div>
+                  <div className="space-y-2 mb-6">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Phone className="w-4 h-4 text-primary flex-shrink-0" />
+                      <span>Unlimited calls</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <MessageCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                      <span>2,500 chats/month</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Globe className="w-4 h-4 text-primary flex-shrink-0" />
+                      <span>CRM + 10 languages + analytics</span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Full AI agent suite for high-volume businesses</p>
                 </div>
               </div>
 
