@@ -17,6 +17,7 @@ import {
   ClipboardList, Mail, Phone, Building2, Calendar,
 } from "lucide-react";
 import { format } from "date-fns";
+import LeadDetailDialog, { type LeadDetail } from "@/components/admin/LeadDetailDialog";
 
 type SortField = "date" | "name" | "email" | "source";
 type SortDir = "asc" | "desc";
@@ -32,6 +33,7 @@ interface UnifiedLead {
   industry: string;
   date: string;
   meta: Record<string, string | number | null>;
+  raw: Record<string, unknown>;
 }
 
 const LeadsDashboard = () => {
