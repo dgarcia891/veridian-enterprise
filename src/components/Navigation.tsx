@@ -21,9 +21,10 @@ const Navigation = () => {
   const { trackCTAClick } = useAnalytics();
 
   useEffect(() => {
-    const checkAdminStatus = async () => {
+    const checkAuthStatus = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
+        setIsLoggedIn(true);
         const { data: roles } = await supabase
           .from("user_roles")
           .select("role")
@@ -35,7 +36,16 @@ const Navigation = () => {
         }
       }
     };
-    checkAdminStatus();
+    checkAuthStatus();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsLoggedIn(!!session?.user);
+      if (!session?.user) {
+        setIsAdmin(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const navItems = [
