@@ -47,6 +47,8 @@ const Consultation = lazy(() => import("./pages/Consultation"));
 const SMSOptInGuide = lazy(() => import("./pages/SMSOptInGuide"));
 const Analytics = lazy(() => import("./pages/admin/Analytics"));
 const MediaLibrary = lazy(() => import("./pages/admin/MediaLibrary"));
+const VsSmithAI = lazy(() => import("./pages/compare/VsSmithAI"));
+const VsMyAIFrontDesk = lazy(() => import("./pages/compare/VsMyAIFrontDesk"));
 
 
 const queryClient = new QueryClient();
@@ -114,6 +116,8 @@ export const AppContent = () => {
           <Route path="/opt-in" element={<OptIn />} />
           <Route path="/qualification" element={<Qualification />} />
           <Route path="/sms-opt-in-guide" element={<SMSOptInGuide />} />
+          <Route path="/compare/vs-smith-ai" element={<VsSmithAI />} />
+          <Route path="/compare/vs-my-ai-front-desk" element={<VsMyAIFrontDesk />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
