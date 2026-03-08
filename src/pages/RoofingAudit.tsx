@@ -63,6 +63,7 @@ const RoofingAudit = () => {
   }, [searchParams, trackPageVisit]);
 
   const handleSimplifiedSubmit = async (data: SimplifiedFormData) => {
+    trackAuditStarted("roofing_simplified");
     setSimplifiedData(data);
     
     // Calculate results
