@@ -295,9 +295,10 @@ const RoofingAudit = () => {
       });
     }
     
-    setTimeout(() => {
-      setViewState("final-results");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => {
+        trackAuditCompleted("roofing_full");
+        setViewState("final-results");
+        window.scrollTo({ top: 0, behavior: "smooth" });
     }, 4000);
   };
 
