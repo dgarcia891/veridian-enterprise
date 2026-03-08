@@ -63,6 +63,7 @@ const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: B
             String(booking?.email || "")
           );
           trackConsultationBooked("book_call_cta");
+          trackFunnelBooking(String(booking?.uid || ""), String(booking?.email || ""));
           navigate("/consultation-booked");
         },
       });
