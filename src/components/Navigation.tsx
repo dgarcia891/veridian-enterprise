@@ -54,8 +54,8 @@ const Navigation = () => {
       href: "/admin/blog",
       items: [
         { id: "blog", name: "Blog Management", href: "/admin/blog", tagline: "Manage posts & content" },
-
-        { id: "analytics", name: "Analytics", href: "/admin/analytics", tagline: "View site performance" }
+        { id: "analytics", name: "Analytics", href: "/admin/analytics", tagline: "View site performance" },
+        { id: "settings", name: "Settings", href: "/admin/settings", tagline: "SMTP & notifications" }
       ] as unknown as any
     });
   }
