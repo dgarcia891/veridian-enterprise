@@ -328,7 +328,7 @@ const LeadsDashboard = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filtered.map((lead) => (
+                  {paginated.map((lead) => (
                     <TableRow
                       key={`${lead.source}-${lead.id}`}
                       className="cursor-pointer"
