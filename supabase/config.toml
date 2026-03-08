@@ -54,3 +54,6 @@ verify_jwt = false
 
 [functions.contentflow-webhook]
 verify_jwt = false
+
+[functions.generate-blog-image]
+verify_jwt = false
