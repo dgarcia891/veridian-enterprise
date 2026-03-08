@@ -184,6 +184,7 @@ const RoofingAudit = () => {
       });
       
       setTimeout(() => {
+        trackAuditCompleted("roofing_quick");
         setViewState("final-results");
         window.scrollTo({ top: 0, behavior: "smooth" });
       }, 3000);
