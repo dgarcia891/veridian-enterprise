@@ -49,6 +49,7 @@ const Analytics = lazy(() => import("./pages/admin/Analytics"));
 const MediaLibrary = lazy(() => import("./pages/admin/MediaLibrary"));
 const VsSmithAI = lazy(() => import("./pages/compare/VsSmithAI"));
 const VsMyAIFrontDesk = lazy(() => import("./pages/compare/VsMyAIFrontDesk"));
+const VsDialzara = lazy(() => import("./pages/compare/VsDialzara"));
 
 
 const queryClient = new QueryClient();
