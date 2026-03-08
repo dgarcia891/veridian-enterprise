@@ -477,6 +477,45 @@ export type Database = {
         }
         Relationships: []
       }
+      media_assets: {
+        Row: {
+          alt_text: string | null
+          created_at: string
+          file_name: string | null
+          file_size: number | null
+          id: string
+          metadata: Json | null
+          thumbnail_url: string | null
+          title: string | null
+          type: string
+          url: string
+        }
+        Insert: {
+          alt_text?: string | null
+          created_at?: string
+          file_name?: string | null
+          file_size?: number | null
+          id?: string
+          metadata?: Json | null
+          thumbnail_url?: string | null
+          title?: string | null
+          type?: string
+          url: string
+        }
+        Update: {
+          alt_text?: string | null
+          created_at?: string
+          file_name?: string | null
+          file_size?: number | null
+          id?: string
+          metadata?: Json | null
+          thumbnail_url?: string | null
+          title?: string | null
+          type?: string
+          url?: string
+        }
+        Relationships: []
+      }
       payment_rate_limits: {
         Row: {
           attempt_count: number
