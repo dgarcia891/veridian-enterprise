@@ -411,6 +411,50 @@ export type Database = {
         }
         Relationships: []
       }
+      call_logs: {
+        Row: {
+          caller_number: string | null
+          created_at: string | null
+          duration_seconds: number | null
+          id: string
+          onboarding_id: string | null
+          recording_url: string | null
+          status: string | null
+          summary: string | null
+          user_id: string
+        }
+        Insert: {
+          caller_number?: string | null
+          created_at?: string | null
+          duration_seconds?: number | null
+          id?: string
+          onboarding_id?: string | null
+          recording_url?: string | null
+          status?: string | null
+          summary?: string | null
+          user_id: string
+        }
+        Update: {
+          caller_number?: string | null
+          created_at?: string | null
+          duration_seconds?: number | null
+          id?: string
+          onboarding_id?: string | null
+          recording_url?: string | null
+          status?: string | null
+          summary?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "call_logs_onboarding_id_fkey"
+            columns: ["onboarding_id"]
+            isOneToOne: false
+            referencedRelation: "customer_onboarding"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       customer_onboarding: {
         Row: {
           business_hours: Json | null
@@ -427,6 +471,7 @@ export type Database = {
           services_offered: string[] | null
           signup_id: string | null
           updated_at: string | null
+          user_id: string | null
           voicemail_enabled: boolean | null
         }
         Insert: {
@@ -444,6 +489,7 @@ export type Database = {
           services_offered?: string[] | null
           signup_id?: string | null
           updated_at?: string | null
+          user_id?: string | null
           voicemail_enabled?: boolean | null
         }
         Update: {
@@ -461,6 +507,7 @@ export type Database = {
           services_offered?: string[] | null
           signup_id?: string | null
           updated_at?: string | null
+          user_id?: string | null
           voicemail_enabled?: boolean | null
         }
         Relationships: [
@@ -629,6 +676,33 @@ export type Database = {
           id?: string
           ip_address?: string
           last_attempt_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          company_name: string | null
+          created_at: string | null
+          email: string | null
+          full_name: string | null
+          id: string
+          updated_at: string | null
+        }
+        Insert: {
+          company_name?: string | null
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id: string
+          updated_at?: string | null
+        }
+        Update: {
+          company_name?: string | null
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string | null
         }
         Relationships: []
       }

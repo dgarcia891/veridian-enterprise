@@ -59,6 +59,11 @@ const MedicalOffices = lazy(() => import("./pages/MedicalOffices"));
 const Signup = lazy(() => import("./pages/Signup"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 const Onboarding = lazy(() => import("./pages/Onboarding"));
+const CustomerLogin = lazy(() => import("./pages/customer/Login"));
+const CustomerRegister = lazy(() => import("./pages/customer/Register"));
+const ForgotPassword = lazy(() => import("./pages/customer/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/customer/ResetPassword"));
+const CustomerDashboard = lazy(() => import("./pages/customer/Dashboard"));
 
 const queryClient = new QueryClient();
 
@@ -104,6 +109,11 @@ export const AppContent = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/customer/login" element={<CustomerLogin />} />
+          <Route path="/customer/register" element={<CustomerRegister />} />
+          <Route path="/customer/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/dashboard" element={<CustomerDashboard />} />
           <Route path="/schedule-consultation" element={<ScheduleConsultation />} />
           <Route path="/consultation-booked" element={<ConsultationBooked />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
