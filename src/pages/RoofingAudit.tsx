@@ -50,15 +50,17 @@ const RoofingAudit = () => {
   const { getEnhancedAuditResults, saveEnhancedAudit } = useEnhancedAuditCalculation();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { trackPageVisit, trackAuditStarted, trackAuditCompleted } = useFunnelTracking();
 
-  // Capture UTM parameters on mount
+  // Capture UTM parameters and track page visit on mount
   useEffect(() => {
+    trackPageVisit("roofing_audit");
     setUtmParams({
       source: searchParams.get('utm_source') || undefined,
       campaign: searchParams.get('utm_campaign') || undefined,
       medium: searchParams.get('utm_medium') || undefined,
     });
-  }, [searchParams]);
+  }, [searchParams, trackPageVisit]);
 
   const handleSimplifiedSubmit = async (data: SimplifiedFormData) => {
     setSimplifiedData(data);
