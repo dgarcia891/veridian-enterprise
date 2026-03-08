@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { AnalyticsToggle } from "@/components/admin/AnalyticsToggle";
 import { ConversionFunnel } from "@/components/admin/ConversionFunnel";
+import { FunnelDropOffAnalysis } from "@/components/admin/FunnelDropOffAnalysis";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 
 interface EventCount {
