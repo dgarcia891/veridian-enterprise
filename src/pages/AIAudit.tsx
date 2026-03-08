@@ -74,6 +74,14 @@ const AIAudit = () => {
 
       trackAuditCompleted("enhanced_audit");
       toast({ title: "Analysis Complete!", description: "Your AI opportunity report is ready." });
+
+      // Fire-and-forget email notification
+      notifyAdmin("new_lead", {
+        firstName: "Visitor",
+        companyName: metrics.websiteUrl,
+        industry: metrics.industry,
+        entry_path: "ai_audit",
+      });
     } catch (error) {
       console.error('Error:', error);
       const fallback = { opportunities: [], experienceGaps: [], contentInsights: [], contactScore: 70, contentScore: 70 };

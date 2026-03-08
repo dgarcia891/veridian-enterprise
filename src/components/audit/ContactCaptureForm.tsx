@@ -65,6 +65,15 @@ const ContactCaptureForm = ({ onSubmit }: ContactCaptureFormProps) => {
     setIsLoading(true);
     try {
       await onSubmit(formData);
+      // Fire-and-forget email notification
+      notifyAdmin("new_lead", {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        companyName: formData.companyName,
+        entry_path: "contact_capture",
+      });
     } finally {
       setIsLoading(false);
     }
