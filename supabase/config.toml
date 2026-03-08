@@ -60,3 +60,6 @@ verify_jwt = false
 
 [functions.publish-scheduled-posts]
 verify_jwt = false
+
+[functions.notify-admin-email]
+verify_jwt = false
