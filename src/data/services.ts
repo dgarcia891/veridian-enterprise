@@ -245,7 +245,8 @@ export const services: Service[] = [
         ctaText: "Add Chat Widget"
       }
     ],
-    active: true
+    active: true,
+    href: "/services/ai-chat-widget"
   }
 ];
 

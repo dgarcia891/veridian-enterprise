@@ -251,7 +251,7 @@ const Navigation = () => {
           onClick={() => {
             trackCTAClick("Get Started", "Mobile Navigation");
             setIsOpen(false);
-            navigate("/signup");
+            navigate("/schedule-consultation");
           }}
           aria-label="Get started with AI Agents 3000"
         >
