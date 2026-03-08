@@ -411,6 +411,68 @@ export type Database = {
         }
         Relationships: []
       }
+      customer_onboarding: {
+        Row: {
+          business_hours: Json | null
+          business_name: string | null
+          completed_at: string | null
+          created_at: string | null
+          faq_entries: Json | null
+          greeting_message: string | null
+          id: string
+          phone_number: string | null
+          preferred_voice: string | null
+          provisioning_status: string | null
+          retell_agent_id: string | null
+          services_offered: string[] | null
+          signup_id: string | null
+          updated_at: string | null
+          voicemail_enabled: boolean | null
+        }
+        Insert: {
+          business_hours?: Json | null
+          business_name?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          faq_entries?: Json | null
+          greeting_message?: string | null
+          id?: string
+          phone_number?: string | null
+          preferred_voice?: string | null
+          provisioning_status?: string | null
+          retell_agent_id?: string | null
+          services_offered?: string[] | null
+          signup_id?: string | null
+          updated_at?: string | null
+          voicemail_enabled?: boolean | null
+        }
+        Update: {
+          business_hours?: Json | null
+          business_name?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          faq_entries?: Json | null
+          greeting_message?: string | null
+          id?: string
+          phone_number?: string | null
+          preferred_voice?: string | null
+          provisioning_status?: string | null
+          retell_agent_id?: string | null
+          services_offered?: string[] | null
+          signup_id?: string | null
+          updated_at?: string | null
+          voicemail_enabled?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_onboarding_signup_id_fkey"
+            columns: ["signup_id"]
+            isOneToOne: false
+            referencedRelation: "customer_signups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       customer_signups: {
         Row: {
           appointment_date: string | null

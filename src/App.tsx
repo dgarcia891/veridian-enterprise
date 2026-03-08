@@ -56,6 +56,9 @@ const HVAC = lazy(() => import("./pages/HVAC"));
 const Electricians = lazy(() => import("./pages/Electricians"));
 const LawFirms = lazy(() => import("./pages/LawFirms"));
 const MedicalOffices = lazy(() => import("./pages/MedicalOffices"));
+const Signup = lazy(() => import("./pages/Signup"));
+const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
+const Onboarding = lazy(() => import("./pages/Onboarding"));
 
 const queryClient = new QueryClient();
 
@@ -98,6 +101,9 @@ export const AppContent = () => {
           <Route path="/audit/calls" element={<RoofingAudit />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/consultation" element={<Consultation />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/schedule-consultation" element={<ScheduleConsultation />} />
           <Route path="/consultation-booked" element={<ConsultationBooked />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />

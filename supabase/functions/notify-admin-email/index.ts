@@ -112,7 +112,25 @@ function buildTestEmail(config: Record<string, unknown>): { subject: string; htm
   return { subject: "✅ SMTP Test — Configuration Verified", html: htmlWrapper("SMTP Test Successful", inner) };
 }
 
-// ─── Main handler ────────────────────────────────────────────────────────────
+function buildNewSignupEmail(data: Record<string, unknown>): { subject: string; html: string } {
+  const rows = [
+    row("Business Name", String(data.businessName || "")),
+    row("Industry", String(data.industry || "")),
+    row("Services", String(data.services || "")),
+    row("Voice Preference", String(data.voice || "")),
+    row("FAQ Count", String(data.faqCount || "0")),
+  ];
+  const inner = `
+    <p style="margin:0 0 16px;font-size:15px;">A new customer has completed onboarding setup:</p>
+    ${sectionTitle("Onboarding Details")}
+    <table width="100%" cellpadding="0" cellspacing="0">${rows.join("")}</table>
+    ${data.greeting ? `${sectionTitle("Greeting Message")}<p style="font-size:14px;color:#333;font-style:italic;">"${data.greeting}"</p>` : ""}
+    <p style="margin:16px 0 0;font-size:14px;color:#666;">⚡ Action needed: Provision a Twilio number and create a Retell agent for this customer.</p>
+  `;
+  return { subject: `🚀 New Signup: ${data.businessName || "Customer"}`, html: htmlWrapper("New Customer Onboarding", inner) };
+}
+
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -161,6 +179,9 @@ Deno.serve(async (req) => {
         break;
       case "test":
         ({ subject, html } = buildTestEmail(config));
+        break;
+      case "new_signup":
+        ({ subject, html } = buildNewSignupEmail(leadData || {}));
         break;
       default:
         throw new Error(`Unknown notification type: ${notificationType}`);
