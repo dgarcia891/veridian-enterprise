@@ -13,6 +13,7 @@ import { Json } from "@/integrations/supabase/types";
  */
 
 export type FunnelStage =
+  | "blog_visit"
   | "page_visit"
   | "audit_started"
   | "audit_completed"
