@@ -45,6 +45,8 @@ const LeadsDashboard = () => {
   const [sourceFilter, setSourceFilter] = useState<string>("all");
   const [sortField, setSortField] = useState<SortField>("date");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
+  const [selectedLead, setSelectedLead] = useState<LeadDetail | null>(null);
+  const [detailOpen, setDetailOpen] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !isAdmin) navigate("/");
