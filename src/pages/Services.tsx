@@ -201,7 +201,7 @@ const Services = () => {
                   <span className="text-2xl font-bold text-muted-foreground">=</span>
                   <div className="text-left">
                     <p className="text-sm text-muted-foreground">Total</p>
-                    <p className="text-2xl font-bold">$750<span className="text-sm font-normal text-muted-foreground">/month</span></p>
+                    <p className="text-2xl font-bold">$249<span className="text-sm font-normal text-muted-foreground">/month</span></p>
                   </div>
                 </div>
                 
