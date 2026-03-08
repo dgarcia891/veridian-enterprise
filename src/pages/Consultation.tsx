@@ -57,7 +57,7 @@ const Consultation = () => {
         },
       });
     })();
-  }, [navigate, trackCalendarLoaded, trackBookingCompleted, trackConsultationBooked, onCalLoaded]);
+  }, [navigate, trackCalendarLoaded, trackBookingCompleted, trackConsultationBooked, onCalLoaded, trackFunnelBooking]);
 
   return (
     <>
