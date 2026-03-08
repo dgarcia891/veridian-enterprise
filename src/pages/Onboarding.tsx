@@ -39,6 +39,9 @@ const Onboarding = () => {
   const handleFinish = async (): Promise<string | null> => {
     setSaving(true);
     try {
+      // Get current user if logged in
+      const { data: { user } } = await supabase.auth.getUser();
+
       const { data: inserted, error } = await supabase
         .from("customer_onboarding")
         .insert({
@@ -49,6 +52,7 @@ const Onboarding = () => {
           faq_entries: agentConfig.faqEntries as any,
           voicemail_enabled: voicemailEnabled,
           preferred_voice: agentConfig.preferredVoice,
+          ...(user ? { user_id: user.id } : {}),
         } as any)
         .select("id")
         .single();
