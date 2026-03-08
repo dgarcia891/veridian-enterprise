@@ -218,6 +218,11 @@ const Pricing = () => {
                         vs My AI Front Desk <ArrowRight className="w-4 h-4 ml-2" />
                       </Button>
                     </Link>
+                    <Link to="/compare/vs-dialzara">
+                      <Button variant="outline" className="w-full sm:w-auto">
+                        vs Dialzara <ArrowRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    </Link>
                   </div>
                 </CardContent>
               </Card>
