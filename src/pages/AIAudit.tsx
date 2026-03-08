@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -7,6 +7,7 @@ import EnhancedResultsPage from "@/components/audit/EnhancedResultsPage";
 import ProcessingScreen from "@/components/audit/ProcessingScreen";
 import { useEnhancedAuditCalculation, EnhancedBusinessMetrics, EnhancedContactInfo } from "@/hooks/useEnhancedAuditCalculation";
 import { useToast } from "@/hooks/use-toast";
+import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 import confetti from "canvas-confetti";
 
 const AIAudit = () => {
