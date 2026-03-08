@@ -112,6 +112,7 @@ const LeadsDashboard = () => {
           industry: s.industry || "",
           date: s.created_at,
           meta: { plan: s.plan_type, payment: s.payment_status },
+          raw: s as unknown as Record<string, unknown>,
         });
       });
 
