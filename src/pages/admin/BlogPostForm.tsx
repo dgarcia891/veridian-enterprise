@@ -403,21 +403,107 @@ const BlogPostForm = () => {
               </p>
             </div>
 
-            {/* Publish Status */}
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label>Publish Status</Label>
-                <p className="text-sm text-muted-foreground">
-                  {formData.status === "published" ? "Post is visible to everyone" : "Post is saved as draft"}
-                </p>
-              </div>
-              <Switch
-                checked={formData.status === "published"}
-                onCheckedChange={(checked) =>
-                  setFormData((prev) => ({ ...prev, status: checked ? "published" : "draft" }))
-                }
-              />
+            {/* Post Status */}
+            <div className="space-y-3">
+              <Label>Post Status</Label>
+              <Select
+                value={formData.status}
+                onValueChange={(value: "draft" | "published" | "scheduled" | "archived") => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    status: value,
+                    scheduled_at: value === "scheduled" ? prev.scheduled_at : null,
+                  }));
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="draft">Draft</SelectItem>
+                  <SelectItem value="published">Published</SelectItem>
+                  <SelectItem value="scheduled">Scheduled</SelectItem>
+                  <SelectItem value="archived">Archived</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-sm text-muted-foreground">
+                {formData.status === "published" && "Post is visible to everyone"}
+                {formData.status === "draft" && "Post is saved as draft"}
+                {formData.status === "scheduled" && "Post will be published at the scheduled date/time"}
+                {formData.status === "archived" && "Post is hidden from the public"}
+              </p>
             </div>
+
+            {/* Schedule Date/Time (shown only when scheduled) */}
+            {formData.status === "scheduled" && (
+              <div className="space-y-3 rounded-lg border border-border p-4 bg-muted/30">
+                <div className="flex items-center gap-2 text-sm font-medium">
+                  <Clock className="h-4 w-4 text-primary" />
+                  Schedule Publication
+                </div>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <Label className="text-xs">Date</Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "w-full justify-start text-left font-normal",
+                            !formData.scheduled_at && "text-muted-foreground"
+                          )}
+                        >
+                          <Calendar className="mr-2 h-4 w-4" />
+                          {formData.scheduled_at
+                            ? format(formData.scheduled_at, "PPP")
+                            : "Pick a date"}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <CalendarComponent
+                          mode="single"
+                          selected={formData.scheduled_at || undefined}
+                          onSelect={(date) => {
+                            if (date) {
+                              const existing = formData.scheduled_at || new Date();
+                              date.setHours(existing.getHours(), existing.getMinutes());
+                              setFormData((prev) => ({ ...prev, scheduled_at: date }));
+                            }
+                          }}
+                          disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                          initialFocus
+                          className={cn("p-3 pointer-events-auto")}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <div className="space-y-1">
+                    <Label className="text-xs">Time</Label>
+                    <Input
+                      type="time"
+                      value={
+                        formData.scheduled_at
+                          ? format(formData.scheduled_at, "HH:mm")
+                          : ""
+                      }
+                      onChange={(e) => {
+                        const [hours, minutes] = e.target.value.split(":").map(Number);
+                        const date = formData.scheduled_at
+                          ? new Date(formData.scheduled_at)
+                          : new Date();
+                        date.setHours(hours, minutes);
+                        setFormData((prev) => ({ ...prev, scheduled_at: date }));
+                      }}
+                    />
+                  </div>
+                </div>
+                {formData.scheduled_at && (
+                  <p className="text-xs text-muted-foreground">
+                    Will publish: {format(formData.scheduled_at, "PPP 'at' p")}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
 
           {/* SEO & Metadata */}
