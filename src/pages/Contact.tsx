@@ -117,6 +117,15 @@ const Contact = () => {
         });
         e.currentTarget.reset();
       }
+
+      // Fire-and-forget email notification
+      notifyAdmin("new_lead", {
+        firstName: data.name,
+        email: data.email,
+        phone: data.phone || "",
+        companyName: data.company || "",
+        source: "contact_page",
+      });
     } catch (error) {
       toast({
         title: "Error",

@@ -103,6 +103,17 @@ const RoofingAudit = () => {
 
       if (error) throw error;
       setSubmissionId(submission.id);
+
+      // Fire-and-forget email notification
+      notifyAdmin("new_lead", {
+        firstName: "Visitor",
+        companyName: data.businessName,
+        phone: data.phone,
+        industry: "Roofing",
+        annual_loss: results.annualRevenueLostHigh,
+        entry_path: "roofing",
+        id: submission.id,
+      });
     } catch (error) {
       console.error('Error saving submission:', error);
       toast({
