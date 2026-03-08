@@ -334,7 +334,7 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
   const toggleHtmlView = () => {
     if (showHtml && editor) {
       // Switching back to WYSIWYG — apply HTML source
-      editor.commands.setContent(htmlSource, false);
+      editor.commands.setContent(htmlSource, { emitUpdate: false });
       onChange(htmlSource);
     } else if (editor) {
       setHtmlSource(editor.getHTML());
