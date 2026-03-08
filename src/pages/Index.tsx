@@ -100,6 +100,7 @@ const Index = () => {
           <PASSection isMediumBusiness={isMediumBusiness} />
           <SolutionSection />
           <InteractiveCalculator isMediumBusiness={isMediumBusiness} />
+          <TryItNowDemo />
           <GrowthSection />
           <CaseStudySection />
           <CloserSection isMediumBusiness={isMediumBusiness} />
