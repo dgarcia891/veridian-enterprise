@@ -152,7 +152,7 @@ const Services = () => {
                           </div>
                         </div>
                         <Button
-                          onClick={() => navigate(`/${service.slug}`)}
+                          onClick={() => navigate(service.href || `/services/${service.slug}`)}
                           className="group/btn"
                         >
                           Learn More
