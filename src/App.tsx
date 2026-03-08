@@ -52,6 +52,7 @@ const MediaLibrary = lazy(() => import("./pages/admin/MediaLibrary"));
 const VsSmithAI = lazy(() => import("./pages/compare/VsSmithAI"));
 const VsMyAIFrontDesk = lazy(() => import("./pages/compare/VsMyAIFrontDesk"));
 const VsDialzara = lazy(() => import("./pages/compare/VsDialzara"));
+const VsRubyReceptionists = lazy(() => import("./pages/compare/VsRubyReceptionists"));
 const HVAC = lazy(() => import("./pages/HVAC"));
 const Electricians = lazy(() => import("./pages/Electricians"));
 const LawFirms = lazy(() => import("./pages/LawFirms"));
