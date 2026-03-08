@@ -56,6 +56,9 @@ const HVAC = lazy(() => import("./pages/HVAC"));
 const Electricians = lazy(() => import("./pages/Electricians"));
 const LawFirms = lazy(() => import("./pages/LawFirms"));
 const MedicalOffices = lazy(() => import("./pages/MedicalOffices"));
+const Signup = lazy(() => import("./pages/Signup"));
+const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
+const Onboarding = lazy(() => import("./pages/Onboarding"));
 
 const queryClient = new QueryClient();
 
