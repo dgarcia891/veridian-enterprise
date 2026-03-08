@@ -5,6 +5,7 @@ import { usePostById, useCreatePost, useUpdatePost, BlogPostInsert } from "@/hoo
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -263,14 +264,10 @@ const BlogPostForm = () => {
             {/* Content */}
             <div className="space-y-2">
               <Label htmlFor="content">Content *</Label>
-              <Textarea
-                id="content"
-                value={formData.content}
-                onChange={(e) => setFormData((prev) => ({ ...prev, content: e.target.value }))}
-                placeholder="Full article content (supports basic markdown: ## headers, ### subheaders, - lists)"
-                rows={15}
-                className="font-mono text-sm"
-                required
+              <RichTextEditor
+                content={formData.content}
+                onChange={(html) => setFormData((prev) => ({ ...prev, content: html }))}
+                placeholder="Start writing your article..."
               />
             </div>
 
