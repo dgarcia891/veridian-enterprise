@@ -68,7 +68,7 @@ const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: B
         },
       });
     })();
-  }, [navigate, trackCalendarLoaded, trackBookingCompleted, trackConsultationBooked, onCalLoaded]);
+  }, [navigate, trackCalendarLoaded, trackBookingCompleted, trackConsultationBooked, onCalLoaded, trackFunnelBooking]);
 
   const handleBookCallClick = () => {
     console.log('[Analytics] CTA Click: Book Strategy Call', {
