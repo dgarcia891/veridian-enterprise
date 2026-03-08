@@ -11,7 +11,7 @@ interface PricingProps {
 const Pricing = ({ 
   plans,
   title = "Simple, Transparent Pricing",
-  subtitle = "$600/month for AI Agent - Integrations & Add-ons Extra"
+  subtitle = "Plans starting at $99/month — scale as you grow"
 }: PricingProps) => {
   const handlePlanClick = (planName: string) => {
     console.log('[Analytics] Plan Select:', { 
