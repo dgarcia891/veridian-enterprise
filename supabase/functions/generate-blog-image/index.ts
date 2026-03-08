@@ -35,6 +35,7 @@ serve(async (req) => {
         body: JSON.stringify({
           model: "google/gemini-2.5-flash-image",
           messages: [{ role: "user", content: prompt }],
+          modalities: ["image", "text"],
         }),
       }
     );
@@ -59,19 +60,21 @@ serve(async (req) => {
 
     // Extract base64 image from the response
     const choice = data.choices?.[0];
-    const parts = choice?.message?.content;
+    const images = choice?.message?.images;
     let base64Data: string | null = null;
     let mimeType = "image/png";
 
-    if (Array.isArray(parts)) {
-      for (const part of parts) {
-        if (part.type === "image_url" && part.image_url?.url) {
-          const match = part.image_url.url.match(
-            /^data:(image\/\w+);base64,(.+)$/
-          );
-          if (match) {
-            mimeType = match[1];
-            base64Data = match[2];
+    // Images are in message.images array
+    if (Array.isArray(images)) {
+      for (const img of images) {
+        if (img.type === "image_url" && img.image_url?.url) {
+          const url = img.image_url.url as string;
+          const dataPrefix = "data:";
+          const base64Marker = ";base64,";
+          if (url.startsWith(dataPrefix) && url.includes(base64Marker)) {
+            const markerIndex = url.indexOf(base64Marker);
+            mimeType = url.substring(dataPrefix.length, markerIndex);
+            base64Data = url.substring(markerIndex + base64Marker.length);
           }
           break;
         }
