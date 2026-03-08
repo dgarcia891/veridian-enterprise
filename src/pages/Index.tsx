@@ -5,6 +5,7 @@ import InteractiveCalculator from "@/components/roi/InteractiveCalculator";
 import GrowthSection from "@/components/roi/GrowthSection";
 import CaseStudySection from "@/components/roi/CaseStudySection";
 import CloserSection from "@/components/roi/CloserSection";
+import TryItNowDemo from "@/components/TryItNowDemo";
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
 import { Helmet } from "react-helmet";
