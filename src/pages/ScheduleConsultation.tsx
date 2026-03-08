@@ -52,6 +52,7 @@ const ScheduleConsultation = () => {
             String(booking?.email || "")
           );
           trackConsultationBooked("schedule_consultation_page");
+          trackFunnelBooking(String(booking?.uid || ""), String(booking?.email || ""));
           navigate("/consultation-booked");
         },
       });
