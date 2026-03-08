@@ -123,7 +123,7 @@ const Pricing = () => {
                     <Button 
                       className="w-full mt-6"
                       variant={plan.popular ? "default" : "outline"}
-                      onClick={() => navigate('/schedule-consultation')}
+                      onClick={() => navigate(`/signup?plan=${plan.name.toLowerCase()}`)}
                     >
                       {plan.cta}
                     </Button>
