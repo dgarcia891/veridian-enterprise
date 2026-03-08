@@ -349,6 +349,7 @@ const Analytics = () => {
           {/* Funnel Tab */}
           <TabsContent value="funnel" className="space-y-6">
             <ConversionFunnel dateFilter={getDateFilter()} />
+            <FunnelDropOffAnalysis dateFilter={getDateFilter()} />
           </TabsContent>
 
           {/* Combined Tab */}
