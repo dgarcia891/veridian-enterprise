@@ -139,6 +139,9 @@ const BlogPostForm = () => {
       image_url: formData.image_url || null,
       source_url: formData.source_url || null,
       published_at: formData.status === "published" ? new Date().toISOString() : null,
+      scheduled_at: formData.status === "scheduled" && formData.scheduled_at
+        ? formData.scheduled_at.toISOString()
+        : null,
       seo_title: formData.seo_title || null,
       meta_description: formData.meta_description || null,
       seo_keywords: formData.seo_keywords.length > 0 ? formData.seo_keywords : null,
