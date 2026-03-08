@@ -329,6 +329,7 @@ export type Database = {
           meta_description: string | null
           published_at: string | null
           read_time: string
+          scheduled_at: string | null
           seo_keywords: string[] | null
           seo_title: string | null
           slug: string
@@ -351,6 +352,7 @@ export type Database = {
           meta_description?: string | null
           published_at?: string | null
           read_time?: string
+          scheduled_at?: string | null
           seo_keywords?: string[] | null
           seo_title?: string | null
           slug: string
@@ -373,6 +375,7 @@ export type Database = {
           meta_description?: string | null
           published_at?: string | null
           read_time?: string
+          scheduled_at?: string | null
           seo_keywords?: string[] | null
           seo_title?: string | null
           slug?: string
