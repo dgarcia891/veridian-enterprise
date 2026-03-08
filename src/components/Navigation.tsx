@@ -15,14 +15,16 @@ import logo from "@/assets/logo.png";
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const activeServices = getActiveServices();
   const { trackCTAClick } = useAnalytics();
 
   useEffect(() => {
-    const checkAdminStatus = async () => {
+    const checkAuthStatus = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
+        setIsLoggedIn(true);
         const { data: roles } = await supabase
           .from("user_roles")
           .select("role")
@@ -34,7 +36,16 @@ const Navigation = () => {
         }
       }
     };
-    checkAdminStatus();
+    checkAuthStatus();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsLoggedIn(!!session?.user);
+      if (!session?.user) {
+        setIsAdmin(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const navItems = [
@@ -46,6 +57,10 @@ const Navigation = () => {
     { href: "/audit", label: "Free AI Audit", type: "link" },
     { href: "/contact", label: "Contact", type: "link" }
   ];
+
+  if (isLoggedIn) {
+    navItems.push({ href: "/dashboard", label: "My Dashboard", type: "link" });
+  }
 
   if (isAdmin) {
     navItems.push({
