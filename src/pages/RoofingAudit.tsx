@@ -18,6 +18,7 @@ import { useRoofingCalculation, RoofingCalculation } from "@/hooks/useRoofingCal
 import { useEnhancedAuditCalculation, EnhancedBusinessMetrics, EnhancedContactInfo } from "@/hooks/useEnhancedAuditCalculation";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 import confetti from "canvas-confetti";
 
 type ViewState = "simplified-form" | "quick-results" | "quick-assessment" | "deep-dive-invitation" | "deep-dive-form" | "processing" | "final-results";
