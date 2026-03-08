@@ -105,24 +105,55 @@ export const services: Service[] = [
     ],
     pricing: [
       {
-        name: "AI Agent",
-        price: "$600",
+        name: "Starter",
+        price: "$99",
         period: "/month",
-        description: "Core AI Voice & Chat Agent - Integrations Extra",
+        description: "Perfect for small businesses getting started",
         features: [
-          "AI Voice Receptionist (24/7)",
-          "Unlimited call handling",
-          "Natural conversation AI",
-          "Multi-language support",
+          "Up to 100 calls/month",
+          "Business hours coverage",
+          "1 language (English)",
+          "Basic FAQ responses",
+          "Email notifications",
+          "Standard voice AI",
+          "Email support"
+        ],
+        ctaText: "Start Free Trial"
+      },
+      {
+        name: "Growth",
+        price: "$199",
+        period: "/month",
+        description: "For growing businesses that need 24/7 coverage",
+        features: [
+          "Up to 500 calls/month",
+          "24/7 availability",
+          "5 languages supported",
           "Lead qualification",
           "Appointment booking",
-          "Email notifications",
-          "Basic analytics",
-          "CRM integrations available for additional cost",
-          "Advanced features available for additional cost"
+          "SMS & email notifications",
+          "Basic analytics dashboard",
+          "Email & chat support"
         ],
         popular: true,
         ctaText: "Get Started"
+      },
+      {
+        name: "Professional",
+        price: "$600",
+        period: "/month",
+        description: "Full-featured AI agent for high-volume businesses",
+        features: [
+          "Unlimited call handling",
+          "24/7 availability",
+          "10+ languages supported",
+          "Advanced lead qualification",
+          "CRM integration",
+          "Full analytics & reporting",
+          "Priority dedicated support",
+          "Custom AI training"
+        ],
+        ctaText: "Contact Sales"
       }
     ],
     active: true,

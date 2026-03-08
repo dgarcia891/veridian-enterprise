@@ -85,7 +85,7 @@ const Pricing = ({
 
         <div className="mt-12 text-center space-y-2">
           <p className="text-sm text-muted-foreground">
-            Base AI Agent pricing: $600/month. CRM integrations, chat widget, and advanced features available for additional cost.
+            All plans include free setup & onboarding. Annual billing saves 20%. Chat widget add-on available from $150/month.
           </p>
           <p className="text-muted-foreground">
             All plans include unlimited call handling, 24/7 availability, and no setup fees

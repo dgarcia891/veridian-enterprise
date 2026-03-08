@@ -12,33 +12,67 @@ const Pricing = () => {
 
   const plans = [
     {
-      name: "AI Agent",
-      price: "$600",
+      name: "Starter",
+      price: "$99",
       period: "month",
-      description: "Core AI Voice & Chat Agent - Integrations Extra",
+      description: "Perfect for small businesses getting started",
+      popular: false,
+      features: [
+        "Up to 100 calls/month",
+        "Business hours coverage",
+        "1 language (English)",
+        "Basic FAQ responses",
+        "Email notifications",
+        "Standard voice AI",
+        "Email support",
+      ],
+      cta: "Start Free Trial",
+    },
+    {
+      name: "Growth",
+      price: "$199",
+      period: "month",
+      description: "For growing businesses that need 24/7 coverage",
       popular: true,
       features: [
-        "AI Voice Receptionist (24/7)",
-        "Unlimited call handling",
-        "Natural conversation AI",
-        "Multi-language support",
+        "Up to 500 calls/month",
+        "24/7 availability",
+        "5 languages supported",
         "Lead qualification",
         "Appointment booking",
-        "Email notifications",
+        "SMS & email notifications",
         "Basic analytics dashboard",
-        "Email & phone support",
-        "Integrations available for additional cost",
+        "Email & chat support",
       ],
+      cta: "Get Started",
+    },
+    {
+      name: "Professional",
+      price: "$600",
+      period: "month",
+      description: "Full-featured AI agent for high-volume businesses",
+      popular: false,
+      features: [
+        "Unlimited call handling",
+        "24/7 availability",
+        "10+ languages supported",
+        "Advanced lead qualification",
+        "CRM integration",
+        "Full analytics & reporting",
+        "Priority dedicated support",
+        "Custom AI training",
+      ],
+      cta: "Contact Sales",
     },
   ];
 
   return (
     <>
       <Helmet>
-        <title>Pricing - AI Agents 3000</title>
+        <title>Pricing - AI Voice Receptionist Plans from $99/mo | AI Agents 3000</title>
         <meta 
           name="description" 
-          content="Choose the perfect AI automation plan for your business. From starter to enterprise, we have solutions that scale with you." 
+          content="AI voice receptionist plans starting at $99/month. Choose Starter, Growth, or Professional. No setup fees, 30-day money-back guarantee." 
         />
       </Helmet>
       
@@ -52,15 +86,17 @@ const Pricing = () => {
                 Simple, Transparent Pricing
               </h1>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                $600/month for AI Agent base. Integrations & add-ons available.
+                Plans starting at $99/month — scale as you grow
               </p>
             </div>
 
-            <div className="flex justify-center mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
               {plans.map((plan) => (
                 <Card 
                   key={plan.name}
-                  className="glass-card relative border-primary/50 shadow-xl max-w-md w-full"
+                  className={`glass-card relative transition-all duration-300 hover:scale-105 ${
+                    plan.popular ? 'border-2 border-primary shadow-xl shadow-primary/10' : 'border-border'
+                  }`}
                 >
                   {plan.popular && (
                     <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground">
@@ -89,7 +125,7 @@ const Pricing = () => {
                       variant={plan.popular ? "default" : "outline"}
                       onClick={() => navigate('/schedule-consultation')}
                     >
-                      Book Demo
+                      {plan.cta}
                     </Button>
                   </CardContent>
                 </Card>
@@ -130,9 +166,9 @@ const Pricing = () => {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <h3 className="font-semibold mb-2">Can I change plans later?</h3>
+                    <h3 className="font-semibold mb-2">Can I upgrade my plan later?</h3>
                     <p className="text-sm text-muted-foreground">
-                      Yes! You can upgrade or downgrade your plan at any time. Changes take effect at the start of your next billing cycle.
+                      Yes! You can upgrade at any time. Changes take effect immediately and you'll be prorated for the remaining billing period.
                     </p>
                   </div>
                   <div>
@@ -151,6 +187,12 @@ const Pricing = () => {
                     <h3 className="font-semibold mb-2">Do you offer annual discounts?</h3>
                     <p className="text-sm text-muted-foreground">
                       Yes! Pay annually and save 20% on any plan. Contact us for annual pricing details.
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-2">Can I add the Chat Widget to any plan?</h3>
+                    <p className="text-sm text-muted-foreground">
+                      The AI Chat Widget is available as an add-on starting at $150/month on any Voice AI plan.
                     </p>
                   </div>
                 </CardContent>
