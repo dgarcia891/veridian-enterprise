@@ -9,10 +9,11 @@ import BusinessProfileStep from "@/components/onboarding/BusinessProfileStep";
 import BusinessHoursStep, { defaultSchedule, type BusinessHoursData } from "@/components/onboarding/BusinessHoursStep";
 import AgentConfigStep, { type AgentConfigData } from "@/components/onboarding/AgentConfigStep";
 import PhoneProvisioningStep from "@/components/onboarding/PhoneProvisioningStep";
+import WelcomeStep from "@/components/onboarding/WelcomeStep";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
-const STEPS = ["Business", "Hours", "Agent", "Phone"];
+const STEPS = ["Welcome", "Business", "Hours", "Agent", "Phone"];
 
 const Onboarding = () => {
   const navigate = useNavigate();
