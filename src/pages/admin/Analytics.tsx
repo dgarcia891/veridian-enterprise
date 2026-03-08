@@ -23,6 +23,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { AnalyticsToggle } from "@/components/admin/AnalyticsToggle";
+import { ConversionFunnel } from "@/components/admin/ConversionFunnel";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 
 interface EventCount {
