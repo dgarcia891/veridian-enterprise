@@ -27,6 +27,7 @@ const AIAudit = () => {
   }, [trackPageVisit]);
 
   const handleMetricsSubmit = async (metrics: EnhancedBusinessMetrics) => {
+    trackAuditStarted("enhanced_audit");
     setBusinessMetrics(metrics);
     setIsProcessing(true);
     
