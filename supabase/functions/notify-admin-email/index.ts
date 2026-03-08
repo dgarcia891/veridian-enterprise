@@ -180,6 +180,9 @@ Deno.serve(async (req) => {
       case "test":
         ({ subject, html } = buildTestEmail(config));
         break;
+      case "new_signup":
+        ({ subject, html } = buildNewSignupEmail(leadData || {}));
+        break;
       default:
         throw new Error(`Unknown notification type: ${notificationType}`);
     }
