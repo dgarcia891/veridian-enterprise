@@ -96,6 +96,7 @@ const LeadsDashboard = () => {
           industry: q.industry || "",
           date: q.created_at || "",
           meta: { qualified: q.is_qualified ? "Yes" : "No", highValue: q.is_high_value ? "Yes" : "No", annualLost: q.annual_lost_revenue },
+          raw: q as unknown as Record<string, unknown>,
         });
       });
 
