@@ -60,15 +60,16 @@ serve(async (req) => {
 
     // Extract base64 image from the response
     const choice = data.choices?.[0];
-    const parts = choice?.message?.content;
+    const images = choice?.message?.images;
     let base64Data: string | null = null;
     let mimeType = "image/png";
 
-    if (Array.isArray(parts)) {
-      for (const part of parts) {
-        if (part.type === "image_url" && part.image_url?.url) {
-          const match = part.image_url.url.match(
-            /^data:(image\/\w+);base64,(.+)$/
+    // Images are in message.images array
+    if (Array.isArray(images)) {
+      for (const img of images) {
+        if (img.type === "image_url" && img.image_url?.url) {
+          const match = img.image_url.url.match(
+            /^data:(image\/\w+);base64,(.+)$/s
           );
           if (match) {
             mimeType = match[1];
