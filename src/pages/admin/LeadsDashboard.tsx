@@ -21,6 +21,7 @@ import LeadDetailDialog, { type LeadDetail } from "@/components/admin/LeadDetail
 
 type SortField = "date" | "name" | "email" | "source";
 type SortDir = "asc" | "desc";
+const PAGE_SIZE = 25;
 
 interface UnifiedLead {
   id: string;
