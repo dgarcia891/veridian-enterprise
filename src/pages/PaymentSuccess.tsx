@@ -38,9 +38,9 @@ const PaymentSuccess = () => {
                 <Button
                   size="lg"
                   className="w-full"
-                  onClick={() => navigate("/onboarding" + (sessionId ? `?session_id=${sessionId}` : ""))}
+                  onClick={() => navigate("/customer/register" + (sessionId ? `?session_id=${sessionId}` : ""))}
                 >
-                  Set Up Your AI Agent
+                  Create Your Account
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </CardContent>
