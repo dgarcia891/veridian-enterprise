@@ -63,3 +63,9 @@ verify_jwt = false
 
 [functions.notify-admin-email]
 verify_jwt = false
+
+[functions.test-twilio-connection]
+verify_jwt = false
+
+[functions.provision-twilio-number]
+verify_jwt = false

@@ -284,6 +284,9 @@ const Settings = () => {
             </Collapsible>
           </CardContent>
         </Card>
+        <div className="mt-8">
+          <TwilioConfigCard />
+        </div>
       </div>
       <Footer />
     </div>
