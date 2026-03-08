@@ -322,6 +322,7 @@ export type Database = {
           content: string
           created_at: string
           excerpt: string
+          external_id: string | null
           faq_schema: Json | null
           id: string
           image_url: string | null
@@ -343,6 +344,7 @@ export type Database = {
           content: string
           created_at?: string
           excerpt: string
+          external_id?: string | null
           faq_schema?: Json | null
           id?: string
           image_url?: string | null
@@ -364,6 +366,7 @@ export type Database = {
           content?: string
           created_at?: string
           excerpt?: string
+          external_id?: string | null
           faq_schema?: Json | null
           id?: string
           image_url?: string | null
