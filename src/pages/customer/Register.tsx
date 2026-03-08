@@ -36,8 +36,8 @@ const CustomerRegister = () => {
         },
       });
       if (error) throw error;
-      toast({ title: "Check your email", description: "We've sent you a verification link. Please confirm your email to continue." });
-      navigate("/customer/login");
+      toast({ title: "Account created!", description: "Let's set up your AI agent now." });
+      navigate("/onboarding");
     } catch (err: any) {
       toast({ title: "Registration failed", description: err.message, variant: "destructive" });
     } finally {
