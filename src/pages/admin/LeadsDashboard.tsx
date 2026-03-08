@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
@@ -13,6 +13,10 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import {
+  Pagination, PaginationContent, PaginationItem, PaginationLink,
+  PaginationNext, PaginationPrevious, PaginationEllipsis,
+} from "@/components/ui/pagination";
+import {
   ArrowLeft, Loader2, Search, ArrowUpDown, Users, FileText, CreditCard,
   ClipboardList, Mail, Phone, Building2, Calendar,
 } from "lucide-react";
@@ -21,6 +25,7 @@ import LeadDetailDialog, { type LeadDetail } from "@/components/admin/LeadDetail
 
 type SortField = "date" | "name" | "email" | "source";
 type SortDir = "asc" | "desc";
+const PAGE_SIZE = 25;
 
 interface UnifiedLead {
   id: string;
@@ -47,6 +52,7 @@ const LeadsDashboard = () => {
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [selectedLead, setSelectedLead] = useState<LeadDetail | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     if (!authLoading && !isAdmin) navigate("/");
@@ -133,7 +139,7 @@ const LeadsDashboard = () => {
     }
   };
 
-  const filtered = leads
+  const filtered = useMemo(() => leads
     .filter((l) => sourceFilter === "all" || l.source === sourceFilter)
     .filter((l) => {
       if (!search) return true;
@@ -154,7 +160,27 @@ const LeadsDashboard = () => {
         case "source": return dir * a.sourceLabel.localeCompare(b.sourceLabel);
         default: return 0;
       }
-    });
+    }), [leads, sourceFilter, search, sortField, sortDir]);
+
+  // Reset to page 1 when filters change
+  useEffect(() => { setCurrentPage(1); }, [search, sourceFilter, sortField, sortDir]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const paginated = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
+  const getPageNumbers = () => {
+    const pages: (number | "ellipsis")[] = [];
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      if (currentPage > 3) pages.push("ellipsis");
+      for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) pages.push(i);
+      if (currentPage < totalPages - 2) pages.push("ellipsis");
+      pages.push(totalPages);
+    }
+    return pages;
+  };
 
   const sourceBadge = (source: UnifiedLead["source"], label: string) => {
     const variants: Record<string, string> = {
@@ -302,7 +328,7 @@ const LeadsDashboard = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filtered.map((lead) => (
+                  {paginated.map((lead) => (
                     <TableRow
                       key={`${lead.source}-${lead.id}`}
                       className="cursor-pointer"
@@ -346,8 +372,44 @@ const LeadsDashboard = () => {
           </CardContent>
         </Card>
 
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                  className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                />
+              </PaginationItem>
+              {getPageNumbers().map((page, i) =>
+                page === "ellipsis" ? (
+                  <PaginationItem key={`e-${i}`}><PaginationEllipsis /></PaginationItem>
+                ) : (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      isActive={currentPage === page}
+                      onClick={() => setCurrentPage(page as number)}
+                      className="cursor-pointer"
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                )
+              )}
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                  className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        )}
+
         <p className="text-xs text-muted-foreground text-center">
-          Showing {filtered.length} of {leads.length} leads
+          Showing {(currentPage - 1) * PAGE_SIZE + 1}–{Math.min(currentPage * PAGE_SIZE, filtered.length)} of {filtered.length} leads
+          {filtered.length !== leads.length && ` (${leads.length} total)`}
         </p>
       </div>
 
