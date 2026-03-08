@@ -37,6 +37,7 @@ import {
   BarChart3,
   Bot,
   BarChart2,
+  ImageIcon,
 } from "lucide-react";
 
 const BlogAdmin = () => {
