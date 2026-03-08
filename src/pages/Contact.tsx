@@ -10,6 +10,7 @@ import { z } from "zod";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { notifyAdmin } from "@/lib/notifyAdmin";
 
 const contactSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100, "Name too long"),
@@ -117,6 +118,15 @@ const Contact = () => {
         });
         e.currentTarget.reset();
       }
+
+      // Fire-and-forget email notification
+      notifyAdmin("new_lead", {
+        firstName: data.name,
+        email: data.email,
+        phone: data.phone || "",
+        companyName: data.company || "",
+        source: "contact_page",
+      });
     } catch (error) {
       toast({
         title: "Error",

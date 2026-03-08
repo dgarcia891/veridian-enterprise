@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ContactInfo } from "@/types/audit";
 import { Loader2 } from "lucide-react";
+import { notifyAdmin } from "@/lib/notifyAdmin";
 
 interface ContactCaptureFormProps {
   onSubmit: (contact: ContactInfo) => Promise<void>;
@@ -64,6 +65,15 @@ const ContactCaptureForm = ({ onSubmit }: ContactCaptureFormProps) => {
     setIsLoading(true);
     try {
       await onSubmit(formData);
+      // Fire-and-forget email notification
+      notifyAdmin("new_lead", {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        companyName: formData.companyName,
+        entry_path: "contact_capture",
+      });
     } finally {
       setIsLoading(false);
     }
