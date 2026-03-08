@@ -58,6 +58,10 @@ const Navigation = () => {
     { href: "/contact", label: "Contact", type: "link" }
   ];
 
+  if (isLoggedIn) {
+    navItems.push({ href: "/dashboard", label: "My Dashboard", type: "link" });
+  }
+
   if (isAdmin) {
     navItems.push({
       label: "Admin",
