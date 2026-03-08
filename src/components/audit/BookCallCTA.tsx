@@ -31,6 +31,7 @@ const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: B
     trackBookingCompleted,
     trackConsultationBooked,
   } = useAnalytics();
+  const { trackCalendarOpened: trackFunnelCalendar, trackBookingCompleted: trackFunnelBooking } = useFunnelTracking();
 
   useEffect(() => {
     (async function () {

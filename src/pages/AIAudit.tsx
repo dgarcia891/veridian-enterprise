@@ -71,6 +71,7 @@ const AIAudit = () => {
         setTimeout(() => confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }), 500);
       }
 
+      trackAuditCompleted("enhanced_audit");
       toast({ title: "Analysis Complete!", description: "Your AI opportunity report is ready." });
     } catch (error) {
       console.error('Error:', error);
