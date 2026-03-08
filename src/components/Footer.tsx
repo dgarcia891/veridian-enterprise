@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="border-t border-border px-6 py-8 bg-card" role="contentinfo" aria-label="Footer">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand & Company Info */}
           <div className="flex flex-col items-center md:items-start gap-2">
             <img src={logo} alt="AI Agents 3000 Logo" className="h-12 w-auto" />
@@ -18,6 +18,17 @@ const Footer = () => {
               <p className="text-xs text-muted-foreground">A Wyoming Limited Liability Company</p>
             </div>
           </div>
+
+          {/* Industries */}
+          <nav className="flex flex-col items-center md:items-start gap-2" aria-label="Industry pages">
+            <p className="text-sm font-semibold text-foreground mb-1">Industries</p>
+            <Link to="/restaurants" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Restaurants</Link>
+            <Link to="/plumbers" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Plumbers</Link>
+            <Link to="/hvac" className="text-sm text-muted-foreground hover:text-foreground transition-colors">HVAC</Link>
+            <Link to="/electricians" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Electricians</Link>
+            <Link to="/law-firms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Law Firms</Link>
+            <Link to="/medical-offices" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Medical Offices</Link>
+          </nav>
 
           {/* Compare Links */}
           <nav className="flex flex-col items-center md:items-start gap-2" aria-label="Comparison pages">
