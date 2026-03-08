@@ -61,9 +61,9 @@ const LeadsDashboard = () => {
     setIsLoading(true);
     try {
       const [audits, quals, signups] = await Promise.all([
-        supabase.from("ai_audit_submissions").select("id, first_name, last_name, email, phone, company_name, industry, created_at, entry_path, score_tier, annual_loss").order("created_at", { ascending: false }).limit(500),
-        supabase.from("qualification_submissions").select("id, contact_name, email, phone, company_name, industry, created_at, is_qualified, is_high_value, annual_lost_revenue").order("created_at", { ascending: false }).limit(500),
-        supabase.from("customer_signups").select("id, contact_name, email, phone, company_name, industry, created_at, plan_type, payment_status").order("created_at", { ascending: false }).limit(500),
+        supabase.from("ai_audit_submissions").select("*").order("created_at", { ascending: false }).limit(500),
+        supabase.from("qualification_submissions").select("*").order("created_at", { ascending: false }).limit(500),
+        supabase.from("customer_signups").select("*").order("created_at", { ascending: false }).limit(500),
       ]);
 
       const unified: UnifiedLead[] = [];
