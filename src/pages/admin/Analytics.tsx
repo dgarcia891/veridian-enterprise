@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { AnalyticsToggle } from "@/components/admin/AnalyticsToggle";
 import { ConversionFunnel } from "@/components/admin/ConversionFunnel";
+import { FunnelDropOffAnalysis } from "@/components/admin/FunnelDropOffAnalysis";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 
 interface EventCount {
@@ -348,6 +349,7 @@ const Analytics = () => {
           {/* Funnel Tab */}
           <TabsContent value="funnel" className="space-y-6">
             <ConversionFunnel dateFilter={getDateFilter()} />
+            <FunnelDropOffAnalysis dateFilter={getDateFilter()} />
           </TabsContent>
 
           {/* Combined Tab */}
@@ -427,6 +429,7 @@ const Analytics = () => {
 
             {/* Conversion Funnel */}
             <ConversionFunnel dateFilter={getDateFilter()} />
+            <FunnelDropOffAnalysis dateFilter={getDateFilter()} />
 
             {/* Custom Events Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
