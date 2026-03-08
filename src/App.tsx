@@ -52,6 +52,7 @@ const MediaLibrary = lazy(() => import("./pages/admin/MediaLibrary"));
 const VsSmithAI = lazy(() => import("./pages/compare/VsSmithAI"));
 const VsMyAIFrontDesk = lazy(() => import("./pages/compare/VsMyAIFrontDesk"));
 const VsDialzara = lazy(() => import("./pages/compare/VsDialzara"));
+const VsRubyReceptionists = lazy(() => import("./pages/compare/VsRubyReceptionists"));
 const HVAC = lazy(() => import("./pages/HVAC"));
 const Electricians = lazy(() => import("./pages/Electricians"));
 const LawFirms = lazy(() => import("./pages/LawFirms"));
@@ -147,6 +148,7 @@ export const AppContent = () => {
           <Route path="/compare/vs-smith-ai" element={<VsSmithAI />} />
           <Route path="/compare/vs-my-ai-front-desk" element={<VsMyAIFrontDesk />} />
           <Route path="/compare/vs-dialzara" element={<VsDialzara />} />
+          <Route path="/compare/vs-ruby-receptionists" element={<VsRubyReceptionists />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
