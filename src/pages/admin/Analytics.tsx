@@ -340,12 +340,18 @@ const Analytics = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full max-w-lg grid-cols-4">
+          <TabsList className="grid w-full max-w-2xl grid-cols-5">
             <TabsTrigger value="combined">Combined</TabsTrigger>
             <TabsTrigger value="funnel">Funnel</TabsTrigger>
+            <TabsTrigger value="blog">Blog</TabsTrigger>
             <TabsTrigger value="ga4">Google Analytics</TabsTrigger>
             <TabsTrigger value="custom">Custom Events</TabsTrigger>
           </TabsList>
+
+          {/* Blog Tab */}
+          <TabsContent value="blog" className="space-y-6">
+            <BlogAnalytics dateFilter={getDateFilter()} />
+          </TabsContent>
 
           {/* Funnel Tab */}
           <TabsContent value="funnel" className="space-y-6">
