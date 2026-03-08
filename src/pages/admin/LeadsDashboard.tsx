@@ -303,7 +303,14 @@ const LeadsDashboard = () => {
                 </TableHeader>
                 <TableBody>
                   {filtered.map((lead) => (
-                    <TableRow key={`${lead.source}-${lead.id}`}>
+                    <TableRow
+                      key={`${lead.source}-${lead.id}`}
+                      className="cursor-pointer"
+                      onClick={() => {
+                        setSelectedLead({ id: lead.id, source: lead.source as "audit" | "qualification" | "signup", sourceLabel: lead.sourceLabel, raw: lead.raw });
+                        setDetailOpen(true);
+                      }}
+                    >
                       <TableCell className="text-sm text-muted-foreground whitespace-nowrap">
                         {lead.date ? format(new Date(lead.date), "MMM d, yyyy") : "—"}
                       </TableCell>
