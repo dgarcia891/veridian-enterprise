@@ -62,7 +62,7 @@ const PhoneProvisioningStep = ({ provisioningStatus, onFinish, onBack, loading }
             ) : provisioning ? (
               <Loader2 className="w-12 h-12 text-primary animate-spin" />
             ) : error ? (
-              <AlertTriangle className="w-12 h-12 text-yellow-500" />
+              <AlertTriangle className="w-12 h-12 text-destructive" />
             ) : (
               <Phone className="w-12 h-12 text-primary" />
             )}
