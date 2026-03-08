@@ -81,7 +81,7 @@ const Settings = () => {
         .maybeSingle();
       if (error) throw error;
       if ((data as any)?.setting_value) {
-        setConfig({ ...defaultConfig, ...(data.setting_value as any) });
+        setConfig({ ...defaultConfig, ...((data as any).setting_value as any) });
       }
     } catch (err) {
       console.error("Error loading SMTP config:", err);
