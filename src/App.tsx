@@ -83,7 +83,7 @@ export const AppContent = () => {
           <Route path="/" element={<Index />} />
           <Route path="/ai-receptionist" element={<AIReceptionist />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/services/:serviceId" element={<ServiceDetail />} />
+          <Route path="/services/:slug" element={<ServiceDetail />} />
           <Route path="/features" element={<Features />} />
           <Route path="/about" element={<About />} />
           <Route path="/abouttheceo" element={<AboutCEO />} />
