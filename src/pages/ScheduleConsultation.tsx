@@ -17,6 +17,11 @@ const ScheduleConsultation = () => {
     trackBookingCompleted,
     trackConsultationBooked
   } = useAnalytics();
+  const { trackCalendarOpened: trackFunnelCalendar, trackBookingCompleted: trackFunnelBooking } = useFunnelTracking();
+
+  useEffect(() => {
+    trackFunnelCalendar("schedule_consultation_page");
+  }, [trackFunnelCalendar]);
 
   useEffect(() => {
     (async function () {

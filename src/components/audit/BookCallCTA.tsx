@@ -77,6 +77,7 @@ const BookCallCTA = ({ businessName, phone, lostRevenueLow, lostRevenueHigh }: B
       lostRevenueRange: `${lostRevenueLow}-${lostRevenueHigh}`,
       timestamp: new Date().toISOString()
     });
+    trackFunnelCalendar("book_call_cta");
     setIsCalendarOpen(true);
   };
 
