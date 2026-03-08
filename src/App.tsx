@@ -112,6 +112,10 @@ export const AppContent = () => {
           <Route path="/demos/medical-office" element={<MedicalOffice />} />
           <Route path="/restaurants" element={<Restaurants />} />
           <Route path="/plumbers" element={<Plumbers />} />
+          <Route path="/hvac" element={<HVAC />} />
+          <Route path="/electricians" element={<Electricians />} />
+          <Route path="/law-firms" element={<LawFirms />} />
+          <Route path="/medical-offices" element={<MedicalOffices />} />
           <Route path="/ai-insight" element={<AIInsightReport />} />
           <Route path="/site-content" element={<SiteContent />} />
           <Route path="/opt-in" element={<OptIn />} />

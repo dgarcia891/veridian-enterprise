@@ -19,6 +19,17 @@ const Footer = () => {
             </div>
           </div>
 
+          {/* Industries */}
+          <nav className="flex flex-col items-center md:items-start gap-2" aria-label="Industry pages">
+            <p className="text-sm font-semibold text-foreground mb-1">Industries</p>
+            <Link to="/restaurants" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Restaurants</Link>
+            <Link to="/plumbers" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Plumbers</Link>
+            <Link to="/hvac" className="text-sm text-muted-foreground hover:text-foreground transition-colors">HVAC</Link>
+            <Link to="/electricians" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Electricians</Link>
+            <Link to="/law-firms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Law Firms</Link>
+            <Link to="/medical-offices" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Medical Offices</Link>
+          </nav>
+
           {/* Compare Links */}
           <nav className="flex flex-col items-center md:items-start gap-2" aria-label="Comparison pages">
             <p className="text-sm font-semibold text-foreground mb-1">Compare</p>
