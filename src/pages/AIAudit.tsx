@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import SkipToContent from "@/components/SkipToContent";
 import EnhancedBusinessMetricsForm from "@/components/audit/EnhancedBusinessMetricsForm";
 import EnhancedResultsPage from "@/components/audit/EnhancedResultsPage";
 import ProcessingScreen from "@/components/audit/ProcessingScreen";
