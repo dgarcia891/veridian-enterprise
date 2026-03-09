@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { ContactInfo } from "@/types/audit";
 import { Loader2 } from "lucide-react";
 import { notifyAdmin } from "@/lib/notifyAdmin";
+import { useRateLimit } from "@/hooks/useRateLimit";
 
 interface ContactCaptureFormProps {
   onSubmit: (contact: ContactInfo) => Promise<void>;
@@ -25,9 +26,26 @@ const ContactCaptureForm = ({ onSubmit }: ContactCaptureFormProps) => {
   });
 
   const { trackCTAClick, trackEvent } = useAnalytics();
+  const { checkRateLimit, recordAttempt } = useRateLimit({
+    maxAttempts: 3,
+    windowMs: 5 * 60 * 1000,
+    storageKey: "rl_audit_contact",
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Rate limit check
+    const { allowed, retryAfterMs } = checkRateLimit();
+    if (!allowed) {
+      const minutes = Math.ceil(retryAfterMs / 60000);
+      toast({
+        title: "Too many attempts",
+        description: `Please wait ${minutes} minute${minutes > 1 ? "s" : ""} before trying again.`,
+        variant: "destructive",
+      });
+      return;
+    }
 
     // Track Intent
     trackCTAClick("Claim My Audit Results", "Contact Capture Form");
@@ -64,6 +82,7 @@ const ContactCaptureForm = ({ onSubmit }: ContactCaptureFormProps) => {
 
     setIsLoading(true);
     try {
+      recordAttempt();
       await onSubmit(formData);
       // Fire-and-forget email notification
       notifyAdmin("new_lead", {

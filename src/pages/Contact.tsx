@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { notifyAdmin } from "@/lib/notifyAdmin";
+import { useRateLimit } from "@/hooks/useRateLimit";
 
 const contactSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100, "Name too long"),
@@ -27,6 +28,11 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [emailRevealed, setEmailRevealed] = useState(false);
   const [revealEmail, setRevealEmail] = useState("");
+  const { checkRateLimit, recordAttempt } = useRateLimit({
+    maxAttempts: 3,
+    windowMs: 5 * 60 * 1000, // 5 minutes
+    storageKey: "rl_contact_form",
+  });
 
   const handleRevealEmail = () => {
     // Track Intent
@@ -64,6 +70,18 @@ const Contact = () => {
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const { allowed, retryAfterMs } = checkRateLimit();
+    if (!allowed) {
+      const minutes = Math.ceil(retryAfterMs / 60000);
+      toast({
+        variant: "destructive",
+        title: "Too many submissions",
+        description: `Please wait ${minutes} minute${minutes > 1 ? "s" : ""} before trying again.`,
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     // Track Intent
@@ -113,6 +131,7 @@ const Contact = () => {
       });
 
       if (response.ok) {
+        recordAttempt();
         toast({
           title: "Message Sent!",
           description: "We'll get back to you within 24 hours.",

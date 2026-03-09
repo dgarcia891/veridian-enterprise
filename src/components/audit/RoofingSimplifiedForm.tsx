@@ -5,6 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Phone, Building2, TrendingUp } from "lucide-react";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useRateLimit } from "@/hooks/useRateLimit";
+import { useToast } from "@/hooks/use-toast";
 
 interface RoofingSimplifiedFormProps {
   onSubmit: (data: {
@@ -20,6 +22,12 @@ const RoofingSimplifiedForm = ({ onSubmit }: RoofingSimplifiedFormProps) => {
   const [callsPerWeek, setCallsPerWeek] = useState(50);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { trackEvent, trackCTAClick } = useAnalytics();
+  const { toast } = useToast();
+  const { checkRateLimit, recordAttempt } = useRateLimit({
+    maxAttempts: 5,
+    windowMs: 5 * 60 * 1000,
+    storageKey: "rl_roofing_form",
+  });
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -44,10 +52,23 @@ const RoofingSimplifiedForm = ({ onSubmit }: RoofingSimplifiedFormProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Rate limit check
+    const { allowed, retryAfterMs } = checkRateLimit();
+    if (!allowed) {
+      const minutes = Math.ceil(retryAfterMs / 60000);
+      toast({
+        variant: "destructive",
+        title: "Too many submissions",
+        description: `Please wait ${minutes} minute${minutes > 1 ? "s" : ""} before trying again.`,
+      });
+      return;
+    }
+
     // Track Intent
     trackCTAClick("Show Me What I'm Losing", "Roofing Simplified Form");
 
     if (validateForm()) {
+      recordAttempt();
       trackEvent("audit_intent_success", {
         category: "engagement",
         metadata: { form: "roofing_simplified", businessName }
