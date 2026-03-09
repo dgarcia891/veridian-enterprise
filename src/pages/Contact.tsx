@@ -28,6 +28,11 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [emailRevealed, setEmailRevealed] = useState(false);
   const [revealEmail, setRevealEmail] = useState("");
+  const { checkRateLimit, recordAttempt } = useRateLimit({
+    maxAttempts: 3,
+    windowMs: 5 * 60 * 1000, // 5 minutes
+    storageKey: "rl_contact_form",
+  });
 
   const handleRevealEmail = () => {
     // Track Intent
