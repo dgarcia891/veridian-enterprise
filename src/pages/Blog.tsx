@@ -125,6 +125,7 @@ const Blog = () => {
                           <img 
                             src={post.image_url || "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&auto=format&fit=crop"} 
                             alt={post.title}
+                            loading="lazy"
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           />
                         </div>
