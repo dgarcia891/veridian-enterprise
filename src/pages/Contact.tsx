@@ -131,6 +131,7 @@ const Contact = () => {
       });
 
       if (response.ok) {
+        recordAttempt();
         toast({
           title: "Message Sent!",
           description: "We'll get back to you within 24 hours.",

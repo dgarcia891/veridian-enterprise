@@ -68,6 +68,7 @@ const RoofingSimplifiedForm = ({ onSubmit }: RoofingSimplifiedFormProps) => {
     trackCTAClick("Show Me What I'm Losing", "Roofing Simplified Form");
 
     if (validateForm()) {
+      recordAttempt();
       trackEvent("audit_intent_success", {
         category: "engagement",
         metadata: { form: "roofing_simplified", businessName }

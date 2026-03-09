@@ -82,6 +82,7 @@ const ContactCaptureForm = ({ onSubmit }: ContactCaptureFormProps) => {
 
     setIsLoading(true);
     try {
+      recordAttempt();
       await onSubmit(formData);
       // Fire-and-forget email notification
       notifyAdmin("new_lead", {
