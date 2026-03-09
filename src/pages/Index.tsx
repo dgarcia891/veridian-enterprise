@@ -124,6 +124,8 @@ const Index = () => {
           </Suspense>
           <CloserSection isMediumBusiness={isMediumBusiness} />
 
+          <NewsletterSignup variant="banner" />
+
           <section className="py-8 px-4 sm:px-6 lg:px-8 bg-card border-t border-border">
             <div className="max-w-4xl mx-auto text-center">
               <a
