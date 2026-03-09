@@ -9,7 +9,7 @@ import ServiceCTA from "@/components/ServiceCTA";
 import Footer from "@/components/Footer";
 import { services } from "@/data/services";
 import { RetellVoiceWidget } from "@/components/RetellVoiceWidget";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const AIReceptionist = () => {
   const primaryService = services[0];

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet-async";
 import { Button } from '@/components/ui/button';
 import { CheckCircle2, Calendar, FileText, Phone, ArrowRight } from 'lucide-react';
 import { useAnalytics } from '@/hooks/useAnalytics';

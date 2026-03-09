@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Check, Phone, Clock, TrendingUp, Shield, Calendar, Stethoscope } from "lucide-react";
 import Navigation from "@/components/Navigation";
