@@ -9,7 +9,7 @@ import { useState } from "react";
 import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
 import { z } from "zod";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { notifyAdmin } from "@/lib/notifyAdmin";
 import { useRateLimit } from "@/hooks/useRateLimit";
