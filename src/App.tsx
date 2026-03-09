@@ -155,6 +155,8 @@ export const AppContent = () => {
           <Route path="/compare/vs-dialzara" element={<VsDialzara />} />
           <Route path="/compare/vs-ruby-receptionists" element={<VsRubyReceptionists />} />
           <Route path="/compare/vs-moneypenny" element={<VsMoneypenny />} />
+          <Route path="/compare/vs-answering360" element={<VsAnswering360 />} />
+          <Route path="/compare/vs-patlive" element={<VsPATLive />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

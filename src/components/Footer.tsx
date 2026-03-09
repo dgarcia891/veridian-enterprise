@@ -57,6 +57,12 @@ const Footer = () => {
             <Link to="/compare/vs-moneypenny" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               AI Agents 3000 vs Moneypenny
             </Link>
+            <Link to="/compare/vs-answering360" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              AI Agents 3000 vs Answering360
+            </Link>
+            <Link to="/compare/vs-patlive" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              AI Agents 3000 vs PATLive
+            </Link>
             <Link to="/compare" className="text-sm text-primary hover:text-primary/80 transition-colors mt-1 font-medium">
               View All Comparisons
             </Link>
