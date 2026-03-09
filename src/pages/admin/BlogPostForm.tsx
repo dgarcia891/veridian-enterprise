@@ -321,6 +321,8 @@ const BlogPostForm = () => {
                   <img
                     src={formData.image_url}
                     alt="Featured image preview"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-48 object-cover"
                     onError={(e) => {
                       (e.target as HTMLImageElement).style.display = 'none';

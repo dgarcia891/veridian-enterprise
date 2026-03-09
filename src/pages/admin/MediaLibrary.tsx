@@ -283,6 +283,8 @@ const MediaLibrary = () => {
                 <img
                   src={editAsset.url}
                   alt={editAsset.alt_text || ""}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full max-h-48 object-contain rounded bg-muted"
                 />
               )}
