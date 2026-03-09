@@ -175,7 +175,7 @@ export const AppContent = () => {
       {!isDemoPage && (
         <Suspense fallback={null}>
           <RetellChatInterface
-            agentId="agent_2df66bc30b17e2cbf174bf2f3b"
+            agentId={RETELL_CHAT_AGENT_ID}
             title={isAIInsightPage ? "AI Report Assistant" : "Chat with AI"}
             minimized={true}
           />
