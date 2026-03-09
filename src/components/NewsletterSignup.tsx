@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { Mail, Download, CheckCircle, Loader2 } from "lucide-react";
+import { generateAIReadinessChecklist } from "@/lib/generateChecklist";
 
-const LEAD_MAGNET_URL = "/ai-readiness-checklist.pdf";
 const LEAD_MAGNET_TITLE = "AI Readiness Checklist";
 
 interface NewsletterSignupProps {
