@@ -54,6 +54,8 @@ const VsMyAIFrontDesk = lazy(() => import("./pages/compare/VsMyAIFrontDesk"));
 const VsDialzara = lazy(() => import("./pages/compare/VsDialzara"));
 const VsRubyReceptionists = lazy(() => import("./pages/compare/VsRubyReceptionists"));
 const VsMoneypenny = lazy(() => import("./pages/compare/VsMoneypenny"));
+const VsAnswering360 = lazy(() => import("./pages/compare/VsAnswering360"));
+const VsPATLive = lazy(() => import("./pages/compare/VsPATLive"));
 const Compare = lazy(() => import("./pages/compare/Compare"));
 const HVAC = lazy(() => import("./pages/HVAC"));
 const Electricians = lazy(() => import("./pages/Electricians"));
