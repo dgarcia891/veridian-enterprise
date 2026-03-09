@@ -104,8 +104,9 @@ const Signup = () => {
       </Helmet>
 
       <div className="min-h-screen flex flex-col bg-background">
+        <SkipToContent />
         <Navigation />
-        <main className="flex-1 pt-24 pb-16">
+        <main id="main-content" className="flex-1 pt-24 pb-16">
           <div className="container max-w-lg mx-auto px-4">
             <Card className="glass-card">
               <CardHeader className="text-center">
