@@ -78,9 +78,10 @@ const Pricing = () => {
       </Helmet>
       
       <div className="min-h-screen flex flex-col bg-background">
+        <SkipToContent />
         <Navigation />
         
-        <main className="flex-1 pt-24 pb-16">
+        <main id="main-content" className="flex-1 pt-24 pb-16">
           <div className="container max-w-7xl mx-auto px-4">
             <div className="text-center mb-12">
               <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">

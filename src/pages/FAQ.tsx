@@ -203,9 +203,10 @@ const FAQ = () => {
         </script>
       </Helmet>
       <div className="min-h-screen bg-background text-foreground">
+        <SkipToContent />
         <Navigation />
       
-      <main>
+        <main id="main-content">
         {/* Hero Section */}
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-primary/10 to-background">
           <div className="max-w-4xl mx-auto text-center">
