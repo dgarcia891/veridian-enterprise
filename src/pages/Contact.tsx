@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { notifyAdmin } from "@/lib/notifyAdmin";
+import { useRateLimit } from "@/hooks/useRateLimit";
 
 const contactSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100, "Name too long"),
