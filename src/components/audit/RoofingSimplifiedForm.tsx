@@ -52,6 +52,18 @@ const RoofingSimplifiedForm = ({ onSubmit }: RoofingSimplifiedFormProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Rate limit check
+    const { allowed, retryAfterMs } = checkRateLimit();
+    if (!allowed) {
+      const minutes = Math.ceil(retryAfterMs / 60000);
+      toast({
+        variant: "destructive",
+        title: "Too many submissions",
+        description: `Please wait ${minutes} minute${minutes > 1 ? "s" : ""} before trying again.`,
+      });
+      return;
+    }
+
     // Track Intent
     trackCTAClick("Show Me What I'm Losing", "Roofing Simplified Form");
 
