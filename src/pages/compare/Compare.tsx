@@ -81,7 +81,7 @@ const Compare = () => {
 
         <main>
           {/* Hero */}
-          <section className="relative py-20 md:py-28 overflow-hidden">
+          <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent" />
             <div className="max-w-4xl mx-auto px-6 text-center relative">
               <Badge variant="outline" className="mb-6 border-primary/30 text-primary">

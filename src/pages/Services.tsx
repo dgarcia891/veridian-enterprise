@@ -300,6 +300,9 @@ const Services = () => {
                 <Link to="/compare/vs-smith-ai" className="text-primary hover:underline">vs Smith.ai</Link>
                 <Link to="/compare/vs-my-ai-front-desk" className="text-primary hover:underline">vs My AI Front Desk</Link>
                 <Link to="/compare/vs-dialzara" className="text-primary hover:underline">vs Dialzara</Link>
+                <Link to="/compare/vs-ruby-receptionists" className="text-primary hover:underline">vs Ruby</Link>
+                <span className="text-muted-foreground">•</span>
+                <Link to="/compare" className="text-primary hover:underline font-medium">View All</Link>
               </div>
             </div>
           </section>

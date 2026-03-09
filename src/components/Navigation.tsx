@@ -53,6 +53,7 @@ const Navigation = () => {
     { href: "/about", label: "About", type: "link" },
     { label: "Services", type: "dropdown", items: activeServices },
     { href: "/pricing", label: "Pricing", type: "link" },
+    { href: "/compare", label: "Compare", type: "link" },
     { href: "/blog", label: "Blog", type: "link" },
     { href: "/audit", label: "Free AI Audit", type: "link" },
     { href: "/contact", label: "Contact", type: "link" }

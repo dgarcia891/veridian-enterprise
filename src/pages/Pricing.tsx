@@ -207,7 +207,7 @@ const Pricing = () => {
                   <p className="text-sm text-muted-foreground mb-4">
                     Not sure how we stack up? Check out our detailed competitor comparisons.
                   </p>
-                  <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex flex-col sm:flex-row flex-wrap gap-3">
                     <Link to="/compare/vs-smith-ai">
                       <Button variant="outline" className="w-full sm:w-auto">
                         vs Smith.ai <ArrowRight className="w-4 h-4 ml-2" />
@@ -226,6 +226,13 @@ const Pricing = () => {
                     <Link to="/compare/vs-ruby-receptionists">
                       <Button variant="outline" className="w-full sm:w-auto">
                         vs Ruby Receptionists <ArrowRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    </Link>
+                  </div>
+                  <div className="mt-6">
+                    <Link to="/compare">
+                      <Button variant="default" className="w-full sm:w-auto">
+                        View All Comparisons <ArrowRight className="w-4 h-4 ml-2" />
                       </Button>
                     </Link>
                   </div>
