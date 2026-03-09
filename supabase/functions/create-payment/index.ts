@@ -120,7 +120,7 @@ serve(async (req) => {
       status: 200,
     });
   } catch (error) {
-    console.error("Payment creation failed");
+    console.error("Payment creation failed:", error);
     
     // Return generic error message to client
     const userMessage = error instanceof Error && error.message.includes("Invalid")
@@ -128,7 +128,7 @@ serve(async (req) => {
       : "Payment processing failed. Please try again or contact support.";
     
     return new Response(
-      JSON.stringify({ error: userMessage }),
+      JSON.stringify({ error: userMessage, debug: error instanceof Error ? error.message : String(error) }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 500,
