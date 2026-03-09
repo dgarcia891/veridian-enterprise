@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import SkipToContent from "@/components/SkipToContent";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import OnboardingProgress from "@/components/onboarding/OnboardingProgress";
 import BusinessProfileStep from "@/components/onboarding/BusinessProfileStep";
