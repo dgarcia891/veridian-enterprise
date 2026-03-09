@@ -1,5 +1,6 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import SkipToContent from "@/components/SkipToContent";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Phone, MessageCircle, Check, ArrowRight, Zap, Clock, Globe } from "lucide-react";
@@ -11,20 +12,20 @@ const Services = () => {
   const navigate = useNavigate();
 
   const serviceIcons: Record<string, React.ReactNode> = {
-    "voice-ai-receptionist": <Phone className="w-12 h-12" />,
-    "ai-chat-widget": <MessageCircle className="w-12 h-12" />,
+    "voice-ai-receptionist": <Phone className="w-12 h-12" aria-hidden="true" />,
+    "ai-chat-widget": <MessageCircle className="w-12 h-12" aria-hidden="true" />,
   };
 
   const serviceHighlights: Record<string, { icon: React.ReactNode; text: string }[]> = {
     "voice-ai-receptionist": [
-      { icon: <Clock className="w-4 h-4" />, text: "24/7 Availability" },
-      { icon: <Globe className="w-4 h-4" />, text: "10+ Languages" },
-      { icon: <Zap className="w-4 h-4" />, text: "Instant Setup" },
+      { icon: <Clock className="w-4 h-4" aria-hidden="true" />, text: "24/7 Availability" },
+      { icon: <Globe className="w-4 h-4" aria-hidden="true" />, text: "10+ Languages" },
+      { icon: <Zap className="w-4 h-4" aria-hidden="true" />, text: "Instant Setup" },
     ],
     "ai-chat-widget": [
-      { icon: <Globe className="w-4 h-4" />, text: "95+ Languages" },
-      { icon: <Zap className="w-4 h-4" />, text: "Easy Training" },
-      { icon: <MessageCircle className="w-4 h-4" />, text: "Smart Capture" },
+      { icon: <Globe className="w-4 h-4" aria-hidden="true" />, text: "95+ Languages" },
+      { icon: <Zap className="w-4 h-4" aria-hidden="true" />, text: "Easy Training" },
+      { icon: <MessageCircle className="w-4 h-4" aria-hidden="true" />, text: "Smart Capture" },
     ],
   };
 
@@ -44,9 +45,10 @@ const Services = () => {
       </Helmet>
       
       <div className="min-h-screen bg-background text-foreground">
+        <SkipToContent />
         <Navigation />
         
-        <main>
+        <main id="main-content">
           {/* Hero Section */}
           <section className="relative py-20 md:py-28 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent" />

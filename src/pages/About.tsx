@@ -1,5 +1,6 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import SkipToContent from "@/components/SkipToContent";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
@@ -19,12 +20,13 @@ const About = () => {
         <meta name="twitter:description" content="Helping local businesses capture every customer call with intelligent AI voice receptionist technology since 2020." />
       </Helmet>
       <div className="min-h-screen bg-background text-foreground">
+        <SkipToContent />
         <Navigation />
-      <main className="max-w-6xl mx-auto px-6 py-20">
-        <h1 className="text-4xl md:text-6xl font-bold mb-8 text-center">About AI Agents 3000</h1>
-        <p className="text-xl text-muted-foreground mb-16 text-center max-w-3xl mx-auto">
-          Helping local businesses capture every customer call with intelligent Voice AI receptionist technology.
-        </p>
+        <main id="main-content" className="max-w-6xl mx-auto px-6 py-20">
+          <h1 className="text-4xl md:text-6xl font-bold mb-8 text-center">About AI Agents 3000</h1>
+          <p className="text-xl text-muted-foreground mb-16 text-center max-w-3xl mx-auto">
+            Helping local businesses capture every customer call with intelligent Voice AI receptionist technology.
+          </p>
 
         <section className="space-y-16">
           <div>

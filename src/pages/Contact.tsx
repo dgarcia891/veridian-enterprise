@@ -154,9 +154,10 @@ const Contact = () => {
         <meta name="twitter:description" content="Get started with AI voice receptionist. Schedule a free demo today." />
       </Helmet>
       <div className="min-h-screen bg-background text-foreground">
+        <SkipToContent />
         <Navigation />
 
-        <main className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+        <main id="main-content" className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <h1 className="text-4xl sm:text-5xl font-bold mb-4">Get Started Today</h1>
