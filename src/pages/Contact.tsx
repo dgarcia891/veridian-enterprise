@@ -171,28 +171,28 @@ const Contact = () => {
                 <h2 className="text-2xl font-semibold mb-6">Send us a message</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Name</label>
-                    <Input name="name" required placeholder="Your name" />
+                    <label htmlFor="contact-name" className="block text-sm font-medium mb-2">Name</label>
+                    <Input id="contact-name" name="name" required placeholder="Your name" />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Email</label>
-                    <Input name="email" type="email" required placeholder="your@email.com" />
+                    <label htmlFor="contact-email" className="block text-sm font-medium mb-2">Email</label>
+                    <Input id="contact-email" name="email" type="email" required placeholder="your@email.com" />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Company</label>
-                    <Input name="company" placeholder="Your company name" />
+                    <label htmlFor="contact-company" className="block text-sm font-medium mb-2">Company</label>
+                    <Input id="contact-company" name="company" placeholder="Your company name" />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Phone</label>
-                    <Input name="phone" type="tel" placeholder="+1 661 523 0269" />
+                    <label htmlFor="contact-phone" className="block text-sm font-medium mb-2">Phone</label>
+                    <Input id="contact-phone" name="phone" type="tel" placeholder="+1 661 523 0269" />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Message</label>
-                    <Textarea name="message" required placeholder="Tell us about your needs..." rows={4} />
+                    <label htmlFor="contact-message" className="block text-sm font-medium mb-2">Message</label>
+                    <Textarea id="contact-message" name="message" required placeholder="Tell us about your needs..." rows={4} />
                   </div>
 
                   <Button type="submit" disabled={isSubmitting} className="w-full">
