@@ -17,6 +17,7 @@ interface ContactCaptureFormProps {
 const ContactCaptureForm = ({ onSubmit }: ContactCaptureFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const [honeypot, setHoneypot] = useState("");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
