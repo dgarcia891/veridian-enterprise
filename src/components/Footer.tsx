@@ -51,6 +51,12 @@ const Footer = () => {
             <Link to="/compare/vs-dialzara" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               AI Agents 3000 vs Dialzara
             </Link>
+            <Link to="/compare/vs-ruby-receptionists" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              AI Agents 3000 vs Ruby Receptionists
+            </Link>
+            <Link to="/compare" className="text-sm text-primary hover:text-primary/80 transition-colors mt-1 font-medium">
+              View All Comparisons
+            </Link>
           </nav>
 
           {/* Legal Links */}
