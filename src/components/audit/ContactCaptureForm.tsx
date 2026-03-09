@@ -26,6 +26,11 @@ const ContactCaptureForm = ({ onSubmit }: ContactCaptureFormProps) => {
   });
 
   const { trackCTAClick, trackEvent } = useAnalytics();
+  const { checkRateLimit, recordAttempt } = useRateLimit({
+    maxAttempts: 3,
+    windowMs: 5 * 60 * 1000,
+    storageKey: "rl_audit_contact",
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
