@@ -54,6 +54,8 @@ const VsMyAIFrontDesk = lazy(() => import("./pages/compare/VsMyAIFrontDesk"));
 const VsDialzara = lazy(() => import("./pages/compare/VsDialzara"));
 const VsRubyReceptionists = lazy(() => import("./pages/compare/VsRubyReceptionists"));
 const VsMoneypenny = lazy(() => import("./pages/compare/VsMoneypenny"));
+const VsAnswering360 = lazy(() => import("./pages/compare/VsAnswering360"));
+const VsPATLive = lazy(() => import("./pages/compare/VsPATLive"));
 const Compare = lazy(() => import("./pages/compare/Compare"));
 const HVAC = lazy(() => import("./pages/HVAC"));
 const Electricians = lazy(() => import("./pages/Electricians"));
@@ -153,6 +155,8 @@ export const AppContent = () => {
           <Route path="/compare/vs-dialzara" element={<VsDialzara />} />
           <Route path="/compare/vs-ruby-receptionists" element={<VsRubyReceptionists />} />
           <Route path="/compare/vs-moneypenny" element={<VsMoneypenny />} />
+          <Route path="/compare/vs-answering360" element={<VsAnswering360 />} />
+          <Route path="/compare/vs-patlive" element={<VsPATLive />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

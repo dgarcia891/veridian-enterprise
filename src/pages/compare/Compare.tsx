@@ -58,6 +58,26 @@ const competitors = [
     theirPrice: "$365/mo",
     keyDiff: "Always-on AI coverage vs a human-first model with business-hours limitations",
   },
+  {
+    name: "Answering360",
+    slug: "/compare/vs-answering360",
+    icon: Clock,
+    tagline: "Human answering service at $179/mo with overages",
+    savings: "Save 45%+",
+    ourPrice: "$99/mo",
+    theirPrice: "$179/mo",
+    keyDiff: "Unlimited AI calls vs human service with $2.99/min overage fees",
+  },
+  {
+    name: "PATLive",
+    slug: "/compare/vs-patlive",
+    icon: Zap,
+    tagline: "Low base price with high per-minute overages",
+    savings: "No overage fees",
+    ourPrice: "$99/mo",
+    theirPrice: "$61/mo + usage",
+    keyDiff: "Predictable unlimited pricing vs escalating costs with $2.85/min overages",
+  },
 ];
 
 const Compare = () => {
@@ -68,7 +88,7 @@ const Compare = () => {
     "@type": "WebPage",
     name: "AI Agents 3000 — Competitor Comparisons",
     description:
-      "See how AI Agents 3000 compares to Smith.ai, My AI Front Desk, Dialzara, Ruby Receptionists, and Moneypenny on pricing, features, and value.",
+      "See how AI Agents 3000 compares to Smith.ai, My AI Front Desk, Dialzara, Ruby Receptionists, Moneypenny, Answering360, and PATLive on pricing, features, and value.",
     url: "https://aiagents3000.com/compare",
   };
 
@@ -78,13 +98,13 @@ const Compare = () => {
         <title>Compare AI Agents 3000 vs Competitors — Pricing & Features 2026</title>
         <meta
           name="description"
-          content="Compare AI Agents 3000 to Smith.ai, My AI Front Desk, Dialzara, Ruby Receptionists, and Moneypenny. See pricing, features, and which AI receptionist is right for you."
+          content="Compare AI Agents 3000 to Smith.ai, My AI Front Desk, Dialzara, Ruby Receptionists, Moneypenny, Answering360, and PATLive. See pricing, features, and which AI receptionist is right for you."
         />
         <link rel="canonical" href="https://aiagents3000.com/compare" />
         <meta property="og:title" content="AI Agents 3000 — How We Compare to the Competition" />
         <meta
           property="og:description"
-          content="Side-by-side comparisons against Smith.ai, My AI Front Desk, Dialzara, Ruby Receptionists, and Moneypenny."
+          content="Side-by-side comparisons against Smith.ai, My AI Front Desk, Dialzara, Ruby Receptionists, Moneypenny, Answering360, and PATLive."
         />
         <meta property="og:type" content="website" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
@@ -113,7 +133,7 @@ const Compare = () => {
           {/* Competitor Cards */}
           <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {competitors.map((comp) => (
                   <Card
                     key={comp.slug}
