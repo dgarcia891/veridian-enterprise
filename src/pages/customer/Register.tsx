@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -14,8 +14,42 @@ import { Loader2, UserPlus } from "lucide-react";
 const CustomerRegister = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [searchParams] = useSearchParams();
+  const sessionId = searchParams.get("session_id");
+
   const [form, setForm] = useState({ fullName: "", companyName: "", email: "", password: "" });
   const [loading, setLoading] = useState(false);
+  const [signupId, setSignupId] = useState<string | null>(null);
+  const [prefilling, setPrefilling] = useState(!!sessionId);
+
+  // Pre-fill form from Stripe session data
+  useEffect(() => {
+    if (!sessionId) return;
+
+    const fetchSessionData = async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke("verify-checkout-session", {
+          body: { sessionId },
+        });
+        if (error) throw error;
+        if (data) {
+          setForm((prev) => ({
+            ...prev,
+            email: data.email || prev.email,
+            companyName: data.companyName || prev.companyName,
+            fullName: data.contactName || prev.fullName,
+          }));
+          setSignupId(data.signupId || null);
+        }
+      } catch {
+        // Non-critical: user can still fill manually
+      } finally {
+        setPrefilling(false);
+      }
+    };
+
+    fetchSessionData();
+  }, [sessionId]);
 
   const update = (key: string, value: string) => setForm((p) => ({ ...p, [key]: value }));
 
@@ -27,7 +61,7 @@ const CustomerRegister = () => {
     }
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data: authData, error } = await supabase.auth.signUp({
         email: form.email,
         password: form.password,
         options: {
@@ -36,6 +70,18 @@ const CustomerRegister = () => {
         },
       });
       if (error) throw error;
+
+      // Link the customer_signups record to this new user
+      if (signupId && authData.user) {
+        try {
+          await supabase.functions.invoke("link-signup-user", {
+            body: { signupId, userId: authData.user.id },
+          });
+        } catch {
+          // Non-critical
+        }
+      }
+
       toast({ title: "Account created!", description: "Let's set up your AI agent now." });
       navigate("/onboarding");
     } catch (err: any) {
@@ -44,6 +90,21 @@ const CustomerRegister = () => {
       setLoading(false);
     }
   };
+
+  if (prefilling) {
+    return (
+      <>
+        <Helmet><title>Create Account | AI Agents 3000</title></Helmet>
+        <div className="min-h-screen flex flex-col bg-background">
+          <Navigation />
+          <main className="flex-1 flex items-center justify-center pt-24 pb-16 px-4">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </main>
+          <Footer />
+        </div>
+      </>
+    );
+  }
 
   return (
     <>

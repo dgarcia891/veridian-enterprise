@@ -540,6 +540,7 @@ export type Database = {
           stripe_payment_intent_id: string | null
           stripe_subscription_id: string | null
           updated_at: string
+          user_id: string | null
           wants_call_first: boolean | null
         }
         Insert: {
@@ -561,6 +562,7 @@ export type Database = {
           stripe_payment_intent_id?: string | null
           stripe_subscription_id?: string | null
           updated_at?: string
+          user_id?: string | null
           wants_call_first?: boolean | null
         }
         Update: {
@@ -582,6 +584,7 @@ export type Database = {
           stripe_payment_intent_id?: string | null
           stripe_subscription_id?: string | null
           updated_at?: string
+          user_id?: string | null
           wants_call_first?: boolean | null
         }
         Relationships: []

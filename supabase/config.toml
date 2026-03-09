@@ -69,3 +69,9 @@ verify_jwt = false
 
 [functions.provision-twilio-number]
 verify_jwt = false
+
+[functions.verify-checkout-session]
+verify_jwt = false
+
+[functions.link-signup-user]
+verify_jwt = false
