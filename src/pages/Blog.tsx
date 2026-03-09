@@ -5,6 +5,7 @@ import { Calendar, Clock, ArrowRight, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { usePublishedPosts } from "@/hooks/useBlogPosts";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 const Blog = () => {
   const { data: posts, isLoading, error } = usePublishedPosts();
