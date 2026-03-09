@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { ContactInfo } from "@/types/audit";
 import { Loader2 } from "lucide-react";
 import { notifyAdmin } from "@/lib/notifyAdmin";
+import { useRateLimit } from "@/hooks/useRateLimit";
 
 interface ContactCaptureFormProps {
   onSubmit: (contact: ContactInfo) => Promise<void>;
