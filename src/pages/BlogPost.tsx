@@ -147,17 +147,52 @@ const BlogPost = () => {
       <Helmet>
         <title>{post.seo_title || `${post.title} | AI Agents 3000 Blog`}</title>
         <meta name="description" content={post.meta_description || post.excerpt} />
-        <link rel="canonical" href={`https://veridian.lovable.app/blog/${post.slug}`} />
+        <link rel="canonical" href={`https://aiagents3000.com/blog/${post.slug}`} />
         <meta property="og:title" content={post.seo_title || post.title} />
         <meta property="og:description" content={post.meta_description || post.excerpt} />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content={`https://veridian.lovable.app/blog/${post.slug}`} />
+        <meta property="og:url" content={`https://aiagents3000.com/blog/${post.slug}`} />
         {post.image_url && <meta property="og:image" content={post.image_url} />}
+        <meta property="article:published_time" content={post.published_at || post.created_at} />
+        <meta property="article:author" content={post.author_name || "AI Agents 3000"} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={post.seo_title || post.title} />
         <meta name="twitter:description" content={post.meta_description || post.excerpt} />
 
-        {/* Structured Data: FAQ Schema */}
+        {/* Article structured data for AEO */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": post.title,
+            "description": post.meta_description || post.excerpt,
+            "image": post.image_url || "",
+            "author": {
+              "@type": "Organization",
+              "name": post.author_name || "AI Agents 3000",
+              "url": "https://aiagents3000.com"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "AI Agents 3000",
+              "url": "https://aiagents3000.com",
+              "logo": { "@type": "ImageObject", "url": "https://aiagents3000.com/favicon.png" }
+            },
+            "datePublished": post.published_at || post.created_at,
+            "dateModified": post.updated_at || post.published_at || post.created_at,
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": `https://aiagents3000.com/blog/${post.slug}`
+            },
+            ...(post.seo_keywords ? { "keywords": post.seo_keywords.join(", ") } : {}),
+            "speakable": {
+              "@type": "SpeakableSpecification",
+              "cssSelector": ["article h1", "article .excerpt", "article p:first-of-type"]
+            }
+          })}
+        </script>
+
+        {/* FAQ Schema */}
         {post.faq_schema && Array.isArray(post.faq_schema) && (
           <script type="application/ld+json">
             {JSON.stringify({

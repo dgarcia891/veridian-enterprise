@@ -190,11 +190,11 @@ const FAQ = () => {
       <Helmet>
         <title>FAQ - AI Voice Receptionist Questions Answered | AI Agents 3000</title>
         <meta name="description" content="Get answers about AI voice receptionists: capabilities, pricing, integrations, security, setup time. Learn how AI agents work 24/7 to capture every call." />
-        <link rel="canonical" href="https://veridian.lovable.app/faq" />
+        <link rel="canonical" href="https://aiagents3000.com/faq" />
         <meta property="og:title" content="FAQ - AI Voice Receptionist Questions Answered" />
         <meta property="og:description" content="Everything you need to know about AI voice receptionists, pricing, integrations, and how they transform business communication." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://veridian.lovable.app/faq" />
+        <meta property="og:url" content="https://aiagents3000.com/faq" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="FAQ - AI Voice Receptionist Questions Answered" />
         <meta name="twitter:description" content="Get answers about AI voice receptionists: capabilities, pricing, integrations, security, and setup." />

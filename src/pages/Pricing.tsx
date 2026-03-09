@@ -75,6 +75,29 @@ const Pricing = () => {
           name="description" 
           content="AI voice receptionist plans starting at $99/month. Choose Starter, Growth, or Professional. No setup fees, 30-day money-back guarantee." 
         />
+        <link rel="canonical" href="https://aiagents3000.com/pricing" />
+        <meta property="og:title" content="AI Receptionist Pricing - Plans from $99/mo" />
+        <meta property="og:description" content="AI voice receptionist plans starting at $99/month. Starter, Growth, or Professional." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://aiagents3000.com/pricing" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "AI Voice Receptionist",
+            "description": "24/7 AI-powered voice receptionist that answers calls, books appointments, and captures leads for small businesses.",
+            "brand": { "@type": "Brand", "name": "AI Agents 3000" },
+            "offers": plans.map(plan => ({
+              "@type": "Offer",
+              "name": plan.name,
+              "price": plan.price.replace("$", ""),
+              "priceCurrency": "USD",
+              "priceValidUntil": "2027-12-31",
+              "availability": "https://schema.org/InStock",
+              "description": plan.description
+            }))
+          })}
+        </script>
       </Helmet>
       
       <div className="min-h-screen flex flex-col bg-background">
