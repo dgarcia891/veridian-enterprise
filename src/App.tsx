@@ -99,7 +99,7 @@ export const AppContent = () => {
 
   return (
     <>
-      <Suspense fallback={<div className="flex items-center justify-center min-h-screen bg-background">Loading...</div>}>
+      <Suspense fallback={<div className="flex items-center justify-center min-h-screen bg-background"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>}>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/ai-receptionist" element={<AIReceptionist />} />
