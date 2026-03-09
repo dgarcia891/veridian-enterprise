@@ -5,6 +5,7 @@ import { Calendar, Clock, ArrowRight, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { usePublishedPosts } from "@/hooks/useBlogPosts";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 const Blog = () => {
   const { data: posts, isLoading, error } = usePublishedPosts();
@@ -164,6 +165,8 @@ const Blog = () => {
                 )}
               </>
             )}
+
+            <NewsletterSignup variant="inline" />
 
             {/* CTA Section */}
             <div className="mt-20 glass-card p-8 sm:p-12 rounded-3xl border border-primary/50 text-center bg-gradient-to-br from-primary/5 to-primary/10">

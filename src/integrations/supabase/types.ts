@@ -655,6 +655,33 @@ export type Database = {
         }
         Relationships: []
       }
+      newsletter_subscribers: {
+        Row: {
+          created_at: string
+          email: string
+          first_name: string | null
+          id: string
+          lead_magnet_sent: boolean
+          source_page: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          first_name?: string | null
+          id?: string
+          lead_magnet_sent?: boolean
+          source_page?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          first_name?: string | null
+          id?: string
+          lead_magnet_sent?: boolean
+          source_page?: string | null
+        }
+        Relationships: []
+      }
       payment_rate_limits: {
         Row: {
           attempt_count: number

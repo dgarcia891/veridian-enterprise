@@ -11,6 +11,7 @@ import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { ROIProvider } from "@/contexts/ROIContext";
 import { Skeleton } from "@/components/ui/skeleton";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 const ProblemStatsSection = lazy(() => import("@/components/roi/ProblemStatsSection"));
 const InteractiveCalculator = lazy(() => import("@/components/roi/InteractiveCalculator"));
@@ -122,6 +123,8 @@ const Index = () => {
             <CaseStudySection />
           </Suspense>
           <CloserSection isMediumBusiness={isMediumBusiness} />
+
+          <NewsletterSignup variant="banner" />
 
           <section className="py-8 px-4 sm:px-6 lg:px-8 bg-card border-t border-border">
             <div className="max-w-4xl mx-auto text-center">
