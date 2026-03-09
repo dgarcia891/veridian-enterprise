@@ -36,6 +36,15 @@ const ContactCaptureForm = ({ onSubmit }: ContactCaptureFormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Honeypot check - if filled, silently reject (bot detected)
+    if (honeypot) {
+      toast({
+        title: "Success!",
+        description: "Your report is being generated.",
+      });
+      return;
+    }
+
     // Rate limit check
     const { allowed, retryAfterMs } = checkRateLimit();
     if (!allowed) {
