@@ -189,6 +189,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <ScrollToTop />
+        <AccessibilityControls />
         <AppContent />
       </BrowserRouter>
     </TooltipProvider>
