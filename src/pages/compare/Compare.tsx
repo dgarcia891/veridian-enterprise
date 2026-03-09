@@ -113,7 +113,7 @@ const Compare = () => {
           {/* Competitor Cards */}
           <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
-              <div className="grid md:grid-cols-2 gap-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {competitors.map((comp) => (
                   <Card
                     key={comp.slug}
