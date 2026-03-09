@@ -104,7 +104,7 @@ const Compare = () => {
         <meta property="og:title" content="AI Agents 3000 — How We Compare to the Competition" />
         <meta
           property="og:description"
-          content="Side-by-side comparisons against Smith.ai, My AI Front Desk, Dialzara, Ruby Receptionists, and Moneypenny."
+          content="Side-by-side comparisons against Smith.ai, My AI Front Desk, Dialzara, Ruby Receptionists, Moneypenny, Answering360, and PATLive."
         />
         <meta property="og:type" content="website" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
