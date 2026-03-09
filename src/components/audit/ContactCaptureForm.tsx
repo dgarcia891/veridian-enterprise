@@ -17,6 +17,7 @@ interface ContactCaptureFormProps {
 const ContactCaptureForm = ({ onSubmit }: ContactCaptureFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const [honeypot, setHoneypot] = useState("");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -34,6 +35,15 @@ const ContactCaptureForm = ({ onSubmit }: ContactCaptureFormProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Honeypot check - if filled, silently reject (bot detected)
+    if (honeypot) {
+      toast({
+        title: "Success!",
+        description: "Your report is being generated.",
+      });
+      return;
+    }
 
     // Rate limit check
     const { allowed, retryAfterMs } = checkRateLimit();
@@ -176,6 +186,20 @@ const ContactCaptureForm = ({ onSubmit }: ContactCaptureFormProps) => {
               onChange={(e) => handleChange("phone", e.target.value)}
               required
               disabled={isLoading}
+            />
+          </div>
+
+          {/* Honeypot field - hidden from real users */}
+          <div className="absolute -left-[9999px] opacity-0 h-0 overflow-hidden" aria-hidden="true">
+            <label htmlFor="audit-website">Website URL</label>
+            <input 
+              type="text" 
+              id="audit-website" 
+              name="website" 
+              tabIndex={-1} 
+              autoComplete="off"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
             />
           </div>
 

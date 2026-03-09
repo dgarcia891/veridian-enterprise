@@ -20,6 +20,7 @@ const RoofingSimplifiedForm = ({ onSubmit }: RoofingSimplifiedFormProps) => {
   const [businessName, setBusinessName] = useState("");
   const [phone, setPhone] = useState("");
   const [callsPerWeek, setCallsPerWeek] = useState(50);
+  const [honeypot, setHoneypot] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { trackEvent, trackCTAClick } = useAnalytics();
   const { toast } = useToast();
@@ -51,6 +52,12 @@ const RoofingSimplifiedForm = ({ onSubmit }: RoofingSimplifiedFormProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Honeypot check - if filled, silently reject (bot detected)
+    if (honeypot) {
+      // Fake success for bots
+      return;
+    }
 
     // Rate limit check
     const { allowed, retryAfterMs } = checkRateLimit();
@@ -179,6 +186,20 @@ const RoofingSimplifiedForm = ({ onSubmit }: RoofingSimplifiedFormProps) => {
           {errors.callsPerWeek && (
             <p className="text-sm text-destructive">{errors.callsPerWeek}</p>
           )}
+        </div>
+
+        {/* Honeypot field - hidden from real users */}
+        <div className="absolute -left-[9999px] opacity-0 h-0 overflow-hidden" aria-hidden="true">
+          <label htmlFor="roofing-website">Your Website</label>
+          <input 
+            type="text" 
+            id="roofing-website" 
+            name="website" 
+            tabIndex={-1} 
+            autoComplete="off"
+            value={honeypot}
+            onChange={(e) => setHoneypot(e.target.value)}
+          />
         </div>
 
         {/* Submit Button */}
