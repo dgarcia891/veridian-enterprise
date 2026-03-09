@@ -11,6 +11,7 @@ import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { ROIProvider } from "@/contexts/ROIContext";
 import { Skeleton } from "@/components/ui/skeleton";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 const ProblemStatsSection = lazy(() => import("@/components/roi/ProblemStatsSection"));
 const InteractiveCalculator = lazy(() => import("@/components/roi/InteractiveCalculator"));
