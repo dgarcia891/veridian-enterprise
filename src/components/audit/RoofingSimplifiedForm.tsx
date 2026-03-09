@@ -20,6 +20,7 @@ const RoofingSimplifiedForm = ({ onSubmit }: RoofingSimplifiedFormProps) => {
   const [businessName, setBusinessName] = useState("");
   const [phone, setPhone] = useState("");
   const [callsPerWeek, setCallsPerWeek] = useState(50);
+  const [honeypot, setHoneypot] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { trackEvent, trackCTAClick } = useAnalytics();
   const { toast } = useToast();
