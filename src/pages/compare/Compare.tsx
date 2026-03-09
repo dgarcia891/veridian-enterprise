@@ -88,7 +88,7 @@ const Compare = () => {
     "@type": "WebPage",
     name: "AI Agents 3000 — Competitor Comparisons",
     description:
-      "See how AI Agents 3000 compares to Smith.ai, My AI Front Desk, Dialzara, Ruby Receptionists, and Moneypenny on pricing, features, and value.",
+      "See how AI Agents 3000 compares to Smith.ai, My AI Front Desk, Dialzara, Ruby Receptionists, Moneypenny, Answering360, and PATLive on pricing, features, and value.",
     url: "https://aiagents3000.com/compare",
   };
 
