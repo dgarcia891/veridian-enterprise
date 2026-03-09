@@ -53,6 +53,12 @@ const RoofingSimplifiedForm = ({ onSubmit }: RoofingSimplifiedFormProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Honeypot check - if filled, silently reject (bot detected)
+    if (honeypot) {
+      // Fake success for bots
+      return;
+    }
+
     // Rate limit check
     const { allowed, retryAfterMs } = checkRateLimit();
     if (!allowed) {
