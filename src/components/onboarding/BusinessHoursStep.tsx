@@ -48,17 +48,22 @@ const BusinessHoursStep = ({ data, voicemailEnabled, onChange, onVoicemailChange
       <div className="space-y-3">
         {DAYS.map((day) => (
           <div key={day} className="flex items-center gap-3">
-            <Switch checked={data[day]?.enabled ?? false} onCheckedChange={() => toggleDay(day)} />
-            <span className="w-24 text-sm font-medium">{day}</span>
+            <Switch 
+              id={`day-${day}`}
+              checked={data[day]?.enabled ?? false} 
+              onCheckedChange={() => toggleDay(day)}
+              aria-label={`Enable ${day}`}
+            />
+            <Label htmlFor={`day-${day}`} className="w-24 text-sm font-medium cursor-pointer">{day}</Label>
             {data[day]?.enabled && (
               <div className="flex items-center gap-2 text-sm">
                 <Select value={data[day].open} onValueChange={(v) => setTime(day, "open", v)}>
-                  <SelectTrigger className="w-28 h-8"><SelectValue /></SelectTrigger>
+                  <SelectTrigger className="w-28 h-8" aria-label={`${day} opening time`}><SelectValue /></SelectTrigger>
                   <SelectContent>{TIMES.map((t) => <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>)}</SelectContent>
                 </Select>
-                <span className="text-muted-foreground">to</span>
+                <span className="text-muted-foreground" aria-hidden="true">to</span>
                 <Select value={data[day].close} onValueChange={(v) => setTime(day, "close", v)}>
-                  <SelectTrigger className="w-28 h-8"><SelectValue /></SelectTrigger>
+                  <SelectTrigger className="w-28 h-8" aria-label={`${day} closing time`}><SelectValue /></SelectTrigger>
                   <SelectContent>{TIMES.map((t) => <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
@@ -70,10 +75,10 @@ const BusinessHoursStep = ({ data, voicemailEnabled, onChange, onVoicemailChange
 
       <div className="flex items-center justify-between p-4 rounded-lg bg-muted/50">
         <div>
-          <Label className="font-medium">After-Hours Voicemail</Label>
+          <Label htmlFor="voicemail-toggle" className="font-medium">After-Hours Voicemail</Label>
           <p className="text-xs text-muted-foreground">AI takes a message when you're closed</p>
         </div>
-        <Switch checked={voicemailEnabled} onCheckedChange={onVoicemailChange} />
+        <Switch id="voicemail-toggle" checked={voicemailEnabled} onCheckedChange={onVoicemailChange} />
       </div>
 
       <div className="flex gap-3">

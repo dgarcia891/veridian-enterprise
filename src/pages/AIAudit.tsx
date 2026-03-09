@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import SkipToContent from "@/components/SkipToContent";
 import EnhancedBusinessMetricsForm from "@/components/audit/EnhancedBusinessMetricsForm";
 import EnhancedResultsPage from "@/components/audit/EnhancedResultsPage";
 import ProcessingScreen from "@/components/audit/ProcessingScreen";
@@ -107,9 +108,10 @@ const AIAudit = () => {
       </Helmet>
       
       <div className="min-h-screen flex flex-col bg-background">
+        <SkipToContent />
         <Navigation />
         
-        <main className="flex-1 pt-24 pb-16">
+        <main id="main-content" className="flex-1 pt-24 pb-16">
           <div className="container max-w-4xl mx-auto px-4">
             {isProcessing && <ProcessingScreen />}
             

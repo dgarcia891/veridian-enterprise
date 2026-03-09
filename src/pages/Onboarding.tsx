@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import SkipToContent from "@/components/SkipToContent";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import OnboardingProgress from "@/components/onboarding/OnboardingProgress";
 import BusinessProfileStep from "@/components/onboarding/BusinessProfileStep";
@@ -126,8 +127,9 @@ const Onboarding = () => {
       </Helmet>
 
       <div className="min-h-screen flex flex-col bg-background">
+        <SkipToContent />
         <Navigation />
-        <main className="flex-1 pt-24 pb-16">
+        <main id="main-content" className="flex-1 pt-24 pb-16">
           <div className="container max-w-2xl mx-auto px-4">
             <OnboardingProgress currentStep={step} steps={STEPS} />
 
