@@ -8,6 +8,7 @@ import CloserSection from "@/components/roi/CloserSection";
 import TryItNowDemo from "@/components/TryItNowDemo";
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
+import SkipToContent from "@/components/SkipToContent";
 import { Helmet } from "react-helmet";
 import { ArrowRight } from "lucide-react";
 import { useState } from "react";
