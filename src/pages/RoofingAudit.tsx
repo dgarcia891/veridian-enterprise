@@ -150,24 +150,30 @@ const RoofingAudit = () => {
     setViewState("processing");
     
     try {
+      // Estimate traffic and leads based on call volume
+      const estimatedMonthlyTraffic = simplifiedData?.callsPerWeek ? simplifiedData.callsPerWeek * 20 : 500;
+      const estimatedMonthlyLeads = Math.round(estimatedMonthlyTraffic * 0.03); // 3% conversion
+      const estimatedCustomersPerMonth = Math.max(Math.round(estimatedMonthlyLeads * 0.2), 5); // 20% close rate
+      const avgJobValue = calculation ? (calculation.avgJobValueLow + calculation.avgJobValueHigh) / 2 : 1400;
+      
       // Use quick assessment data to generate basic report
       const metrics: Partial<EnhancedBusinessMetrics> = {
-        industry: quickAssessmentData?.industry || "Unknown",
+        industry: quickAssessmentData?.industry || "Roofing",
         websiteUrl: quickAssessmentData?.websiteUrl || "",
-        monthlyWebsiteVisits: 0,
-        monthlyWebsiteLeads: 0,
-        totalCustomersPerMonth: 0,
+        monthlyWebsiteVisits: estimatedMonthlyTraffic,
+        monthlyWebsiteLeads: estimatedMonthlyLeads,
+        totalCustomersPerMonth: estimatedCustomersPerMonth,
         customerSourceSplit: { 
           website: quickAssessmentData?.communicationPreference || 50, 
           phone: 100 - (quickAssessmentData?.communicationPreference || 50),
           other: 0 
         },
-        customersFromWebsite: 0,
-        customersFromPhone: 0,
-        customersFromOther: 0,
+        customersFromWebsite: Math.round(estimatedCustomersPerMonth * 0.4),
+        customersFromPhone: Math.round(estimatedCustomersPerMonth * 0.5),
+        customersFromOther: Math.round(estimatedCustomersPerMonth * 0.1),
         textPreference: 100 - (quickAssessmentData?.communicationPreference || 50),
         phonePreference: quickAssessmentData?.communicationPreference || 50,
-        avgProfitPerCustomer: calculation ? (calculation.avgJobValueLow + calculation.avgJobValueHigh) / 2 : 1000,
+        avgProfitPerCustomer: avgJobValue,
         websiteKnowledge: "no-idea",
         visitorLeadConversion: quickAssessmentData?.responseTime || "longer",
         speedOfFollowup: quickAssessmentData?.afterHoursImportance || "moderate",
