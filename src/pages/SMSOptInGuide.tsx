@@ -121,6 +121,7 @@ const SMSOptInGuide = () => {
                     <img 
                       src={imageUrl} 
                       alt="SMS Opt-In Process Flow - showing 4 steps from keyword to confirmation"
+                      loading="lazy"
                       className="w-full h-full object-contain"
                     />
                   ) : null}

@@ -5,10 +5,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { lazy, Suspense, useEffect, useRef } from "react";
 import { RetellVoiceWidget } from "@/components/RetellVoiceWidget";
-import { RetellChatInterface } from "@/components/RetellChatInterface";
 import ScrollToTop from "@/components/ScrollToTop";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useFocusOnRouteChange } from "@/hooks/useFocusOnRouteChange";
+import { Loader2 } from "lucide-react";
+
+const RetellChatInterface = lazy(() => import("@/components/RetellChatInterface").then(m => ({ default: m.RetellChatInterface })));
 
 const Index = lazy(() => import("./pages/Index"));
 const ROICalculator = lazy(() => import("./pages/ROICalculator"));
@@ -97,7 +99,7 @@ export const AppContent = () => {
 
   return (
     <>
-      <Suspense fallback={<div className="flex items-center justify-center min-h-screen bg-background">Loading...</div>}>
+      <Suspense fallback={<div className="flex items-center justify-center min-h-screen bg-background"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>}>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/ai-receptionist" element={<AIReceptionist />} />
@@ -167,11 +169,13 @@ export const AppContent = () => {
 
       {/* Show chat widget on all pages except demos */}
       {!isDemoPage && (
-        <RetellChatInterface
-          agentId="agent_2df66bc30b17e2cbf174bf2f3b"
-          title={isAIInsightPage ? "AI Report Assistant" : "Chat with AI"}
-          minimized={true}
-        />
+        <Suspense fallback={null}>
+          <RetellChatInterface
+            agentId="agent_2df66bc30b17e2cbf174bf2f3b"
+            title={isAIInsightPage ? "AI Report Assistant" : "Chat with AI"}
+            minimized={true}
+          />
+        </Suspense>
       )}
     </>
   );

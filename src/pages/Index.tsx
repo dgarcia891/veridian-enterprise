@@ -1,11 +1,8 @@
-import ProblemStatsSection from "@/components/roi/ProblemStatsSection";
+import { lazy, Suspense } from "react";
 import PASSection from "@/components/roi/PASSection";
 import SolutionSection from "@/components/roi/SolutionSection";
-import InteractiveCalculator from "@/components/roi/InteractiveCalculator";
-import GrowthSection from "@/components/roi/GrowthSection";
-import CaseStudySection from "@/components/roi/CaseStudySection";
-import CloserSection from "@/components/roi/CloserSection";
 import TryItNowDemo from "@/components/TryItNowDemo";
+import CloserSection from "@/components/roi/CloserSection";
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
 import SkipToContent from "@/components/SkipToContent";
@@ -13,6 +10,23 @@ import { Helmet } from "react-helmet";
 import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { ROIProvider } from "@/contexts/ROIContext";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const ProblemStatsSection = lazy(() => import("@/components/roi/ProblemStatsSection"));
+const InteractiveCalculator = lazy(() => import("@/components/roi/InteractiveCalculator"));
+const GrowthSection = lazy(() => import("@/components/roi/GrowthSection"));
+const CaseStudySection = lazy(() => import("@/components/roi/CaseStudySection"));
+
+const SectionSkeleton = () => (
+  <div className="py-16 px-4 sm:px-6 lg:px-8">
+    <div className="max-w-4xl mx-auto space-y-4">
+      <Skeleton className="h-8 w-3/4 mx-auto" />
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-5/6" />
+      <Skeleton className="h-48 w-full mt-6" />
+    </div>
+  </div>
+);
 
 const Index = () => {
   const [isMediumBusiness, setIsMediumBusiness] = useState(false);
@@ -89,16 +103,24 @@ const Index = () => {
         <Navigation />
 
         <main id="main-content">
-          <ProblemStatsSection
-            isMediumBusiness={isMediumBusiness}
-            setIsMediumBusiness={setIsMediumBusiness}
-          />
+          <Suspense fallback={<SectionSkeleton />}>
+            <ProblemStatsSection
+              isMediumBusiness={isMediumBusiness}
+              setIsMediumBusiness={setIsMediumBusiness}
+            />
+          </Suspense>
           <PASSection isMediumBusiness={isMediumBusiness} />
           <SolutionSection />
-          <InteractiveCalculator isMediumBusiness={isMediumBusiness} />
+          <Suspense fallback={<SectionSkeleton />}>
+            <InteractiveCalculator isMediumBusiness={isMediumBusiness} />
+          </Suspense>
           <TryItNowDemo />
-          <GrowthSection />
-          <CaseStudySection />
+          <Suspense fallback={<SectionSkeleton />}>
+            <GrowthSection />
+          </Suspense>
+          <Suspense fallback={<SectionSkeleton />}>
+            <CaseStudySection />
+          </Suspense>
           <CloserSection isMediumBusiness={isMediumBusiness} />
 
           <section className="py-8 px-4 sm:px-6 lg:px-8 bg-card border-t border-border">

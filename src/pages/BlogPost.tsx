@@ -240,6 +240,7 @@ const BlogPost = () => {
                 <img
                   src={post.image_url}
                   alt={post.title}
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>
