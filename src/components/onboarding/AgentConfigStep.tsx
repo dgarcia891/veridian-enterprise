@@ -85,21 +85,25 @@ const AgentConfigStep = ({ data, onChange, onNext, onBack }: Props) => {
         {data.faqEntries.map((faq, i) => (
           <div key={i} className="p-3 rounded-lg bg-muted/50 space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-muted-foreground">FAQ #{i + 1}</span>
-              <Button type="button" variant="ghost" size="sm" onClick={() => removeFaq(i)}>
-                <Trash2 className="w-4 h-4 text-destructive" />
+              <Label htmlFor={`faq-question-${i}`} className="text-xs font-medium text-muted-foreground">FAQ #{i + 1}</Label>
+              <Button type="button" variant="ghost" size="sm" onClick={() => removeFaq(i)} aria-label={`Remove FAQ ${i + 1}`}>
+                <Trash2 className="w-4 h-4 text-destructive" aria-hidden="true" />
               </Button>
             </div>
             <Input
+              id={`faq-question-${i}`}
               placeholder="Question"
               value={faq.question}
               onChange={(e) => updateFaq(i, "question", e.target.value)}
+              aria-label={`FAQ ${i + 1} question`}
             />
             <Textarea
+              id={`faq-answer-${i}`}
               placeholder="Answer"
               value={faq.answer}
               onChange={(e) => updateFaq(i, "answer", e.target.value)}
               rows={2}
+              aria-label={`FAQ ${i + 1} answer`}
             />
           </div>
         ))}

@@ -63,9 +63,10 @@ const BusinessProfileStep = ({ data, onChange, onNext }: Props) => {
       </div>
 
       <div className="space-y-2">
-        <Label>Services You Offer</Label>
+        <Label htmlFor="servicesInput">Services You Offer</Label>
         <div className="flex gap-2">
           <Input
+            id="servicesInput"
             value={serviceInput}
             onChange={(e) => setServiceInput(e.target.value)}
             placeholder="Add a service..."
