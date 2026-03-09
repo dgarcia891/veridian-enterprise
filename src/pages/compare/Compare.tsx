@@ -98,7 +98,7 @@ const Compare = () => {
         <title>Compare AI Agents 3000 vs Competitors — Pricing & Features 2026</title>
         <meta
           name="description"
-          content="Compare AI Agents 3000 to Smith.ai, My AI Front Desk, Dialzara, Ruby Receptionists, and Moneypenny. See pricing, features, and which AI receptionist is right for you."
+          content="Compare AI Agents 3000 to Smith.ai, My AI Front Desk, Dialzara, Ruby Receptionists, Moneypenny, Answering360, and PATLive. See pricing, features, and which AI receptionist is right for you."
         />
         <link rel="canonical" href="https://aiagents3000.com/compare" />
         <meta property="og:title" content="AI Agents 3000 — How We Compare to the Competition" />
