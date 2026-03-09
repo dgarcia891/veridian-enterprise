@@ -14,7 +14,7 @@ const About = () => {
         <meta property="og:title" content="About AI Agents 3000 - Our Mission & Story" />
         <meta property="og:description" content="Helping local businesses capture every customer call with intelligent AI voice receptionist technology since 2020." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://veridian.lovable.app/about" />
+        <meta property="og:url" content="https://aiagents3000.com/about" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="About AI Agents 3000 - Our Mission & Story" />
         <meta name="twitter:description" content="Helping local businesses capture every customer call with intelligent AI voice receptionist technology since 2020." />

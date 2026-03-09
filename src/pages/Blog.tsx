@@ -18,7 +18,7 @@ const Blog = () => {
         <meta property="og:title" content="AI Voice Technology Blog - Insights & Best Practices" />
         <meta property="og:description" content="Expert insights on AI voice assistants, ROI calculations, and success stories from local businesses." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://veridian.lovable.app/blog" />
+        <meta property="og:url" content="https://aiagents3000.com/blog" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="AI Voice Technology Blog - Insights & Best Practices" />
         <meta name="twitter:description" content="Expert insights on AI voice assistants, ROI calculations, and success stories from local businesses." />
