@@ -166,6 +166,15 @@ const VsAnswering360 = () => {
               </div>
             </div>
           </section>
+          <ComparisonFAQ
+            competitorName="Answering360"
+            extraFaqs={[
+              {
+                question: "Will I lose the human touch by switching from Answering360?",
+                answer: "Our AI is trained specifically on your business and sounds natural and professional. With zero hold times and instant responses 24/7, most callers report a better experience than traditional answering services — and you save 45%+ on monthly costs.",
+              },
+            ]}
+          />
         </main>
 
         <Footer />

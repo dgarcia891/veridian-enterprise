@@ -177,6 +177,15 @@ const VsRubyReceptionists = () => {
               </Button>
             </div>
           </section>
+          <ComparisonFAQ
+            competitorName="Ruby Receptionists"
+            extraFaqs={[
+              {
+                question: "Ruby offers a personal touch — can AI match that?",
+                answer: "AI Agents 3000 is customized with your business's tone, terminology, and preferences. It greets callers by understanding context instantly, handles scheduling, and qualifies leads — all without the per-minute costs that make Ruby expensive at scale.",
+              },
+            ]}
+          />
         </main>
 
         <Footer />

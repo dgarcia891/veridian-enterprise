@@ -195,6 +195,15 @@ const VsDialzara = () => {
               </Button>
             </div>
           </section>
+          <ComparisonFAQ
+            competitorName="Dialzara"
+            extraFaqs={[
+              {
+                question: "Dialzara is cheaper — why should I pay more for AI Agents 3000?",
+                answer: "Dialzara's base price is lower, but per-minute charges add up quickly. With AI Agents 3000's $99/mo unlimited plan, you get predictable billing plus 15+ CRM integrations, 10+ languages, and lead qualification features that Dialzara doesn't offer.",
+              },
+            ]}
+          />
         </main>
 
         <Footer />

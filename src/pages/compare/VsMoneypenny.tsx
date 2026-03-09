@@ -190,6 +190,15 @@ const VsMoneypenny = () => {
               </Button>
             </div>
           </section>
+          <ComparisonFAQ
+            competitorName="Moneypenny"
+            extraFaqs={[
+              {
+                question: "Moneypenny has dedicated receptionists — is AI really better?",
+                answer: "Dedicated receptionists are great but come at a premium ($365+/mo). AI Agents 3000 provides the same personalized experience — trained on your business — at 73% less cost, with true 24/7 availability and zero wait times.",
+              },
+            ]}
+          />
         </main>
 
         <Footer />
