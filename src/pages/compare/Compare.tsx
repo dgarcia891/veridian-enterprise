@@ -48,6 +48,16 @@ const competitors = [
     theirPrice: "$235/mo",
     keyDiff: "24/7 AI coverage vs business-hours-only human receptionists, English only",
   },
+  {
+    name: "Moneypenny",
+    slug: "/compare/vs-moneypenny",
+    icon: DollarSign,
+    tagline: "UK human receptionists at £289/mo (~$365)",
+    savings: "Save 73%+",
+    ourPrice: "$99/mo",
+    theirPrice: "$365/mo",
+    keyDiff: "Always-on AI coverage vs a human-first model with business-hours limitations",
+  },
 ];
 
 const Compare = () => {
@@ -57,7 +67,8 @@ const Compare = () => {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: "AI Agents 3000 — Competitor Comparisons",
-    description: "See how AI Agents 3000 compares to Smith.ai, My AI Front Desk, Dialzara, and Ruby Receptionists on pricing, features, and value.",
+    description:
+      "See how AI Agents 3000 compares to Smith.ai, My AI Front Desk, Dialzara, Ruby Receptionists, and Moneypenny on pricing, features, and value.",
     url: "https://aiagents3000.com/compare",
   };
 
@@ -67,11 +78,14 @@ const Compare = () => {
         <title>Compare AI Agents 3000 vs Competitors — Pricing & Features 2026</title>
         <meta
           name="description"
-          content="Compare AI Agents 3000 to Smith.ai, My AI Front Desk, Dialzara, and Ruby Receptionists. See pricing, features, and which AI receptionist is right for you."
+          content="Compare AI Agents 3000 to Smith.ai, My AI Front Desk, Dialzara, Ruby Receptionists, and Moneypenny. See pricing, features, and which AI receptionist is right for you."
         />
         <link rel="canonical" href="https://aiagents3000.com/compare" />
         <meta property="og:title" content="AI Agents 3000 — How We Compare to the Competition" />
-        <meta property="og:description" content="Side-by-side comparisons against Smith.ai, My AI Front Desk, Dialzara, and Ruby Receptionists." />
+        <meta
+          property="og:description"
+          content="Side-by-side comparisons against Smith.ai, My AI Front Desk, Dialzara, Ruby Receptionists, and Moneypenny."
+        />
         <meta property="og:type" content="website" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
@@ -99,7 +113,7 @@ const Compare = () => {
           {/* Competitor Cards */}
           <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
-              <div className="grid md:grid-cols-2 gap-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {competitors.map((comp) => (
                   <Card
                     key={comp.slug}
