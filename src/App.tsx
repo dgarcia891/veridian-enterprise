@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { lazy, Suspense, useEffect, useRef } from "react";
 import { RetellVoiceWidget } from "@/components/RetellVoiceWidget";
+import { AccessibilityControls } from "@/components/AccessibilityControls";
 import ScrollToTop from "@/components/ScrollToTop";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useFocusOnRouteChange } from "@/hooks/useFocusOnRouteChange";
@@ -188,6 +189,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <ScrollToTop />
+        <AccessibilityControls />
         <AppContent />
       </BrowserRouter>
     </TooltipProvider>
