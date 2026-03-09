@@ -35,6 +35,18 @@ const ContactCaptureForm = ({ onSubmit }: ContactCaptureFormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Rate limit check
+    const { allowed, retryAfterMs } = checkRateLimit();
+    if (!allowed) {
+      const minutes = Math.ceil(retryAfterMs / 60000);
+      toast({
+        title: "Too many attempts",
+        description: `Please wait ${minutes} minute${minutes > 1 ? "s" : ""} before trying again.`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     // Track Intent
     trackCTAClick("Claim My Audit Results", "Contact Capture Form");
 
