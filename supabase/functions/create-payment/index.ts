@@ -72,23 +72,18 @@ serve(async (req) => {
       customerId = customer.id;
     }
 
-    // Determine price ID based on plan type
-    const isAnnual = planType === "annual";
-    const isMedical = planType === "medical";
-    
-    let priceId: string;
-    let mode: "payment" | "subscription";
-    
-    if (isMedical) {
-      priceId = "price_1SMI1kBAEKQ21Bqovt7fVaiE"; // Medical/Healthcare - $10,200/year
-      mode = "subscription";
-    } else if (isAnnual) {
-      priceId = "price_1SMI1BBAEKQ21BqoFmlpkF41"; // Annual - $3,600/year
-      mode = "subscription";
-    } else {
-      priceId = "price_1SMHz0BAEKQ21Bqow3FGFyWS"; // Monthly - $1,050 one-time
-      mode = "payment";
-    }
+    // Plan to price mapping
+    const planPriceMap: Record<string, { priceId: string; mode: "payment" | "subscription" }> = {
+      starter: { priceId: "price_1T8t6HBAEKQ21BqojnFwAcq6", mode: "subscription" },     // $99/month
+      growth: { priceId: "price_1T8tDqBAEKQ21BqoKmimepYQ", mode: "subscription" },      // $199/month
+      professional: { priceId: "price_1T8tIuBAEKQ21Bqo7I8vsAg5", mode: "subscription" }, // $600/month
+      annual: { priceId: "price_1SMI1BBAEKQ21BqoFmlpkF41", mode: "subscription" },      // Legacy annual
+      medical: { priceId: "price_1SMI1kBAEKQ21Bqovt7fVaiE", mode: "subscription" },     // Medical/Healthcare
+    };
+
+    const planConfig = planPriceMap[planType] || planPriceMap.starter;
+    const priceId = planConfig.priceId;
+    const mode = planConfig.mode;
 
     // Create checkout session
     const session = await stripe.checkout.sessions.create({

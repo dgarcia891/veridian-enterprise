@@ -24,14 +24,15 @@ export const PLAN_PRICING: Record<PlanType, PlanPricing> = {
     total: "$600/month",
     setupFee: "$0",
   },
+  // Legacy plan types kept for backwards compatibility
   annual: { 
-    monthly: "$600", 
-    total: "$7,200/year", 
+    monthly: "$300", 
+    total: "$3,600/year", 
     setupFee: "$0" 
   },
   medical: { 
-    monthly: "$600", 
-    total: "$7,200/year", 
+    monthly: "$850", 
+    total: "$10,200/year", 
     setupFee: "$0" 
   },
   monthly: { 
@@ -40,6 +41,13 @@ export const PLAN_PRICING: Record<PlanType, PlanPricing> = {
     setupFee: "$0" 
   },
 };
+
+// Stripe price IDs for each plan (for reference)
+export const STRIPE_PRICE_IDS = {
+  starter: "price_1T8t6HBAEKQ21BqojnFwAcq6",
+  growth: "price_1T8tDqBAEKQ21BqoKmimepYQ",
+  professional: "price_1T8tIuBAEKQ21Bqo7I8vsAg5",
+} as const;
 
 export const usePlanPricing = (planType: PlanType) => {
   return useMemo(() => PLAN_PRICING[planType], [planType]);
