@@ -48,6 +48,16 @@ const competitors = [
     theirPrice: "$235/mo",
     keyDiff: "24/7 AI coverage vs business-hours-only human receptionists, English only",
   },
+  {
+    name: "Moneypenny",
+    slug: "/compare/vs-moneypenny",
+    icon: DollarSign,
+    tagline: "UK human receptionists at £289/mo (~$365)",
+    savings: "Save 73%+",
+    ourPrice: "$99/mo",
+    theirPrice: "$365/mo",
+    keyDiff: "Always-on AI coverage vs a human-first model with business-hours limitations",
+  },
 ];
 
 const Compare = () => {
