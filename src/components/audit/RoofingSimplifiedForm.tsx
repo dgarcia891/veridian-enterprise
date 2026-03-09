@@ -22,6 +22,12 @@ const RoofingSimplifiedForm = ({ onSubmit }: RoofingSimplifiedFormProps) => {
   const [callsPerWeek, setCallsPerWeek] = useState(50);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { trackEvent, trackCTAClick } = useAnalytics();
+  const { toast } = useToast();
+  const { checkRateLimit, recordAttempt } = useRateLimit({
+    maxAttempts: 5,
+    windowMs: 5 * 60 * 1000,
+    storageKey: "rl_roofing_form",
+  });
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
