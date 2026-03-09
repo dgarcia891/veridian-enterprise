@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, ArrowRight, Phone, Globe, Brain } from "lucide-react";
+import ComparisonFAQ from "@/components/compare/ComparisonFAQ";
 import { useNavigate } from "react-router-dom";
 
 const features: ComparisonFeature[] = [
@@ -195,6 +196,15 @@ const VsDialzara = () => {
               </Button>
             </div>
           </section>
+          <ComparisonFAQ
+            competitorName="Dialzara"
+            extraFaqs={[
+              {
+                question: "Dialzara is cheaper — why should I pay more for AI Agents 3000?",
+                answer: "Dialzara's base price is lower, but per-minute charges add up quickly. With AI Agents 3000's $99/mo unlimited plan, you get predictable billing plus 15+ CRM integrations, 10+ languages, and lead qualification features that Dialzara doesn't offer.",
+              },
+            ]}
+          />
         </main>
 
         <Footer />

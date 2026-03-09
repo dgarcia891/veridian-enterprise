@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, ArrowRight, DollarSign, Clock, Globe } from "lucide-react";
+import ComparisonFAQ from "@/components/compare/ComparisonFAQ";
 import { useNavigate } from "react-router-dom";
 
 const features: ComparisonFeature[] = [
@@ -190,6 +191,15 @@ const VsMoneypenny = () => {
               </Button>
             </div>
           </section>
+          <ComparisonFAQ
+            competitorName="Moneypenny"
+            extraFaqs={[
+              {
+                question: "Moneypenny has dedicated receptionists — is AI really better?",
+                answer: "Dedicated receptionists are great but come at a premium ($365+/mo). AI Agents 3000 provides the same personalized experience — trained on your business — at 73% less cost, with true 24/7 availability and zero wait times.",
+              },
+            ]}
+          />
         </main>
 
         <Footer />

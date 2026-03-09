@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, DollarSign, TrendingUp, Zap } from "lucide-react";
+import ComparisonFAQ from "@/components/compare/ComparisonFAQ";
 import { useNavigate } from "react-router-dom";
 
 const features: ComparisonFeature[] = [
@@ -200,6 +201,15 @@ const VsPATLive = () => {
               </div>
             </div>
           </section>
+          <ComparisonFAQ
+            competitorName="PATLive"
+            extraFaqs={[
+              {
+                question: "PATLive's base price is lower — how is AI Agents 3000 a better deal?",
+                answer: "PATLive's $61/mo base only includes 50 minutes. At $2.85/min for overages, a business handling 200 minutes/month would pay $488/mo. AI Agents 3000's $99/mo covers unlimited calls — no surprises, no overage math.",
+              },
+            ]}
+          />
         </main>
 
         <Footer />

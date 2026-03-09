@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, ArrowRight, Shield, Brain, Globe } from "lucide-react";
+import ComparisonFAQ from "@/components/compare/ComparisonFAQ";
 import { useNavigate } from "react-router-dom";
 
 const features: ComparisonFeature[] = [
@@ -193,6 +194,15 @@ const VsMyAIFrontDesk = () => {
               </Button>
             </div>
           </section>
+          <ComparisonFAQ
+            competitorName="My AI Front Desk"
+            extraFaqs={[
+              {
+                question: "My AI Front Desk is cheaper — what extra do I get with AI Agents 3000?",
+                answer: "AI Agents 3000 includes 15+ CRM integrations, 10+ languages, advanced lead qualification, and appointment scheduling out of the box. My AI Front Desk's lower price comes with fewer integrations and limited customization options.",
+              },
+            ]}
+          />
         </main>
 
         <Footer />

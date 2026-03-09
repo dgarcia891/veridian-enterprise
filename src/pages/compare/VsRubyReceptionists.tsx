@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, ArrowRight, DollarSign, Clock, Globe } from "lucide-react";
+import ComparisonFAQ from "@/components/compare/ComparisonFAQ";
 import { useNavigate } from "react-router-dom";
 
 const features: ComparisonFeature[] = [
@@ -177,6 +178,15 @@ const VsRubyReceptionists = () => {
               </Button>
             </div>
           </section>
+          <ComparisonFAQ
+            competitorName="Ruby Receptionists"
+            extraFaqs={[
+              {
+                question: "Ruby offers a personal touch — can AI match that?",
+                answer: "AI Agents 3000 is customized with your business's tone, terminology, and preferences. It greets callers by understanding context instantly, handles scheduling, and qualifies leads — all without the per-minute costs that make Ruby expensive at scale.",
+              },
+            ]}
+          />
         </main>
 
         <Footer />

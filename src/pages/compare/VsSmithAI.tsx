@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, ArrowRight, DollarSign, Zap, Clock } from "lucide-react";
+import ComparisonFAQ from "@/components/compare/ComparisonFAQ";
 import { useNavigate } from "react-router-dom";
 
 const features: ComparisonFeature[] = [
@@ -177,6 +178,15 @@ const VsSmithAI = () => {
               </Button>
             </div>
           </section>
+          <ComparisonFAQ
+            competitorName="Smith.ai"
+            extraFaqs={[
+              {
+                question: "How does AI compare to Smith.ai's human receptionists?",
+                answer: "Our AI is trained on your specific business and handles calls instantly with zero hold time. Unlike human receptionists who may need scripts and training, AI Agents 3000 learns your FAQs, services, and scheduling preferences during a quick setup process.",
+              },
+            ]}
+          />
         </main>
 
         <Footer />
