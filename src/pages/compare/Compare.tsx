@@ -58,6 +58,26 @@ const competitors = [
     theirPrice: "$365/mo",
     keyDiff: "Always-on AI coverage vs a human-first model with business-hours limitations",
   },
+  {
+    name: "Answering360",
+    slug: "/compare/vs-answering360",
+    icon: Clock,
+    tagline: "Human answering service at $179/mo with overages",
+    savings: "Save 45%+",
+    ourPrice: "$99/mo",
+    theirPrice: "$179/mo",
+    keyDiff: "Unlimited AI calls vs human service with $2.99/min overage fees",
+  },
+  {
+    name: "PATLive",
+    slug: "/compare/vs-patlive",
+    icon: Zap,
+    tagline: "Low base price with high per-minute overages",
+    savings: "No overage fees",
+    ourPrice: "$99/mo",
+    theirPrice: "$61/mo + usage",
+    keyDiff: "Predictable unlimited pricing vs escalating costs with $2.85/min overages",
+  },
 ];
 
 const Compare = () => {
