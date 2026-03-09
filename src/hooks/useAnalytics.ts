@@ -14,30 +14,33 @@ const getSessionId = () => {
   return sessionId;
 };
 
+// Module-level IP cache to prevent duplicate fetches across hook instances
+let cachedIp: string | null = null;
+let ipFetchPromise: Promise<string | null> | null = null;
+
+const fetchIpOnce = (): Promise<string | null> => {
+  if (cachedIp) return Promise.resolve(cachedIp);
+  if (ipFetchPromise) return ipFetchPromise;
+  ipFetchPromise = fetch('https://api.ipify.org?format=json')
+    .then(r => r.json())
+    .then(data => { cachedIp = data.ip; return cachedIp; })
+    .catch(() => null);
+  return ipFetchPromise;
+};
+
 interface TrackEventOptions {
   category?: string;
   metadata?: Record<string, string | number | boolean | null>;
 }
 
 export const useAnalytics = () => {
-  const [ipAddress, setIpAddress] = useState<string | null>(null);
+  const [ipAddress, setIpAddress] = useState<string | null>(cachedIp);
   const initialized = useRef(false);
 
-  // Initialize GA4 and fetch IP on mount
   useEffect(() => {
     const isIgnored = localStorage.getItem("ignore_analytics") === "true";
 
-    // Fetch IP address
-    const fetchIp = async () => {
-      try {
-        const response = await fetch('https://api.ipify.org?format=json');
-        const data = await response.json();
-        setIpAddress(data.ip);
-      } catch (error) {
-        console.error('Failed to fetch IP:', error);
-      }
-    };
-    fetchIp();
+    fetchIpOnce().then(ip => { if (ip) setIpAddress(ip); });
 
     if (!initialized.current && GA4_MEASUREMENT_ID && !isIgnored) {
       // @ts-expect-error - gtag is defined globally by GA4
