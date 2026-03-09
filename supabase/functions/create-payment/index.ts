@@ -85,6 +85,9 @@ serve(async (req) => {
     const priceId = planConfig.priceId;
     const mode = planConfig.mode;
 
+    // Get origin for redirect URLs (fallback to referer or default)
+    const origin = req.headers.get("origin") || req.headers.get("referer")?.replace(/\/$/, '') || "https://aiagents3000.com";
+
     // Create checkout session
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
@@ -95,8 +98,8 @@ serve(async (req) => {
         },
       ],
       mode: mode,
-      success_url: `${req.headers.get("origin")}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.get("origin")}/signup`,
+      success_url: `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/signup`,
       metadata: {
         signup_id: signupId,
         plan_type: planType,
@@ -117,7 +120,7 @@ serve(async (req) => {
       status: 200,
     });
   } catch (error) {
-    console.error("Payment creation failed");
+    console.error("Payment creation failed:", error);
     
     // Return generic error message to client
     const userMessage = error instanceof Error && error.message.includes("Invalid")
@@ -125,7 +128,7 @@ serve(async (req) => {
       : "Payment processing failed. Please try again or contact support.";
     
     return new Response(
-      JSON.stringify({ error: userMessage }),
+      JSON.stringify({ error: userMessage, debug: error instanceof Error ? error.message : String(error) }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 500,
