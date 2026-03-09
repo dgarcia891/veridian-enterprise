@@ -1,5 +1,6 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import SkipToContent from "@/components/SkipToContent";
 import { Calendar, Clock, ArrowRight, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
@@ -23,9 +24,10 @@ const Blog = () => {
         <meta name="twitter:description" content="Expert insights on AI voice assistants, ROI calculations, and success stories from local businesses." />
       </Helmet>
       <div className="min-h-screen bg-background text-foreground">
+        <SkipToContent />
         <Navigation />
       
-        <main className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+        <main id="main-content" className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
             {/* Hero Section */}
             <div className="text-center mb-16">
