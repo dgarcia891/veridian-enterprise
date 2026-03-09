@@ -20,6 +20,7 @@ const Onboarding = () => {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
   const [saving, setSaving] = useState(false);
+  const [linkedSignupId, setLinkedSignupId] = useState<string | null>(null);
 
   const [profile, setProfile] = useState({
     businessName: "",
@@ -27,14 +28,35 @@ const Onboarding = () => {
     servicesOffered: [] as string[],
   });
 
-  // Pre-fill company name from registration metadata
+  // Pre-fill from user metadata + linked signup data
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      const companyName = user?.user_metadata?.company_name || "";
+    const prefill = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const companyName = user.user_metadata?.company_name || "";
       if (companyName) {
         setProfile((prev) => ({ ...prev, businessName: companyName }));
       }
-    });
+
+      // Query linked signup for additional data
+      const { data: signup } = await supabase
+        .from("customer_signups")
+        .select("id, company_name, industry")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (signup) {
+        setLinkedSignupId(signup.id);
+        setProfile((prev) => ({
+          ...prev,
+          businessName: signup.company_name || prev.businessName,
+          industry: signup.industry?.toLowerCase() || prev.industry,
+        }));
+      }
+    };
+
+    prefill();
   }, []);
 
   const [hours, setHours] = useState<BusinessHoursData>(defaultSchedule());
@@ -46,11 +68,9 @@ const Onboarding = () => {
     preferredVoice: "professional-female",
   });
 
-  // Saves onboarding data, notifies admin, returns the new record ID (or null on error)
   const handleFinish = async (): Promise<string | null> => {
     setSaving(true);
     try {
-      // Get current user if logged in
       const { data: { user } } = await supabase.auth.getUser();
 
       const { data: inserted, error } = await supabase
@@ -64,6 +84,7 @@ const Onboarding = () => {
           voicemail_enabled: voicemailEnabled,
           preferred_voice: agentConfig.preferredVoice,
           ...(user ? { user_id: user.id } : {}),
+          ...(linkedSignupId ? { signup_id: linkedSignupId } : {}),
         } as any)
         .select("id")
         .single();
