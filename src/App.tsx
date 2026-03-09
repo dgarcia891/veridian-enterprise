@@ -8,6 +8,7 @@ import { RetellVoiceWidget } from "@/components/RetellVoiceWidget";
 import { RetellChatInterface } from "@/components/RetellChatInterface";
 import ScrollToTop from "@/components/ScrollToTop";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useFocusOnRouteChange } from "@/hooks/useFocusOnRouteChange";
 
 const Index = lazy(() => import("./pages/Index"));
 const ROICalculator = lazy(() => import("./pages/ROICalculator"));
