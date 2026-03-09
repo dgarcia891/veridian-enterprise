@@ -226,6 +226,12 @@ const Contact = () => {
                     <Textarea id="contact-message" name="message" required placeholder="Tell us about your needs..." rows={4} />
                   </div>
 
+                  {/* Honeypot field - hidden from real users */}
+                  <div className="absolute -left-[9999px] opacity-0 h-0 overflow-hidden" aria-hidden="true">
+                    <label htmlFor="website">Website</label>
+                    <input type="text" id="website" name="website" tabIndex={-1} autoComplete="off" />
+                  </div>
+
                   <Button type="submit" disabled={isSubmitting} className="w-full">
                     {isSubmitting ? "Sending..." : "Send Message"}
                   </Button>

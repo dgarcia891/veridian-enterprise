@@ -189,6 +189,20 @@ const ContactCaptureForm = ({ onSubmit }: ContactCaptureFormProps) => {
             />
           </div>
 
+          {/* Honeypot field - hidden from real users */}
+          <div className="absolute -left-[9999px] opacity-0 h-0 overflow-hidden" aria-hidden="true">
+            <label htmlFor="audit-website">Website URL</label>
+            <input 
+              type="text" 
+              id="audit-website" 
+              name="website" 
+              tabIndex={-1} 
+              autoComplete="off"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+            />
+          </div>
+
           <Button
             type="submit"
             size="lg"
