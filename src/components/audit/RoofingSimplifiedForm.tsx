@@ -5,6 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Phone, Building2, TrendingUp } from "lucide-react";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useRateLimit } from "@/hooks/useRateLimit";
+import { useToast } from "@/hooks/use-toast";
 
 interface RoofingSimplifiedFormProps {
   onSubmit: (data: {
