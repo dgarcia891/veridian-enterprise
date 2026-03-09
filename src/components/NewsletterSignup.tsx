@@ -167,11 +167,9 @@ const NewsletterSignup = ({ variant }: NewsletterSignupProps) => {
         <div className="flex flex-col sm:flex-row items-center gap-4 justify-center">
           <CheckCircle className="w-8 h-8 text-primary" />
           <p className="font-semibold text-foreground">Subscribed!</p>
-          <Button asChild variant="outline" size="sm" className="gap-2">
-            <a href={LEAD_MAGNET_URL} download>
+          <Button variant="outline" size="sm" className="gap-2" onClick={generateAIReadinessChecklist}>
               <Download className="w-4 h-4" />
               Download Checklist
-            </a>
           </Button>
         </div>
       )}
