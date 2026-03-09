@@ -70,6 +70,18 @@ const Contact = () => {
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const { allowed, retryAfterMs } = checkRateLimit();
+    if (!allowed) {
+      const minutes = Math.ceil(retryAfterMs / 60000);
+      toast({
+        variant: "destructive",
+        title: "Too many submissions",
+        description: `Please wait ${minutes} minute${minutes > 1 ? "s" : ""} before trying again.`,
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     // Track Intent
