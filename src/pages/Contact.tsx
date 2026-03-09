@@ -71,6 +71,19 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const formData = new FormData(e.currentTarget);
+
+    // Honeypot check - if filled, silently reject (bot detected)
+    const honeypot = formData.get('website');
+    if (honeypot) {
+      // Fake success for bots
+      toast({
+        title: "Message Sent!",
+        description: "We'll get back to you within 24 hours.",
+      });
+      return;
+    }
+
     const { allowed, retryAfterMs } = checkRateLimit();
     if (!allowed) {
       const minutes = Math.ceil(retryAfterMs / 60000);
@@ -85,7 +98,6 @@ const Contact = () => {
     setIsSubmitting(true);
 
     // Track Intent
-    const formData = new FormData(e.currentTarget);
     trackCTAClick("Send Message", "Contact Page Form");
 
     const rawData = {
