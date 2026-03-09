@@ -14,7 +14,7 @@ const Blog = () => {
       <Helmet>
         <title>AI Voice Technology Blog - Insights & Best Practices | AI Agents 3000</title>
         <meta name="description" content="Expert insights on AI voice assistants, ROI calculations, and success stories. Learn how AI receptionists transform customer service for local businesses." />
-        <link rel="canonical" href="https://veridian.lovable.app/blog" />
+        <link rel="canonical" href="https://aiagents3000.com/blog" />
         <meta property="og:title" content="AI Voice Technology Blog - Insights & Best Practices" />
         <meta property="og:description" content="Expert insights on AI voice assistants, ROI calculations, and success stories from local businesses." />
         <meta property="og:type" content="website" />
