@@ -275,7 +275,9 @@ const BlogPost = () => {
                 <img
                   src={post.image_url}
                   alt={post.title}
-                  loading="lazy"
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
                   className="w-full h-full object-cover"
                 />
               </div>
