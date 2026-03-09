@@ -2,8 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Json } from "@/integrations/supabase/types";
 
-// GA4 Measurement ID
-const GA4_MEASUREMENT_ID = "G-Z6B8376C8G";
+import { GA4_MEASUREMENT_ID } from "@/config/constants";
 
 // Generate a session ID for grouping events
 const getSessionId = () => {
