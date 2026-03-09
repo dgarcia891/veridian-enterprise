@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet-async";
 import { useNavigate } from 'react-router-dom';
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { CALCOM_CONFIG, CALCOM_THEME } from "@/config/calcom";

@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import SkipToContent from "@/components/SkipToContent";
 import { Calendar, Clock, ArrowRight, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { usePublishedPosts } from "@/hooks/useBlogPosts";
 import NewsletterSignup from "@/components/NewsletterSignup";
 

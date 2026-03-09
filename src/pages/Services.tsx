@@ -4,7 +4,7 @@ import SkipToContent from "@/components/SkipToContent";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Phone, MessageCircle, Check, ArrowRight, Zap, Clock, Globe } from "lucide-react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { useNavigate, Link } from "react-router-dom";
 import { services } from "@/data/services";
 

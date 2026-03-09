@@ -4,11 +4,14 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { lazy, Suspense, useEffect, useRef } from "react";
+import { HelmetProvider } from "react-helmet-async";
 import { RetellVoiceWidget } from "@/components/RetellVoiceWidget";
 import { AccessibilityControls } from "@/components/AccessibilityControls";
 import ScrollToTop from "@/components/ScrollToTop";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useFocusOnRouteChange } from "@/hooks/useFocusOnRouteChange";
+import { RETELL_CHAT_AGENT_ID } from "@/config/constants";
 import { Loader2 } from "lucide-react";
 
 const RetellChatInterface = lazy(() => import("@/components/RetellChatInterface").then(m => ({ default: m.RetellChatInterface })));
@@ -172,7 +175,7 @@ export const AppContent = () => {
       {!isDemoPage && (
         <Suspense fallback={null}>
           <RetellChatInterface
-            agentId="agent_2df66bc30b17e2cbf174bf2f3b"
+            agentId={RETELL_CHAT_AGENT_ID}
             title={isAIInsightPage ? "AI Report Assistant" : "Chat with AI"}
             minimized={true}
           />
@@ -183,17 +186,21 @@ export const AppContent = () => {
 };
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <AccessibilityControls />
-        <AppContent />
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <ScrollToTop />
+          <AccessibilityControls />
+          <ErrorBoundary>
+            <AppContent />
+          </ErrorBoundary>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </HelmetProvider>
 );
 
 export default App;

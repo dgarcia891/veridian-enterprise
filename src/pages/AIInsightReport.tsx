@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { AIInsightGenerator } from "@/components/AIInsightGenerator";
 import Footer from "@/components/Footer";
 import { Loader2 } from "lucide-react";

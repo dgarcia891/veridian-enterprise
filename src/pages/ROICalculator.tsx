@@ -2,7 +2,7 @@ import QuickStatsBar from "@/components/roi/QuickStatsBar";
 import EnhancedCalculator from "@/components/roi/EnhancedCalculator";
 import Footer from "@/components/Footer";
 import SkipToContent from "@/components/SkipToContent";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { ArrowRight } from "lucide-react";
 
 const ROICalculator = () => {
