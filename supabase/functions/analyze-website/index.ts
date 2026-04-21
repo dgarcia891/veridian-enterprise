@@ -6,8 +6,8 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Whitelisted IP that bypasses all restrictions
-const WHITELISTED_IP = '45.48.115.3';
+// Whitelisted IP that bypasses all restrictions (configured via env var, not hardcoded).
+const WHITELISTED_IP = Deno.env.get('WHITELISTED_IP') || '';
 
 // Normalize URL for consistent comparison
 function normalizeUrl(url: string): string {
@@ -41,8 +41,8 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Apply rate limiting unless IP is whitelisted
-    if (clientIp !== WHITELISTED_IP) {
+    // Apply rate limiting unless IP matches the whitelisted env var (and the env var is set)
+    if (!WHITELISTED_IP || clientIp !== WHITELISTED_IP) {
       const normalizedUrl = normalizeUrl(websiteUrl);
       console.log('Normalized URL:', normalizedUrl);
 
