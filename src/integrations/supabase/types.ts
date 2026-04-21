@@ -797,6 +797,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      cleanup_old_analytics_events: { Args: never; Returns: undefined }
       cleanup_old_cron_history: { Args: never; Returns: undefined }
       cleanup_old_error_logs: { Args: never; Returns: undefined }
       cleanup_old_http_responses: { Args: never; Returns: undefined }
@@ -816,6 +817,10 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      invoke_edge_function: {
+        Args: { body?: Json; function_name: string }
+        Returns: number
       }
     }
     Enums: {
