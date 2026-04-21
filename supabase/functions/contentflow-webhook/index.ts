@@ -6,7 +6,7 @@ import { encode } from "https://deno.land/std@0.177.0/encoding/hex.ts";
 import { timingSafeEqual } from "../_shared/timingSafeEqual.ts";
 
 const WEBHOOK_SECRET = Deno.env.get("CONTENTFLOW_WEBHOOK_SECRET") || "test_secret";
-const MAX_TIMESTAMP_DIFF = 300; // 5 minutes in seconds
+const MAX_TIMESTAMP_DIFF = 60; // 1 minute - tightened from 5min to reduce replay window
 
 serve(async (req) => {
     try {
