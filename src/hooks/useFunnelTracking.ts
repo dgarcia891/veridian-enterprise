@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { Json } from "@/integrations/supabase/types";
+import { enqueueAnalyticsEvent } from "@/lib/analyticsQueue";
 
 /**
  * Conversion funnel stages (ordered):
@@ -52,22 +52,21 @@ export const useFunnelTracking = () => {
       const funnelEmail = localStorage.getItem(FUNNEL_EMAIL_KEY) || null;
 
       try {
-        await supabase.from("analytics_events").insert([
-          {
-            event_name: `funnel_${stage}`,
-            event_category: "conversion_funnel",
-            page_path: window.location.pathname,
-            referrer: document.referrer || null,
-            user_agent: navigator.userAgent,
-            session_id: sessionStorage.getItem("analytics_session_id") || null,
-            metadata: {
-              ...metadata,
-              funnel_id: funnelId,
-              funnel_email: funnelEmail,
-              funnel_stage: stage,
-            } as Json,
-          },
-        ]);
+        enqueueAnalyticsEvent({
+          event_name: `funnel_${stage}`,
+          event_category: "conversion_funnel",
+          page_path: window.location.pathname,
+          referrer: document.referrer || null,
+          user_agent: navigator.userAgent,
+          session_id: sessionStorage.getItem("analytics_session_id") || null,
+          metadata: {
+            ...metadata,
+            funnel_id: funnelId,
+            funnel_email: funnelEmail,
+            funnel_stage: stage,
+          } as Json,
+          ip_address: null,
+        });
       } catch (error) {
         console.error("Failed to track funnel stage:", error);
       }

@@ -120,6 +120,24 @@ const Analytics = () => {
     setGa4Loading(true);
     try {
       const { startDate, endDate } = getGA4DateRange();
+      const cacheKey = `ga4_cache_${startDate}_${endDate}`;
+      const cacheTtlMs = 60_000; // 60s — admin re-mount/tab-switch should not refetch.
+
+      // Try cache first.
+      try {
+        const cached = sessionStorage.getItem(cacheKey);
+        if (cached) {
+          const parsed = JSON.parse(cached) as { ts: number; data: GA4Data };
+          if (Date.now() - parsed.ts < cacheTtlMs) {
+            setGa4Data(parsed.data);
+            setGa4Loading(false);
+            return;
+          }
+        }
+      } catch {
+        // ignore cache parse errors
+      }
+
       const response = await supabase.functions.invoke("fetch-ga4-analytics", {
         body: { startDate, endDate },
       });
@@ -128,6 +146,14 @@ const Analytics = () => {
         setGa4Data({ configured: false, error: response.error.message });
       } else {
         setGa4Data(response.data);
+        try {
+          sessionStorage.setItem(
+            cacheKey,
+            JSON.stringify({ ts: Date.now(), data: response.data })
+          );
+        } catch {
+          // sessionStorage may be full or disabled; non-fatal
+        }
       }
     } catch (error) {
       console.error("Error fetching GA4 data:", error);
