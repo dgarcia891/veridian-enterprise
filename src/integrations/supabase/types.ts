@@ -206,100 +206,6 @@ export type Database = {
         }
         Relationships: []
       }
-      ai_blog_config: {
-        Row: {
-          config_type: string
-          created_at: string | null
-          id: string
-          is_active: boolean | null
-          name: string
-          updated_at: string | null
-          value: Json
-        }
-        Insert: {
-          config_type: string
-          created_at?: string | null
-          id?: string
-          is_active?: boolean | null
-          name: string
-          updated_at?: string | null
-          value: Json
-        }
-        Update: {
-          config_type?: string
-          created_at?: string | null
-          id?: string
-          is_active?: boolean | null
-          name?: string
-          updated_at?: string | null
-          value?: Json
-        }
-        Relationships: []
-      }
-      ai_blog_queue: {
-        Row: {
-          blog_post_id: string | null
-          created_at: string | null
-          error_message: string | null
-          id: string
-          processed_at: string | null
-          prompt_id: string | null
-          source_content: string | null
-          source_id: string | null
-          source_title: string | null
-          source_url: string
-          status: string | null
-        }
-        Insert: {
-          blog_post_id?: string | null
-          created_at?: string | null
-          error_message?: string | null
-          id?: string
-          processed_at?: string | null
-          prompt_id?: string | null
-          source_content?: string | null
-          source_id?: string | null
-          source_title?: string | null
-          source_url: string
-          status?: string | null
-        }
-        Update: {
-          blog_post_id?: string | null
-          created_at?: string | null
-          error_message?: string | null
-          id?: string
-          processed_at?: string | null
-          prompt_id?: string | null
-          source_content?: string | null
-          source_id?: string | null
-          source_title?: string | null
-          source_url?: string
-          status?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "ai_blog_queue_blog_post_id_fkey"
-            columns: ["blog_post_id"]
-            isOneToOne: false
-            referencedRelation: "blog_posts"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "ai_blog_queue_prompt_id_fkey"
-            columns: ["prompt_id"]
-            isOneToOne: false
-            referencedRelation: "ai_blog_config"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "ai_blog_queue_source_id_fkey"
-            columns: ["source_id"]
-            isOneToOne: false
-            referencedRelation: "ai_blog_config"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       analytics_events: {
         Row: {
           created_at: string
@@ -891,9 +797,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      cleanup_old_cron_history: { Args: never; Returns: undefined }
       cleanup_old_error_logs: { Args: never; Returns: undefined }
+      cleanup_old_http_responses: { Args: never; Returns: undefined }
       cleanup_old_rate_limits: { Args: never; Returns: undefined }
       cleanup_old_website_scans: { Args: never; Returns: undefined }
+      get_blog_view_stats: { Args: { date_from?: string }; Returns: Json }
+      get_funnel_stats: {
+        Args: { date_from?: string }
+        Returns: {
+          stage: string
+          unique_count: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
