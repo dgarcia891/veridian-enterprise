@@ -37,37 +37,23 @@ export const FunnelDropOffAnalysis = ({ dateFilter }: FunnelDropOffAnalysisProps
     const fetchData = async () => {
       setLoading(true);
       try {
-        let query = supabase
-          .from("analytics_events")
-          .select("event_name, metadata")
-          .eq("event_category", "conversion_funnel");
-
-        if (dateFilter) {
-          query = query.gte("created_at", dateFilter);
-        }
-
-        const { data, error } = await query;
+        // Server-side aggregation via shared RPC — no full table scan.
+        const { data, error } = await supabase.rpc("get_funnel_stats", {
+          date_from: dateFilter ?? null,
+        });
         if (error) throw error;
 
-        const stageCounts: Record<string, Set<string>> = {};
-        STAGE_ORDER.forEach(({ key }) => {
-          stageCounts[key] = new Set();
-        });
-
-        (data || []).forEach((event) => {
-          const meta = event.metadata as Record<string, unknown> | null;
-          const funnelId = (meta?.funnel_id as string) || (meta?.funnel_email as string) || "unknown";
-          if (stageCounts[event.event_name]) {
-            stageCounts[event.event_name].add(funnelId);
-          }
+        const counts: Record<string, number> = {};
+        (data || []).forEach((row: { stage: string; unique_count: number }) => {
+          counts[row.stage] = Number(row.unique_count) || 0;
         });
 
         const results: DropOffData[] = [];
         let worst: DropOffData | null = null;
 
         for (let i = 0; i < STAGE_ORDER.length - 1; i++) {
-          const fromCount = stageCounts[STAGE_ORDER[i].key]?.size || 0;
-          const toCount = stageCounts[STAGE_ORDER[i + 1].key]?.size || 0;
+          const fromCount = counts[STAGE_ORDER[i].key] || 0;
+          const toCount = counts[STAGE_ORDER[i + 1].key] || 0;
           const dropOff = Math.max(fromCount - toCount, 0);
           const dropOffPercent = fromCount > 0 ? (dropOff / fromCount) * 100 : 0;
           const retainedPercent = fromCount > 0 ? (toCount / fromCount) * 100 : 0;

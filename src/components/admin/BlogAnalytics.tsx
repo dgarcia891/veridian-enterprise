@@ -58,91 +58,40 @@ export const BlogAnalytics = ({ dateFilter }: BlogAnalyticsProps) => {
     const fetchBlogAnalytics = async () => {
       setLoading(true);
       try {
-        // Fetch blog_view events
-        let query = supabase
-          .from("analytics_events")
-          .select("metadata, created_at")
-          .eq("event_name", "blog_view");
-
-        if (dateFilter) {
-          query = query.gte("created_at", dateFilter);
-        }
-
-        const { data: events, error } = await query;
+        // Server-side aggregation via RPC — replaces 3 full scans + JS aggregation.
+        const { data, error } = await supabase.rpc("get_blog_view_stats", {
+          date_from: dateFilter ?? null,
+        });
         if (error) throw error;
 
-        if (!events || events.length === 0) {
-          setTopPosts([]);
-          setTrends([]);
-          setCategories([]);
-          setTotalViews(0);
-          setLoading(false);
-          return;
-        }
+        const result = (data || {}) as {
+          top_posts?: TopPost[];
+          daily_trends?: DailyTrend[];
+          categories?: CategoryData[];
+          total_views?: number;
+        };
 
-        setTotalViews(events.length);
-
-        // Aggregate by slug for top posts
-        const slugCounts: Record<string, { title: string; views: number }> = {};
-        const dailyCounts: Record<string, number> = {};
-
-        events.forEach((event) => {
-          const meta = event.metadata as Record<string, unknown> | null;
-          const slug = (meta?.slug as string) || "unknown";
-          const title = (meta?.title as string) || slug;
-
-          if (!slugCounts[slug]) {
-            slugCounts[slug] = { title, views: 0 };
-          }
-          slugCounts[slug].views++;
-
-          // Daily trend
-          const day = event.created_at.substring(0, 10);
-          dailyCounts[day] = (dailyCounts[day] || 0) + 1;
-        });
-
-        // Top posts sorted by views
-        const sortedPosts = Object.entries(slugCounts)
-          .map(([slug, { title, views }]) => ({ slug, title, views }))
-          .sort((a, b) => b.views - a.views)
-          .slice(0, 10);
-        setTopPosts(sortedPosts);
-
-        // Daily trends sorted by date
-        const sortedTrends = Object.entries(dailyCounts)
-          .map(([date, views]) => ({ date, views }))
-          .sort((a, b) => a.date.localeCompare(b.date));
-        setTrends(sortedTrends);
-
-        // Fetch blog posts to get categories for the viewed slugs
-        const slugs = Object.keys(slugCounts);
-        const { data: posts } = await supabase
-          .from("blog_posts")
-          .select("slug, category")
-          .in("slug", slugs);
-
-        const catCounts: Record<string, number> = {};
-        (posts || []).forEach((post) => {
-          const views = slugCounts[post.slug]?.views || 0;
-          catCounts[post.category] = (catCounts[post.category] || 0) + views;
-        });
-
-        // Add uncategorized for slugs not found in posts
-        const matchedSlugs = new Set((posts || []).map((p) => p.slug));
-        let uncategorized = 0;
-        slugs.forEach((slug) => {
-          if (!matchedSlugs.has(slug)) {
-            uncategorized += slugCounts[slug].views;
-          }
-        });
-        if (uncategorized > 0) {
-          catCounts["Uncategorized"] = (catCounts["Uncategorized"] || 0) + uncategorized;
-        }
-
-        const sortedCategories = Object.entries(catCounts)
-          .map(([category, views]) => ({ category, views }))
-          .sort((a, b) => b.views - a.views);
-        setCategories(sortedCategories);
+        const total = Number(result.total_views) || 0;
+        setTotalViews(total);
+        setTopPosts(
+          (result.top_posts || []).map((p) => ({
+            slug: p.slug,
+            title: p.title,
+            views: Number(p.views) || 0,
+          }))
+        );
+        setTrends(
+          (result.daily_trends || []).map((d) => ({
+            date: d.date,
+            views: Number(d.views) || 0,
+          }))
+        );
+        setCategories(
+          (result.categories || []).map((c) => ({
+            category: c.category,
+            views: Number(c.views) || 0,
+          }))
+        );
       } catch (error) {
         console.error("Failed to fetch blog analytics:", error);
       } finally {
