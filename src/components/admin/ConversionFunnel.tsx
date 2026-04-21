@@ -32,37 +32,22 @@ export const ConversionFunnel = ({ dateFilter }: ConversionFunnelProps) => {
     const fetchFunnelData = async () => {
       setLoading(true);
       try {
-        let query = supabase
-          .from("analytics_events")
-          .select("event_name, metadata")
-          .eq("event_category", "conversion_funnel");
-
-        if (dateFilter) {
-          query = query.gte("created_at", dateFilter);
-        }
-
-        const { data, error } = await query;
+        // Server-side aggregation via RPC — replaces full table scan.
+        const { data, error } = await supabase.rpc("get_funnel_stats", {
+          date_from: dateFilter ?? null,
+        });
         if (error) throw error;
 
-        // Count unique funnel_ids per stage
-        const stageCounts: Record<string, Set<string>> = {};
-        STAGE_ORDER.forEach(({ key }) => {
-          stageCounts[key] = new Set();
-        });
-
-        (data || []).forEach((event) => {
-          const meta = event.metadata as Record<string, unknown> | null;
-          const funnelId = (meta?.funnel_id as string) || (meta?.funnel_email as string) || "unknown";
-          if (stageCounts[event.event_name]) {
-            stageCounts[event.event_name].add(funnelId);
-          }
+        const counts: Record<string, number> = {};
+        (data || []).forEach((row: { stage: string; unique_count: number }) => {
+          counts[row.stage] = Number(row.unique_count) || 0;
         });
 
         const funnelStages: FunnelStageData[] = STAGE_ORDER.map(({ key, label }, index) => {
-          const count = stageCounts[key]?.size || 0;
-          const prevCount = index > 0 ? (stageCounts[STAGE_ORDER[index - 1].key]?.size || 0) : null;
-          const conversionRate = prevCount && prevCount > 0 ? (count / prevCount) * 100 : null;
-
+          const count = counts[key] || 0;
+          const prevCount = index > 0 ? counts[STAGE_ORDER[index - 1].key] || 0 : null;
+          const conversionRate =
+            prevCount && prevCount > 0 ? (count / prevCount) * 100 : null;
           return { stage: key, label, count, conversionRate };
         });
 
