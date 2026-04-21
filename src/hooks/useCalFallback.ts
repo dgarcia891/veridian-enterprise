@@ -12,7 +12,7 @@ export const useCalFallback = (timeoutMs = 5000) => {
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        let timer: NodeJS.Timeout;
+        let timer: ReturnType<typeof setTimeout>;
         if (!isLoaded) {
             // Start timer to show fallback if not loaded in time
             timer = setTimeout(() => {

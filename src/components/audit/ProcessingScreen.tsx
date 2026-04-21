@@ -14,7 +14,7 @@ const ProcessingScreen = () => {
 
   useEffect(() => {
     const timings = [2500, 3000, 2500, 1000]; // Last step shows for only 1 second
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
 
     const advanceStep = (stepIndex: number) => {
       if (stepIndex < steps.length) {
